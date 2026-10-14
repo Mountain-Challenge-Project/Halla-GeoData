@@ -22,7 +22,7 @@ with zipfile.ZipFile(archive) as z:
     z.extractall(target)
 project=QgsProject(); assert project.read(str(target/(PREFIX+'_slope')/(PREFIX+'_slope.qgs')))
 layers={l.name():l.isValid() for l in project.mapLayers().values()}
-assert len(layers)==10 and all(layers.values()),layers
+assert len(layers)==cfg.get('expected_layers',10) and all(layers.values()),layers
 expected=cfg['expected_grid_count']
 with (OUT/(PREFIX+'_grid_slope.csv')).open(encoding='utf-8-sig',newline='') as f: rows=list(csv.DictReader(f))
 assert len(rows)==expected and len({r['grid_id'] for r in rows})==expected

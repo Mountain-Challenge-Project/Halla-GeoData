@@ -74,6 +74,14 @@ settings=QgsPalLayerSettings(); settings.fieldName='course'; settings.placement=
 textformat=QgsTextFormat(); textformat.setFont(QFont(FONT,9)); textformat.setSize(9); textformat.setColor(QColor('#ffffff'))
 buffer=QgsTextBufferSettings(); buffer.setEnabled(True); buffer.setSize(.6); buffer.setColor(QColor('#203034')); textformat.setBuffer(buffer); settings.setFormat(textformat)
 trails.setLabeling(QgsVectorLayerSimpleLabeling(settings)); trails.setLabelsEnabled(True)
+olle=None
+if cfg.get('olle_shapefile') and (SHAPES/(cfg['olle_shapefile']+'.shp')).exists():
+    olle=vector(cfg['olle_shapefile'],'제주올레 코스 · OSM 참고 선형')
+    olle.renderer().setSymbol(QgsLineSymbol.createSimple({'line_color':'#ff4fa3','line_width':'.55','joinstyle':'round','capstyle':'round'}))
+    olle_settings=QgsPalLayerSettings(); olle_settings.fieldName='course'; olle_settings.placement=Qgis.LabelPlacement.Line
+    olle_format=QgsTextFormat(); olle_format.setFont(QFont(FONT,8)); olle_format.setSize(8); olle_format.setColor(QColor('#ffffff'))
+    olle_buffer=QgsTextBufferSettings(); olle_buffer.setEnabled(True); olle_buffer.setSize(.6); olle_buffer.setColor(QColor('#7a1d4c')); olle_format.setBuffer(olle_buffer); olle_settings.setFormat(olle_format)
+    olle.setLabeling(QgsVectorLayerSimpleLabeling(olle_settings)); olle.setLabelsEnabled(True)
 boundary=vector('study_boundary',MAP['boundary_layer_title'])
 boundary.renderer().setSymbol(QgsFillSymbol.createSimple({'style':'no','outline_color':'#ffffff','outline_width':'.42'}))
 park=vector('reference_park','국립공원 참고 경계')
@@ -84,9 +92,9 @@ project.layerTreeRoot().findLayer(labels.id()).setItemVisibilityChecked(False)
 for fn,title in [('slope_degrees_30m.tif','경사각 래스터 (도)'),('dem_30m.tif','고도 DSM (m)'),('aspect_degrees_30m.tif','경사향 래스터 (도)')]:
     layer=QgsRasterLayer(str(OUT/fn),title); assert layer.isValid(); project.addMapLayer(layer)
     project.layerTreeRoot().findLayer(layer.id()).setItemVisibilityChecked(False)
-for layer in [polys,grid,trails,boundary,park,labels]: layer.saveNamedStyle(str(SHAPES/(Path(layer.source().split('|')[0]).stem+'.qml')))
+for layer in [polys,grid,trails,boundary,park,labels]+([olle] if olle else []): layer.saveNamedStyle(str(SHAPES/(Path(layer.source().split('|')[0]).stem+'.qml')))
 
-visible=[trails,boundary,grid,polys,background]
+visible=([olle] if olle else [])+[trails,boundary,grid,polys,background]
 project.layerTreeRoot().setHasCustomLayerOrder(True); project.layerTreeRoot().setCustomLayerOrder(visible+[park,labels])
 view_extent=QgsRectangle(xmin,ymin,xmax,ymax)
 project.viewSettings().setDefaultViewExtent(QgsReferencedRectangle(view_extent,project.crs()))
@@ -137,6 +145,8 @@ else:
         box(x,top+8,6,4.5,colours[i],'#d4d2c8')
         label(f'{i*5}–{(i+1)*5}°' if i<9 else '45° 이상',x+7,top+7.2,15,6.5,8)
     box(9,top+17.5,9,1.2,'#00d9cc'); label('OSM 탐방로 참고선 (한라산 6코스)',21,top+15,90,7,8.5)
+    if olle:
+        box(112,top+17.5,9,1.2,'#ff4fa3'); label('제주올레 코스 (OSM 참고 선형, 코스번호 라벨)',124,top+15,110,7,8.5)
     label(MAP['stats_text'],9,top+24,215,18,9.5)
     label('수목·구조물 영향 포함 가능  ·  해안 셀은 바다 픽셀 포함 가능  ·  원격탐사 기반 참고 분석',9,top+43,215,8,8.5,False,'#5b655f')
     label(MAP['inset_title'],234,top,62,7,11,True)

@@ -111,6 +111,11 @@
       "invalid_geometries": 0,
       "sidecars_present": true
     },
+    "reference_olle.shp": {
+      "features": 28,
+      "invalid_geometries": 0,
+      "sidecars_present": true
+    },
     "reference_park.shp": {
       "features": 1,
       "invalid_geometries": 0,
