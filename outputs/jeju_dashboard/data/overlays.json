@@ -1,0 +1,43 @@
+{
+ "slope_png": {
+  "epsg3857": [
+   14043149.47804245,
+   3920805.1214469583,
+   14133694.397351015,
+   3971123.8171832934
+  ],
+  "sw": [
+   33.191914,
+   126.151758
+  ],
+  "ne": [
+   33.569365,
+   126.965137
+  ],
+  "pixels": [
+   2521,
+   1401
+  ]
+ },
+ "satellite_jpg": {
+  "epsg3857": [
+   14042647.791420005,
+   3919657.4500585264,
+   14134497.897640005,
+   3972130.411131475
+  ],
+  "sw": [
+   33.183286,
+   126.147251
+  ],
+  "ne": [
+   33.576899,
+   126.972355
+  ]
+ },
+ "credits": {
+  "terrain": "produced using Copernicus WorldDEM-30 (c) DLR e.V. 2010-2014 and (c) Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights reserved.",
+  "imagery": "Esri, Vantor, Earthstar Geographics, GIS User Community",
+  "vectors": "(c) OpenStreetMap contributors, ODbL; Natural Earth"
+ }
+}
