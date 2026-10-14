@@ -146,8 +146,11 @@ async function importFrame(){ const fFrame=$('fileFrame').files[0], fGrid=$('fil
     msg.textContent=`완료: ${entries.length}개 격자, ${parts}개 조각`; }
   catch(e){ msg.textContent='실패: '+(e&&e.code?e.code+' ':'')+(e&&e.message?e.message:e); if(e&&e.code==='invalid_argument'&&canWrite!==true){ $('importBox').hidden=true; } } }
 
+/* ---------- a Jeju-grid frame file (radar_to_frame.py output): {frame_id, observed_at, unit, cells:{grid_id:[mean,max,valid_pct]}} ---------- */
+function applyFrame(f,note){ rain.status='available'; rain.frame_id=f.frame_id; rain.observed_at=f.observed_at; rain.values=f.cells||{}; rain.parts=0; rain.message=(f.summary&&f.summary.note)||note||''; renderLiveMeta(); restyleGrid(); if(selected&&selected.kind==='grid') showSelection('grid',selected.p,selectedLayer); }
 /* ---------- live source B: repository files (GitHub Pages / local server) ---------- */
 async function pollStatic(){ rain.mode='static'; rain.checked=new Date();
+  try{ const jf=await fetch('data/latest_frame.json',{cache:'no-store'}); if(jf.ok){ const f=await jf.json(); if(f&&f.cells){ if(f.frame_id!==rain.frame_id) applyFrame(f,'저장소 data/latest_frame.json'); else renderLiveMeta(); return; } } }catch(e){}
   try{ const r=await fetch(STATIC_BASE+'state/latest.json',{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status); const d=await r.json();
     rain.status=d.status||'waiting'; rain.message=d.message||'';
     if(d.status==='available'&&d.frame_id){ if(d.frame_id!==rain.frame_id){ rain.frame_id=d.frame_id; rain.observed_at=d.observed_at; const asset=(d.assets&&d.assets.grid)||('frames/'+d.frame_id+'/grid.geojson'); if(!/^frames\/[A-Za-z0-9_\-]+\/grid\.geojson$/.test(asset)) throw new Error('자료 경로 형식 오류');
@@ -197,7 +200,8 @@ async function boot(){
   olle.features.slice().sort((x,y)=>{const a=key(x.properties.course),b=key(y.properties.course);return a[0]-b[0]||a[1].localeCompare(b[1]);}).forEach(f=>{ const p=f.properties; const tr=document.createElement('tr'); tr.dataset.course=p.course+'|'+(p.variant||''); tr.innerHTML=`<td>${esc(p.course)}${p.variant?' <span class="muted">'+esc(p.variant)+'</span>':''}</td><td class="n">${fmt(p.length_km,1)}</td><td class="n">${fmt(p.mean_deg,1)}</td><td class="n">${fmt(p.max_deg,1)}</td><td class="n">${fmt(p.steep20_m,0)}</td>`;
     tr.addEventListener('click',()=>{ let target=null; layers.olle.eachLayer(l=>{ if(l.feature===f) target=l; }); if(target){ map.fitBounds(target.getBounds(),{padding:[30,30],maxZoom:13}); showSelection('olle',p,target); } }); tb.appendChild(tr); });
   renderLegend(); renderSlopeLegend(); renderLiveMeta();
-  if(E){ rain.mode='embedded'; rain.checked=new Date(); rain.message='내장 자료 파일 · 실시간 연결 없음'; renderLiveMeta(); $('demoBox').hidden=false; $('btnDemo').addEventListener('click',toggleDemo); return; }
+  if(E){ rain.mode='embedded'; rain.checked=new Date(); rain.message='내장 자료 파일 · 실시간 연결 없음'; $('demoBox').hidden=false; $('btnDemo').addEventListener('click',toggleDemo);
+    if(E.frame&&E.frame.cells){ applyFrame(E.frame,'내장 프레임 (파일 생성 시점 자료)'); } else renderLiveMeta(); return; }
   const live=await connectDb(); if(!live){ rain.mode='static'; await pollStatic(); startPolling(); } }
 /* ---------- build the standalone file in the browser and hand it to the viewer ---------- */
 let loadedData=null, loadedImages=null;
@@ -208,6 +212,7 @@ async function downloadStandalone(){ const msg=$('dlMsg'); const btn=$('btnDownl
     const marker='/*__EMBED_JSON__*/null';
     if(template.indexOf(marker)<0||template.indexOf('!function(t,e)')<0) throw new Error('템플릿 내용이 올바르지 않습니다 (표식 또는 Leaflet 누락)');
     const embed=Object.assign({},loadedData,{images:{satellite:sat,slope:slope}});
+    if(rain.status==='available'&&!demoOn&&Object.keys(rain.values).length) embed.frame={frame_id:rain.frame_id,observed_at:rain.observed_at,unit:'mm/h',cells:rain.values,summary:{note:'다운로드 시점의 최근 프레임'}};
     const payload=JSON.stringify(embed).replace(/<\//g,'<\\/');
     const html=template.replace(marker,()=>payload);
     const filename='jeju_live_map_standalone.html'; const blob=new Blob([html],{type:'text/html'});

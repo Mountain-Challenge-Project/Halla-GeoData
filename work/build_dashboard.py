@@ -51,6 +51,9 @@ if '--standalone' in sys.argv:
              for n in ['overlays', 'olle', 'trails', 'steep', 'boundary', 'park', 'grid']}
     embed['images'] = {'satellite': 'data:image/jpeg;base64,' + base64.b64encode((data_dir / 'satellite.jpg').read_bytes()).decode(),
                        'slope': 'data:image/png;base64,' + base64.b64encode((data_dir / 'slope.png').read_bytes()).decode()}
+    frame_path = OUT / 'data' / 'latest_frame.json'
+    if frame_path.exists():  # real radar frame produced by work/radar_to_frame.py, embedded with its observation time
+        embed['frame'] = json.loads(frame_path.read_text('utf-8'))
     payload = json.dumps(embed, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
     target = Path(args[1]) if len(args) > 1 else ROOT / 'work' / '.tmp' / 'jeju_live_map_standalone.html'
     target.parent.mkdir(parents=True, exist_ok=True)

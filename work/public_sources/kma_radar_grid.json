@@ -1,0 +1,63 @@
+{
+  "grid": {
+    "nx": 2305,
+    "ny": 2881,
+    "cell_m": 500,
+    "reference_cell_1based": [
+      1121,
+      1681
+    ],
+    "order": "x fastest, south to north; cell centre = ((i-i0)*500, (j-j0)*500)"
+  },
+  "official_crs_proj4": "+proj=lcc +lat_1=30 +lat_2=60 +lat_0=38 +lon_0=126 +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs",
+  "official": {
+    "jeju_window": {
+      "cells": 12201,
+      "max_m": 0.45,
+      "mean_m": 0.23,
+      "p95_m": 0.38
+    },
+    "nationwide_lattice": {
+      "cells": 775,
+      "max_m": 0.78,
+      "mean_m": 0.28,
+      "p95_m": 0.59
+    },
+    "corners": {
+      "cells": 4,
+      "max_m": 0.41,
+      "mean_m": 0.22,
+      "p95_m": 0.38
+    }
+  },
+  "repository_assumed_spherical_lcc": {
+    "jeju_window": {
+      "cells": 12201,
+      "max_m": 1124.11,
+      "mean_m": 1061.82,
+      "p95_m": 1108.65
+    },
+    "nationwide_lattice": {
+      "cells": 775,
+      "max_m": 2404.34,
+      "mean_m": 1133.79,
+      "p95_m": 2006.64
+    },
+    "corners": {
+      "cells": 4,
+      "max_m": 2404.34,
+      "mean_m": 2059.49,
+      "p95_m": 2398.26
+    }
+  },
+  "reference_cell_lonlat": [
+    126.0,
+    38.0
+  ],
+  "tolerance_m": 5.0,
+  "passed": true,
+  "verified_on": "2026-10-15",
+  "source_api": "https://apihub.kma.go.kr/api/typ01/cgi-bin/url/nph-rdr_latlon_api?cmp=PCP&latlon={lon,lat}&disp=B",
+  "source_files": {},
+  "implication": "Reference grids in inputs/reference were generated in a spherical LCC and sit about 1.06 km south of the true radar cells at Jeju; regenerate them with official_crs_proj4 to align cell ids with radar cells."
+}
