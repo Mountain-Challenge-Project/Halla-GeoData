@@ -204,10 +204,12 @@ let loadedData=null, loadedImages=null;
 async function toDataUrl(url){ const r=await fetch(url,{cache:'force-cache'}); if(!r.ok) throw new Error('HTTP '+r.status+' '+url); const blob=await r.blob(); return await new Promise((res,rej)=>{ const fr=new FileReader(); fr.onload=()=>res(fr.result); fr.onerror=()=>rej(fr.error); fr.readAsDataURL(blob); }); }
 async function downloadStandalone(){ const msg=$('dlMsg'); const btn=$('btnDownload'); btn.disabled=true;
   try{ msg.textContent='파일 구성 중…';
-    const [template,leaflet,sat,slope]=await Promise.all([fetch('standalone.template.html',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('템플릿 '+r.status);return r.text();}),fetch('leaflet-1.9.4.min.js',{cache:'force-cache'}).then(r=>{if(!r.ok)throw new Error('leaflet '+r.status);return r.text();}),toDataUrl(loadedImages.satellite),toDataUrl(loadedImages.slope)]);
+    const [template,sat,slope]=await Promise.all([fetch('standalone.template.html',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('템플릿 '+r.status);return r.text();}),toDataUrl(loadedImages.satellite),toDataUrl(loadedImages.slope)]);
+    const marker='/*__EMBED_JSON__*/null';
+    if(template.indexOf(marker)<0||template.indexOf('!function(t,e)')<0) throw new Error('템플릿 내용이 올바르지 않습니다 (표식 또는 Leaflet 누락)');
     const embed=Object.assign({},loadedData,{images:{satellite:sat,slope:slope}});
     const payload=JSON.stringify(embed).replace(/<\//g,'<\\/');
-    const html=template.replace('/*__EMBED_JSON__*/null',()=>payload).replace('/*__LEAFLET_JS__*/',()=>leaflet);
+    const html=template.replace(marker,()=>payload);
     const filename='jeju_live_map_standalone.html'; const blob=new Blob([html],{type:'text/html'});
     let dl=null; if(window.claude&&typeof window.claude.use==='function'){ dl=await window.claude.use('downloads'); }
     if(dl){ msg.textContent='저장 확인 창을 확인하세요…'; await dl.save({filename,data:blob}); msg.textContent='저장됨 ('+(blob.size/1e6).toFixed(1)+' MB)'; }

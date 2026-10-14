@@ -32,10 +32,13 @@ print('DASHBOARD_BUILT', OUT / 'index.html', len(full), 'bytes;', artifact_dir /
 # Standalone template: the same document with two markers. The served page fills them in the
 # browser (download button); --standalone fills them here. Markers: `/*__EMBED_JSON__*/null`
 # becomes the embedded data object and `/*__LEAFLET_JS__*/` the Leaflet source.
+leaflet_src = (SRC / 'leaflet-1.9.4.min.js').read_text('utf-8')
+assert '</script' not in leaflet_src
+# Leaflet is inlined in the template itself, so building the file in the browser needs only the data marker.
 template = ('<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
             + head + '</head><body>'
             + body.replace('<script src="__LEAFLET_JS__"></script>',
-                           '<script>window.__EMBED__=/*__EMBED_JSON__*/null;</script>\n<script>/*__LEAFLET_JS__*/</script>')
+                           '<script>window.__EMBED__=/*__EMBED_JSON__*/null;</script>\n<script>' + leaflet_src + '</script>')
             + '</body></html>')
 (OUT / 'standalone.template.html').write_text(template, encoding='utf-8')
 
@@ -49,9 +52,8 @@ if '--standalone' in sys.argv:
     embed['images'] = {'satellite': 'data:image/jpeg;base64,' + base64.b64encode((data_dir / 'satellite.jpg').read_bytes()).decode(),
                        'slope': 'data:image/png;base64,' + base64.b64encode((data_dir / 'slope.png').read_bytes()).decode()}
     payload = json.dumps(embed, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
-    leaflet_js = (SRC / 'leaflet-1.9.4.min.js').read_text('utf-8')
     target = Path(args[1]) if len(args) > 1 else ROOT / 'work' / '.tmp' / 'jeju_live_map_standalone.html'
     target.parent.mkdir(parents=True, exist_ok=True)
-    # count=1: the page script itself mentions the marker strings in its download routine.
-    target.write_text(template.replace('/*__EMBED_JSON__*/null', payload, 1).replace('/*__LEAFLET_JS__*/', leaflet_js, 1), encoding='utf-8')
+    # count=1: the page script itself mentions the marker string in its download routine.
+    target.write_text(template.replace('/*__EMBED_JSON__*/null', payload, 1), encoding='utf-8')
     print('STANDALONE_BUILT', target, target.stat().st_size, 'bytes')
