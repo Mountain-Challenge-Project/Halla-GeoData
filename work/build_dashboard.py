@@ -57,6 +57,9 @@ if '--standalone' in sys.argv:
     warn_path = OUT / 'data' / 'warnings.json'
     if warn_path.exists():  # KMA warning status from work/fetch_kma_warnings.py
         embed['warnings'] = json.loads(warn_path.read_text('utf-8'))
+    fc_path = OUT / 'data' / 'forecast.json'
+    if fc_path.exists():  # 6-hour very-short-range forecast from work/fetch_kma_forecast.py
+        embed['forecast'] = json.loads(fc_path.read_text('utf-8'))
     payload = json.dumps(embed, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
     target = Path(args[1]) if len(args) > 1 else ROOT / 'work' / '.tmp' / 'jeju_live_map_standalone.html'
     target.parent.mkdir(parents=True, exist_ok=True)

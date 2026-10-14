@@ -23,6 +23,7 @@
 
 - **누적강수 레이어**: `KMA_ACCUMULATION_MINUTES=180|360|1440 python kma_client.py fetch`로 같은 시각의 3·6·24시간 누적 원자료를 받으면 `radar_to_frame.py --tm <시각>`이 1시간 강우강도와 함께 격자별 누적 mm를 프레임에 넣습니다(`accum` 필드). 대시보드 색상 기준에 "3/6/24시간 누적 (mm)"이 생깁니다.
 - **급경사·강수 강조 셀**: 자체 분석 지표입니다. 3h ≥30/60/90 mm, 6h ≥50/90 mm, 24h ≥80/150/200 mm를 1/2/3단계로 보고, 셀 면적의 20% 이상이 20° 초과 경사면 그 단계를, 아니면 한 단계 낮춰 주의·경계·심각 색으로 테두리를 그립니다. 공식 산사태·호우 예보가 아니며, 산림청 산사태 위험예보 API(data.go.kr 키 필요)가 연결되면 그 값을 우선 표시하도록 바꿀 예정입니다.
+- **6시간 강수 예보 레이어**: `python work/fetch_kma_forecast.py`가 API허브 동네예보 초단기예보(`VilageFcstInfoService_2.0/getUltraSrtFcst`, 매시 30분 발표)를 제주 500 m 셀이 속한 5 km DFS 격자점 95개에 대해 받아 `outputs/jeju_dashboard/data/forecast.json`과 공유 DB `radar/forecast`에 씁니다. DFS 좌표 변환은 실행 때마다 `nph-dfs_xy_lonlat`로 3개 지점을 대조합니다. 대시보드 색상 기준에 "예보 1시간 강수(선택 시간)"와 "예보 6시간 합계"가 생기고, 예보 카드에서 시각을 고르며 한라산 정상 격자점(54,36)의 기온·강수형태·풍속을 보여 줍니다. RN1 문자열은 하한값(1 mm 미만 = 0.5)으로 환산합니다.
 - **기상 특보 카드**: `python work/fetch_kma_warnings.py`가 API허브 특보 현황(`wrn_now_data.php`)에서 제주 관련 특보를 읽어 `outputs/jeju_dashboard/data/warnings.json`과 공유 DB `radar/warnings`에 씁니다. 특보 API는 별도 활용신청이 필요하며, 승인 전에는 카드에 "활용신청 필요"로 표시됩니다. 응답 형식은 승인 후 첫 실응답으로 재확인해야 합니다.
 
 ## 바로 시작
