@@ -1,0 +1,34 @@
+{
+  "grid_gpkg": "inputs/reference/hallasan_course_cells.gpkg",
+  "grid_layer": "candidate_lcc_grid_500m",
+  "reference_gpkg": "inputs/reference/hallasan_course_cells.gpkg",
+  "region_json": "work/slope_region.json",
+  "output_dir": "outputs/hallasan_slope",
+  "file_prefix": "hallasan",
+  "scratch_prefix": "",
+  "expected_grid_count": 1849,
+  "boundary": "rectangle",
+  "boundary_name": "Hallasan full reference grid",
+  "satellite": {"jpg": "satellite.jpg", "extent": "satellite_extent.json", "export": "satellite_export.json", "square": true, "max_pixels": 2400, "margin_m": 650},
+  "map": {
+    "layout": "square",
+    "kicker": "HALLASAN  /  TERRAIN",
+    "title": "한라산 전체 500m 격자 경사도",
+    "project_title": "한라산 전체 참고격자 경사도 | Copernicus GLO-30 별도 계산",
+    "layout_name": "한라산 전체 경사도 위성지도",
+    "grid_layer_title": "전체 500m 참고격자 · 통계 1,849개",
+    "boundary_layer_title": "분석 범위: 기존 LCC 격자 전체",
+    "stats_text": "전체 격자  1,849개\n처리 해상도  30m\n방법  Horn / 면적 가중",
+    "inset_title": "정상부 확대",
+    "inset_center": [126.5356792, 33.360937],
+    "inset_half_m": 2400,
+    "footer_note": "경사 등급은 위험등급이 아닙니다. 기존 LCC 격자는 기상청 공식 레이더 정렬 미검증.  작성 2026-10-13"
+  },
+  "metadata": {
+    "title": "한라산 전체 참고격자 경사도",
+    "created": "2026-10-13",
+    "grid_source": "Existing candidate_lcc_grid_500m in hallasan_course_cells.gpkg",
+    "original_plane_area_km2": 462.25,
+    "coverage_note": "Entire rectangular reference grid retained; some coastal-edge cells include water. No authoritative land/water mask was applied; near-zero surface heights and water slopes must not be interpreted as land-only terrain statistics."
+  }
+}

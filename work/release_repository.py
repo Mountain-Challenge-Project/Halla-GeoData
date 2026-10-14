@@ -10,6 +10,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 BUNDLES = {
     'hallasan_slope': 'hallasan_slope_QGIS_SHP.zip',
+    'jeju_slope': 'jeju_slope_QGIS_SHP.zip',
     'hallasan_course_slope_v2': 'hallasan_course_slope_QGIS_v2.zip',
     'hallasan_radar_layers_v1': 'hallasan_radar_3ways.zip',
 }
@@ -55,29 +56,30 @@ def scan_text(name, data):
             raise ValueError('Review possible URL credential in ' + name)
 
 
-def main():
-    portable_projects()
-    names = public_files()
-    for name in names:
-        path = ROOT/name
-        if name.startswith(('outputs/', 'inputs/', 'work/public_sources/')) or not path.is_file():
-            continue
-        if path.suffix in {'.py', '.md', '.json', '.html', '.js', '.css', '.cmd', '.yml', '.example'}:
-            data = path.read_bytes().replace(b'\r\n', b'\n')
-            if path.suffix == '.cmd':
-                data = data.replace(b'\n', b'\r\n')
-            path.write_bytes(data)
-    for folder, archive in BUNDLES.items():
-        prefix = 'outputs/' + folder + '/'
-        members = [name for name in names if name.startswith(prefix)]
-        with zipfile.ZipFile(ROOT/'outputs'/archive, 'w', zipfile.ZIP_DEFLATED, compresslevel=6) as z:
-            for name in members:
-                z.write(ROOT/name, Path(folder)/Path(name).relative_to(prefix))
-        with zipfile.ZipFile(ROOT/'outputs'/archive) as z:
-            assert z.testzip() is None
-            for entry in z.infolist():
-                if Path(entry.filename).suffix in TEXT_EXTENSIONS:
-                    scan_text(archive+'!'+entry.filename, z.read(entry))
+def main(manifest_only=False):
+    if not manifest_only:
+        portable_projects()
+        names = public_files()
+        for name in names:
+            path = ROOT/name
+            if name.startswith(('outputs/', 'inputs/', 'work/public_sources/')) or not path.is_file():
+                continue
+            if path.suffix in {'.py', '.md', '.json', '.html', '.js', '.css', '.cmd', '.yml', '.example'}:
+                data = path.read_bytes().replace(b'\r\n', b'\n')
+                if path.suffix == '.cmd':
+                    data = data.replace(b'\n', b'\r\n')
+                path.write_bytes(data)
+        for folder, archive in BUNDLES.items():
+            prefix = 'outputs/' + folder + '/'
+            members = [name for name in names if name.startswith(prefix)]
+            with zipfile.ZipFile(ROOT/'outputs'/archive, 'w', zipfile.ZIP_DEFLATED, compresslevel=6) as z:
+                for name in members:
+                    z.write(ROOT/name, Path(folder)/Path(name).relative_to(prefix))
+            with zipfile.ZipFile(ROOT/'outputs'/archive) as z:
+                assert z.testzip() is None
+                for entry in z.infolist():
+                    if Path(entry.filename).suffix in TEXT_EXTENSIONS:
+                        scan_text(archive+'!'+entry.filename, z.read(entry))
     # Reject files that should never be in a public commit, including accidentally tracked ones.
     names = public_files()
     rows = []
@@ -108,4 +110,6 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    import sys
+    # --manifest-only refreshes FILE_MANIFEST.csv and the credential scan without re-zipping bundles.
+    main(manifest_only='--manifest-only' in sys.argv)

@@ -1,20 +1,28 @@
+"""Slope statistics per 500m reference cell for the selected region (SLOPE_REGION, default hallasan).
+
+Region settings live in work/regions/<name>.json. The Hallasan configuration reproduces the
+original bundle byte for byte; the Jeju configuration runs the same method on the island-wide grid.
+"""
 from pathlib import Path
-import csv, json, math, time
+import csv, json, math, sys, time
 import numpy as np
 from osgeo import gdal, ogr, osr
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from region_config import ROOT, load
+
 gdal.UseExceptions(); ogr.UseExceptions(); osr.UseExceptions()
-ROOT=Path(__file__).resolve().parent.parent
-WORK=ROOT/'work'; OUT=ROOT/'outputs'/'hallasan_slope'
+cfg=load(); PREFIX=cfg['file_prefix']; SCRATCH=cfg['scratch_prefix']
+WORK=ROOT/'work'; OUT=ROOT/cfg['output_dir']
 OUT.mkdir(parents=True,exist_ok=True)
 SHAPES=OUT/'shapefiles'; SHAPES.mkdir(exist_ok=True)
-SOURCE=ROOT/'inputs/reference/hallasan_course_cells.gpkg'
-region=json.loads((WORK/'slope_region.json').read_text(encoding='utf-8'))
+SOURCE=ROOT/cfg['grid_gpkg']; REFERENCE=ROOT/cfg['reference_gpkg']
+region=json.loads((ROOT/cfg['region_json']).read_text(encoding='utf-8'))
 def srs(epsg):
     s=osr.SpatialReference(); s.ImportFromEPSG(epsg); s.SetAxisMappingStrategy(osr.OAMS_TRADITIONAL_GIS_ORDER); return s
 UTM=srs(32652); WGS=srs(4326)
 src=ogr.Open(str(SOURCE),0)
-sl=src.GetLayerByName('candidate_lcc_grid_500m')
+sl=src.GetLayerByName(cfg['grid_layer'])
 LCC=sl.GetSpatialRef().Clone(); LCC.SetAxisMappingStrategy(osr.OAMS_TRADITIONAL_GIS_ORDER)
 to_utm=osr.CoordinateTransformation(LCC,UTM)
 to_wgs=osr.CoordinateTransformation(UTM,WGS)
@@ -22,23 +30,31 @@ def rect(xmin,ymin,xmax,ymax):
     r=ogr.Geometry(ogr.wkbLinearRing)
     for x,y in [(xmin,ymin),(xmax,ymin),(xmax,ymax),(xmin,ymax),(xmin,ymin)]: r.AddPoint_2D(x,y)
     p=ogr.Geometry(ogr.wkbPolygon); p.AddGeometry(r); return p
-e=sl.GetExtent()
-boundary=rect(e[0],e[2],e[1],e[3]); boundary.Segmentize(25); boundary.Transform(to_utm)
-grids=[]
+grids=[]; cells_lcc=ogr.Geometry(ogr.wkbMultiPolygon)
 for f in sl:
-    g=f.GetGeometryRef().Clone(); g.Segmentize(25); g.Transform(to_utm)
+    g=f.GetGeometryRef().Clone()
+    if cfg['boundary']=='grid_union': cells_lcc.AddGeometry(g.Clone())
+    g.Segmentize(25); g.Transform(to_utm)
     grids.append({'id':f['ref_id'],'i':int(f['i_assumed']),'j':int(f['j_assumed']),'g':g})
 grids.sort(key=lambda q:(q['j'],q['i']))
-assert len(grids)==1849 and len({q['id'] for q in grids})==1849
+expected=cfg['expected_grid_count']
+assert len(grids)==expected and len({q['id'] for q in grids})==expected
+if cfg['boundary']=='rectangle':
+    # Original Hallasan behaviour: the full rectangular extent of the grid layer.
+    e=sl.GetExtent()
+    boundary=rect(e[0],e[2],e[1],e[3]); boundary.Segmentize(25); boundary.Transform(to_utm)
+else:
+    # Jeju-wide: the union of the selected cells, so sea beyond the coastline is excluded.
+    boundary=cells_lcc.UnionCascaded(); boundary.Segmentize(25); boundary.Transform(to_utm)
 b=region['bounds_by_epsg']['32652']
 pad=240
 b=[math.floor((b[0]-pad)/30)*30,math.floor((b[1]-pad)/30)*30,math.ceil((b[2]+pad)/30)*30,math.ceil((b[3]+pad)/30)*30]
 opts=['COMPRESS=DEFLATE','TILED=YES','PREDICTOR=3']
-dem_full=WORK/'dem_utm_buffer.tif'
+dem_full=WORK/(SCRATCH+'dem_utm_buffer.tif')
 dem=gdal.Warp(str(dem_full),str(WORK/'public_sources/copernicus_N33_E126.tif'),dstSRS=UTM.ExportToWkt(),outputBounds=b,xRes=30,yRes=30,resampleAlg='bilinear',dstNodata=-9999,format='GTiff',creationOptions=opts)
 dem.GetRasterBand(1).SetUnitType('m'); dem.FlushCache()
-slope_ds=gdal.DEMProcessing(str(WORK/'slope_full.tif'),dem,'slope',alg='Horn',slopeFormat='degree',scale=1,computeEdges=False,creationOptions=opts)
-aspect_ds=gdal.DEMProcessing(str(WORK/'aspect_full.tif'),dem,'aspect',alg='Horn',computeEdges=False,creationOptions=opts)
+slope_ds=gdal.DEMProcessing(str(WORK/(SCRATCH+'slope_full.tif')),dem,'slope',alg='Horn',slopeFormat='degree',scale=1,computeEdges=False,creationOptions=opts)
+aspect_ds=gdal.DEMProcessing(str(WORK/(SCRATCH+'aspect_full.tif')),dem,'aspect',alg='Horn',computeEdges=False,creationOptions=opts)
 elev=dem.ReadAsArray(); slope=slope_ds.ReadAsArray(); aspect=aspect_ds.ReadAsArray()
 gt=dem.GetGeoTransform(); h,w=slope.shape
 valid=np.isfinite(slope)&(slope>=0)&(slope<=90)&(elev!=-9999)
@@ -96,10 +112,18 @@ for k,q in enumerate(grids):
     rows.append(row)
     if (k+1)%300==0: print('GRID_STATS',k+1,'/',len(grids),'seconds',round(time.time()-begin,1),flush=True)
 grid_ds=None
-with (OUT/'hallasan_grid_slope.csv').open('w',encoding='utf-8-sig',newline='') as f:
+with (OUT/(PREFIX+'_grid_slope.csv')).open('w',encoding='utf-8-sig',newline='') as f:
     writer=csv.DictWriter(f,fieldnames=[x[0] for x in field_types]); writer.writeheader(); writer.writerows(rows)
 print('GRID_CSV_COMPLETE',len(rows),flush=True)
 
+mask_area=None
+if cfg['boundary']=='grid_union':
+    # Mask class pixels to the cell union (pixel-centre rule) before polygonising; sea beyond the grid is dropped.
+    mask_ds=gdal.GetDriverByName('MEM').Create('',w,h,1,gdal.GDT_Byte); mask_ds.SetGeoTransform(gt); mask_ds.SetProjection(UTM.ExportToWkt())
+    bmem=ogr.GetDriverByName('Memory').CreateDataSource('b'); blayer=bmem.CreateLayer('b',UTM,ogr.wkbMultiPolygon)
+    bfeat=ogr.Feature(blayer.GetLayerDefn()); bfeat.SetGeometry(boundary); blayer.CreateFeature(bfeat)
+    gdal.RasterizeLayer(mask_ds,[1],blayer,burn_values=[1])
+    mask=mask_ds.ReadAsArray().astype(bool); classes[~mask]=0; mask_area=float(mask.sum()*900)
 mem=gdal.GetDriverByName('MEM').Create('',w,h,1,gdal.GDT_Byte); mem.SetGeoTransform(gt); mem.SetProjection(UTM.ExportToWkt()); mem.GetRasterBand(1).WriteArray(classes); mem.GetRasterBand(1).SetNoDataValue(0)
 poly_mem=ogr.GetDriverByName('Memory').CreateDataSource('temp'); poly_layer=poly_mem.CreateLayer('classes',UTM,ogr.wkbPolygon); poly_layer.CreateField(ogr.FieldDefn('class_id',ogr.OFTInteger))
 gdal.Polygonize(mem.GetRasterBand(1),mem.GetRasterBand(1).GetMaskBand(),poly_layer,0,[],callback=None)
@@ -107,8 +131,9 @@ poly_ds,poly_out=make_layer('slope_classes',ogr.wkbPolygon,[('poly_id',ogr.OFTIn
 area_classes=np.zeros(10); poly_count=0
 for ft in poly_layer:
     g=ft.GetGeometryRef()
-    if not g.Intersects(boundary): continue
-    g=g.Intersection(boundary)
+    if cfg['boundary']=='rectangle':
+        if not g.Intersects(boundary): continue
+        g=g.Intersection(boundary)
     if g.IsEmpty() or g.Area()<=1e-6: continue
     ci=ft['class_id']; area=g.Area(); area_classes[ci-1]+=area; poly_count+=1
     nf=ogr.Feature(poly_out.GetLayerDefn()); nf.SetGeometry(g)
@@ -117,26 +142,29 @@ for ft in poly_layer:
 poly_ds=None
 print('SLOPE_POLYGONS',poly_count,flush=True)
 
-boundary_ds,boundary_layer=make_layer('study_boundary',ogr.wkbPolygon,[('name',ogr.OFTString),('area_m2',ogr.OFTReal)])
-bf=ogr.Feature(boundary_layer.GetLayerDefn()); bf.SetGeometry(boundary); bf['name']='Hallasan full reference grid'; bf['area_m2']=boundary.Area(); boundary_layer.CreateFeature(bf); boundary_ds=None
+boundary_ds,boundary_layer=make_layer('study_boundary',ogr.wkbPolygon if cfg['boundary']=='rectangle' else ogr.wkbMultiPolygon,[('name',ogr.OFTString),('area_m2',ogr.OFTReal)])
+bf=ogr.Feature(boundary_layer.GetLayerDefn()); bf.SetGeometry(boundary); bf['name']=cfg['boundary_name']; bf['area_m2']=boundary.Area(); boundary_layer.CreateFeature(bf); boundary_ds=None
 for table,name in [('trails','reference_trails'),('park','reference_park'),('labels','reference_labels')]:
-    gdal.VectorTranslate(str(SHAPES/(name+'.shp')),str(SOURCE),format='ESRI Shapefile',layers=[table],dstSRS=UTM.ExportToWkt(),layerCreationOptions=['ENCODING=UTF-8'])
+    gdal.VectorTranslate(str(SHAPES/(name+'.shp')),str(REFERENCE),format='ESRI Shapefile',layers=[table],dstSRS=UTM.ExportToWkt(),layerCreationOptions=['ENCODING=UTF-8'])
 
 # Raster clipping follows pixel-centre convention; vector statistics above use exact intersection area.
 dem.FlushCache(); slope_ds.FlushCache(); aspect_ds.FlushCache()
 boundary_file=str(SHAPES/'study_boundary.shp')
-for source,name,unit in [(str(dem_full),'dem_30m.tif','m'),(str(WORK/'slope_full.tif'),'slope_degrees_30m.tif','degree'),(str(WORK/'aspect_full.tif'),'aspect_degrees_30m.tif','degree')]:
+for source,name,unit in [(str(dem_full),'dem_30m.tif','m'),(str(WORK/(SCRATCH+'slope_full.tif')),'slope_degrees_30m.tif','degree'),(str(WORK/(SCRATCH+'aspect_full.tif')),'aspect_degrees_30m.tif','degree')]:
     d=gdal.Warp(str(OUT/name),source,cutlineDSName=boundary_file,cropToCutline=True,dstNodata=-9999,xRes=30,yRes=30,targetAlignedPixels=True,creationOptions=opts)
     d.GetRasterBand(1).SetUnitType(unit); d.FlushCache(); d=None
 
 overall_area=sum(r['valid_m2'] for r in rows)
 overall_mean=sum(r['mean_deg']*r['valid_m2'] for r in rows)/overall_area
 for ci in range(10): summary.append({'class_id':ci+1,'min_deg':ci*5,'max_deg':(ci+1)*5 if ci<9 else 90,'area_m2':float(area_classes[ci]),'area_pct':float(area_classes[ci]/area_classes.sum()*100)})
-with (OUT/'hallasan_slope_classes.csv').open('w',encoding='utf-8-sig',newline='') as f:
+with (OUT/(PREFIX+'_slope_classes.csv')).open('w',encoding='utf-8-sig',newline='') as f:
     writer=csv.DictWriter(f,fieldnames=list(summary[0])); writer.writeheader(); writer.writerows(summary)
-assert abs(area_classes.sum()-boundary.Area())/boundary.Area()<1e-7
+reference_area=boundary.Area() if cfg['boundary']=='rectangle' else mask_area
+assert abs(area_classes.sum()-reference_area)/reference_area<1e-7
 assert min(r['cover_pct'] for r in rows)>99.999
 assert max(abs(sum(r[key] for key in class_fields)-100) for r in rows)<1e-8
-validation={'grid_count':len(rows),'unique_grid_ids':len(set(r['grid_id'] for r in rows)),'slope_polygon_count':poly_count,'area_utm_m2':boundary.Area(),'source_lcc_area_m2':1849*250000,'slope_polygon_area_m2':float(area_classes.sum()),'area_coverage_min_pct':min(r['cover_pct'] for r in rows),'area_coverage_max_pct':max(r['cover_pct'] for r in rows),'overall_mean_slope_degrees':overall_mean,'maximum_slope_degrees':max(r['max_deg'] for r in rows),'elevation_range_m':[min(r['elev_min'] for r in rows),max(r['elev_max'] for r in rows)],'classes':summary,'raster_shape_buffered':[h,w],'crs':'EPSG:32652','grid_source_crs':LCC.ExportToProj4(),'method':'Copernicus GLO-30 DSM; bilinear reprojection to 30m UTM52; GDAL Horn slope; exact pixel/grid intersection area weighting','source_warning':'Not VWorld analysis output. DSM includes vegetation and structures. Original 500m LCC reference grid alignment to official radar is unverified.','nodata':-9999,'statistics_status':'passed'}
+validation={'grid_count':len(rows),'unique_grid_ids':len(set(r['grid_id'] for r in rows)),'slope_polygon_count':poly_count,'area_utm_m2':boundary.Area(),'source_lcc_area_m2':len(rows)*250000,'slope_polygon_area_m2':float(area_classes.sum()),'area_coverage_min_pct':min(r['cover_pct'] for r in rows),'area_coverage_max_pct':max(r['cover_pct'] for r in rows),'overall_mean_slope_degrees':overall_mean,'maximum_slope_degrees':max(r['max_deg'] for r in rows),'elevation_range_m':[min(r['elev_min'] for r in rows),max(r['elev_max'] for r in rows)],'classes':summary,'raster_shape_buffered':[h,w],'crs':'EPSG:32652','grid_source_crs':LCC.ExportToProj4(),'method':'Copernicus GLO-30 DSM; bilinear reprojection to 30m UTM52; GDAL Horn slope; exact pixel/grid intersection area weighting','source_warning':'Not VWorld analysis output. DSM includes vegetation and structures. Original 500m LCC reference grid alignment to official radar is unverified.','nodata':-9999,'statistics_status':'passed'}
+if cfg['boundary']=='grid_union':
+    validation.update(region=cfg['name'],boundary_mode='grid_union',class_polygon_mask_area_m2=mask_area,class_polygon_note='Class polygons are clipped to the 30m pixels whose centres fall inside the cell union; the CSV/SHP cell statistics use exact vector intersection areas.')
 (OUT/'validation.json').write_text(json.dumps(validation,ensure_ascii=False,indent=2),encoding='utf-8')
 print('ANALYSIS_COMPLETE',json.dumps({k:v for k,v in validation.items() if k not in ['classes','grid_source_crs']}),flush=True)
