@@ -114,7 +114,7 @@ dl.sel dt{color:var(--muted);white-space:nowrap}dl.sel dd{margin:0;font-family:v
     </section>
     <section class="card">
       <h2>격자 색상</h2>
-      <select id="selMetric" aria-label="격자 색상 기준"><option value="mean_deg">평균 경사 (°)</option><option value="max_deg">최대 경사 (°)</option><option value="steep_pct">20° 이상 면적 비율 (%)</option><option value="rain" disabled>강수 (mm/h) · 입력 대기</option></select>
+      <select id="selMetric" aria-label="격자 색상 기준"><option value="mean_deg">평균 경사 (°)</option><option value="max_deg">최대 경사 (°)</option><option value="steep_pct">20° 이상 면적 비율 (%)</option><option value="rain" disabled>강수 (mm/h) · 입력 대기</option><option value="acc180" disabled>3시간 누적 (mm) · 없음</option><option value="acc360" disabled>6시간 누적 (mm) · 없음</option><option value="acc1440" disabled>24시간 누적 (mm) · 없음</option></select>
       <div style="margin-top:8px"><div class="ramp" id="ramp"></div><div class="ticks" id="ticks"></div></div>
       <div class="row small muted" style="margin-top:6px"><label class="chk" style="padding:0"><input type="range" id="gridOpacity" min="0" max="100" value="55" style="width:120px;accent-color:var(--accent)" aria-label="격자 채움 투명도">채움 농도</label></div>
     </section>
@@ -125,9 +125,19 @@ dl.sel dt{color:var(--muted);white-space:nowrap}dl.sel dd{margin:0;font-family:v
       <label class="chk"><input type="checkbox" id="lyOlle" checked><span class="swatch" style="background:#ff4fa3"></span>제주올레 코스 (OSM)</label>
       <label class="chk"><input type="checkbox" id="lyTrails" checked><span class="swatch" style="background:#00f0e1"></span>한라산 탐방로 6코스</label>
       <label class="chk"><input type="checkbox" id="lySteep" checked><span class="swatch" style="background:#ff2a2a"></span>탐방로 급경사 구간 (20° 이상)</label>
+      <label class="chk"><input type="checkbox" id="lyRisk" checked><span class="swatch poly" style="background:linear-gradient(90deg,#f0b34a,#e4572e,#8b0000)"></span>급경사·강수 강조 셀 (주의/경계/심각)</label>
       <label class="chk"><input type="checkbox" id="lyBoundary" checked><span class="swatch" style="background:#ffffff;border:1px solid var(--line)"></span>분석 범위 · 국립공원 경계</label>
       <label class="chk"><input type="checkbox" id="lySat" checked><span class="swatch poly" style="background:#5a6b4e"></span>Esri 위성 배경</label>
       <div class="legend" id="slopeLegend" hidden style="margin-top:6px"></div>
+    </section>
+    <section class="card">
+      <h2>기상 특보 (제주)</h2>
+      <div id="warnBody" class="small">특보 자료 없음</div>
+    </section>
+    <section class="card">
+      <h2>급경사·강수 강조</h2>
+      <div id="riskSummary" class="small">누적강수 프레임이 없어 계산하지 않음</div>
+      <div class="note" style="margin-top:6px">자체 분석 지표이며 공식 산사태·호우 예보가 아닙니다. 강수 단계: 3h ≥30/60/90 mm 또는 6h ≥50/90 mm 또는 24h ≥80/150/200 mm → 1/2/3단계. 셀 면적의 20% 이상이 20° 초과 경사(급경사 셀)면 그 단계를, 아니면 한 단계 낮춰 표시합니다. 색: <span class="swatch poly" style="background:#f0b34a;display:inline-block"></span> 주의 <span class="swatch poly" style="background:#e4572e;display:inline-block"></span> 경계 <span class="swatch poly" style="background:#8b0000;display:inline-block"></span> 심각</div>
     </section>
     <section class="card">
       <h2>요약</h2>
@@ -168,10 +178,23 @@ const METRICS={
   mean_deg:{label:'평균 경사',unit:'°',breaks:[2,5,10,15,20],ramp:'slope',get:p=>p.mean_deg},
   max_deg:{label:'최대 경사',unit:'°',breaks:[10,20,30,40,50],ramp:'slope',get:p=>p.max_deg},
   steep_pct:{label:'20° 이상 면적',unit:'%',breaks:[1,5,10,20,40],ramp:'slope',get:p=>p.steep_pct},
-  rain:{label:'강수 (평균)',unit:'mm/h',breaks:[0.5,1,2,5,10],ramp:'rain',get:p=>{const r=rain.values[p.grid_id];return r?r[0]:null;}}};
+  rain:{label:'강수 (평균)',unit:'mm/h',breaks:[0.5,1,2,5,10],ramp:'rain',get:p=>{const r=rain.values[p.grid_id];return r?r[0]:null;}},
+  acc180:{label:'3시간 누적',unit:'mm',breaks:[5,15,30,60,90],ramp:'rain',get:p=>accVal('180',p)},
+  acc360:{label:'6시간 누적',unit:'mm',breaks:[10,25,50,90,150],ramp:'rain',get:p=>accVal('360',p)},
+  acc1440:{label:'24시간 누적',unit:'mm',breaks:[20,50,80,150,250],ramp:'rain',get:p=>accVal('1440',p)}};
+function accVal(acc,p){ const t=rain.accum&&rain.accum[acc]; const v=t&&t[p.grid_id]; return v?v[0]:null; }
+/* Slope-and-rain highlight (analytical, not an official landslide or flood warning):
+   rain level from the 3h/6h/24h radar accumulations, raised to the highlight level only where >=20% of the
+   cell area is steeper than 20 deg; elsewhere one level lower. Thresholds follow the KMA heavy-rain advisory
+   scale (3h 60 mm / 90 mm) loosely and are documented in the panel. */
+const RISK={colors:['','#f0b34a','#e4572e','#8b0000'],names:['없음','주의','경계','심각']};
+function riskLevel(p){ const a3=accVal('180',p)||0, a6=accVal('360',p)||0, a24=accVal('1440',p)||0; let r=0;
+  if(a3>=30||a6>=50||a24>=80) r=1; if(a3>=60||a6>=90||a24>=150) r=2; if(a3>=90||a24>=200) r=3;
+  if(!r) return 0; return (p.steep_pct>=20)?r:Math.max(0,r-1); }
 const SLOPE_CLASSES=[['#ffffff','0–5°'],['#fcffb8','5–10°'],['#fff158','10–15°'],['#ffd800','15–20°'],['#ffab09','20–25°'],['#ff7826','25–30°'],['#f53b22','30–35°'],['#d20000','35–40°'],['#a40000','40–45°'],['#7c0014','45° 이상']];
 let metric='mean_deg', fillOpacity=.55, selected=null, selectedLayer=null;
-const rain={status:'waiting',frame_id:null,observed_at:null,message:'',values:{},parts:0,loaded:0,checked:null,mode:'static'};
+const rain={status:'waiting',frame_id:null,observed_at:null,message:'',values:{},accum:{},parts:0,loaded:0,checked:null,mode:'static'};
+let warnings=null;  // {status, message, jeju:[...], checked_at}
 const layers={};
 let map, grid, db=null, user=null, canWrite=null, pollTimer=null, unsubLatest=null, unsubParts=null;
 
@@ -185,13 +208,24 @@ function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;',
 function renderLegend(){ const m=METRICS[metric]; const r=RAMPS[m.ramp]; $('ramp').innerHTML=r.map(c=>`<span style="background:${c}"></span>`).join('');
   $('ticks').innerHTML=['0',...m.breaks.map(b=>String(b))].map(t=>`<span>${t}</span>`).join('')+`<span>${esc(m.unit)}</span>`; }
 function renderSlopeLegend(){ $('slopeLegend').innerHTML=SLOPE_CLASSES.map(([c,l])=>`<span class="sw" style="background:${c}"></span><span>${l}</span>`).join(''); }
-function restyleGrid(){ if(grid) grid.setStyle(gridStyle); renderLegend(); }
+function restyleGrid(){ if(grid) grid.setStyle(gridStyle); renderLegend(); rebuildRisk(); }
+function rebuildRisk(){ if(!layers.risk||!grid) return; layers.risk.clearLayers(); const counts=[0,0,0,0];
+  grid.eachLayer(l=>{ const lv=riskLevel(l.feature.properties); counts[lv]++; if(lv>0){ const g=L.geoJSON(l.feature,{style:{color:RISK.colors[lv],weight:2.4,fill:true,fillColor:RISK.colors[lv],fillOpacity:.12}}); g.on('click',()=>showSelection('grid',l.feature.properties,l)); layers.risk.addLayer(g); } });
+  const has=rain.accum&&Object.keys(rain.accum).length; $('riskSummary').textContent=has?`주의 ${counts[1]} · 경계 ${counts[2]} · 심각 ${counts[3]} 셀 (3h/6h/24h 누적 기준)`:'누적강수 프레임이 없어 계산하지 않음'; }
+function renderWarnings(){ const box=$('warnBody'); if(!warnings){ box.textContent='특보 자료 없음'; return; }
+  const when=warnings.checked_at?new Date(warnings.checked_at).toLocaleString('ko-KR'):'';
+  if(warnings.status==='ok'){ if(!warnings.jeju||!warnings.jeju.length){ box.innerHTML=`<span class="pill ok"><span class="dot"></span>제주 특보 없음</span> <span class="muted">${esc(when)}</span>`; return; }
+    box.innerHTML=warnings.jeju.map(w=>{ const b=w.by_name||{}; const txt=(w.warning||b.WRN||'')+' '+(w.level||b.LVL||''); return `<div class="row" style="margin:3px 0"><span class="pill warn"><span class="dot"></span>${esc(txt.trim()||'특보')}</span><span class="small">${esc(b.REG_KO||w.fields.join(' · '))}</span></div>`; }).join('')+`<div class="muted small">${esc(when)}</div>`; }
+  else if(warnings.status==='not_authorized'){ box.innerHTML=`<span class="pill"><span class="dot"></span>특보 API 활용신청 필요</span><div class="muted small" style="margin-top:4px">${esc(warnings.message||'')}</div>`; }
+  else { box.innerHTML=`<span class="pill crit"><span class="dot"></span>특보 조회 실패</span><div class="muted small">${esc(warnings.message||'')}</div>`; } }
 
 function showSelection(kind,p,layer){ selected={kind,p}; if(selectedLayer&&selectedLayer!==layer){ try{selectedLayer.setStyle(selectedLayer._baseStyle);}catch(e){} }
   selectedLayer=layer; if(layer&&layer.setStyle){ layer._baseStyle=layer._baseStyle||layer.options; layer.setStyle({weight:(layer.options.weight||1)+2}); }
   let rows=[];
   if(kind==='grid'){ const r=rain.values[p.grid_id]; rows=[['격자',p.grid_id],['열·행 (i, j)',p.i_ref+', '+p.j_ref],['평균 경사',fmt(p.mean_deg,2)+'°'],['90백분위',fmt(p.p90_deg,2)+'°'],['최대 경사',fmt(p.max_deg,2)+'°'],['20° 이상 면적',fmt(p.steep_pct,2)+' %'],['평균 고도',fmt(p.elev_mean,0)+' m'],['최고 고도',fmt(p.elev_max,0)+' m']];
-    if(rain.frame_id) rows.push(['강수 평균/최대',r?fmt(r[0],2)+' / '+fmt(r[1],2)+' mm/h':'자료 없음'],['강수 유효면적',r?fmt(r[2],0)+' %':'–']); }
+    if(rain.frame_id) rows.push(['강수 평균/최대',r?fmt(r[0],2)+' / '+fmt(r[1],2)+' mm/h':'자료 없음'],['강수 유효면적',r?fmt(r[2],0)+' %':'–']);
+    for(const acc of ['180','360','1440']){ const v=rain.accum&&rain.accum[acc]&&rain.accum[acc][p.grid_id]; if(v) rows.push([(acc/60)+'시간 누적 평균/최대',fmt(v[0],1)+' / '+fmt(v[1],1)+' mm']); }
+    if(rain.accum&&Object.keys(rain.accum).length){ const lv=riskLevel(p); rows.push(['급경사·강수 강조',RISK.names[lv]+(p.steep_pct>=20?' (급경사 셀)':'')]); } }
   else if(kind==='olle'){ rows=[['올레 코스',p.course+(p.variant?' ('+p.variant+')':'')],['OSM 이름',p.name_osm||'–'],['출처',p.source_kind],['길이',fmt(p.length_km,2)+' km'],['평균 경사',fmt(p.mean_deg,2)+'°'],['90백분위',fmt(p.p90_deg,2)+'°'],['최대 경사',fmt(p.max_deg,2)+'°'],['20° 이상',fmt(p.steep20_m,0)+' m']]; }
   else if(kind==='trail'){ rows=[['탐방로',p.course],['길이',fmt(p.length_m/1000,2)+' km'],['평균 경사',fmt(p.mean_deg,2)+'°'],['90백분위',fmt(p.p90_deg,2)+'°'],['최대 경사',fmt(p.max_deg,2)+'°'],['20° 이상',fmt(p.steep20_m,0)+' m ('+fmt(p.steep20_pc,1)+' %)'],['급경사 구간 수',p.seg20_n]]; }
   else if(kind==='steep'){ rows=[['구간',p.seg_id],['탐방로',p.course],['길이',fmt(p.length_m,0)+' m'],['평균 경사',fmt(p.mean_deg,2)+'°'],['최대 경사',fmt(p.max_deg,2)+'°'],['시작 (lon, lat)',fmt(p.start_lon,5)+', '+fmt(p.start_lat,5)]]; }
@@ -206,6 +240,7 @@ function renderLiveMeta(){ $('mStatus').textContent=rain.status==='available'?'�
   $('mFrame').textContent=rain.frame_id?(rain.frame_id+(rain.parts?' · '+rain.loaded+'/'+rain.parts+' 조각':'')):'–';
   $('mChecked').textContent=rain.checked?rain.checked.toLocaleTimeString('ko-KR'):'–';
   const opt=$('selMetric').querySelector('option[value=rain]');
+  for(const acc of ['180','360','1440']){ const o=$('selMetric').querySelector('option[value=acc'+acc+']'); const ok=!!(rain.accum&&rain.accum[acc]&&Object.keys(rain.accum[acc]).length); o.disabled=!ok; o.textContent=(acc/60)+'시간 누적 (mm)'+(ok?'':' · 없음'); if(!ok&&metric==='acc'+acc){ metric='mean_deg'; $('selMetric').value=metric; } }
   if(rain.status==='available'&&Object.keys(rain.values).length){ opt.disabled=false; opt.textContent='강수 (mm/h) · '+(demoOn?'가상 예시':ageText(rain.observed_at)); if(demoOn){ return; } setLive(Date.now()-Date.parse(rain.observed_at)>15*60000?'warn':'ok',Date.now()-Date.parse(rain.observed_at)>15*60000?'강수 자료 오래됨':'강수 수신 중','관측 '+rain.observed_at.replace('T',' ').replace('Z','Z')); }
   else { opt.disabled=true; opt.textContent='강수 (mm/h) · 입력 대기'; if(metric==='rain'){metric='mean_deg';$('selMetric').value=metric;restyleGrid();}
     if(rain.status==='error') setLive('crit','강수 입력 오류',rain.message||''); else if(rain.mode==='none') setLive('','강수 상태: 로그인 필요',''); else setLive('','강수 입력 대기',rain.message||'수집기 자료가 들어오면 자동 반영'); } }
@@ -218,14 +253,15 @@ async function connectDb(){ if(!(window.claude&&typeof window.claude.use==='func
   rain.mode='db';
   try{ user=await window.claude.use('user'); canWrite=user?await user.can('data.write'):null; }catch(e){ canWrite=null; }
   if(canWrite!==false){ $('importBox').hidden=false; }
+  db.doc('radar/warnings').onSnapshot(snap=>{ warnings=snap.exists?snap.data():null; renderWarnings(); },err=>{ warnings={status:'error',message:'DB 구독 오류: '+err.code}; renderWarnings(); });
   unsubLatest=db.doc('radar/latest').onSnapshot(snap=>{ rain.checked=new Date(); const d=snap.exists?snap.data():null;
-    if(!d){ rain.status='waiting'; rain.frame_id=null; rain.observed_at=null; rain.message='공유 DB에 아직 프레임이 없습니다'; rain.values={}; renderLiveMeta(); restyleGrid(); return; }
+    if(!d){ rain.status='waiting'; rain.frame_id=null; rain.observed_at=null; rain.message='공유 DB에 아직 프레임이 없습니다'; rain.values={}; rain.accum={}; renderLiveMeta(); restyleGrid(); return; }
     const changed=d.frame_id!==rain.frame_id; rain.status=d.status||'available'; rain.frame_id=d.frame_id||null; rain.observed_at=d.observed_at||null; rain.message=d.message||''; rain.parts=d.parts||0;
     if(changed) loadPartsFromDb(); renderLiveMeta(); },
     err=>{ rain.status='error'; rain.message='DB 구독 오류: '+err.code; renderLiveMeta(); });
   return true; }
 function loadPartsFromDb(){ if(unsubParts){unsubParts();unsubParts=null;} rain.values={}; rain.loaded=0; if(!rain.frame_id){restyleGrid();return;}
-  unsubParts=db.collection('frames/'+safeId(rain.frame_id)+'/parts').onSnapshot(qs=>{ const v={}; let n=0; qs.docs.forEach(doc=>{ const d=doc.data()||{}; Object.assign(v,d.v||{}); n++; }); rain.values=v; rain.loaded=n; renderLiveMeta(); restyleGrid(); if(selected&&selected.kind==='grid') showSelection('grid',selected.p,selectedLayer); },
+  unsubParts=db.collection('frames/'+safeId(rain.frame_id)+'/parts').onSnapshot(qs=>{ const v={}; const a={}; let n=0; qs.docs.forEach(doc=>{ const d=doc.data()||{}; Object.assign(v,d.v||{}); for(const acc in (d.a||{})){ a[acc]=Object.assign(a[acc]||{},d.a[acc]); } n++; }); rain.values=v; rain.accum=a; rain.loaded=n; renderLiveMeta(); restyleGrid(); if(selected&&selected.kind==='grid') showSelection('grid',selected.p,selectedLayer); },
     err=>{ rain.message='프레임 읽기 오류: '+err.code; renderLiveMeta(); }); }
 async function importFrame(){ const fFrame=$('fileFrame').files[0], fGrid=$('fileGrid').files[0]; const msg=$('importMsg'); if(!db){msg.textContent='공유 DB를 쓸 수 없습니다';return;} if(!fFrame||!fGrid){msg.textContent='두 파일을 모두 선택하세요';return;}
   try{ msg.textContent='읽는 중…'; const frame=JSON.parse(await fFrame.text()); const gj=JSON.parse(await fGrid.text());
@@ -239,9 +275,10 @@ async function importFrame(){ const fFrame=$('fileFrame').files[0], fGrid=$('fil
   catch(e){ msg.textContent='실패: '+(e&&e.code?e.code+' ':'')+(e&&e.message?e.message:e); if(e&&e.code==='invalid_argument'&&canWrite!==true){ $('importBox').hidden=true; } } }
 
 /* ---------- a Jeju-grid frame file (radar_to_frame.py output): {frame_id, observed_at, unit, cells:{grid_id:[mean,max,valid_pct]}} ---------- */
-function applyFrame(f,note){ rain.status='available'; rain.frame_id=f.frame_id; rain.observed_at=f.observed_at; rain.values=f.cells||{}; rain.parts=0; rain.message=(f.summary&&f.summary.note)||note||''; renderLiveMeta(); restyleGrid(); if(selected&&selected.kind==='grid') showSelection('grid',selected.p,selectedLayer); }
+function applyFrame(f,note){ rain.status='available'; rain.frame_id=f.frame_id; rain.observed_at=f.observed_at; rain.values=f.cells||{}; rain.accum=f.accum||{}; rain.parts=0; rain.message=(f.summary&&f.summary.note)||note||''; renderLiveMeta(); restyleGrid(); if(selected&&selected.kind==='grid') showSelection('grid',selected.p,selectedLayer); }
 /* ---------- live source B: repository files (GitHub Pages / local server) ---------- */
 async function pollStatic(){ rain.mode='static'; rain.checked=new Date();
+  try{ const wf=await fetch('data/warnings.json',{cache:'no-store'}); if(wf.ok){ warnings=await wf.json(); renderWarnings(); } }catch(e){}
   try{ const jf=await fetch('data/latest_frame.json',{cache:'no-store'}); if(jf.ok){ const f=await jf.json(); if(f&&f.cells){ if(f.frame_id!==rain.frame_id) applyFrame(f,'저장소 data/latest_frame.json'); else renderLiveMeta(); return; } } }catch(e){}
   try{ const r=await fetch(STATIC_BASE+'state/latest.json',{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status); const d=await r.json();
     rain.status=d.status||'waiting'; rain.message=d.message||'';
@@ -275,9 +312,10 @@ async function boot(){
   layers.steep=L.geoJSON(steep,{style:{color:'#ff2a2a',weight:4,opacity:.95},onEachFeature:(f,l)=>l.on('click',()=>showSelection('steep',f.properties,l))}).addTo(map);
   layers.trails=L.geoJSON(trails,{style:{color:'#00f0e1',weight:2.2,opacity:.95},onEachFeature:(f,l)=>{ l.on('click',()=>showSelection('trail',f.properties,l)); l.bindTooltip(f.properties.course,{permanent:true,direction:'center',className:'lbl trail'}); }}).addTo(map);
   layers.olle=L.geoJSON(olle,{style:{color:'#ff4fa3',weight:2.4,opacity:.95},onEachFeature:(f,l)=>{ l.on('click',()=>showSelection('olle',f.properties,l)); l.bindTooltip(f.properties.course,{permanent:true,direction:'center',className:'lbl'}); }}).addTo(map);
+  layers.risk=L.layerGroup().addTo(map);
   map.fitBounds(satB,{padding:[4,4]});
   const toggle=(id,layer)=>$(id).addEventListener('change',e=>{ if(e.target.checked) layer.addTo(map); else map.removeLayer(layer); });
-  toggle('lyGrid',layers.grid); toggle('lySlope',layers.slope); toggle('lyOlle',layers.olle); toggle('lyTrails',layers.trails); toggle('lySteep',layers.steep); toggle('lyBoundary',layers.boundary); toggle('lySat',layers.sat);
+  toggle('lyGrid',layers.grid); toggle('lySlope',layers.slope); toggle('lyOlle',layers.olle); toggle('lyTrails',layers.trails); toggle('lySteep',layers.steep); toggle('lyBoundary',layers.boundary); toggle('lySat',layers.sat); toggle('lyRisk',layers.risk);
   $('lySlope').addEventListener('change',e=>{ $('slopeLegend').hidden=!e.target.checked; });
   $('selMetric').addEventListener('change',e=>{ metric=e.target.value; restyleGrid(); });
   $('gridOpacity').addEventListener('input',e=>{ fillOpacity=e.target.value/100; restyleGrid(); });
@@ -291,8 +329,9 @@ async function boot(){
   const tb=$('olleTable').querySelector('tbody'); const key=c=>{const [a,b]=String(c).split('-');return [parseInt(a,10),b||''];};
   olle.features.slice().sort((x,y)=>{const a=key(x.properties.course),b=key(y.properties.course);return a[0]-b[0]||a[1].localeCompare(b[1]);}).forEach(f=>{ const p=f.properties; const tr=document.createElement('tr'); tr.dataset.course=p.course+'|'+(p.variant||''); tr.innerHTML=`<td>${esc(p.course)}${p.variant?' <span class="muted">'+esc(p.variant)+'</span>':''}</td><td class="n">${fmt(p.length_km,1)}</td><td class="n">${fmt(p.mean_deg,1)}</td><td class="n">${fmt(p.max_deg,1)}</td><td class="n">${fmt(p.steep20_m,0)}</td>`;
     tr.addEventListener('click',()=>{ let target=null; layers.olle.eachLayer(l=>{ if(l.feature===f) target=l; }); if(target){ map.fitBounds(target.getBounds(),{padding:[30,30],maxZoom:13}); showSelection('olle',p,target); } }); tb.appendChild(tr); });
-  renderLegend(); renderSlopeLegend(); renderLiveMeta();
+  renderLegend(); renderSlopeLegend(); renderLiveMeta(); renderWarnings();
   if(E){ rain.mode='embedded'; rain.checked=new Date(); rain.message='내장 자료 파일 · 실시간 연결 없음'; $('demoBox').hidden=false; $('btnDemo').addEventListener('click',toggleDemo);
+    if(E.warnings){ warnings=E.warnings; renderWarnings(); }
     if(E.frame&&E.frame.cells){ applyFrame(E.frame,'내장 프레임 (파일 생성 시점 자료)'); } else renderLiveMeta(); return; }
   const live=await connectDb(); if(!live){ rain.mode='static'; await pollStatic(); startPolling(); } }
 /* ---------- build the standalone file in the browser and hand it to the viewer ---------- */
@@ -304,7 +343,8 @@ async function downloadStandalone(){ const msg=$('dlMsg'); const btn=$('btnDownl
     const marker='/*__EMBED_JSON__*/null';
     if(template.indexOf(marker)<0||template.indexOf('!function(t,e)')<0) throw new Error('템플릿 내용이 올바르지 않습니다 (표식 또는 Leaflet 누락)');
     const embed=Object.assign({},loadedData,{images:{satellite:sat,slope:slope}});
-    if(rain.status==='available'&&!demoOn&&Object.keys(rain.values).length) embed.frame={frame_id:rain.frame_id,observed_at:rain.observed_at,unit:'mm/h',cells:rain.values,summary:{note:'다운로드 시점의 최근 프레임'}};
+    if(rain.status==='available'&&!demoOn&&Object.keys(rain.values).length) embed.frame={frame_id:rain.frame_id,observed_at:rain.observed_at,unit:'mm/h',cells:rain.values,accum:rain.accum||{},summary:{note:'다운로드 시점의 최근 프레임'}};
+    if(warnings) embed.warnings=warnings;
     const payload=JSON.stringify(embed).replace(/<\//g,'<\\/');
     const html=template.replace(marker,()=>payload);
     const filename='jeju_live_map_standalone.html'; const blob=new Blob([html],{type:'text/html'});

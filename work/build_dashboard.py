@@ -54,6 +54,9 @@ if '--standalone' in sys.argv:
     frame_path = OUT / 'data' / 'latest_frame.json'
     if frame_path.exists():  # real radar frame produced by work/radar_to_frame.py, embedded with its observation time
         embed['frame'] = json.loads(frame_path.read_text('utf-8'))
+    warn_path = OUT / 'data' / 'warnings.json'
+    if warn_path.exists():  # KMA warning status from work/fetch_kma_warnings.py
+        embed['warnings'] = json.loads(warn_path.read_text('utf-8'))
     payload = json.dumps(embed, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
     target = Path(args[1]) if len(args) > 1 else ROOT / 'work' / '.tmp' / 'jeju_live_map_standalone.html'
     target.parent.mkdir(parents=True, exist_ok=True)

@@ -1,41 +1,41 @@
-"""Turn a collected KMA radar PCPH ASCII file into a verified GeoTIFF, run the existing
-Hallasan frame pipeline (processor.ingest), and aggregate the same raster onto the Jeju-wide grid.
+"""Turn collected KMA radar PCPH ASCII files into verified GeoTIFFs and dashboard frames.
 
 Run with QGIS Python:
-  "C:\\Program Files\\QGIS 4.2.0\\bin\\python-qgis.bat" -X utf8 work/radar_to_frame.py [--raw FILE] [--no-ingest]
+  "C:\\Program Files\\QGIS 4.2.0\\bin\\python-qgis.bat" -X utf8 work/radar_to_frame.py [--tm YYYYMMDDHHMM] [--no-ingest]
+
+For one request time (default: the newest 60-minute file) it uses every PCPH file collected for that
+time: the 60-minute accumulation becomes the hourly-mean rain-rate frame (mm/h) that feeds
+processor.ingest (Hallasan grid) and the Jeju grid; 180/360/1440-minute accumulations, when collected
+with KMA_ACCUMULATION_MINUTES, are aggregated onto the Jeju grid as millimetres and stored beside it
+(`accum`). The dashboard derives its slope-and-rain highlight from those accumulations.
 
 Inputs
-  runtime/kma/raw/PCPH_MSK_MM_60min_<tm>_<hash>.txt (+ .json)   kma_client.py fetch output
-  runtime/kma/latlon/rdr_latlon_PCP_{lon,lat}.bin                nph-rdr_latlon_api cmp=PCP disp=B
-                                                                  (4-byte header, then nx*ny little-endian float32,
-                                                                  x fastest, south to north, same order as the ASCII)
-  outputs/jeju_dashboard/data/grid.geojson                        Jeju 500 m cells (WGS84)
-  outputs/jeju_slope/shapefiles/study_boundary.shp                Jeju boundary (UTM 52N)
+  runtime/kma/raw/PCPH_MSK_MM_<acc>min_<tm>_<hash>.txt (+ .json)   kma_client.py fetch output
+  runtime/kma/latlon/rdr_latlon_PCP_{lon,lat}.bin                   nph-rdr_latlon_api cmp=PCP disp=B
+  outputs/jeju_dashboard/data/grid.geojson                           Jeju 500 m cells (WGS84)
+  outputs/jeju_slope/shapefiles/study_boundary.shp                   Jeju boundary (UTM 52N)
 Outputs
-  work/public_sources/kma_radar_grid.json                         verified grid definition (CRS, numbering, errors)
-  outputs/hallasan_radar_layers_v1/input/KMA_PCPH60_<tm>.{tif,json}   verified rain-rate GeoTIFF + metadata
-  outputs/hallasan_radar_layers_v1/dist/frames/<id>/..., state/latest.json  via processor.ingest (Hallasan grid)
+  work/public_sources/kma_radar_grid.json                            verified grid definition
+  outputs/hallasan_radar_layers_v1/input/KMA_PCPH60_<tm>.{tif,json}  rain-rate GeoTIFF + metadata
+  outputs/hallasan_radar_layers_v1/dist/frames/<id>/..., state/latest.json  via processor.ingest
+  runtime/kma/accum/KMA_PCPH<acc>_<tm>.tif                           accumulation GeoTIFFs (mm)
   runtime/kma/frames/<id>/jeju_frame.json, db_latest.json, db_frame.json, db_part_NNN.json
-  outputs/jeju_dashboard/data/latest_frame.json                   Jeju-grid frame for the dashboard
+  outputs/jeju_dashboard/data/latest_frame.json                      Jeju-grid frame for the dashboard
 
-Grid verification (2026-10-15): the official lon/lat arrays place cell (i, j) at
-((i-1121)*500, (j-1681)*500) m in a Lambert conformal conic with standard parallels 30/60, origin 126E/38N,
-on the WGS84 ELLIPSOID (max 0.8 m over a nationwide lattice and every Jeju cell). The spherical LCC the
-repository's reference grids assumed (R=6371008.77 m) puts the same cell numbers about 1.06 km too far
-south at Jeju, so those polygons are geographic references with radar-cell ids, not the radar cells
-themselves; rain is aggregated onto them by geographic overlap. Unit: PCPH acc=60 unit=MM gives mm*100
-accumulated over the preceding 60 minutes, numerically the hourly mean rain rate in mm/h; -25000 (no echo)
-is a valid 0, -30000 (outside radar range) and every other negative code are nodata.
+Grid (verified 2026-10-15): LCC 30/60, origin 126E/38N, WGS84 ellipsoid, cell (i, j) centre at
+((i-1121)*500, (j-1681)*500) m, max 0.8 m error. Unit: PCPH unit=MM gives mm*100 accumulated over the
+preceding `acc` minutes; for acc=60 that equals the hourly mean rain rate in mm/h. -25000 (no echo) is a
+valid 0, -30000 (outside radar range) and every other negative code are nodata.
 """
 from pathlib import Path
-import argparse, datetime as dt, hashlib, json, struct, sys
+import argparse, datetime as dt, json, re, sys
 import numpy as np
 from osgeo import gdal, ogr, osr
 
 ROOT = Path(__file__).resolve().parent.parent
 RADAR = ROOT / 'outputs' / 'hallasan_radar_layers_v1'
 sys.path.insert(0, str(RADAR))
-import processor as p  # noqa: E402  (QGIS-based aggregation, unchanged)
+import processor as p  # noqa: E402
 
 I0, J0, SIZE = 1121, 1681, 500
 OFFICIAL_PROJ4 = '+proj=lcc +lat_1=30 +lat_2=60 +lat_0=38 +lon_0=126 +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs'
@@ -51,12 +51,11 @@ def parse_ascii(path, dtype):
     values = np.fromstring(','.join(l.replace('=', '').strip(', ') for l in lines[1:]), sep=',', dtype=dtype)
     if values.size != nx * ny:
         raise SystemExit(f'{path}: {values.size} values, expected {nx * ny} (file truncated?)')
-    return nx, ny, values.reshape(ny, nx)  # row 0 = south, x fastest
+    return nx, ny, values.reshape(ny, nx)
 
 
 def load_bin(path, nx, ny):
-    data = Path(path).read_bytes()
-    arr = np.frombuffer(data[4:], dtype='<f4')
+    arr = np.frombuffer(Path(path).read_bytes()[4:], dtype='<f4')
     if arr.size != nx * ny:
         raise SystemExit(f'{path}: {arr.size} floats, expected {nx * ny}')
     return arr.reshape(ny, nx).astype(np.float64)
@@ -91,42 +90,63 @@ def verify_grid(lon, lat):
     return report
 
 
+def to_geotiff(a, path, scale, nodata_zero_code=-25000):
+    """Encode PCPH integers as float32: value*scale, no-echo as 0, every other negative as -9999 (north-up)."""
+    ny, nx = a.shape
+    out = np.full(a.shape, -9999.0, dtype=np.float32)
+    out[a >= 0] = a[a >= 0] * scale
+    out[a == nodata_zero_code] = 0.0
+    path.parent.mkdir(parents=True, exist_ok=True)
+    ds = gdal.GetDriverByName('GTiff').Create(str(path), nx, ny, 1, gdal.GDT_Float32, options=['COMPRESS=DEFLATE', 'TILED=YES'])
+    ds.SetGeoTransform(((1 - I0) * SIZE - SIZE / 2, SIZE, 0, (ny - J0) * SIZE + SIZE / 2, 0, -SIZE))
+    ds.SetProjection(official_srs().ExportToWkt())
+    band = ds.GetRasterBand(1); band.SetNoDataValue(-9999.0); band.WriteArray(out[::-1, :]); ds.FlushCache(); ds = None
+    return out
+
+
+def aggregate_jeju(tif, boundary, grid_fc, geoms, index):
+    d, pixels, window = p.crop_pixels(tif, boundary)
+    stats = p.aggregate(geoms, index, pixels)
+    d = None
+    return pixels, stats
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--raw', help='raw PCPH ASCII (default: newest in runtime/kma/raw)')
+    ap.add_argument('--tm', help='request time YYYYMMDDHHMM (KST); default: newest 60-minute file')
     ap.add_argument('--no-ingest', action='store_true', help='skip processor.ingest (Hallasan frame)')
     args = ap.parse_args()
-    raw = Path(args.raw) if args.raw else sorted((ROOT / 'runtime/kma/raw').glob('PCPH_*.txt'))[-1]
+    raw_dir = ROOT / 'runtime/kma/raw'
+    files = {}
+    for path in sorted(raw_dir.glob('PCPH_MSK_MM_*min_*.txt')):
+        m = re.match(r'PCPH_MSK_MM_(\d+)min_(\d{12})_', path.name)
+        if m:
+            files.setdefault(m.group(2), {})[int(m.group(1))] = path
+    tm = args.tm or max(t for t, f in files.items() if 60 in f)
+    if 60 not in files.get(tm, {}):
+        raise SystemExit(f'no 60-minute PCPH file for tm={tm}')
+    raw = files[tm][60]
     manifest = json.loads(raw.with_suffix('.json').read_text('utf-8'))
-    params = manifest['parameters_without_key']
-    if params.get('cmp') != 'PCPH' or params.get('unit') != 'MM' or int(params.get('acc', 0)) != 60:
-        raise SystemExit('this converter handles PCPH, unit=MM, acc=60 only; got ' + json.dumps(params))
-    tm = manifest['requested_at_kst']
     observed = dt.datetime.strptime(tm, '%Y%m%d%H%M').replace(tzinfo=KST).astimezone(dt.timezone.utc)
 
-    # 1. raw values and the official grid coordinates
+    # 1. grid verification with the official lon/lat arrays
     nx, ny, a = parse_ascii(raw, np.int32)
     lon = load_bin(ROOT / 'runtime/kma/latlon/rdr_latlon_PCP_lon.bin', nx, ny); lat = load_bin(ROOT / 'runtime/kma/latlon/rdr_latlon_PCP_lat.bin', nx, ny)
     report = verify_grid(lon, lat)
-    print('GRID_VERIFICATION', json.dumps(report), flush=True)
+    print('GRID_VERIFICATION', json.dumps({k: report[k] for k in ['official', 'passed']}), flush=True)
     if not report['passed']:
         raise SystemExit('official grid does not match the LCC/WGS84 definition within tolerance; not converting')
     latlon_manifest = json.loads((ROOT / 'runtime/kma/latlon/manifest.json').read_text('utf-8')) if (ROOT / 'runtime/kma/latlon/manifest.json').exists() else {}
     grid_def = {**report, 'verified_on': dt.date.today().isoformat(), 'source_api': 'https://apihub.kma.go.kr/api/typ01/cgi-bin/url/nph-rdr_latlon_api?cmp=PCP&latlon={lon,lat}&disp=B',
-                'source_files': {k: v for k, v in latlon_manifest.items() if k.endswith('.bin')}, 'implication': 'Reference grids in inputs/reference/radar_grid_cells.gpkg are generated with official_crs_proj4, so cell ids match radar cells; the earlier spherical-LCC grids (candidate_lcc_grid_500m) sat about 1.06 km south of the true cells at Jeju.'}
+                'source_files': {k: v for k, v in latlon_manifest.items() if k.endswith('.bin')},
+                'implication': 'Reference grids in inputs/reference/radar_grid_cells.gpkg are generated with official_crs_proj4, so cell ids match radar cells; the earlier spherical-LCC grids (candidate_lcc_grid_500m) sat about 1.06 km south of the true cells at Jeju.'}
     (ROOT / 'work/public_sources/kma_radar_grid.json').write_text(json.dumps(grid_def, ensure_ascii=False, indent=2), encoding='utf-8')
 
-    # 2. raw values -> mm/h float GeoTIFF in the official CRS
-    rate = np.full(a.shape, -9999.0, dtype=np.float32)
-    rate[a >= 0] = a[a >= 0] * 0.01
-    rate[a == -25000] = 0.0
-    codes = {int(k): int(v) for k, v in zip(*np.unique(a[a < 0], return_counts=True))}
+    # 2. hourly-mean rain rate GeoTIFF (mm/h) + metadata for processor.ingest
     out_dir = RADAR / 'input'; out_dir.mkdir(exist_ok=True)
     tif = out_dir / f'KMA_PCPH60_{tm}.tif'
-    ds = gdal.GetDriverByName('GTiff').Create(str(tif), nx, ny, 1, gdal.GDT_Float32, options=['COMPRESS=DEFLATE', 'TILED=YES'])
-    ds.SetGeoTransform(((1 - I0) * SIZE - SIZE / 2, SIZE, 0, (ny - J0) * SIZE + SIZE / 2, 0, -SIZE))
-    ds.SetProjection(official_srs().ExportToWkt())
-    band = ds.GetRasterBand(1); band.SetNoDataValue(-9999.0); band.WriteArray(rate[::-1, :]); band.SetUnitType('mm/h'); ds.FlushCache(); ds = None
+    rate = to_geotiff(a, tif, 0.01)
+    codes = {int(k): int(v) for k, v in zip(*np.unique(a[a < 0], return_counts=True))}
     off = report['repository_assumed_spherical_lcc']['jeju_window']
     note = (f'격자: 공식 nph-rdr_latlon_api(cmp=PCP, disp=B) 경위도 {nx}x{ny}를 LCC(표준위선 30/60, 원점 126E/38N, WGS84 타원체)로 투영하면 셀 중심이 ((i-{I0}),(j-{J0}))*500 m와 '
             f'최대 {report["official"]["nationwide_lattice"]["max_m"]} m(전국 격자), {report["official"]["jeju_window"]["max_m"]} m(제주 창) 안에서 일치. '
@@ -149,35 +169,51 @@ def main():
     else:
         p.init(); frame_id = observed.strftime('%Y%m%dT%H%M%SZ') + '-r0-' + manifest['sha256'][:16]
 
-    # 4. Jeju-wide aggregation with the same functions
+    # 4. Jeju-wide aggregation: rate (mm/h) and each collected accumulation (mm)
     from qgis.core import QgsGeometry
     bds = ogr.Open(str(ROOT / 'outputs/jeju_slope/shapefiles/study_boundary.shp')); bf = next(iter(bds.GetLayer(0)))
     boundary = QgsGeometry(); boundary.fromWkb(bytes(bf.GetGeometryRef().ExportToWkb()))
-    d, pixels, window = p.crop_pixels(tif, boundary)
     grid_fc = json.loads((ROOT / 'outputs/jeju_dashboard/data/grid.geojson').read_text('utf-8'))
     geoms, index = p.features_in_utm(grid_fc)
-    stats = p.aggregate(geoms, index, pixels)
-    cells = {}
-    for f, s in zip(grid_fc['features'], stats):
-        if s['rain_mean_mm_h'] is None:
+    ids = [f['properties']['grid_id'] for f in grid_fc['features']]
+    pixels, stats = aggregate_jeju(tif, boundary, grid_fc, geoms, index)
+    cells = {gid: [round(s['rain_mean_mm_h'], 3), round(s['rain_max_mm_h'], 3) if s['rain_max_mm_h'] is not None else None, round(s['rain_valid_pct'], 1)]
+             for gid, s in zip(ids, stats) if s['rain_mean_mm_h'] is not None}
+    accum = {}; accum_files = {}
+    for acc, path in sorted(files[tm].items()):
+        if acc == 60:
             continue
-        cells[f['properties']['grid_id']] = [round(s['rain_mean_mm_h'], 3), round(s['rain_max_mm_h'], 3) if s['rain_max_mm_h'] is not None else None, round(s['rain_valid_pct'], 1)]
+        nxa, nya, aa = parse_ascii(path, np.int32)
+        if (nxa, nya) != (nx, ny):
+            print('skip', path.name, 'grid differs'); continue
+        atif = ROOT / 'runtime/kma/accum' / f'KMA_PCPH{acc}_{tm}.tif'
+        arr = to_geotiff(aa, atif, 0.01)
+        _, astats = aggregate_jeju(atif, boundary, grid_fc, geoms, index)
+        accum[str(acc)] = {gid: [round(s['rain_mean_mm_h'], 2), round(s['rain_max_mm_h'], 2) if s['rain_max_mm_h'] is not None else None]
+                           for gid, s in zip(ids, astats) if s['rain_mean_mm_h'] is not None}
+        accum_files[str(acc)] = {'raw_file': path.name, 'raw_sha256': json.loads(path.with_suffix('.json').read_text('utf-8'))['sha256'], 'tif': str(atif.relative_to(ROOT)).replace('\\', '/'),
+                                 'window_kst': [(observed.astimezone(KST) - dt.timedelta(minutes=acc)).strftime('%Y-%m-%d %H:%M'), observed.astimezone(KST).strftime('%Y-%m-%d %H:%M')],
+                                 'jeju_max_mean_mm': max((v[0] for v in accum[str(acc)].values()), default=None), 'jeju_cells_gt0': sum(1 for v in accum[str(acc)].values() if v[0] > 0)}
+        print('ACCUMULATION', acc, 'min:', json.dumps(accum_files[str(acc)], ensure_ascii=False), flush=True)
     means = [v[0] for v in cells.values()]
-    summary = {'cells_total': len(grid_fc['features']), 'cells_with_data': len(cells), 'cells_rain_gt0': sum(1 for m in means if m > 0), 'max_mean_mm_h': max(means) if means else None,
-               'native_pixels_in_boundary': len(pixels), 'note': f'기상청 레이더 PCPH 60분 누적 환산 1시간 평균 강우강도 · 관측 {observed.astimezone(KST).strftime("%m-%d %H:%M")} KST'}
-    frame = {'schema_version': 1, 'frame_id': frame_id, 'observed_at': meta['observed_at'], 'published_at': p.stamp(), 'unit': 'mm/h', 'quantity': 'rain_rate',
-             'source_product': meta['source_product'], 'accumulation_minutes': 60, 'revision': 0, 'summary': summary, 'cells': cells}
+    summary = {'cells_total': len(ids), 'cells_with_data': len(cells), 'cells_rain_gt0': sum(1 for m in means if m > 0), 'max_mean_mm_h': max(means) if means else None,
+               'native_pixels_in_boundary': len(pixels), 'accumulations': accum_files,
+               'note': f'기상청 레이더 PCPH 60분 누적 환산 1시간 평균 강우강도 · 관측 {observed.astimezone(KST).strftime("%m-%d %H:%M")} KST' + (f' · 누적 {"/".join(str(int(k)//60)+"h" for k in accum)} 포함' if accum else '')}
+    frame = {'schema_version': 2, 'frame_id': frame_id, 'observed_at': meta['observed_at'], 'published_at': p.stamp(), 'unit': 'mm/h', 'quantity': 'rain_rate',
+             'source_product': meta['source_product'], 'accumulation_minutes': 60, 'revision': 0, 'summary': summary, 'cells': cells, 'accum': accum}
     fdir = ROOT / 'runtime/kma/frames' / frame_id; fdir.mkdir(parents=True, exist_ok=True)
     text = json.dumps(frame, ensure_ascii=False, separators=(',', ':'))
     (fdir / 'jeju_frame.json').write_text(text, encoding='utf-8')
     (ROOT / 'outputs/jeju_dashboard/data/latest_frame.json').write_text(text, encoding='utf-8')
-    items = sorted(cells.items()); size = 1500; parts = max(1, (len(items) + size - 1) // size)
+    items = sorted(cells.items()); size = 1000; parts = max(1, (len(items) + size - 1) // size)
     for i in range(parts):
-        (fdir / f'db_part_{i:03d}.json').write_text(json.dumps({'v': dict(items[i * size:(i + 1) * size]), 'part': i}, separators=(',', ':')), encoding='utf-8')
+        chunk = dict(items[i * size:(i + 1) * size])
+        doc = {'v': chunk, 'part': i, 'a': {acc: {gid: vals[gid] for gid in chunk if gid in vals} for acc, vals in accum.items()}}
+        (fdir / f'db_part_{i:03d}.json').write_text(json.dumps(doc, separators=(',', ':')), encoding='utf-8')
     head = {k: frame[k] for k in ['frame_id', 'observed_at', 'published_at', 'unit', 'quantity', 'source_product', 'revision', 'accumulation_minutes', 'summary']}
-    (fdir / 'db_frame.json').write_text(json.dumps({**head, 'parts': parts, 'cells': len(cells)}, ensure_ascii=False, indent=1), encoding='utf-8')
-    (fdir / 'db_latest.json').write_text(json.dumps({'status': 'available', 'frame_id': frame_id, 'observed_at': meta['observed_at'], 'published_at': frame['published_at'], 'message': summary['note'], 'parts': parts, 'cells': len(cells), 'unit': 'mm/h', 'poll_seconds': 60}, ensure_ascii=False, indent=1), encoding='utf-8')
-    print('JEJU_FRAME', json.dumps({'frame_id': frame_id, 'dir': str(fdir), 'db_parts': parts, **summary}, ensure_ascii=False), flush=True)
+    (fdir / 'db_frame.json').write_text(json.dumps({**head, 'parts': parts, 'cells': len(cells), 'accum_minutes': [int(k) for k in accum]}, ensure_ascii=False, indent=1), encoding='utf-8')
+    (fdir / 'db_latest.json').write_text(json.dumps({'status': 'available', 'frame_id': frame_id, 'observed_at': meta['observed_at'], 'published_at': frame['published_at'], 'message': summary['note'], 'parts': parts, 'cells': len(cells), 'unit': 'mm/h', 'accum_minutes': [int(k) for k in accum], 'poll_seconds': 60}, ensure_ascii=False, indent=1), encoding='utf-8')
+    print('JEJU_FRAME', json.dumps({'frame_id': frame_id, 'dir': str(fdir), 'db_parts': parts, **{k: v for k, v in summary.items() if k != 'accumulations'}}, ensure_ascii=False), flush=True)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,11 @@
+{
+ "schema_version": 1,
+ "checked_at": "2026-10-15T08:22:40.724708+09:00",
+ "endpoint": "https://apihub.kma.go.kr/api/typ01/url/wrn_now_data.php",
+ "region_filter": "제주",
+ "status": "not_authorized",
+ "message": "특보 API 활용신청이 필요합니다 (HTTP 403). API허브 > 예특보 > 특보 메뉴에서 신청하세요.",
+ "jeju": [],
+ "all_rows": 0,
+ "headers": []
+}
