@@ -31,15 +31,19 @@
   "local_env_ignored_by_git": true,
   "real_kma_api_called": true,
   "real_authentication_key_used": true,
-  "raw_collector_test_method": "9 offline tests passed; existing .env collected a structurally valid real PCPH sample after API approval; prior HTTP 403 did not recur in this request",
-  "initial_map_state": "waiting; real raw sample archived locally but no rainfall published to map",
+  "raw_collector_test_method": "unit tests with fake responses; plus real PCPH acc=60 fetches on 2026-10-15 (2 complete, 4 truncated by the server and rejected)",
+  "initial_map_state": "waiting in the committed dist/state; real frame 20261014T163500Z-r0-a1f33b9fac6daa6f produced locally and published to the live dashboard database (Jeju: 0 mm/h everywhere)",
+  "radar_grid_verification": {
+    "method": "nph-rdr_latlon_api cmp=PCP disp=B projected and compared with ((i-1121),(j-1681))*500 m",
+    "official_crs": "LCC lat_1=30 lat_2=60 lat_0=38 lon_0=126 ellps=WGS84",
+    "max_error_m": 0.78,
+    "repository_spherical_grid_offset_m_at_jeju": 1062,
+    "verified_on": "2026-10-15"
+  },
   "not_verified": [
-    "official grid alignment and coordinates",
-    "observed timestamp versus requested timestamp and accumulation window",
-    "product-specific negative codes including -20000",
-    "PCPH accumulation fields and legend instead of instantaneous mm/h",
     "continuous collection, all approved endpoints, VWorld authenticated tiles, AWS deployment",
-    "reliable complete transfer for every Python HTTP client request"
+    "reliable complete transfer for every long ASCII response (nph-rdr_cmp1_api and latlon disp=A are cut by the server after roughly 80 s; binary latlon disp=B transferred completely)",
+    "reference grids regenerated in the official WGS84-ellipsoid LCC (pending; current grids sit ~1.06 km south of true radar cells at Jeju)"
   ],
   "live_check": {
     "checked_at_kst": "2026-10-15T01:28:38.202135+09:00",
@@ -155,5 +159,14 @@
     "github_push": "not_attempted_in_this_check",
     "credentials_in_report": false
   },
-  "gis_pipeline_tests_checked_on": "2026-10-14"
+  "gis_pipeline_tests_checked_on": "2026-10-14",
+  "verified_after_live_check": {
+    "date": "2026-10-15",
+    "items": [
+      "official grid alignment and coordinates (nph-rdr_latlon_api disp=B, max 0.78 m)",
+      "observed timestamp = requested tm (KST) with a 60-minute accumulation window ending at tm",
+      "negative codes: -25000 valid 0, -30000 and -20000 nodata",
+      "PCPH 60-min accumulation converted to hourly mean mm/h and ingested as rain_rate; frame 20261014T163500Z-r0-a1f33b9fac6daa6f"
+    ]
+  }
 }

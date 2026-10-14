@@ -9,7 +9,7 @@
 | 제주 전역 LCC 500m 격자 | 제주 전역 분석 범위와 집계 단위 | `inputs/reference/jeju_grid_cells.gpkg`; 같은 가정 LCC·ID 규칙으로 확장, Natural Earth 1:10m 제주 외곽선(퍼블릭 도메인)과 겹치는 셀만 선택 |
 | Esri World Imagery (제주 범위) | 제주 전역 위성/항공 배경 | `work/public_sources/satellite_jeju*.{jpg,json}`, 다운로드 매니페스트의 원 URL·SHA-256 |
 | OSM 제주올레 루트 | 올레 코스 참고 선형과 코스별 경사 요약 | `work/public_sources/osm_olle_relations.json`, `osm_olle_ways.json` (Overpass API, 질의문·SHA-256은 매니페스트). © OpenStreetMap contributors, ODbL. 공식 코스 선형이 아니며 OSM에 없는 코스는 `outputs/jeju_slope/olle_coverage.json`에 기록 |
-| 기상청 레이더 | 문서에 근거한 수집 코드 | 실제 관측자료·키 미포함, 실응답 미검증 |
+| 기상청 레이더 | 수집 코드와 변환기 | 실응답 2026-10-15 확인(PCPH acc=60). 원자료·GeoTIFF·프레임은 로컬 `runtime/`·`input/`·`dist/frames/`에만 두고 Git 제외. 격자 정의는 `work/public_sources/kma_radar_grid.json` |
 | AWS 순서 PNG | 사용 안내 | 설명용 생성 이미지, 실제 콘솔 화면을 보증하지 않음 |
 
 ## 원 제공자 링크
