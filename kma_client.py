@@ -31,6 +31,10 @@ MAX_BYTES = 128 * 1024 * 1024
 class ClientError(Exception):
     """Messages contain fixed diagnostics, never keys, URLs or response bodies."""
 
+    def __init__(self, message, *, http_status=None):
+        super().__init__(message)
+        self.http_status = http_status
+
 
 def env_values(path: Path) -> dict[str, str]:
     values = {}
@@ -177,6 +181,7 @@ def fetch_payload(config, params, opener=None, sleeper=time.sleep):
     request = Request(ENDPOINT + '?' + urlencode({**params, 'authKey': config.key}),
                       headers={'User-Agent': 'Halla-GeoData/1.0', 'Accept': 'text/plain'})
     message = '요청 실패'
+    http_status = None
     for attempt in range(config.attempts):
         retry = False
         try:
@@ -190,9 +195,10 @@ def fetch_payload(config, params, opener=None, sleeper=time.sleep):
             return payload
         except HTTPError as exc:
             code = exc.code
+            http_status = code
             exc.close()
             if code in (401, 403):
-                message = 'HTTP 인증/권한 오류: API허브 키와 해당 레이더 API 활용신청을 확인하세요.'
+                message = f'HTTP {code} 인증/권한 응답: API허브 키·해당 레이더 활용신청·접근 제한을 확인하세요. 세부 원인은 이 상태 코드만으로 확정할 수 없습니다.'
             elif code == 429:
                 message = 'HTTP 요청 한도 초과: 호출 주기와 계정 사용량을 확인하세요.'
                 retry = True
@@ -204,10 +210,11 @@ def fetch_payload(config, params, opener=None, sleeper=time.sleep):
             else:
                 message = 'HTTP 요청 오류: 요청 조건·자료 시각·활용신청을 확인하세요.'
         except (URLError, TimeoutError, OSError):
+            http_status = None
             message = '네트워크/시간초과 오류: DNS·프록시·방화벽·연결 상태를 확인하세요.'
             retry = True
         if not retry or attempt + 1 == config.attempts:
-            raise ClientError(message) from None
+            raise ClientError(message, http_status=http_status) from None
         sleeper(min(2 ** attempt * 2, 30))
     raise ClientError(message)
 
@@ -293,7 +300,10 @@ def main(argv=None):
                 print('원자료 저장 완료: ' + record['file'] + ' / 지도 변환 전', flush=True)
                 write_json(ROOT/'runtime/kma/status.json', {'status': 'raw_collected', 'requested_at_kst': tm})
             except ClientError as exc:
-                write_json(ROOT/'runtime/kma/status.json', {'status': 'error', 'requested_at_kst': tm, 'message': str(exc)})
+                write_json(ROOT/'runtime/kma/status.json', {
+                    'status': 'error', 'requested_at_kst': tm,
+                    'checked_at_utc': datetime.now(timezone.utc).isoformat(),
+                    'http_status': exc.http_status, 'message': str(exc)})
                 if args.command != 'watch':
                     raise
                 print(str(exc), file=sys.stderr, flush=True)
