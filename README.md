@@ -1,10 +1,23 @@
 # Halla-GeoData
 
-한라산 주변 **전체 500m 참고격자 1,849개**, Copernicus GLO-30 파생 경사도, 탐방로별 통계와 웹·VWorld 배경·QGIS 레이어를 모은 저장소입니다. CSV, SHP와 스타일, GeoTIFF, 지도 PNG, ZIP 및 생성 코드를 포함합니다.
+한라산 주변 **전체 500m 참고격자 1,849개**와 같은 규칙으로 확장한 **제주도 전역 격자 7,519개**, Copernicus GLO-30 파생 경사도, 탐방로별 통계와 웹·VWorld 배경·QGIS 레이어를 모은 저장소입니다. CSV, SHP와 스타일, GeoTIFF, 지도 PNG, ZIP 및 생성 코드를 포함합니다.
 
-**현재 제공 상태:** 2026-10-15 레이더 활용신청 후 기존 로컬 `.env`로 PCPH 누적강수 원자료 수집에 성공했습니다. 이전 HTTP 403은 이 요청에서 재현되지 않았습니다. 경사도·탐방로·참고격자 지도도 실제 브라우저에서 표시와 확대 동작을 확인했습니다. 수집 원자료를 강수 지도에 자동 변환하는 연결은 아직 완료되지 않았으므로 강수 화면은 `입력 대기`로 표시합니다.
+![제주도 전역 500m 격자 경사도](outputs/jeju_slope/jeju_slope_satellite.png)
+
+**현재 제공 상태:** 2026-10-15 레이더 활용신청 후 기존 로컬 `.env`로 PCPH 누적강수 원자료 수집에 성공했습니다. 이전 HTTP 403은 이 요청에서 재현되지 않았습니다. 한라산 기본 지도의 경사도·탐방로·참고격자도 실제 브라우저에서 표시와 확대 동작을 확인했습니다. 수집 원자료를 강수 지도에 자동 변환하는 연결은 아직 완료되지 않았으므로 강수 화면은 `입력 대기`로 표시합니다.
 
 ![한라산 지형·탐방로와 레이더 입력 대기 화면](outputs/hallasan_radar_layers_v1/지도_레이어_미리보기.png)
+
+## 공간 대시보드 (실시간 동기화)
+
+**라이브 지도: https://claude.ai/artifact/CBcggtAioALH875ft8xAxS** — 제주 전역 500 m 격자(평균·최대 경사, 20° 이상 비율), 30 m 경사 등급 래스터, 제주올레 코스, 한라산 탐방로·급경사 구간을 Esri 위성 배경 위에 겹쳐 보는 웹지도입니다. 소스는 `outputs/jeju_dashboard/`(정적 사이트)와 `work/dashboard_src/`(빌드: `python work/build_dashboard.py`)에 있습니다.
+
+강수 입력은 두 경로로 동기화됩니다.
+
+1. **공유 DB(아티팩트 링크)**: 페이지가 `radar/latest` 문서를 구독해 바뀌는 즉시 모든 열람자 화면이 갱신됩니다. 편집 권한이 있는 사람은 페이지의 "프레임 올리기"로 수집기가 만든 `dist/frames/<id>/frame.json`과 `grid.geojson`을 올리면 됩니다. Claude 세션에서도 같은 문서를 써서 갱신할 수 있습니다.
+2. **저장소 파일(GitHub Pages·로컬 서버)**: `outputs/`를 루트로 서비스하면 `jeju_dashboard/`가 `../hallasan_radar_layers_v1/dist/state/latest.json`을 설정 주기(기본 60초)로 읽어 프레임이 생기면 격자를 강수 색으로 바꿉니다.
+
+승인 후 PCPH 원자료 수집은 성공했지만, 좌표·시각·결측 검증과 누적강수 지도 입력기는 아직 미완료여서 실제 강수 프레임은 생성되지 않았습니다. 현재 화면은 "입력 대기"를 표시합니다. 격자별 강수는 `grid_id`로 연결하며 현재 수집기 프레임은 한라산 1,849개 격자만 다룹니다.
 
 ## 바로 시작
 
@@ -39,6 +52,11 @@ python kma_client.py watch
 | 경로 | 내용 |
 |---|---|
 | `outputs/hallasan_slope/` | 전체 참고격자 경사 통계, 10개 등급의 경사 폴리곤, DSM·경사·방향 래스터, QGIS·PNG |
+| `outputs/jeju_slope/` | 제주도 전역 7,519개 격자의 같은 통계·등급 폴리곤·래스터, `jeju_slope.qgs`, 제주 전역 위성배경 PNG |
+| `inputs/reference/jeju_grid_cells.gpkg` | 제주 전역 500m 격자(`jeju_lcc_grid_500m`)와 Natural Earth 제주 외곽선. 한라산 격자 ID 규칙을 그대로 확장 |
+| `inputs/reference/jeju_olle_routes.gpkg` | OSM 제주올레 코스 선형(`olle_routes`, WGS84)과 코스별 길이·경사 요약. `work/fetch_olle_routes.py` → `work/build_olle_layer.py` |
+| `outputs/jeju_slope/START_HERE.html` | 제주 번들 안내: ZIP 구조, 레이어 역할, 폴리곤·격자·래스터 시각화 방법, 올레 코스, 칼럼 사전 |
+| `work/regions/*.json`, `work/region_config.py` | `SLOPE_REGION=hallasan|jeju`로 같은 경사 파이프라인을 두 범위에 적용하는 설정 |
 | `outputs/hallasan_course_slope_v2/` | 코스별 CSV, 2,979개 픽셀 교차 선분, 55개 급경사 구간, SHP·QML·QGIS, 칼럼 사전과 상세 HTML |
 | `outputs/hallasan_radar_layers_v1/` | 공통 레이어 웹지도, VWorld 배경 연결, GeoTIFF 집계기, QGIS 동기화 스크립트·테스트 |
 | `outputs/aws_s3_guide/` | AWS S3 생성 순서 설명 PNG. 실제 AWS 콘솔 캡처가 아닌 안내 그림 |
@@ -51,7 +69,7 @@ python kma_client.py watch
 | `tests/test_kma_client.py` | 네트워크 없는 수집기 단위 테스트 |
 | `FILE_MANIFEST.csv` | 공개 파일별 크기·SHA-256·분류 목록 |
 
-다운로드: [전체 경사 SHP ZIP](outputs/hallasan_slope_QGIS_SHP.zip) · [코스 경사 QGIS ZIP](outputs/hallasan_course_slope_QGIS_v2.zip) · [레이더 3방식 지도 ZIP](outputs/hallasan_radar_3ways.zip)
+다운로드: [전체 경사 SHP ZIP](outputs/hallasan_slope_QGIS_SHP.zip) · [제주 전역 경사 SHP ZIP](outputs/jeju_slope_QGIS_SHP.zip) · [코스 경사 QGIS ZIP](outputs/hallasan_course_slope_QGIS_v2.zip) · [레이더 3방식 지도 ZIP](outputs/hallasan_radar_3ways.zip)
 
 ## 경사도 계산 로직
 
@@ -63,6 +81,15 @@ python kma_client.py watch
 - 이 값은 DSM 지형의 최대 경사이며 탐방로 진행방향의 실제 보행 경사가 아닙니다. 수목·구조물 영향이 포함될 수 있습니다.
 - 6개 코스를 계산했습니다. 석굴암은 기존 탐방로 선형이 없어 CSV에 결측으로 남겼습니다. OSM 선형의 완전성·최신성은 미확인입니다.
 - 1,849개 참고격자는 기존 가정 LCC 좌표계에서 생성되었으며 **공식 기상청 원격자와 정렬이 검증되지 않았습니다.** 영역은 한라산 주변으로 일부 해안을 포함하고 제주도 전체는 아닙니다.
+
+### 제주도 전역 격자 (`outputs/jeju_slope/`)
+
+- 격자: 한라산 격자와 같은 가정 LCC(표준위선 30°/60°, R=6371008.77 m, 기준셀 중심 i0=1121, j0=1681)와 ID 규칙(`I1202J0651` 형식)을 그대로 두고, 500 m 셀이 Natural Earth 1:10m 제주 외곽선과 조금이라도 겹치면 포함했습니다. 결과 7,519개(i 1151–1296, j 634–715)이며 한라산 1,849개가 모두 포함됩니다(`in_hallasan` 필드). 외곽선이 소축척이라 해안 셀에는 바다 픽셀이 들어가고 작은 부속섬 일부는 빠질 수 있습니다(`land_pct` 필드로 육지 비율 확인).
+- 계산: 동일한 Copernicus GLO-30 타일(N33 E126)이 제주 전역을 덮으므로 원자료 추가 없이 같은 방법(30 m UTM 52N, Horn, 교차면적 가중)을 적용했습니다. 전체 면적 가중 평균 경사 4.98°, 최대 64.4°, 등급 폴리곤 78,054개입니다.
+- 분석 경계: 한라산 번들은 격자 외접 사각형, 제주 번들은 선택된 셀의 합집합입니다. 제주 등급 폴리곤은 픽셀 중심이 합집합 안에 있는 30 m 픽셀로 잘라 바다 바깥을 제외했으며, 셀별 CSV·SHP 통계는 두 번들 모두 정확한 벡터 교차면적을 씁니다.
+- 배경: Esri World Imagery를 제주 범위(EPSG:3857, 4096×2340)로 한 번 더 내보내 저장했습니다. 탐방로·공원·지명 참고 레이어는 한라산 자료를 그대로 둡니다.
+- 제주올레: OSM의 올레 루트 릴레이션 22개와 이름 붙은 길 315개를 Overpass API로 받아 코스 번호별로 묶었습니다(`work/fetch_olle_routes.py` → `work/build_olle_layer.py`). 선형 28개, 279 km. 공식 28코스 중 OSM에 없는 코스는 1-1, 7-1, 17, 18-1, 21이고, 10-1·12·13·14-1·15·15-A·15-B는 릴레이션 없이 이름만 붙은 길이라 짧은 부분 선형입니다(`outputs/jeju_slope/olle_coverage.json`). 코스별 길이와 10 m 간격 표본 경사 요약은 `outputs/jeju_slope/jeju_olle_summary.csv`에 있으며, 한라산 6코스처럼 정확한 픽셀 분할 방식은 아닙니다. 10-1(가파도)은 격자 범위 밖이라 경사값이 비어 있습니다.
+- 안내: `outputs/jeju_slope/START_HERE.html`이 ZIP 구조, 레이어별 역할, 폴리곤·격자·래스터 시각화 설정, 올레 코스, 칼럼 사전을 설명합니다(`work/make_jeju_guide.py`).
 
 코스 결과: [course_summary.csv](outputs/hallasan_course_slope_v2/course_summary.csv) · [steep_sections.csv](outputs/hallasan_course_slope_v2/steep_sections.csv) · [개요 지도](outputs/hallasan_course_slope_v2/maps/course_slope_overview.png)
 
@@ -116,7 +143,7 @@ SHP는 `.shp` 형상, `.dbf` 속성, `.shx` 인덱스, `.prj` 좌표계, `.cpg` 
 
 **2026-10-15 실호출 점검:** `RUN_KMA.cmd fetch`로 요청시각 `202610150055`(KST), `PCPH/MSK/acc=60/unit=MM` 자료 47,153,343바이트를 저장했습니다. 헤더 2,305×2,881과 값 6,640,705개의 개수가 일치했습니다. 이는 원자료의 구조 검증이며, 실제 관측시각·공간 정합·강수 의미까지 확인했다는 뜻은 아닙니다. 표본에 `-30000`, `-25000`뿐 아니라 `-20000`도 있어 상품별 특수코드 검증이 추가로 필요합니다. 원자료와 상세 기록은 Git에서 제외된 `runtime/kma/`에 저장됩니다.
 
-일반 Python 수집기 단위 테스트 9개가 통과했고, QGIS 지도 서버에서 실제 브라우저로 위성 배경·탐방로·격자·경사 레이어 및 확대 동작을 확인했습니다. `.env` 경로의 HTTP 접근은 404였습니다. 별도의 Python HTTP 점검에서는 간헐적인 본문 시간초과·연결 끊김이 관찰되어 전송 안정성까지 보장하지는 않습니다. 공개 검증 요약은 `VALIDATION.json`에 기록합니다.
+일반 Python 수집기 단위 테스트 9개가 통과했고, QGIS 한라산 기본 지도 서버에서 실제 브라우저로 위성 배경·탐방로·격자·경사 레이어 및 확대 동작을 확인했습니다. `.env` 경로의 HTTP 접근은 404였습니다. 별도의 Python HTTP 점검에서는 간헐적인 본문 시간초과·연결 끊김이 관찰되어 전송 안정성까지 보장하지는 않습니다. 공개 검증 요약은 `VALIDATION.json`에 기록합니다.
 
 | 실패 상황 | 처리 및 확인 사항 |
 |---|---|
@@ -171,6 +198,19 @@ GIS 통합 테스트는 QGIS Python에서 실행합니다.
 ```
 
 지형 전체 재계산은 QGIS Python으로 `work/prepare_slope_region.py` → `work/build_slope_data.py` → `work/render_slope_bundle.py` → `work/verify_slope_bundle.py` → `work/analyze_course_slope.py` → `work/render_course_slope.py` → `work/make_course_guide.py` → `work/verify_course_slope.py` 순서입니다. 기존 원자료가 포함되어 있어 다시 다운로드할 필요가 없습니다. `work/fetch_slope_sources.py`만 별도의 네트워크 다운로드 코드이며 자동 실행하지 않습니다. Windows 글꼴을 사용하는 렌더링 스크립트는 다른 OS에서 글꼴 경로 조정이 필요합니다.
+
+경사 파이프라인 네 단계(prepare → build → render → verify)는 `SLOPE_REGION` 환경변수로 범위를 고릅니다. 기본값 `hallasan`은 기존 번들을 그대로 재현하고(CSV 바이트 일치 확인), `jeju`는 제주 전역 번들을 만듭니다. 제주 격자 자체는 `work/build_jeju_grid.py`가 생성합니다.
+
+```powershell
+& 'C:\Program Files\QGIS 4.2.0\bin\python-qgis.bat' -X utf8 work/build_jeju_grid.py
+$env:SLOPE_REGION = 'jeju'
+& 'C:\Program Files\QGIS 4.2.0\bin\python-qgis.bat' -X utf8 work/prepare_slope_region.py
+& 'C:\Program Files\QGIS 4.2.0\bin\python-qgis.bat' -X utf8 work/build_slope_data.py
+& 'C:\Program Files\QGIS 4.2.0\bin\python-qgis.bat' -X utf8 work/render_slope_bundle.py
+& 'C:\Program Files\QGIS 4.2.0\bin\python-qgis.bat' -X utf8 work/verify_slope_bundle.py
+```
+
+올레 선형과 안내 HTML까지 포함한 제주 번들 순서는 `build_jeju_grid.py` → `prepare_slope_region.py` → `build_slope_data.py` → `python work/fetch_olle_routes.py`(일반 Python, Overpass 네트워크) → `build_olle_layer.py` → `python work/make_jeju_guide.py` → `render_slope_bundle.py` → `verify_slope_bundle.py`입니다. 렌더링 전에 안내 HTML을 만들어야 ZIP에 함께 들어갑니다.
 
 `work/build_radar_workspace.py`는 정적 지도 자료를 다시 만들면서 초기 대기 상태를 기록합니다. 운영 중 수집자료가 있는 폴더에서 무심코 재실행하지 마세요. `work/package_radar_workspace.py`는 오프라인 ZIP과 검증 결과를 재생성합니다. 개인정보·인증키·실수집 자료·임시 테스트 폴더는 공개 파일집에 포함하지 않습니다.
 

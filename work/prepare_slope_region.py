@@ -1,11 +1,15 @@
+"""Record the study extent of the selected region (SLOPE_REGION, default hallasan) in several CRS."""
 from pathlib import Path
-import json
+import json, sys
 from osgeo import ogr, osr
 
-ROOT = Path(__file__).resolve().parent
-SOURCE = ROOT.parent / 'inputs/reference/hallasan_course_cells.gpkg'
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from region_config import ROOT, load
+
+cfg = load()
+SOURCE = ROOT / cfg['grid_gpkg']
 ds = ogr.Open(str(SOURCE), 0)
-layer = ds.GetLayerByName('candidate_lcc_grid_500m')
+layer = ds.GetLayerByName(cfg['grid_layer'])
 source_srs = layer.GetSpatialRef().Clone()
 source_srs.SetAxisMappingStrategy(osr.OAMS_TRADITIONAL_GIS_ORDER)
 targets = {}
@@ -34,7 +38,7 @@ for feature in layer:
             area_utm += geom.Area()
 
 result = {
-    'source_file': SOURCE.relative_to(ROOT.parent).as_posix(),
+    'source_file': SOURCE.relative_to(ROOT).as_posix(),
     'source_layer': layer.GetName(),
     'grid_count': len(ids),
     'unique_ids': len(set(ids)),
@@ -43,5 +47,5 @@ result = {
     'bounds_by_epsg': extents,
     'notice': 'Existing assumed LCC reference grid; official radar alignment unverified. No slope observations collected in this preparation step.'
 }
-(ROOT / 'slope_region.json').write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+(ROOT / cfg['region_json']).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
 print(json.dumps(result, ensure_ascii=False, indent=2))

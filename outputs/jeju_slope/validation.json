@@ -1,0 +1,176 @@
+{
+  "grid_count": 7519,
+  "unique_grid_ids": 7519,
+  "slope_polygon_count": 78054,
+  "area_utm_m2": 1930167227.5663164,
+  "source_lcc_area_m2": 1879750000,
+  "slope_polygon_area_m2": 1930166100.0,
+  "area_coverage_min_pct": 99.99999999993622,
+  "area_coverage_max_pct": 100.00000000006742,
+  "overall_mean_slope_degrees": 4.975985002018746,
+  "maximum_slope_degrees": 64.42748260498047,
+  "elevation_range_m": [
+    -2.2584855556488037,
+    1922.9293212890625
+  ],
+  "classes": [
+    {
+      "class_id": 1,
+      "min_deg": 0,
+      "max_deg": 5,
+      "area_m2": 1274417100.0,
+      "area_pct": 66.02629172691408
+    },
+    {
+      "class_id": 2,
+      "min_deg": 5,
+      "max_deg": 10,
+      "area_m2": 422030700.0,
+      "area_pct": 21.864993898711617
+    },
+    {
+      "class_id": 3,
+      "min_deg": 10,
+      "max_deg": 15,
+      "area_m2": 132368400.0,
+      "area_pct": 6.857876117500976
+    },
+    {
+      "class_id": 4,
+      "min_deg": 15,
+      "max_deg": 20,
+      "area_m2": 53724600.0,
+      "area_pct": 2.783418484036167
+    },
+    {
+      "class_id": 5,
+      "min_deg": 20,
+      "max_deg": 25,
+      "area_m2": 26903700.0,
+      "area_pct": 1.3938541351441205
+    },
+    {
+      "class_id": 6,
+      "min_deg": 25,
+      "max_deg": 30,
+      "area_m2": 13173300.0,
+      "area_pct": 0.6824956670827448
+    },
+    {
+      "class_id": 7,
+      "min_deg": 30,
+      "max_deg": 35,
+      "area_m2": 4391100.0,
+      "area_pct": 0.2274985556942483
+    },
+    {
+      "class_id": 8,
+      "min_deg": 35,
+      "max_deg": 40,
+      "area_m2": 1872900.0,
+      "area_pct": 0.09703309989746478
+    },
+    {
+      "class_id": 9,
+      "min_deg": 40,
+      "max_deg": 45,
+      "area_m2": 769500.0,
+      "area_pct": 0.03986703527743027
+    },
+    {
+      "class_id": 10,
+      "min_deg": 45,
+      "max_deg": 90,
+      "area_m2": 514800.0,
+      "area_pct": 0.02667127974115803
+    }
+  ],
+  "raster_shape_buffered": [
+    1354,
+    2509
+  ],
+  "crs": "EPSG:32652",
+  "grid_source_crs": "+proj=lcc +lat_0=38 +lon_0=126 +lat_1=30 +lat_2=60 +x_0=0 +y_0=0 +R=6371008.77 +units=m +no_defs",
+  "method": "Copernicus GLO-30 DSM; bilinear reprojection to 30m UTM52; GDAL Horn slope; exact pixel/grid intersection area weighting",
+  "source_warning": "Not VWorld analysis output. DSM includes vegetation and structures. Original 500m LCC reference grid alignment to official radar is unverified.",
+  "nodata": -9999,
+  "statistics_status": "passed",
+  "region": "jeju",
+  "boundary_mode": "grid_union",
+  "class_polygon_mask_area_m2": 1930166100.0,
+  "class_polygon_note": "Class polygons are clipped to the 30m pixels whose centres fall inside the cell union; the CSV/SHP cell statistics use exact vector intersection areas.",
+  "qgis_project_reopened_all_layers_valid": true,
+  "shapefiles": {
+    "grid_slope_500m.shp": {
+      "features": 7519,
+      "invalid_geometries": 0,
+      "sidecars_present": true
+    },
+    "reference_labels.shp": {
+      "features": 9,
+      "invalid_geometries": 0,
+      "sidecars_present": true
+    },
+    "reference_olle.shp": {
+      "features": 28,
+      "invalid_geometries": 0,
+      "sidecars_present": true
+    },
+    "reference_park.shp": {
+      "features": 1,
+      "invalid_geometries": 0,
+      "sidecars_present": true
+    },
+    "reference_trails.shp": {
+      "features": 6,
+      "invalid_geometries": 0,
+      "sidecars_present": true
+    },
+    "slope_classes.shp": {
+      "features": 78054,
+      "invalid_geometries": 0,
+      "sidecars_present": true
+    },
+    "study_boundary.shp": {
+      "features": 1,
+      "invalid_geometries": 0,
+      "sidecars_present": true
+    }
+  },
+  "rasters": {
+    "dem_30m.tif": {
+      "valid_pixels": 2144629,
+      "min": -2.2584855556488037,
+      "max": 1922.9293212890625,
+      "statistics": [
+        -2.2584855556488037,
+        1922.9293212890625,
+        272.79678519109376,
+        310.1739104163962
+      ]
+    },
+    "slope_degrees_30m.tif": {
+      "valid_pixels": 2144629,
+      "min": 0.0,
+      "max": 64.42748260498047,
+      "statistics": [
+        0.0,
+        64.42748260498047,
+        4.976058015702903,
+        5.1392605906192355
+      ]
+    },
+    "aspect_degrees_30m.tif": {
+      "valid_pixels": 2063953,
+      "min": 0.0,
+      "max": 359.9996032714844,
+      "statistics": [
+        0.0,
+        359.9996032714844,
+        182.03684036367713,
+        105.9643279683666
+      ]
+    }
+  },
+  "png_created": true
+}
