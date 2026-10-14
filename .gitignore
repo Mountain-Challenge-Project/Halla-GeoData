@@ -29,6 +29,9 @@ work/qgis_*check/
 work/dem_utm_buffer.tif
 work/slope_full.tif
 work/aspect_full.tif
+work/*_dem_utm_buffer.tif
+work/*_slope_full.tif
+work/*_aspect_full.tif
 .venv/
 .DS_Store
 Thumbs.db
