@@ -12,7 +12,7 @@ app.initQgis()
 result = {}
 for relative, expected in [
     ('outputs/hallasan_slope/hallasan_slope.qgs', None),
-    ('outputs/jeju_slope/jeju_slope.qgs', 10),
+    ('outputs/jeju_slope/jeju_slope.qgs', 11),
     ('outputs/hallasan_course_slope_v2/hallasan_course_slope.qgs', 25),
     ('outputs/hallasan_radar_layers_v1/qgis/hallasan_live.qgs', 6),
 ]:

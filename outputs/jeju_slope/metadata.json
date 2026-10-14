@@ -127,6 +127,36 @@
       "sha256": "8321dde12f35c39871fd8d435237a88a5a24ccde5562d76fa64f4101f4423716",
       "content_type": "image/jpeg",
       "downloaded_utc": "2026-10-14T10:50:54.015713+00:00"
+    },
+    {
+      "url": "https://overpass.kumi.systems/api/interpreter (Overpass QL: [out:json][timeout:240];relation(id:3793143,3793206,3809942,3878188,4869085,5232945,5458299,5535857,5637062,5650389,6089470,6089589,6107767,7248520,7248521,7248522,7248523,8246395,9149294,9149725,9173551,9180869);out tags geom;)",
+      "file": "osm_olle_routes.json",
+      "bytes": 7974,
+      "sha256": "c864af99146f14c10b93fcc56671c9f44cb8d64f4b7ada521528b2ad4a0e74fb",
+      "content_type": "application/json",
+      "downloaded_utc": "2026-10-14T13:07:36.147371+00:00",
+      "licence": "ODbL 1.0, © OpenStreetMap contributors",
+      "listing_query": "[out:json][timeout:180];(relation[\"route\"~\"^(hiking|foot|walking)$\"](33.1,126.1,33.6,127.0);relation[\"network\"~\"^(iwn|nwn|rwn|lwn)$\"](33.1,126.1,33.6,127.0);relation[\"type\"=\"superroute\"](33.1,126.1,33.6,127.0););out tags;"
+    },
+    {
+      "url": "https://z.overpass-api.de/api/interpreter",
+      "overpass_ql": "[out:json][timeout:240];relation(id:3793143,3793206,3809942,3878188,4869085,5232945,5458299,5535857,5637062,5650389,6089470,6089589,6107767,7248520,7248521,7248522,7248523,8246395,9149294,9149725,9173551,9180869);out geom;",
+      "file": "osm_olle_relations.json",
+      "bytes": 946680,
+      "sha256": "cdea7510abab7fc598b4f2dc381d975c9d002e0cd68477ddc5caf1944b220866",
+      "content_type": "application/json",
+      "downloaded_utc": "2026-10-14T13:27:55.889015+00:00",
+      "licence": "ODbL 1.0, © OpenStreetMap contributors"
+    },
+    {
+      "url": "https://overpass.private.coffee/api/interpreter",
+      "overpass_ql": "[out:json][timeout:240];way[\"highway\"][\"name\"~\"올레\"](33.1,126.1,33.6,127.0);out geom;",
+      "file": "osm_olle_ways.json",
+      "bytes": 500853,
+      "sha256": "ce21a1e5f8efa7bf6bfdd0aa4c8eec563bf152f79fe7d49cc6daa5799253fd15",
+      "content_type": "application/json",
+      "downloaded_utc": "2026-10-14T13:35:23.029227+00:00",
+      "licence": "ODbL 1.0, © OpenStreetMap contributors"
     }
   ]
 }

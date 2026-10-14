@@ -8,6 +8,7 @@
 | 기존 LCC 500m 참고격자 | 분석 범위와 집계 단위 | 공식 기상청 격자 정렬 미확인; 계산 결과는 참고격자 ID로 식별 |
 | 제주 전역 LCC 500m 격자 | 제주 전역 분석 범위와 집계 단위 | `inputs/reference/jeju_grid_cells.gpkg`; 같은 가정 LCC·ID 규칙으로 확장, Natural Earth 1:10m 제주 외곽선(퍼블릭 도메인)과 겹치는 셀만 선택 |
 | Esri World Imagery (제주 범위) | 제주 전역 위성/항공 배경 | `work/public_sources/satellite_jeju*.{jpg,json}`, 다운로드 매니페스트의 원 URL·SHA-256 |
+| OSM 제주올레 루트 | 올레 코스 참고 선형과 코스별 경사 요약 | `work/public_sources/osm_olle_relations.json`, `osm_olle_ways.json` (Overpass API, 질의문·SHA-256은 매니페스트). © OpenStreetMap contributors, ODbL. 공식 코스 선형이 아니며 OSM에 없는 코스는 `outputs/jeju_slope/olle_coverage.json`에 기록 |
 | 기상청 레이더 | 문서에 근거한 수집 코드 | 실제 관측자료·키 미포함, 실응답 미검증 |
 | AWS 순서 PNG | 사용 안내 | 설명용 생성 이미지, 실제 콘솔 화면을 보증하지 않음 |
 
@@ -18,6 +19,8 @@
 - [Copernicus DEM 이용조건 원문](https://documentation.dataspace.copernicus.eu/APIs/SentinelHub/Data/DEM/resources/license/License-COPDEM-30.pdf)
 - [Esri World Imagery 서비스·저작권 표시](https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer)
 - [OpenStreetMap 저작권 및 ODbL 안내](https://www.openstreetmap.org/copyright)
+- [Overpass API](https://overpass-api.de/) (OSM 루트 릴레이션·길 다운로드 경로)
+- [Natural Earth 1:10m Admin 0](https://www.naturalearthdata.com/) (제주 외곽선, 퍼블릭 도메인)
 - [기상청 레이더 API 문서](https://apihub.kma.go.kr/apiList.do?seqApi=5)
 
 이 저장소의 자료를 외부 서비스로 재배포할 때는 원 제공자의 해당 자료 이용조건과 출처 표시를 적용해야 합니다. 기존 문서·메타데이터의 분석 한계도 함께 전달하세요. 이 파일은 외부 데이터에 새로운 라이선스를 부여하지 않습니다.

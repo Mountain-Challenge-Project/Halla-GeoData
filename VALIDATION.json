@@ -4,7 +4,7 @@
   "gis_pipeline_tests_passed": 6,
   "qgis_runtime": "QGIS 4.2.0 / GDAL 3.13.1 / Windows",
   "qgis_project_valid_layer_counts": {"terrain": 10, "jeju_terrain": 10, "course": 25, "radar_static": 6},
-  "jeju_wide_bundle": {"grid_cells": 7519, "hallasan_cells_included": 1849, "slope_polygons": 78054, "hallasan_regression_csv_identical": true, "verified_on": "2026-10-14"},
+  "jeju_wide_bundle": {"grid_cells": 7519, "hallasan_cells_included": 1849, "slope_polygons": 78054, "hallasan_regression_csv_identical": true, "olle_features_from_osm": 28, "olle_total_km": 279.3, "olle_official_courses_missing_in_osm": ["1-1", "7-1", "17", "18-1", "21"], "verified_on": "2026-10-14"},
   "zip_crc": "passed",
   "readme_local_links": "passed",
   "credential_pattern_scan": "passed; heuristic scan, not a guarantee",
