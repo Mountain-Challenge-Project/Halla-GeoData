@@ -114,7 +114,7 @@ dl.sel dt{color:var(--muted);white-space:nowrap}dl.sel dd{margin:0;font-family:v
     </section>
     <section class="card">
       <h2>격자 색상</h2>
-      <select id="selMetric" aria-label="격자 색상 기준"><option value="mean_deg">평균 경사 (°)</option><option value="max_deg">최대 경사 (°)</option><option value="steep_pct">20° 이상 면적 비율 (%)</option><option value="rain" disabled>강수 (mm/h) · 입력 대기</option><option value="acc180" disabled>3시간 누적 (mm) · 없음</option><option value="acc360" disabled>6시간 누적 (mm) · 없음</option><option value="acc1440" disabled>24시간 누적 (mm) · 없음</option></select>
+      <select id="selMetric" aria-label="격자 색상 기준"><option value="mean_deg">평균 경사 (°)</option><option value="max_deg">최대 경사 (°)</option><option value="steep_pct">20° 이상 면적 비율 (%)</option><option value="rain" disabled>강수 (mm/h) · 입력 대기</option><option value="acc180" disabled>3시간 누적 (mm) · 없음</option><option value="acc360" disabled>6시간 누적 (mm) · 없음</option><option value="acc1440" disabled>24시간 누적 (mm) · 없음</option><option value="fc_rn1" disabled>예보 1시간 강수 (mm, 선택 시간)</option><option value="fc_total" disabled>예보 6시간 합계 (mm)</option></select>
       <div style="margin-top:8px"><div class="ramp" id="ramp"></div><div class="ticks" id="ticks"></div></div>
       <div class="row small muted" style="margin-top:6px"><label class="chk" style="padding:0"><input type="range" id="gridOpacity" min="0" max="100" value="55" style="width:120px;accent-color:var(--accent)" aria-label="격자 채움 투명도">채움 농도</label></div>
     </section>
@@ -129,6 +129,11 @@ dl.sel dt{color:var(--muted);white-space:nowrap}dl.sel dd{margin:0;font-family:v
       <label class="chk"><input type="checkbox" id="lyBoundary" checked><span class="swatch" style="background:#ffffff;border:1px solid var(--line)"></span>분석 범위 · 국립공원 경계</label>
       <label class="chk"><input type="checkbox" id="lySat" checked><span class="swatch poly" style="background:#5a6b4e"></span>Esri 위성 배경</label>
       <div class="legend" id="slopeLegend" hidden style="margin-top:6px"></div>
+    </section>
+    <section class="card">
+      <h2>6시간 강수 예보 (동네예보 초단기)</h2>
+      <div id="fcBody" class="small"><span class="muted">예보 자료 없음</span></div>
+      <div class="note" style="margin-top:6px">기상청 초단기예보를 5 km 격자점 단위로 받아 각 500 m 셀에 해당 격자점 값을 그대로 보여 줍니다. 격자 색상에서 "예보 1시간 강수"를 고르면 위 시간 버튼으로 시각을 바꿀 수 있습니다. RN1 문자열은 하한값으로 환산합니다(1 mm 미만 = 0.5).</div>
     </section>
     <section class="card">
       <h2>기상 특보 (제주)</h2>
@@ -181,8 +186,22 @@ const METRICS={
   rain:{label:'강수 (평균)',unit:'mm/h',breaks:[0.5,1,2,5,10],ramp:'rain',get:p=>{const r=rain.values[p.grid_id];return r?r[0]:null;}},
   acc180:{label:'3시간 누적',unit:'mm',breaks:[5,15,30,60,90],ramp:'rain',get:p=>accVal('180',p)},
   acc360:{label:'6시간 누적',unit:'mm',breaks:[10,25,50,90,150],ramp:'rain',get:p=>accVal('360',p)},
-  acc1440:{label:'24시간 누적',unit:'mm',breaks:[20,50,80,150,250],ramp:'rain',get:p=>accVal('1440',p)}};
+  acc1440:{label:'24시간 누적',unit:'mm',breaks:[20,50,80,150,250],ramp:'rain',get:p=>accVal('1440',p)},
+  fc_rn1:{label:'예보 1시간 강수',unit:'mm',breaks:[0.5,1,3,5,10],ramp:'rain',get:p=>fcVal(p)},
+  fc_total:{label:'예보 6시간 합계',unit:'mm',breaks:[1,3,5,10,20],ramp:'rain',get:p=>fcTotal(p)}};
 function accVal(acc,p){ const t=rain.accum&&rain.accum[acc]; const v=t&&t[p.grid_id]; return v?v[0]:null; }
+/* ---------- 초단기예보 (KMA DFS 5 km grid): cell -> DFS point by the public Lambert conversion (verified against nph-dfs_xy_lonlat) ---------- */
+let forecast=null, fcHour=0; const fcKeyCache={};
+function dfsXY(lon,lat){ const D=Math.PI/180, re=6371.00877/5, s1=30*D, s2=60*D, ol=126*D, oa=38*D;
+  let sn=Math.tan(Math.PI*.25+s2*.5)/Math.tan(Math.PI*.25+s1*.5); sn=Math.log(Math.cos(s1)/Math.cos(s2))/Math.log(sn);
+  let sf=Math.tan(Math.PI*.25+s1*.5); sf=Math.pow(sf,sn)*Math.cos(s1)/sn; let ro=Math.tan(Math.PI*.25+oa*.5); ro=re*sf/Math.pow(ro,sn);
+  let ra=Math.tan(Math.PI*.25+lat*D*.5); ra=re*sf/Math.pow(ra,sn); let th=lon*D-ol; if(th>Math.PI) th-=2*Math.PI; if(th<-Math.PI) th+=2*Math.PI; th*=sn;
+  return Math.floor(ra*Math.sin(th)+43+1.5)+','+Math.floor(ro-ra*Math.cos(th)+136+1.5); }
+function fcKey(p,layer){ if(fcKeyCache[p.grid_id]) return fcKeyCache[p.grid_id]; let c=null; if(layer&&layer.getBounds) c=layer.getBounds().getCenter(); if(!c) return null; const k=dfsXY(c.lng,c.lat); fcKeyCache[p.grid_id]=k; return k; }
+function fcPoint(p){ if(!forecast||!forecast.points) return null; const k=fcKeyCache[p.grid_id]; return k?forecast.points[k]:null; }
+function fcVal(p){ const pt=fcPoint(p); if(!pt||!forecast.hours) return null; const h=pt.hours[forecast.hours[fcHour]]; return h?h.rn1_mm:null; }
+function fcTotal(p){ const pt=fcPoint(p); if(!pt) return null; let s=0,n=0; for(const h in pt.hours){ s+=pt.hours[h].rn1_mm||0; n++; } return n?+s.toFixed(1):null; }
+const PTY_NAMES={'0':'없음','1':'비','2':'비/눈','3':'눈','5':'빗방울','6':'빗방울/눈날림','7':'눈날림'}; const SKY_NAMES={'1':'맑음','3':'구름많음','4':'흐림'};
 /* Slope-and-rain highlight (analytical, not an official landslide or flood warning):
    rain level from the 3h/6h/24h radar accumulations, raised to the highlight level only where >=20% of the
    cell area is steeper than 20 deg; elsewhere one level lower. Thresholds follow the KMA heavy-rain advisory
@@ -212,6 +231,17 @@ function restyleGrid(){ if(grid) grid.setStyle(gridStyle); renderLegend(); rebui
 function rebuildRisk(){ if(!layers.risk||!grid) return; layers.risk.clearLayers(); const counts=[0,0,0,0];
   grid.eachLayer(l=>{ const lv=riskLevel(l.feature.properties); counts[lv]++; if(lv>0){ const g=L.geoJSON(l.feature,{style:{color:RISK.colors[lv],weight:2.4,fill:true,fillColor:RISK.colors[lv],fillOpacity:.12}}); g.on('click',()=>showSelection('grid',l.feature.properties,l)); layers.risk.addLayer(g); } });
   const has=rain.accum&&Object.keys(rain.accum).length; $('riskSummary').textContent=has?`주의 ${counts[1]} · 경계 ${counts[2]} · 심각 ${counts[3]} 셀 (3h/6h/24h 누적 기준)`:'누적강수 프레임이 없어 계산하지 않음'; }
+function hourLabel(h){ return h.slice(8,10)+'시'; }
+function renderForecast(){ const box=$('fcBody'); const opts=['fc_rn1','fc_total'].map(v=>$('selMetric').querySelector('option[value='+v+']'));
+  if(!forecast||!forecast.points||!forecast.hours||!forecast.hours.length){ box.innerHTML='<span class="muted">예보 자료 없음</span>'; opts.forEach(o=>{o.disabled=true;}); if(metric.startsWith('fc_')){metric='mean_deg';$('selMetric').value=metric;restyleGrid();} return; }
+  opts.forEach(o=>{o.disabled=false;}); if(fcHour>=forecast.hours.length) fcHour=0;
+  const base=(forecast.base_time_kst||'').replace('T',' ').slice(0,16); const s=forecast.summary||{};
+  const chips=forecast.hours.map((h,i)=>`<button class="btn${i===fcHour?' primary':''}" data-i="${i}" type="button" style="padding:3px 8px">${hourLabel(h)}</button>`).join('');
+  const summit=forecast.points['54,36']; const sh=summit&&summit.hours[forecast.hours[fcHour]];
+  box.innerHTML=`<div class="small muted">발표 ${esc(base)} KST · 5 km 격자점 ${forecast.point_count||Object.keys(forecast.points).length}개 · 강수 예상 지점 ${s.points_with_rain==null?'–':s.points_with_rain} · 최대 6h 합계 ${s.max_6h_total_mm==null?'–':fmt(s.max_6h_total_mm,1)+' mm'}</div>
+    <div class="row" style="margin:6px 0" id="fcHours">${chips}</div>
+    ${sh?`<dl class="sel"><dt>한라산 정상 격자점 (54,36)</dt><dd>${esc(hourLabel(forecast.hours[fcHour]))} 예보</dd><dt>1시간 강수</dt><dd>${esc(sh.rn1||'–')}</dd><dt>강수형태 / 하늘</dt><dd>${esc(PTY_NAMES[sh.pty]||sh.pty||'–')} / ${esc(SKY_NAMES[sh.sky]||sh.sky||'–')}</dd><dt>기온 / 풍속 / 습도</dt><dd>${esc(sh.t1h)}°C / ${esc(sh.wsd)} m/s / ${esc(sh.reh)} %</dd></dl>`:''}`;
+  box.querySelectorAll('#fcHours button').forEach(b=>b.addEventListener('click',()=>{ fcHour=+b.dataset.i; renderForecast(); if(metric.startsWith('fc_')) restyleGrid(); if(selected&&selected.kind==='grid') showSelection('grid',selected.p,selectedLayer); })); }
 function renderWarnings(){ const box=$('warnBody'); if(!warnings){ box.textContent='특보 자료 없음'; return; }
   const when=warnings.checked_at?new Date(warnings.checked_at).toLocaleString('ko-KR'):'';
   if(warnings.status==='ok'){ if(!warnings.jeju||!warnings.jeju.length){ box.innerHTML=`<span class="pill ok"><span class="dot"></span>제주 특보 없음</span> <span class="muted">${esc(when)}</span>`; return; }
@@ -225,7 +255,8 @@ function showSelection(kind,p,layer){ selected={kind,p}; if(selectedLayer&&selec
   if(kind==='grid'){ const r=rain.values[p.grid_id]; rows=[['격자',p.grid_id],['열·행 (i, j)',p.i_ref+', '+p.j_ref],['평균 경사',fmt(p.mean_deg,2)+'°'],['90백분위',fmt(p.p90_deg,2)+'°'],['최대 경사',fmt(p.max_deg,2)+'°'],['20° 이상 면적',fmt(p.steep_pct,2)+' %'],['평균 고도',fmt(p.elev_mean,0)+' m'],['최고 고도',fmt(p.elev_max,0)+' m']];
     if(rain.frame_id) rows.push(['강수 평균/최대',r?fmt(r[0],2)+' / '+fmt(r[1],2)+' mm/h':'자료 없음'],['강수 유효면적',r?fmt(r[2],0)+' %':'–']);
     for(const acc of ['180','360','1440']){ const v=rain.accum&&rain.accum[acc]&&rain.accum[acc][p.grid_id]; if(v) rows.push([(acc/60)+'시간 누적 평균/최대',fmt(v[0],1)+' / '+fmt(v[1],1)+' mm']); }
-    if(rain.accum&&Object.keys(rain.accum).length){ const lv=riskLevel(p); rows.push(['급경사·강수 강조',RISK.names[lv]+(p.steep_pct>=20?' (급경사 셀)':'')]); } }
+    if(rain.accum&&Object.keys(rain.accum).length){ const lv=riskLevel(p); rows.push(['급경사·강수 강조',RISK.names[lv]+(p.steep_pct>=20?' (급경사 셀)':'')]); }
+    fcKey(p,layer); const pt=fcPoint(p); if(pt&&forecast.hours){ const h=pt.hours[forecast.hours[fcHour]]; rows.push(['예보 격자점',fcKeyCache[p.grid_id]],['예보 '+hourLabel(forecast.hours[fcHour])+' 강수',h?(h.rn1||'–')+' · '+(PTY_NAMES[h.pty]||'')+' · '+h.t1h+'°C':'–'],['예보 6시간 합계',fmt(fcTotal(p),1)+' mm']); } }
   else if(kind==='olle'){ rows=[['올레 코스',p.course+(p.variant?' ('+p.variant+')':'')],['OSM 이름',p.name_osm||'–'],['출처',p.source_kind],['길이',fmt(p.length_km,2)+' km'],['평균 경사',fmt(p.mean_deg,2)+'°'],['90백분위',fmt(p.p90_deg,2)+'°'],['최대 경사',fmt(p.max_deg,2)+'°'],['20° 이상',fmt(p.steep20_m,0)+' m']]; }
   else if(kind==='trail'){ rows=[['탐방로',p.course],['길이',fmt(p.length_m/1000,2)+' km'],['평균 경사',fmt(p.mean_deg,2)+'°'],['90백분위',fmt(p.p90_deg,2)+'°'],['최대 경사',fmt(p.max_deg,2)+'°'],['20° 이상',fmt(p.steep20_m,0)+' m ('+fmt(p.steep20_pc,1)+' %)'],['급경사 구간 수',p.seg20_n]]; }
   else if(kind==='steep'){ rows=[['구간',p.seg_id],['탐방로',p.course],['길이',fmt(p.length_m,0)+' m'],['평균 경사',fmt(p.mean_deg,2)+'°'],['최대 경사',fmt(p.max_deg,2)+'°'],['시작 (lon, lat)',fmt(p.start_lon,5)+', '+fmt(p.start_lat,5)]]; }
@@ -254,6 +285,7 @@ async function connectDb(){ if(!(window.claude&&typeof window.claude.use==='func
   try{ user=await window.claude.use('user'); canWrite=user?await user.can('data.write'):null; }catch(e){ canWrite=null; }
   if(canWrite!==false){ $('importBox').hidden=false; }
   db.doc('radar/warnings').onSnapshot(snap=>{ warnings=snap.exists?snap.data():null; renderWarnings(); },err=>{ warnings={status:'error',message:'DB 구독 오류: '+err.code}; renderWarnings(); });
+  db.doc('radar/forecast').onSnapshot(snap=>{ forecast=snap.exists?snap.data():null; renderForecast(); if(metric.startsWith('fc_')) restyleGrid(); },err=>{ forecast=null; renderForecast(); });
   unsubLatest=db.doc('radar/latest').onSnapshot(snap=>{ rain.checked=new Date(); const d=snap.exists?snap.data():null;
     if(!d){ rain.status='waiting'; rain.frame_id=null; rain.observed_at=null; rain.message='공유 DB에 아직 프레임이 없습니다'; rain.values={}; rain.accum={}; renderLiveMeta(); restyleGrid(); return; }
     const changed=d.frame_id!==rain.frame_id; rain.status=d.status||'available'; rain.frame_id=d.frame_id||null; rain.observed_at=d.observed_at||null; rain.message=d.message||''; rain.parts=d.parts||0;
@@ -279,6 +311,7 @@ function applyFrame(f,note){ rain.status='available'; rain.frame_id=f.frame_id; 
 /* ---------- live source B: repository files (GitHub Pages / local server) ---------- */
 async function pollStatic(){ rain.mode='static'; rain.checked=new Date();
   try{ const wf=await fetch('data/warnings.json',{cache:'no-store'}); if(wf.ok){ warnings=await wf.json(); renderWarnings(); } }catch(e){}
+  try{ const ff=await fetch('data/forecast.json',{cache:'no-store'}); if(ff.ok){ const f=await ff.json(); if(!forecast||f.base_time_kst!==forecast.base_time_kst){ forecast=f; renderForecast(); if(metric.startsWith('fc_')) restyleGrid(); } } }catch(e){}
   try{ const jf=await fetch('data/latest_frame.json',{cache:'no-store'}); if(jf.ok){ const f=await jf.json(); if(f&&f.cells){ if(f.frame_id!==rain.frame_id) applyFrame(f,'저장소 data/latest_frame.json'); else renderLiveMeta(); return; } } }catch(e){}
   try{ const r=await fetch(STATIC_BASE+'state/latest.json',{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status); const d=await r.json();
     rain.status=d.status||'waiting'; rain.message=d.message||'';
@@ -306,7 +339,7 @@ async function boot(){
   layers.sat=L.imageOverlay(satUrl,satB,{attribution:'배경: Esri, Vantor, Earthstar Geographics, GIS User Community · 고도: Copernicus GLO-30 (ESA/DLR/Airbus) · © OpenStreetMap contributors'}).addTo(map);
   layers.slope=L.imageOverlay(slopeUrl,slopeB,{opacity:.6});
   const canvas=L.canvas({padding:.3});
-  grid=L.geoJSON(gridGj,{renderer:canvas,style:gridStyle,onEachFeature:(f,l)=>{ l.on('click',()=>showSelection('grid',f.properties,l)); l.bindTooltip(()=>{const p=f.properties;const m=METRICS[metric];const v=m.get(p);return `${p.grid_id} · ${m.label} ${fmt(v,m.unit==='mm/h'?2:1)}${m.unit}`;},{sticky:true,direction:'top',opacity:.9}); }});
+  grid=L.geoJSON(gridGj,{renderer:canvas,style:gridStyle,onEachFeature:(f,l)=>{ fcKey(f.properties,l); l.on('click',()=>showSelection('grid',f.properties,l)); l.bindTooltip(()=>{const p=f.properties;const m=METRICS[metric];const v=m.get(p);return `${p.grid_id} · ${m.label} ${fmt(v,m.unit==='mm/h'?2:1)}${m.unit}`;},{sticky:true,direction:'top',opacity:.9}); }});
   layers.grid=grid.addTo(map);
   layers.boundary=L.layerGroup([L.geoJSON(boundary,{style:{color:'#ffffff',weight:1.2,fill:false,dashArray:'4 3',opacity:.9}}),L.geoJSON(park,{style:{color:'#9cffad',weight:1,fill:false,dashArray:'3 3',opacity:.9}})]).addTo(map);
   layers.steep=L.geoJSON(steep,{style:{color:'#ff2a2a',weight:4,opacity:.95},onEachFeature:(f,l)=>l.on('click',()=>showSelection('steep',f.properties,l))}).addTo(map);
@@ -329,9 +362,10 @@ async function boot(){
   const tb=$('olleTable').querySelector('tbody'); const key=c=>{const [a,b]=String(c).split('-');return [parseInt(a,10),b||''];};
   olle.features.slice().sort((x,y)=>{const a=key(x.properties.course),b=key(y.properties.course);return a[0]-b[0]||a[1].localeCompare(b[1]);}).forEach(f=>{ const p=f.properties; const tr=document.createElement('tr'); tr.dataset.course=p.course+'|'+(p.variant||''); tr.innerHTML=`<td>${esc(p.course)}${p.variant?' <span class="muted">'+esc(p.variant)+'</span>':''}</td><td class="n">${fmt(p.length_km,1)}</td><td class="n">${fmt(p.mean_deg,1)}</td><td class="n">${fmt(p.max_deg,1)}</td><td class="n">${fmt(p.steep20_m,0)}</td>`;
     tr.addEventListener('click',()=>{ let target=null; layers.olle.eachLayer(l=>{ if(l.feature===f) target=l; }); if(target){ map.fitBounds(target.getBounds(),{padding:[30,30],maxZoom:13}); showSelection('olle',p,target); } }); tb.appendChild(tr); });
-  renderLegend(); renderSlopeLegend(); renderLiveMeta(); renderWarnings();
+  renderLegend(); renderSlopeLegend(); renderLiveMeta(); renderWarnings(); renderForecast();
   if(E){ rain.mode='embedded'; rain.checked=new Date(); rain.message='내장 자료 파일 · 실시간 연결 없음'; $('demoBox').hidden=false; $('btnDemo').addEventListener('click',toggleDemo);
     if(E.warnings){ warnings=E.warnings; renderWarnings(); }
+    if(E.forecast){ forecast=E.forecast; renderForecast(); }
     if(E.frame&&E.frame.cells){ applyFrame(E.frame,'내장 프레임 (파일 생성 시점 자료)'); } else renderLiveMeta(); return; }
   const live=await connectDb(); if(!live){ rain.mode='static'; await pollStatic(); startPolling(); } }
 /* ---------- build the standalone file in the browser and hand it to the viewer ---------- */
@@ -345,6 +379,7 @@ async function downloadStandalone(){ const msg=$('dlMsg'); const btn=$('btnDownl
     const embed=Object.assign({},loadedData,{images:{satellite:sat,slope:slope}});
     if(rain.status==='available'&&!demoOn&&Object.keys(rain.values).length) embed.frame={frame_id:rain.frame_id,observed_at:rain.observed_at,unit:'mm/h',cells:rain.values,accum:rain.accum||{},summary:{note:'다운로드 시점의 최근 프레임'}};
     if(warnings) embed.warnings=warnings;
+    if(forecast) embed.forecast=forecast;
     const payload=JSON.stringify(embed).replace(/<\//g,'<\\/');
     const html=template.replace(marker,()=>payload);
     const filename='jeju_live_map_standalone.html'; const blob=new Blob([html],{type:'text/html'});
