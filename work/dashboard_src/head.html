@@ -68,8 +68,9 @@ tbody tr{cursor:pointer}
 tbody tr:hover{background:var(--panel-2)}
 tbody tr.sel{background:var(--accent-soft)}
 .tablewrap{overflow-x:auto;max-height:260px;overflow-y:auto}
-dl.sel{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;margin:0;font-size:12.5px}
-dl.sel dt{color:var(--muted)}dl.sel dd{margin:0;font-family:var(--font-num)}
+dl.sel{display:grid;grid-template-columns:minmax(72px,max-content) minmax(0,1fr);gap:3px 10px;margin:0;font-size:12.5px}
+dl.sel dt{color:var(--muted);white-space:nowrap}dl.sel dd{margin:0;font-family:var(--font-num);min-width:0;overflow-wrap:anywhere}
+.status-line{overflow-wrap:anywhere;max-width:420px}
 .status-line{font-size:12.5px;color:var(--muted)}
 .note{font-size:12px;color:var(--muted);border-left:3px solid var(--line);padding-left:8px}
 .leaflet-container{font:12px var(--font-ui);background:var(--sea)}

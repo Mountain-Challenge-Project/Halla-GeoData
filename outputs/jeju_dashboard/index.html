@@ -68,8 +68,9 @@ tbody tr{cursor:pointer}
 tbody tr:hover{background:var(--panel-2)}
 tbody tr.sel{background:var(--accent-soft)}
 .tablewrap{overflow-x:auto;max-height:260px;overflow-y:auto}
-dl.sel{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;margin:0;font-size:12.5px}
-dl.sel dt{color:var(--muted)}dl.sel dd{margin:0;font-family:var(--font-num)}
+dl.sel{display:grid;grid-template-columns:minmax(72px,max-content) minmax(0,1fr);gap:3px 10px;margin:0;font-size:12.5px}
+dl.sel dt{color:var(--muted);white-space:nowrap}dl.sel dd{margin:0;font-family:var(--font-num);min-width:0;overflow-wrap:anywhere}
+.status-line{overflow-wrap:anywhere;max-width:420px}
 .status-line{font-size:12.5px;color:var(--muted)}
 .note{font-size:12px;color:var(--muted);border-left:3px solid var(--line);padding-left:8px}
 .leaflet-container{font:12px var(--font-ui);background:var(--sea)}
@@ -194,19 +195,21 @@ function showSelection(kind,p,layer){ selected={kind,p}; if(selectedLayer&&selec
 function setLive(state,text,detail){ const pill=$('livePill'); pill.className='pill '+(state||''); $('liveText').textContent=text; $('liveDetail').textContent=detail||''; }
 function ageText(iso){ if(!iso) return ''; const ms=Date.now()-Date.parse(iso); if(isNaN(ms)) return ''; const m=Math.round(ms/60000); return m<1?'방금':m<60?m+'분 전':(m/60).toFixed(1)+'시간 전'; }
 function renderLiveMeta(){ $('mStatus').textContent=rain.status==='available'?'강수 프레임 수신':rain.status==='error'?'오류':'입력 대기 (실제 강수값 없음)';
-  $('mMode').textContent=rain.mode==='db'?'Artifact 공유 DB (실시간 구독)':rain.mode==='static'?'저장소 파일 폴링 ('+STATIC_BASE+'state/latest.json)':'연결 없음';
+  $('mMode').textContent=rain.mode==='db'?'공유 DB 실시간 구독':rain.mode==='static'?'저장소 파일 폴링 (latest.json)':rain.mode==='none'?'로그인 필요':'연결 없음';
   $('mObserved').textContent=rain.observed_at?(rain.observed_at.replace('T',' ').replace('Z',' UTC')+' · '+ageText(rain.observed_at)):'–';
   $('mFrame').textContent=rain.frame_id?(rain.frame_id+(rain.parts?' · '+rain.loaded+'/'+rain.parts+' 조각':'')):'–';
   $('mChecked').textContent=rain.checked?rain.checked.toLocaleTimeString('ko-KR'):'–';
   const opt=$('selMetric').querySelector('option[value=rain]');
   if(rain.status==='available'&&Object.keys(rain.values).length){ opt.disabled=false; opt.textContent='강수 (mm/h) · '+ageText(rain.observed_at); setLive(Date.now()-Date.parse(rain.observed_at)>15*60000?'warn':'ok',Date.now()-Date.parse(rain.observed_at)>15*60000?'강수 자료 오래됨':'강수 수신 중','관측 '+rain.observed_at.replace('T',' ').replace('Z','Z')); }
   else { opt.disabled=true; opt.textContent='강수 (mm/h) · 입력 대기'; if(metric==='rain'){metric='mean_deg';$('selMetric').value=metric;restyleGrid();}
-    if(rain.status==='error') setLive('crit','강수 입력 오류',rain.message||''); else setLive('','강수 입력 대기',rain.message||'수집기 자료가 들어오면 자동 반영'); } }
+    if(rain.status==='error') setLive('crit','강수 입력 오류',rain.message||''); else if(rain.mode==='none') setLive('','강수 상태: 로그인 필요',''); else setLive('','강수 입력 대기',rain.message||'수집기 자료가 들어오면 자동 반영'); } }
 
 /* ---------- live source A: artifact shared database ---------- */
 function safeId(s){ return String(s||'').replace(/[^A-Za-z0-9_\-.~:@+]/g,'_').slice(0,200); }
 async function connectDb(){ if(!(window.claude&&typeof window.claude.use==='function')) return false;
-  db=await window.claude.use('db'); if(!db) return false; rain.mode='db';
+  db=await window.claude.use('db');
+  if(!db){ rain.mode='none'; rain.status='waiting'; rain.message='실시간 강수 상태는 로그인한 열람자에게 표시됩니다. 지형·올레·탐방로 레이어는 그대로 볼 수 있습니다.'; rain.checked=new Date(); renderLiveMeta(); return true; }
+  rain.mode='db';
   try{ user=await window.claude.use('user'); canWrite=user?await user.can('data.write'):null; }catch(e){ canWrite=null; }
   if(canWrite!==false){ $('importBox').hidden=false; }
   unsubLatest=db.doc('radar/latest').onSnapshot(snap=>{ rain.checked=new Date(); const d=snap.exists?snap.data():null;
@@ -265,7 +268,7 @@ async function boot(){
   $('lySlope').addEventListener('change',e=>{ $('slopeLegend').hidden=!e.target.checked; });
   $('selMetric').addEventListener('change',e=>{ metric=e.target.value; restyleGrid(); });
   $('gridOpacity').addEventListener('input',e=>{ fillOpacity=e.target.value/100; restyleGrid(); });
-  $('btnRefresh').addEventListener('click',()=>{ if(rain.mode==='db'){ rain.checked=new Date(); renderLiveMeta(); } else pollStatic(); });
+  $('btnRefresh').addEventListener('click',()=>{ if(rain.mode==='static') pollStatic(); else { rain.checked=new Date(); renderLiveMeta(); } });
   $('selPoll').addEventListener('change',()=>{ if(rain.mode==='static') startPolling(); });
   $('btnImport').addEventListener('click',importFrame);
   const relabel=()=>{ const z=map.getZoom(); document.querySelectorAll('.leaflet-tooltip.lbl').forEach(t=>t.style.display=z>=10.5?'':'none'); }; map.on('zoomend',relabel); relabel();
