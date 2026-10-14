@@ -1,23 +1,159 @@
 {
-  "checked_on": "2026-10-14",
+  "checked_on": "2026-10-15",
   "offline_kma_client_tests_passed": 9,
   "gis_pipeline_tests_passed": 6,
   "qgis_runtime": "QGIS 4.2.0 / GDAL 3.13.1 / Windows",
-  "qgis_project_valid_layer_counts": {"terrain": 10, "jeju_terrain": 10, "course": 25, "radar_static": 6},
-  "jeju_wide_bundle": {"grid_cells": 7519, "hallasan_cells_included": 1849, "slope_polygons": 78054, "hallasan_regression_csv_identical": true, "olle_features_from_osm": 28, "olle_total_km": 279.3, "olle_official_courses_missing_in_osm": ["1-1", "7-1", "17", "18-1", "21"], "verified_on": "2026-10-14"},
+  "qgis_project_valid_layer_counts": {
+    "terrain": 10,
+    "jeju_terrain": 10,
+    "course": 25,
+    "radar_static": 6
+  },
+  "jeju_wide_bundle": {
+    "grid_cells": 7519,
+    "hallasan_cells_included": 1849,
+    "slope_polygons": 78054,
+    "hallasan_regression_csv_identical": true,
+    "olle_features_from_osm": 28,
+    "olle_total_km": 279.3,
+    "olle_official_courses_missing_in_osm": [
+      "1-1",
+      "7-1",
+      "17",
+      "18-1",
+      "21"
+    ],
+    "verified_on": "2026-10-14"
+  },
   "zip_crc": "passed",
   "readme_local_links": "passed",
   "credential_pattern_scan": "passed; heuristic scan, not a guarantee",
   "local_env_ignored_by_git": true,
-  "real_kma_api_called": false,
-  "real_authentication_key_used": false,
-  "raw_collector_test_method": "fake HTTP responses and synthetic ASCII only",
-  "initial_map_state": "waiting; no real or synthetic rainfall published",
+  "real_kma_api_called": true,
+  "real_authentication_key_used": true,
+  "raw_collector_test_method": "9 offline tests passed; existing .env collected a structurally valid real PCPH sample after API approval; prior HTTP 403 did not recur in this request",
+  "initial_map_state": "waiting; real raw sample archived locally but no rainfall published to map",
   "not_verified": [
-    "real KMA API authorization and data availability",
-    "real KMA grid, timestamps and missing-value semantics",
-    "PCPH cumulative rainfall to map integration",
-    "live VWorld authenticated tile response",
-    "AWS deployment and continuous production operation"
-  ]
+    "official grid alignment and coordinates",
+    "observed timestamp versus requested timestamp and accumulation window",
+    "product-specific negative codes including -20000",
+    "PCPH accumulation fields and legend instead of instantaneous mm/h",
+    "continuous collection, all approved endpoints, VWorld authenticated tiles, AWS deployment",
+    "reliable complete transfer for every Python HTTP client request"
+  ],
+  "live_check": {
+    "checked_at_kst": "2026-10-15T01:28:38.202135+09:00",
+    "local_key_loaded": true,
+    "effective_key_matches_existing_env": true,
+    "env_modified_by_this_check": false,
+    "local_env_tracked": false,
+    "collector_command": "RUN_KMA.cmd fetch",
+    "collector_exit_code": 0,
+    "http_403_reproduced": false,
+    "successful_http_status_recorded": false,
+    "real_radar_data_received": true,
+    "raw_record": {
+      "schema_version": 1,
+      "status": "raw_collected",
+      "requested_at_kst": "202610150055",
+      "collected_at_utc": "2026-10-14T16:19:51.480794+00:00",
+      "endpoint_without_key": "https://apihub.kma.go.kr/api/typ01/cgi-bin/url/nph-rdr_cmp1_api",
+      "documentation": "https://apihub.kma.go.kr/apiList.do?seqApi=5",
+      "parameters_without_key": {
+        "tm": "202610150055",
+        "cmp": "PCPH",
+        "qcd": "MSK",
+        "obs": "ECHO",
+        "acc": 60,
+        "map": "HB",
+        "disp": "A",
+        "unit": "MM"
+      },
+      "sha256": "4ac08543ecf7991b150bc1ae12f8152af5d913ce7d07e9761ce419ec7c617ee3",
+      "bytes": 47153343,
+      "file": "PCPH_MSK_MM_60min_202610150055_4ac08543ecf7.txt",
+      "grid": {
+        "nx": 2305,
+        "ny": 2881,
+        "value_count": 6640705,
+        "order": "x_fastest_south_to_north",
+        "negative_code_counts": {
+          "-30000": 3970486,
+          "-25000": 2539428,
+          "-20000": 1244
+        },
+        "encoded_nonnegative_min": 0,
+        "encoded_nonnegative_max": 1049,
+        "structural_validation": "passed",
+        "spatial_alignment_verified": false,
+        "observed_at_verified": false,
+        "nodata_semantics_verified": false
+      },
+      "documented_quantity": "precipitation_accumulation",
+      "documented_unit": "mm",
+      "documented_scale": 0.01,
+      "map_ready": false,
+      "next_step": "실제 응답의 좌표·시각·결측 검증 및 누적강수 지도 입력기 필요. mm/h로 넣지 마세요."
+    },
+    "raw_file_hash_verified": true,
+    "collector_unit_tests_passed": 9,
+    "local_map_browser": {
+      "status": "passed",
+      "verified": [
+        "satellite_background",
+        "six_route_lines",
+        "course_table",
+        "1849_reference_grid_toggle",
+        "terrain_slope_toggle",
+        "zoom_in"
+      ],
+      "console_errors_or_warnings": 0,
+      "radar_state": "waiting",
+      "proof": "runtime/map_browser_check_20261015.jpg"
+    },
+    "local_http_check": {
+      "private_env_paths": "all_404",
+      "completed_paths": [
+        "/",
+        "/app.js",
+        "/style.css",
+        "/data/static.json",
+        "/state/latest.json",
+        "/state/history.json",
+        "/.env",
+        "/../../.env",
+        "/%2e%2e/%2e%2e/.env"
+      ],
+      "incomplete_paths": {
+        "/data/background.png": {
+          "received_bytes": 4268032,
+          "http_status": 200,
+          "content_length": "4272413",
+          "complete": false,
+          "error_type": "TimeoutError",
+          "winerror": null
+        },
+        "/data/slope.png": {
+          "received_bytes": 286720,
+          "http_status": 200,
+          "content_length": "290248",
+          "complete": false,
+          "error_type": "TimeoutError",
+          "winerror": null
+        }
+      },
+      "limitation": "Some Python HTTP reads timed out or reset; browser rendered all tested map layers. No security settings changed."
+    },
+    "map_adapter": "not_implemented_for_PCPH_accumulation",
+    "remaining_verification": [
+      "official grid alignment and coordinates",
+      "observed timestamp versus requested timestamp and accumulation window",
+      "product-specific negative codes including -20000",
+      "PCPH accumulation fields and legend instead of instantaneous mm/h",
+      "continuous collection, all approved endpoints, VWorld authenticated tiles, AWS deployment"
+    ],
+    "github_push": "not_attempted_in_this_check",
+    "credentials_in_report": false
+  },
+  "gis_pipeline_tests_checked_on": "2026-10-14"
 }

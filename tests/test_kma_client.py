@@ -84,6 +84,7 @@ class ClientTests(unittest.TestCase):
             with self.assertRaises(k.ClientError) as caught:
                 k.fetch_payload(self.config, self.params, opener, lambda _: None)
             self.assertNotIn(self.config.key, str(caught.exception))
+            self.assertEqual(caught.exception.http_status, code)
             self.assertEqual(len(opener.requests), 1)
         opener = FakeOpener(*[URLError(secret_url)] * 3)
         with self.assertRaises(k.ClientError) as caught:
