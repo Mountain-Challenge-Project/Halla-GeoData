@@ -35,3 +35,6 @@ work/*_aspect_full.tif
 .venv/
 .DS_Store
 Thumbs.db
+
+# QGIS project attachment stubs
+*_attachments.zip

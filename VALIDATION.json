@@ -9,11 +9,12 @@
     "course": 25,
     "radar_static": 6
   },
+  "reference_grid": {"definition": "official KMA radar composite grid: LCC lat_1=30 lat_2=60 lat_0=38 lon_0=126 ellps=WGS84, i0=1121 j0=1681, 500 m", "file": "inputs/reference/radar_grid_cells.gpkg", "regenerated_on": "2026-10-15", "hallasan_cells": 1849, "hallasan_slope_polygons": 27277, "hallasan_mean_slope_deg": 8.41, "previous_spherical_grid_offset_m_at_jeju": 1062},
   "jeju_wide_bundle": {
-    "grid_cells": 7519,
-    "hallasan_cells_included": 1849,
-    "slope_polygons": 78054,
-    "hallasan_regression_csv_identical": true,
+    "grid_cells": 7518,
+    "hallasan_cells_included": 1844,
+    "slope_polygons": 78049,
+    "hallasan_regression_csv_identical": "n/a after grid regeneration (checked before, on the spherical grid)",
     "olle_features_from_osm": 28,
     "olle_total_km": 279.3,
     "olle_official_courses_missing_in_osm": [

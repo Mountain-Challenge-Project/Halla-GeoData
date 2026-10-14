@@ -113,7 +113,7 @@ def main():
         raise SystemExit('official grid does not match the LCC/WGS84 definition within tolerance; not converting')
     latlon_manifest = json.loads((ROOT / 'runtime/kma/latlon/manifest.json').read_text('utf-8')) if (ROOT / 'runtime/kma/latlon/manifest.json').exists() else {}
     grid_def = {**report, 'verified_on': dt.date.today().isoformat(), 'source_api': 'https://apihub.kma.go.kr/api/typ01/cgi-bin/url/nph-rdr_latlon_api?cmp=PCP&latlon={lon,lat}&disp=B',
-                'source_files': {k: v for k, v in latlon_manifest.items() if k.endswith('.bin')}, 'implication': 'Reference grids in inputs/reference were generated in a spherical LCC and sit about 1.06 km south of the true radar cells at Jeju; regenerate them with official_crs_proj4 to align cell ids with radar cells.'}
+                'source_files': {k: v for k, v in latlon_manifest.items() if k.endswith('.bin')}, 'implication': 'Reference grids in inputs/reference/radar_grid_cells.gpkg are generated with official_crs_proj4, so cell ids match radar cells; the earlier spherical-LCC grids (candidate_lcc_grid_500m) sat about 1.06 km south of the true cells at Jeju.'}
     (ROOT / 'work/public_sources/kma_radar_grid.json').write_text(json.dumps(grid_def, ensure_ascii=False, indent=2), encoding='utf-8')
 
     # 2. raw values -> mm/h float GeoTIFF in the official CRS
@@ -130,7 +130,7 @@ def main():
     off = report['repository_assumed_spherical_lcc']['jeju_window']
     note = (f'격자: 공식 nph-rdr_latlon_api(cmp=PCP, disp=B) 경위도 {nx}x{ny}를 LCC(표준위선 30/60, 원점 126E/38N, WGS84 타원체)로 투영하면 셀 중심이 ((i-{I0}),(j-{J0}))*500 m와 '
             f'최대 {report["official"]["nationwide_lattice"]["max_m"]} m(전국 격자), {report["official"]["jeju_window"]["max_m"]} m(제주 창) 안에서 일치. '
-            f'저장소 참고격자가 가정한 구면 LCC는 제주에서 평균 {off["mean_m"]} m 어긋나므로 참고격자 폴리곤에는 지리적 겹침으로 집계함. '
+            f'참고격자(radar_grid_cells.gpkg)는 같은 정의로 생성되어 셀 ID가 레이더 셀과 일치하며, 집계는 참고격자 폴리곤과 레이더 픽셀의 지리적 겹침으로 수행(이전 구면 LCC 격자는 제주에서 평균 {off["mean_m"]} m 어긋났음). '
             f'행 순서: ASCII 남→북을 북→남으로 뒤집어 저장. 단위: PCPH acc=60 unit=MM 값×0.01 = 직전 60분 누적 mm = 1시간 평균 강우강도 mm/h. '
             f'결측: -25000(에코 없음)=유효 0, 그 외 음수 코드 {json.dumps({k: v for k, v in codes.items() if k != -25000})}는 nodata(-9999).')
     meta = {'raster': tif.name, 'observed_at': observed.isoformat().replace('+00:00', 'Z'), 'source_product': 'KMA API Hub nph-rdr_cmp1_api cmp=PCPH qcd=MSK obs=ECHO acc=60 map=HB disp=A unit=MM',

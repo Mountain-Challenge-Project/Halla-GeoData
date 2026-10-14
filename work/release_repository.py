@@ -43,7 +43,7 @@ def portable_projects():
             path.write_text(text, encoding='utf-8')
     region = ROOT/'work/slope_region.json'
     record = json.loads(region.read_text('utf-8'))
-    record['source_file'] = 'inputs/reference/hallasan_course_cells.gpkg'
+    record['source_file'] = 'inputs/reference/radar_grid_cells.gpkg'
     region.write_text(json.dumps(record, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
 
 

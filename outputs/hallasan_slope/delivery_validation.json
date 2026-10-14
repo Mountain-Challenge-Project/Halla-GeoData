@@ -7,15 +7,15 @@
     "배경: Esri 위성·항공영상": true,
     "경사 등급: Copernicus 30m / Horn": true,
     "기존 지명 참고점": true,
-    "분석 범위: 기존 LCC 격자 전체": true,
     "국립공원 참고 경계": true,
-    "탐방로 참고 선형 · OSM 6코스": true,
     "경사향 래스터 (도)": true,
-    "경사각 래스터 (도)": true
+    "경사각 래스터 (도)": true,
+    "탐방로 참고 선형 · OSM 6코스": true,
+    "분석 범위: 레이더 격자 43×43 블록 전체": true
   },
   "csv_rows": 1849,
   "csv_shp_values_match": true,
-  "class_area_reconciliation_max_difference_m2": 3.3676624298095703e-06,
+  "class_area_reconciliation_max_difference_m2": 1.2516975402832031e-06,
   "png_dimensions": [
     2834,
     2692

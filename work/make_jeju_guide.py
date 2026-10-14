@@ -51,7 +51,7 @@ tree = '''jeju_slope/
 ├─ START_HERE.html              ← 이 안내
 ├─ jeju_slope.qgs               ← QGIS 프로젝트 (모든 레이어·색상·라벨 포함, 상대경로)
 ├─ jeju_slope_satellite.png     ← 완성 지도 이미지 (2834×2740)
-├─ jeju_grid_slope.csv          ← 격자 7,519행 통계 (SHP 속성과 동일 값)
+├─ jeju_grid_slope.csv          ← 격자 7,518행 통계 (SHP 속성과 동일 값)
 ├─ jeju_slope_classes.csv       ← 10개 등급별 면적
 ├─ jeju_olle_summary.csv        ← 올레 코스별 길이·경사 요약
 ├─ olle_coverage.json           ← OSM에 있는/없는 올레 코스 목록
@@ -78,7 +78,7 @@ page = f'''<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="view
 <p>제주 외곽선과 겹치는 500 m 격자 <b>{grid_n:,}개</b>(한라산 기존 1,849개 포함)에 Copernicus GLO-30 DSM으로 계산한 30 m 경사각을 집계했습니다. 면적 가중 평균 경사 <b>{validation['overall_mean_slope_degrees']:.2f}°</b>, 최대 <b>{validation['maximum_slope_degrees']:.1f}°</b>, 고도 범위 {validation['elevation_range_m'][0]:.0f}–{validation['elevation_range_m'][1]:.0f} m, 등급 폴리곤 {validation['slope_polygon_count']:,}개입니다.</p>
 <h3>경사 등급별 면적</h3>{table(['색', '등급', '면적 km²', '비율 %'], class_rows)}
 <img src="jeju_slope_satellite.png" alt="제주도 전역 500m 격자 경사도 지도">
-<div class="note"><b>여기서 경사는 DSM 표면의 지형 경사입니다.</b> 나무·건물이 포함된 표면 모델이며 보행 경사나 공식 위험등급이 아닙니다. 해안 격자에는 바다 픽셀(고도 약 0 m, 경사 0°)이 포함되어 평균이 낮아집니다. 격자는 가정 LCC 좌표계이며 기상청 공식 격자와의 정렬은 검증되지 않았습니다.</div></section>
+<div class="note"><b>여기서 경사는 DSM 표면의 지형 경사입니다.</b> 나무·건물이 포함된 표면 모델이며 보행 경사나 공식 위험등급이 아닙니다. 해안 격자에는 바다 픽셀(고도 약 0 m, 경사 0°)이 포함되어 평균이 낮아집니다. 격자는 기상청 레이더 합성 격자 정의와 일치하도록 2026-10-15에 재생성했습니다.</div></section>
 
 <section id="open"><h2>2. ZIP을 푼 다음 무엇을 열어야 하나요?</h2><ol>
 <li><code>jeju_slope_QGIS_SHP.zip</code>을 <b>한 폴더에 통째로</b> 풉니다. 폴더 이름과 파일 위치를 바꾸지 마세요. 프로젝트가 상대경로로 파일을 찾습니다.</li>
@@ -120,7 +120,7 @@ page = f'''<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="view
 <section id="limits"><h2>8. 출처·방법·한계</h2><ul>
 <li>고도: Copernicus GLO-30 DSM 타일 N33/E126 (2021 AWS 배포본). produced using Copernicus WorldDEM-30 © DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights reserved.</li>
 <li>배경: Esri World Imagery (Esri, Vantor, Earthstar Geographics, GIS User Community). 촬영 시기가 섞인 모자이크이며 표시용입니다.</li>
-<li>격자: 한라산 격자와 같은 가정 LCC(표준위선 30°/60°, R=6371008.77 m, 기준셀 i0=1121/j0=1681). Natural Earth 1:10m 제주 외곽선(퍼블릭 도메인)과 겹치는 셀만 선택해 소축척 해안선의 한계를 그대로 가집니다.</li>
+<li>격자: 기상청 레이더 합성(HB) 500 m 격자 정의 그대로입니다. 표준위선 30°/60°, 원점 126°E/38°N의 LCC를 WGS84 타원체 위에서 정의하고 기준셀 중심 i0=1121/j0=1681이며, 공식 좌표 API와 대조해 최대 0.78 m 안에서 일치합니다(2026-10-15). 셀 ID(I####J####)는 레이더 격자 번호와 같습니다. Natural Earth 1:10m 제주 외곽선(퍼블릭 도메인)과 겹치는 셀만 선택해 소축척 해안선의 한계를 그대로 가집니다.</li>
 <li>탐방로·올레·공원·지명: © OpenStreetMap contributors, ODbL. 완전성·최신성 미검증.</li>
 <li>방법: UTM 52N 30 m 쌍선형 재투영 → GDAL Horn 경사 → 격자별 정확한 교차면적 가중 통계. 등급 폴리곤은 셀 합집합 안의 픽셀로 잘라 바다 바깥을 제외했습니다. 상세는 <code>metadata.json</code>, 검증은 <code>validation.json</code>.</li>
 <li>이 자료는 탐방 통제·안전 판단·공식 난이도를 대신하지 않습니다.</li></ul></section>

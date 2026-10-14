@@ -35,7 +35,8 @@ for f in sl:
     g=f.GetGeometryRef().Clone()
     if cfg['boundary']=='grid_union': cells_lcc.AddGeometry(g.Clone())
     g.Segmentize(25); g.Transform(to_utm)
-    grids.append({'id':f['ref_id'],'i':int(f['i_assumed']),'j':int(f['j_assumed']),'g':g})
+    fi=f['i_cell'] if 'i_cell' in [d.GetName() for d in sl.schema] else f['i_assumed']; fj=f['j_cell'] if 'j_cell' in [d.GetName() for d in sl.schema] else f['j_assumed']
+    grids.append({'id':f['ref_id'],'i':int(fi),'j':int(fj),'g':g})
 grids.sort(key=lambda q:(q['j'],q['i']))
 expected=cfg['expected_grid_count']
 assert len(grids)==expected and len({q['id'] for q in grids})==expected
@@ -163,7 +164,8 @@ reference_area=boundary.Area() if cfg['boundary']=='rectangle' else mask_area
 assert abs(area_classes.sum()-reference_area)/reference_area<1e-7
 assert min(r['cover_pct'] for r in rows)>99.999
 assert max(abs(sum(r[key] for key in class_fields)-100) for r in rows)<1e-8
-validation={'grid_count':len(rows),'unique_grid_ids':len(set(r['grid_id'] for r in rows)),'slope_polygon_count':poly_count,'area_utm_m2':boundary.Area(),'source_lcc_area_m2':len(rows)*250000,'slope_polygon_area_m2':float(area_classes.sum()),'area_coverage_min_pct':min(r['cover_pct'] for r in rows),'area_coverage_max_pct':max(r['cover_pct'] for r in rows),'overall_mean_slope_degrees':overall_mean,'maximum_slope_degrees':max(r['max_deg'] for r in rows),'elevation_range_m':[min(r['elev_min'] for r in rows),max(r['elev_max'] for r in rows)],'classes':summary,'raster_shape_buffered':[h,w],'crs':'EPSG:32652','grid_source_crs':LCC.ExportToProj4(),'method':'Copernicus GLO-30 DSM; bilinear reprojection to 30m UTM52; GDAL Horn slope; exact pixel/grid intersection area weighting','source_warning':'Not VWorld analysis output. DSM includes vegetation and structures. Original 500m LCC reference grid alignment to official radar is unverified.','nodata':-9999,'statistics_status':'passed'}
+official_grid='ellps=WGS84' in LCC.ExportToProj4()
+validation={'grid_count':len(rows),'unique_grid_ids':len(set(r['grid_id'] for r in rows)),'slope_polygon_count':poly_count,'area_utm_m2':boundary.Area(),'source_lcc_area_m2':len(rows)*250000,'slope_polygon_area_m2':float(area_classes.sum()),'area_coverage_min_pct':min(r['cover_pct'] for r in rows),'area_coverage_max_pct':max(r['cover_pct'] for r in rows),'overall_mean_slope_degrees':overall_mean,'maximum_slope_degrees':max(r['max_deg'] for r in rows),'elevation_range_m':[min(r['elev_min'] for r in rows),max(r['elev_max'] for r in rows)],'classes':summary,'raster_shape_buffered':[h,w],'crs':'EPSG:32652','grid_source_crs':LCC.ExportToProj4(),'grid_alignment':'official KMA radar composite grid (LCC 30/60, 126E/38N, WGS84 ellipsoid; verified 2026-10-15, max 0.78 m)' if official_grid else 'assumed spherical LCC; official radar alignment unverified','method':'Copernicus GLO-30 DSM; bilinear reprojection to 30m UTM52; GDAL Horn slope; exact pixel/grid intersection area weighting','source_warning':'Not VWorld analysis output. DSM includes vegetation and structures.'+('' if official_grid else ' Original 500m LCC reference grid alignment to official radar is unverified.'),'nodata':-9999,'statistics_status':'passed'}
 if cfg['boundary']=='grid_union':
     validation.update(region=cfg['name'],boundary_mode='grid_union',class_polygon_mask_area_m2=mask_area,class_polygon_note='Class polygons are clipped to the 30m pixels whose centres fall inside the cell union; the CSV/SHP cell statistics use exact vector intersection areas.')
 (OUT/'validation.json').write_text(json.dumps(validation,ensure_ascii=False,indent=2),encoding='utf-8')

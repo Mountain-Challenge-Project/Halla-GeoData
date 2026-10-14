@@ -1,6 +1,6 @@
 # Halla-GeoData
 
-한라산 주변 **전체 500m 참고격자 1,849개**와 같은 규칙으로 확장한 **제주도 전역 격자 7,519개**, Copernicus GLO-30 파생 경사도, 탐방로별 통계와 웹·VWorld 배경·QGIS 레이어를 모은 저장소입니다. CSV, SHP와 스타일, GeoTIFF, 지도 PNG, ZIP 및 생성 코드를 포함합니다.
+기상청 레이더 합성 격자 정의 그대로 만든 한라산 주변 **500m 격자 1,849개**와 **제주도 전역 격자 7,518개**, Copernicus GLO-30 파생 경사도, 탐방로별 통계와 웹·VWorld 배경·QGIS 레이어를 모은 저장소입니다. CSV, SHP와 스타일, GeoTIFF, 지도 PNG, ZIP 및 생성 코드를 포함합니다.
 
 ![제주도 전역 500m 격자 경사도](outputs/jeju_slope/jeju_slope_satellite.png)
 
@@ -17,7 +17,7 @@
 1. **공유 DB(아티팩트 링크)**: 페이지가 `radar/latest` 문서를 구독해 바뀌는 즉시 모든 열람자 화면이 갱신됩니다. 편집 권한이 있는 사람은 페이지의 "프레임 올리기"로 수집기가 만든 `dist/frames/<id>/frame.json`과 `grid.geojson`을 올리면 됩니다. Claude 세션에서도 같은 문서를 써서 갱신할 수 있습니다.
 2. **저장소 파일(GitHub Pages·로컬 서버)**: `outputs/`를 루트로 서비스하면 `jeju_dashboard/`가 `../hallasan_radar_layers_v1/dist/state/latest.json`을 설정 주기(기본 60초)로 읽어 프레임이 생기면 격자를 강수 색으로 바꿉니다.
 
-저장소에 커밋된 정적 사이트의 초기 상태는 "입력 대기"이고, `radar_to_frame.py`를 돌리면 `data/latest_frame.json`(제주 7,519격자)이 생겨 정적 사이트가 이를 먼저 읽습니다. 라이브 지도에는 2026-10-15 01:35 KST 프레임을 올려 두었습니다(제주 전역 강수 0 mm/h). 페이지의 다운로드 버튼으로 받는 독립 실행 HTML에는 그 시점의 최근 프레임이 함께 들어갑니다.
+저장소에 커밋된 정적 사이트의 초기 상태는 "입력 대기"이고, `radar_to_frame.py`를 돌리면 `data/latest_frame.json`(제주 7,518격자)이 생겨 정적 사이트가 이를 먼저 읽습니다. 라이브 지도에는 2026-10-15 01:35 KST 프레임을 올려 두었습니다(제주 전역 강수 0 mm/h). 페이지의 다운로드 버튼으로 받는 독립 실행 HTML에는 그 시점의 최근 프레임이 함께 들어갑니다.
 
 ## 바로 시작
 
@@ -52,8 +52,8 @@ python kma_client.py watch
 | 경로 | 내용 |
 |---|---|
 | `outputs/hallasan_slope/` | 전체 참고격자 경사 통계, 10개 등급의 경사 폴리곤, DSM·경사·방향 래스터, QGIS·PNG |
-| `outputs/jeju_slope/` | 제주도 전역 7,519개 격자의 같은 통계·등급 폴리곤·래스터, `jeju_slope.qgs`, 제주 전역 위성배경 PNG |
-| `inputs/reference/jeju_grid_cells.gpkg` | 제주 전역 500m 격자(`jeju_lcc_grid_500m`)와 Natural Earth 제주 외곽선. 한라산 격자 ID 규칙을 그대로 확장 |
+| `outputs/jeju_slope/` | 제주도 전역 7,518개 격자의 같은 통계·등급 폴리곤·래스터, `jeju_slope.qgs`, 제주 전역 위성배경 PNG |
+| `inputs/reference/radar_grid_cells.gpkg` | 공식 레이더 격자 정의로 생성한 500m 격자: `hallasan_grid_500m`(1,849), `jeju_grid_500m`(7,518), 제주 외곽선, `grid_definition`. `work/build_reference_grids.py` |
 | `inputs/reference/jeju_olle_routes.gpkg` | OSM 제주올레 코스 선형(`olle_routes`, WGS84)과 코스별 길이·경사 요약. `work/fetch_olle_routes.py` → `work/build_olle_layer.py` |
 | `outputs/jeju_slope/START_HERE.html` | 제주 번들 안내: ZIP 구조, 레이어 역할, 폴리곤·격자·래스터 시각화 방법, 올레 코스, 칼럼 사전 |
 | `work/regions/*.json`, `work/region_config.py` | `SLOPE_REGION=hallasan|jeju`로 같은 경사 파이프라인을 두 범위에 적용하는 설정 |
@@ -80,12 +80,12 @@ python kma_client.py watch
 - 급경사: 이 분석에서 정한 **20° 이상**을 연결한 선 구간. 공식 통제·위험 기준이 아닙니다.
 - 이 값은 DSM 지형의 최대 경사이며 탐방로 진행방향의 실제 보행 경사가 아닙니다. 수목·구조물 영향이 포함될 수 있습니다.
 - 6개 코스를 계산했습니다. 석굴암은 기존 탐방로 선형이 없어 CSV에 결측으로 남겼습니다. OSM 선형의 완전성·최신성은 미확인입니다.
-- 1,849개 참고격자는 기존 가정 LCC 좌표계에서 생성되었으며 **공식 기상청 원격자와 정렬이 검증되지 않았습니다.** 영역은 한라산 주변으로 일부 해안을 포함하고 제주도 전체는 아닙니다.
+- 1,849개 격자는 기상청 레이더 합성 격자(i 1202–1244, j 651–693)와 셀 단위로 일치합니다. 2026-10-15에 공식 좌표 API로 격자 정의를 검증하고 다시 생성했습니다(아래 "레이더 격자 검증"). 영역은 한라산 주변으로 일부 해안을 포함하고 제주도 전체는 아닙니다. 이전 가정 격자는 `hallasan_course_cells.gpkg`의 `candidate_lcc_grid_500m` 레이어에 기록용으로 남아 있습니다.
 
 ### 제주도 전역 격자 (`outputs/jeju_slope/`)
 
-- 격자: 한라산 격자와 같은 가정 LCC(표준위선 30°/60°, R=6371008.77 m, 기준셀 중심 i0=1121, j0=1681)와 ID 규칙(`I1202J0651` 형식)을 그대로 두고, 500 m 셀이 Natural Earth 1:10m 제주 외곽선과 조금이라도 겹치면 포함했습니다. 결과 7,519개(i 1151–1296, j 634–715)이며 한라산 1,849개가 모두 포함됩니다(`in_hallasan` 필드). 외곽선이 소축척이라 해안 셀에는 바다 픽셀이 들어가고 작은 부속섬 일부는 빠질 수 있습니다(`land_pct` 필드로 육지 비율 확인).
-- 계산: 동일한 Copernicus GLO-30 타일(N33 E126)이 제주 전역을 덮으므로 원자료 추가 없이 같은 방법(30 m UTM 52N, Horn, 교차면적 가중)을 적용했습니다. 전체 면적 가중 평균 경사 4.98°, 최대 64.4°, 등급 폴리곤 78,054개입니다.
+- 격자: 공식 레이더 격자 정의(표준위선 30°/60°, 원점 126°E/38°N, WGS84 타원체, 기준셀 중심 i0=1121, j0=1681)와 ID 규칙(`I1202J0651` 형식)으로 500 m 셀을 만들고, Natural Earth 1:10m 제주 외곽선과 조금이라도 겹치면 포함했습니다. 결과 7,518개(i 1151–1296, j 636–717)이며 한라산 블록 1,849개 중 1,844개가 들어갑니다(`in_hallasan` 필드; 나머지 5개는 외곽선 밖 바다). 외곽선이 소축척이라 해안 셀에는 바다 픽셀이 들어가고 작은 부속섬 일부는 빠질 수 있습니다(`land_pct` 필드로 육지 비율 확인).
+- 계산: 동일한 Copernicus GLO-30 타일(N33 E126)이 제주 전역을 덮으므로 원자료 추가 없이 같은 방법(30 m UTM 52N, Horn, 교차면적 가중)을 적용했습니다. 전체 면적 가중 평균 경사 4.98°, 최대 64.4°, 등급 폴리곤 78,049개입니다.
 - 분석 경계: 한라산 번들은 격자 외접 사각형, 제주 번들은 선택된 셀의 합집합입니다. 제주 등급 폴리곤은 픽셀 중심이 합집합 안에 있는 30 m 픽셀로 잘라 바다 바깥을 제외했으며, 셀별 CSV·SHP 통계는 두 번들 모두 정확한 벡터 교차면적을 씁니다.
 - 배경: Esri World Imagery를 제주 범위(EPSG:3857, 4096×2340)로 한 번 더 내보내 저장했습니다. 탐방로·공원·지명 참고 레이어는 한라산 자료를 그대로 둡니다.
 - 제주올레: OSM의 올레 루트 릴레이션 22개와 이름 붙은 길 315개를 Overpass API로 받아 코스 번호별로 묶었습니다(`work/fetch_olle_routes.py` → `work/build_olle_layer.py`). 선형 28개, 279 km. 공식 28코스 중 OSM에 없는 코스는 1-1, 7-1, 17, 18-1, 21이고, 10-1·12·13·14-1·15·15-A·15-B는 릴레이션 없이 이름만 붙은 길이라 짧은 부분 선형입니다(`outputs/jeju_slope/olle_coverage.json`). 코스별 길이와 10 m 간격 표본 경사 요약은 `outputs/jeju_slope/jeju_olle_summary.csv`에 있으며, 한라산 6코스처럼 정확한 픽셀 분할 방식은 아닙니다. 10-1(가파도)은 격자 범위 밖이라 경사값이 비어 있습니다.
@@ -100,7 +100,7 @@ SHP는 `.shp` 형상, `.dbf` 속성, `.shx` 인덱스, `.prj` 좌표계, `.cpg` 
 | 레이어 | 도형/자료 | 표시 기준 |
 |---|---|---|
 | `grid_slope_500m` | 참고격자 폴리곤 1,849개 | `mean_deg`로 평균 경사, `max_deg`로 최대 경사 |
-| `slope_classes` | 경사 등급 폴리곤 27,501개 | `class_id` 및 등급별 QML |
+| `slope_classes` | 경사 등급 폴리곤 27,277개 | `class_id` 및 등급별 QML |
 | `course_summary` | 코스 선 6개 | 평균·최대 경사 및 급경사 길이 |
 | `steep_sections` | 급경사 선 55개 | 코스별 연결된 20° 이상 구간 |
 | `trail_slope_pieces` | 픽셀과 교차한 선 2,979개 | 개별 경사·길이, 세부 계산 확인 |
@@ -144,11 +144,11 @@ python kma_client.py fetch                              # 원자료 수집 (runt
 & 'C:\Program Files\QGIS 4.2.0\bin\python-qgis.bat' -X utf8 work/radar_to_frame.py   # GeoTIFF·프레임 생성
 ```
 
-`radar_to_frame.py`는 `outputs/hallasan_radar_layers_v1/input/KMA_PCPH60_<tm>.{tif,json}`을 쓰고 `processor.ingest`로 한라산 프레임을 발행한 뒤, 같은 래스터를 제주 전역 7,519격자에 집계해 `outputs/jeju_dashboard/data/latest_frame.json`과 대시보드 공유 DB용 조각(`runtime/kma/frames/<id>/db_*.json`)을 만듭니다. 경위도 배열(`runtime/kma/latlon/*.bin`)은 한 번만 받아 두면 됩니다.
+`radar_to_frame.py`는 `outputs/hallasan_radar_layers_v1/input/KMA_PCPH60_<tm>.{tif,json}`을 쓰고 `processor.ingest`로 한라산 프레임을 발행한 뒤, 같은 래스터를 제주 전역 7,518격자에 집계해 `outputs/jeju_dashboard/data/latest_frame.json`과 대시보드 공유 DB용 조각(`runtime/kma/frames/<id>/db_*.json`)을 만듭니다. 경위도 배열(`runtime/kma/latlon/*.bin`)은 한 번만 받아 두면 됩니다.
 
 ### 레이더 격자 검증 (2026-10-15)
 
-공식 경위도 배열을 투영한 결과, 레이더 합성 격자는 **표준위선 30°/60°, 원점 126°E/38°N의 Lambert 정각원추도법을 WGS84 타원체 위에서** 정의하며 셀 (i, j) 중심은 ((i−1121)·500, (j−1681)·500) m입니다(제주 창 12,201셀 최대 오차 0.45 m, 전국 격자 0.78 m). 저장소의 참고격자가 가정했던 **구면(R=6371008.77 m) LCC는 제주에서 평균 1,062 m(주로 남쪽) 어긋납니다.** 따라서 현재 참고격자 폴리곤은 레이더 셀 번호를 ID로 갖지만 위치는 실제 레이더 셀과 약 1 km 차이가 있으며, 강수는 폴리곤과 실제 레이더 픽셀의 지리적 겹침으로 집계합니다. 격자 정의와 오차는 [kma_radar_grid.json](work/public_sources/kma_radar_grid.json)에 있습니다. 참고격자를 공식 정의로 다시 생성하면 경사 통계가 모두 바뀌므로 별도 작업으로 남겨 두었습니다.
+공식 경위도 배열을 투영한 결과, 레이더 합성 격자는 **표준위선 30°/60°, 원점 126°E/38°N의 Lambert 정각원추도법을 WGS84 타원체 위에서** 정의하며 셀 (i, j) 중심은 ((i−1121)·500, (j−1681)·500) m입니다(제주 창 12,201셀 최대 오차 0.45 m, 전국 격자 0.78 m). 처음 저장소가 가정했던 **구면(R=6371008.77 m) LCC는 제주에서 평균 1,062 m(주로 남쪽) 어긋났습니다.** 그래서 같은 날 `work/build_reference_grids.py`로 한라산·제주 격자를 공식 정의로 다시 만들고(`inputs/reference/radar_grid_cells.gpkg`), 경사 번들·코스 번들·레이더 정적 자료·대시보드를 모두 재계산했습니다. 이제 셀 ID가 실제 레이더 셀과 일치하며, 강수는 격자 폴리곤과 레이더 픽셀의 지리적 겹침으로 집계합니다(정확히 맞는 셀은 1:1). 격자 정의와 오차는 [kma_radar_grid.json](work/public_sources/kma_radar_grid.json)에 있습니다. 재생성으로 한라산 격자 통계는 약 1 km 북쪽으로 옮겨진 셀 기준으로 바뀌었고(평균 경사 8.43°→8.41°, 등급 폴리곤 27,501→27,277개), 제주 격자는 7,519→7,518개가 되었습니다.
 
 수집기는 인증정보를 URL 로그·응답 오류·저장 메타데이터에 기록하지 않으며 리다이렉트를 따라가지 않습니다. [공식 레이더 API 문서](https://apihub.kma.go.kr/apiList.do?seqApi=5)를 기준으로 요청 인자를 구성했습니다(문서 확인: 2026-10-14).
 
