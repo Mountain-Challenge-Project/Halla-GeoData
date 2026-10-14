@@ -19,10 +19,12 @@ KMA_API_KEY=여기에_API허브_인증키
 
 `.env`는 로컬 전용이며 Git에 포함되지 않습니다. GitHub에는 키가 비어 있는 `.env.example`을 제공합니다. 설치 프로그램은 기존 `.env`를 덮어쓰지 않습니다. data.go.kr의 `serviceKey`, VWorld 키와는 다른 설정입니다.
 
+**파일 이름 변경과 키 입력은 내려받은 PC에서만 하세요. GitHub 웹사이트에서 `.env.example`에 키를 입력하거나 `.env`로 바꾸어 커밋하면 키가 Git 이력에 저장됩니다.** 이미 저장한 경우 최신 파일에서 지우는 것만으로 과거 이력이 없어지지 않으므로 키를 폐기·재발급해야 합니다.
+
 5. `CHECK_SETUP.cmd`로 키 입력 여부와 설정만 확인합니다. **이 명령은 API를 호출하지 않습니다.**
 6. 실제 수집은 사용자가 `COLLECT_KMA_ONCE.cmd`를 실행할 때 시작합니다. `START_KMA_SYNC.cmd`는 실행 중인 콘솔에서 5분 간격으로 원자료를 수집합니다. PC/콘솔을 닫으면 중지하며 Windows 서비스나 AWS 예약 작업으로 설치하지 않습니다.
 
-일반 Python 3.10 이상으로도 수집·설정 기능을 실행할 수 있습니다. 외부 패키지가 필요 없습니다.
+수집·설정 기능에는 **일반 Python 3.10 이상**을 사용합니다. 외부 패키지는 필요 없습니다. `RUN_KMA.cmd`는 `py -3`, 다음으로 `python`을 확인합니다. 지도용 QGIS Python은 HTTPS 초기화 시 OpenSSL 충돌이 관찰되어 수집 런처에서 제외했습니다. `START_LOCAL.cmd`는 기존대로 QGIS Python을 사용합니다.
 
 ```powershell
 python kma_client.py setup

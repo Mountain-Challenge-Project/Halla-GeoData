@@ -3,20 +3,47 @@
   "offline_kma_client_tests_passed": 9,
   "gis_pipeline_tests_passed": 6,
   "qgis_runtime": "QGIS 4.2.0 / GDAL 3.13.1 / Windows",
-  "qgis_project_valid_layer_counts": {"terrain": 10, "course": 25, "radar_static": 6},
+  "qgis_project_valid_layer_counts": {
+    "terrain": 10,
+    "course": 25,
+    "radar_static": 6
+  },
   "zip_crc": "passed",
   "readme_local_links": "passed",
   "credential_pattern_scan": "passed; heuristic scan, not a guarantee",
   "local_env_ignored_by_git": true,
-  "real_kma_api_called": false,
-  "real_authentication_key_used": false,
-  "raw_collector_test_method": "fake HTTP responses and synthetic ASCII only",
+  "real_kma_api_called": true,
+  "real_authentication_key_used": true,
+  "raw_collector_test_method": "9 synthetic unit tests passed; 2 real requests returned HTTP 403; no real raster received",
   "initial_map_state": "waiting; no real or synthetic rainfall published",
   "not_verified": [
-    "real KMA API authorization and data availability",
+    "successful authorized KMA response: HTTP 403 received",
     "real KMA grid, timestamps and missing-value semantics",
     "PCPH cumulative rainfall to map integration",
+    "complete browser asset transfer in current test environment",
     "live VWorld authenticated tile response",
     "AWS deployment and continuous production operation"
-  ]
+  ],
+  "live_check": {
+    "checked_at_utc": "2026-10-14T10:29:46.809137+00:00",
+    "local_key_loaded": true,
+    "local_env_tracked": false,
+    "local_template_key_empty": true,
+    "real_api_attempt_count": 2,
+    "last_api_http_status": 403,
+    "real_radar_data_received": false,
+    "collector_python": "3.10.11",
+    "standard_python_tls_context": "passed; certificate and hostname verification enabled",
+    "collector_unit_tests_passed": 9,
+    "javascript_syntax_check": "passed",
+    "local_map_initial_page": {
+      "status": 200,
+      "bytes": 4407
+    },
+    "local_map_full_asset_transfer": "incomplete: app.js read timed out or connection reset in this test environment",
+    "local_map_private_env_http_check": "not reached in this run",
+    "remote_env_in_commit_history": true,
+    "remote_push": "not_performed: approval request rejected",
+    "key_value_printed_or_saved_in_report": false
+  }
 }
