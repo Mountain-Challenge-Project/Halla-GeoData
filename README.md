@@ -8,6 +8,17 @@
 
 ![한라산 지형·탐방로와 레이더 입력 대기 화면](outputs/hallasan_radar_layers_v1/지도_레이어_미리보기.png)
 
+## 공간 대시보드 (실시간 동기화)
+
+**라이브 지도: https://claude.ai/artifact/CBcggtAioALH875ft8xAxS** — 제주 전역 500 m 격자(평균·최대 경사, 20° 이상 비율), 30 m 경사 등급 래스터, 제주올레 코스, 한라산 탐방로·급경사 구간을 Esri 위성 배경 위에 겹쳐 보는 웹지도입니다. 소스는 `outputs/jeju_dashboard/`(정적 사이트)와 `work/dashboard_src/`(빌드: `python work/build_dashboard.py`)에 있습니다.
+
+강수 입력은 두 경로로 동기화됩니다.
+
+1. **공유 DB(아티팩트 링크)**: 페이지가 `radar/latest` 문서를 구독해 바뀌는 즉시 모든 열람자 화면이 갱신됩니다. 편집 권한이 있는 사람은 페이지의 "프레임 올리기"로 수집기가 만든 `dist/frames/<id>/frame.json`과 `grid.geojson`을 올리면 됩니다. Claude 세션에서도 같은 문서를 써서 갱신할 수 있습니다.
+2. **저장소 파일(GitHub Pages·로컬 서버)**: `outputs/`를 루트로 서비스하면 `jeju_dashboard/`가 `../hallasan_radar_layers_v1/dist/state/latest.json`을 설정 주기(기본 60초)로 읽어 프레임이 생기면 격자를 강수 색으로 바꿉니다.
+
+실제 강수 프레임은 기상청 API 활용신청 승인과 `processor.py` 입력 검증이 끝나야 생기므로, 현재 화면은 "입력 대기"를 표시합니다. 격자별 강수는 `grid_id`로 연결하며 현재 수집기 프레임은 한라산 1,849개 격자만 다룹니다.
+
 ## 바로 시작
 
 1. 저장소 전체를 내려받습니다. QGIS 4.2.0의 Python/GDAL 환경에서 지도 기능을 검증했습니다. 다른 QGIS 버전은 별도 확인이 필요합니다.

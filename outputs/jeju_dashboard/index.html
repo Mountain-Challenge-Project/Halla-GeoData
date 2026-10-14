@@ -1,0 +1,283 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>제주 지형 라이브 지도</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+<style>
+/* Layout: a field-station console. Fixed header strip, the map takes the width, a narrow instrument
+   panel on the right (stacks under the map on phones). Colors: cool slate neutrals biased toward the
+   accent, one teal accent for controls, reserved status colors for the live-feed state. */
+:root{
+  --bg:#eef1f3; --panel:#ffffff; --panel-2:#f4f6f8; --fg:#17242b; --muted:#5b6b74; --line:#d3dbe0;
+  --accent:#0b7a75; --accent-ink:#ffffff; --accent-soft:#d9efed;
+  --ok:#1f7a3a; --ok-soft:#dcf2e3; --warn:#9a5b00; --warn-soft:#fff0cf; --crit:#b3261e; --crit-soft:#fbe0dd; --idle:#5b6b74; --idle-soft:#e4e9ec;
+  --sea:#102433; --shadow:0 1px 2px rgba(23,36,43,.08),0 6px 18px rgba(23,36,43,.08);
+  --font-ui:"IBM Plex Sans KR","Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif; --font-num:"IBM Plex Mono",Consolas,"Courier New",monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0f171c; --panel:#162027; --panel-2:#1c2830; --fg:#e6edf0; --muted:#95a6ae; --line:#2c3a43;
+  --accent:#4cc3bb; --accent-ink:#06211f; --accent-soft:#17403d;
+  --ok:#6fd58f; --ok-soft:#153a24; --warn:#f0b34a; --warn-soft:#3f2e0c; --crit:#f08a82; --crit-soft:#4a1b17; --idle:#95a6ae; --idle-soft:#243038;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.35); color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#0f171c; --panel:#162027; --panel-2:#1c2830; --fg:#e6edf0; --muted:#95a6ae; --line:#2c3a43;
+  --accent:#4cc3bb; --accent-ink:#06211f; --accent-soft:#17403d;
+  --ok:#6fd58f; --ok-soft:#153a24; --warn:#f0b34a; --warn-soft:#3f2e0c; --crit:#f08a82; --crit-soft:#4a1b17; --idle:#95a6ae; --idle-soft:#243038;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.35); color-scheme:dark }
+.leaflet-image-layer,.leaflet-layer,.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-pane,.leaflet-pane>canvas,.leaflet-pane>svg,.leaflet-tile,.leaflet-tile-container,.leaflet-zoom-box{position:absolute;left:0;top:0}.leaflet-container{overflow:hidden}.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-tile{-webkit-user-select:none;-moz-user-select:none;user-select:none;-webkit-user-drag:none}.leaflet-tile::selection{background:0 0}.leaflet-safari .leaflet-tile{image-rendering:-webkit-optimize-contrast}.leaflet-safari .leaflet-tile-container{width:1600px;height:1600px;-webkit-transform-origin:0 0}.leaflet-marker-icon,.leaflet-marker-shadow{display:block}.leaflet-container .leaflet-overlay-pane svg{max-width:none!important;max-height:none!important}.leaflet-container .leaflet-marker-pane img,.leaflet-container .leaflet-shadow-pane img,.leaflet-container .leaflet-tile,.leaflet-container .leaflet-tile-pane img,.leaflet-container img.leaflet-image-layer{max-width:none!important;max-height:none!important;width:auto;padding:0}.leaflet-container img.leaflet-tile{mix-blend-mode:plus-lighter}.leaflet-container.leaflet-touch-zoom{-ms-touch-action:pan-x pan-y;touch-action:pan-x pan-y}.leaflet-container.leaflet-touch-drag{-ms-touch-action:pinch-zoom;touch-action:none;touch-action:pinch-zoom}.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom{-ms-touch-action:none;touch-action:none}.leaflet-container{-webkit-tap-highlight-color:transparent}.leaflet-container a{-webkit-tap-highlight-color:rgba(51,181,229,.4)}.leaflet-tile{filter:inherit;visibility:hidden}.leaflet-tile-loaded{visibility:inherit}.leaflet-zoom-box{width:0;height:0;-moz-box-sizing:border-box;box-sizing:border-box;z-index:800}.leaflet-overlay-pane svg{-moz-user-select:none}.leaflet-pane{z-index:400}.leaflet-tile-pane{z-index:200}.leaflet-overlay-pane{z-index:400}.leaflet-shadow-pane{z-index:500}.leaflet-marker-pane{z-index:600}.leaflet-tooltip-pane{z-index:650}.leaflet-popup-pane{z-index:700}.leaflet-map-pane canvas{z-index:100}.leaflet-map-pane svg{z-index:200}.leaflet-vml-shape{width:1px;height:1px}.lvml{behavior:url(#default#VML);display:inline-block;position:absolute}.leaflet-control{position:relative;z-index:800;pointer-events:visiblePainted;pointer-events:auto}.leaflet-bottom,.leaflet-top{position:absolute;z-index:1000;pointer-events:none}.leaflet-top{top:0}.leaflet-right{right:0}.leaflet-bottom{bottom:0}.leaflet-left{left:0}.leaflet-control{float:left;clear:both}.leaflet-right .leaflet-control{float:right}.leaflet-top .leaflet-control{margin-top:10px}.leaflet-bottom .leaflet-control{margin-bottom:10px}.leaflet-left .leaflet-control{margin-left:10px}.leaflet-right .leaflet-control{margin-right:10px}.leaflet-fade-anim .leaflet-popup{opacity:0;-webkit-transition:opacity .2s linear;-moz-transition:opacity .2s linear;transition:opacity .2s linear}.leaflet-fade-anim .leaflet-map-pane .leaflet-popup{opacity:1}.leaflet-zoom-animated{-webkit-transform-origin:0 0;-ms-transform-origin:0 0;transform-origin:0 0}svg.leaflet-zoom-animated{will-change:transform}.leaflet-zoom-anim .leaflet-zoom-animated{-webkit-transition:-webkit-transform .25s cubic-bezier(0,0,.25,1);-moz-transition:-moz-transform .25s cubic-bezier(0,0,.25,1);transition:transform .25s cubic-bezier(0,0,.25,1)}.leaflet-pan-anim .leaflet-tile,.leaflet-zoom-anim .leaflet-tile{-webkit-transition:none;-moz-transition:none;transition:none}.leaflet-zoom-anim .leaflet-zoom-hide{visibility:hidden}.leaflet-interactive{cursor:pointer}.leaflet-grab{cursor:-webkit-grab;cursor:-moz-grab;cursor:grab}.leaflet-crosshair,.leaflet-crosshair .leaflet-interactive{cursor:crosshair}.leaflet-control,.leaflet-popup-pane{cursor:auto}.leaflet-dragging .leaflet-grab,.leaflet-dragging .leaflet-grab .leaflet-interactive,.leaflet-dragging .leaflet-marker-draggable{cursor:move;cursor:-webkit-grabbing;cursor:-moz-grabbing;cursor:grabbing}.leaflet-image-layer,.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-pane>svg path,.leaflet-tile-container{pointer-events:none}.leaflet-image-layer.leaflet-interactive,.leaflet-marker-icon.leaflet-interactive,.leaflet-pane>svg path.leaflet-interactive,svg.leaflet-image-layer.leaflet-interactive path{pointer-events:visiblePainted;pointer-events:auto}.leaflet-container{background:#ddd;outline-offset:1px}.leaflet-container a{color:#0078a8}.leaflet-zoom-box{border:2px dotted #38f;background:rgba(255,255,255,.5)}.leaflet-container{font-family:"Helvetica Neue",Arial,Helvetica,sans-serif;font-size:12px;font-size:.75rem;line-height:1.5}.leaflet-bar{box-shadow:0 1px 5px rgba(0,0,0,.65);border-radius:4px}.leaflet-bar a{background-color:#fff;border-bottom:1px solid #ccc;width:26px;height:26px;line-height:26px;display:block;text-align:center;text-decoration:none;color:#000}.leaflet-bar a,.leaflet-control-layers-toggle{background-position:50% 50%;background-repeat:no-repeat;display:block}.leaflet-bar a:focus,.leaflet-bar a:hover{background-color:#f4f4f4}.leaflet-bar a:first-child{border-top-left-radius:4px;border-top-right-radius:4px}.leaflet-bar a:last-child{border-bottom-left-radius:4px;border-bottom-right-radius:4px;border-bottom:none}.leaflet-bar a.leaflet-disabled{cursor:default;background-color:#f4f4f4;color:#bbb}.leaflet-touch .leaflet-bar a{width:30px;height:30px;line-height:30px}.leaflet-touch .leaflet-bar a:first-child{border-top-left-radius:2px;border-top-right-radius:2px}.leaflet-touch .leaflet-bar a:last-child{border-bottom-left-radius:2px;border-bottom-right-radius:2px}.leaflet-control-zoom-in,.leaflet-control-zoom-out{font:bold 18px 'Lucida Console',Monaco,monospace;text-indent:1px}.leaflet-touch .leaflet-control-zoom-in,.leaflet-touch .leaflet-control-zoom-out{font-size:22px}.leaflet-control-layers{box-shadow:0 1px 5px rgba(0,0,0,.4);background:#fff;border-radius:5px}.leaflet-control-layers-toggle{background-image:url(images/layers.png);width:36px;height:36px}.leaflet-retina .leaflet-control-layers-toggle{background-image:url(images/layers-2x.png);background-size:26px 26px}.leaflet-touch .leaflet-control-layers-toggle{width:44px;height:44px}.leaflet-control-layers .leaflet-control-layers-list,.leaflet-control-layers-expanded .leaflet-control-layers-toggle{display:none}.leaflet-control-layers-expanded .leaflet-control-layers-list{display:block;position:relative}.leaflet-control-layers-expanded{padding:6px 10px 6px 6px;color:#333;background:#fff}.leaflet-control-layers-scrollbar{overflow-y:scroll;overflow-x:hidden;padding-right:5px}.leaflet-control-layers-selector{margin-top:2px;position:relative;top:1px}.leaflet-control-layers label{display:block;font-size:13px;font-size:1.08333em}.leaflet-control-layers-separator{height:0;border-top:1px solid #ddd;margin:5px -10px 5px -6px}.leaflet-default-icon-path{background-image:url(images/marker-icon.png)}.leaflet-container .leaflet-control-attribution{background:#fff;background:rgba(255,255,255,.8);margin:0}.leaflet-control-attribution,.leaflet-control-scale-line{padding:0 5px;color:#333;line-height:1.4}.leaflet-control-attribution a{text-decoration:none}.leaflet-control-attribution a:focus,.leaflet-control-attribution a:hover{text-decoration:underline}.leaflet-attribution-flag{display:inline!important;vertical-align:baseline!important;width:1em;height:.6669em}.leaflet-left .leaflet-control-scale{margin-left:5px}.leaflet-bottom .leaflet-control-scale{margin-bottom:5px}.leaflet-control-scale-line{border:2px solid #777;border-top:none;line-height:1.1;padding:2px 5px 1px;white-space:nowrap;-moz-box-sizing:border-box;box-sizing:border-box;background:rgba(255,255,255,.8);text-shadow:1px 1px #fff}.leaflet-control-scale-line:not(:first-child){border-top:2px solid #777;border-bottom:none;margin-top:-2px}.leaflet-control-scale-line:not(:first-child):not(:last-child){border-bottom:2px solid #777}.leaflet-touch .leaflet-bar,.leaflet-touch .leaflet-control-attribution,.leaflet-touch .leaflet-control-layers{box-shadow:none}.leaflet-touch .leaflet-bar,.leaflet-touch .leaflet-control-layers{border:2px solid rgba(0,0,0,.2);background-clip:padding-box}.leaflet-popup{position:absolute;text-align:center;margin-bottom:20px}.leaflet-popup-content-wrapper{padding:1px;text-align:left;border-radius:12px}.leaflet-popup-content{margin:13px 24px 13px 20px;line-height:1.3;font-size:13px;font-size:1.08333em;min-height:1px}.leaflet-popup-content p{margin:17px 0;margin:1.3em 0}.leaflet-popup-tip-container{width:40px;height:20px;position:absolute;left:50%;margin-top:-1px;margin-left:-20px;overflow:hidden;pointer-events:none}.leaflet-popup-tip{width:17px;height:17px;padding:1px;margin:-10px auto 0;pointer-events:auto;-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-ms-transform:rotate(45deg);transform:rotate(45deg)}.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#fff;color:#333;box-shadow:0 3px 14px rgba(0,0,0,.4)}.leaflet-container a.leaflet-popup-close-button{position:absolute;top:0;right:0;border:none;text-align:center;width:24px;height:24px;font:16px/24px Tahoma,Verdana,sans-serif;color:#757575;text-decoration:none;background:0 0}.leaflet-container a.leaflet-popup-close-button:focus,.leaflet-container a.leaflet-popup-close-button:hover{color:#585858}.leaflet-popup-scrolled{overflow:auto}.leaflet-oldie .leaflet-popup-content-wrapper{-ms-zoom:1}.leaflet-oldie .leaflet-popup-tip{width:24px;margin:0 auto}.leaflet-oldie .leaflet-control-layers,.leaflet-oldie .leaflet-control-zoom,.leaflet-oldie .leaflet-popup-content-wrapper,.leaflet-oldie .leaflet-popup-tip{border:1px solid #999}.leaflet-div-icon{background:#fff;border:1px solid #666}.leaflet-tooltip{position:absolute;padding:6px;background-color:#fff;border:1px solid #fff;border-radius:3px;color:#222;white-space:nowrap;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;pointer-events:none;box-shadow:0 1px 3px rgba(0,0,0,.4)}.leaflet-tooltip.leaflet-interactive{cursor:pointer;pointer-events:auto}.leaflet-tooltip-bottom:before,.leaflet-tooltip-left:before,.leaflet-tooltip-right:before,.leaflet-tooltip-top:before{position:absolute;pointer-events:none;border:6px solid transparent;background:0 0;content:""}.leaflet-tooltip-bottom{margin-top:6px}.leaflet-tooltip-top{margin-top:-6px}.leaflet-tooltip-bottom:before,.leaflet-tooltip-top:before{left:50%;margin-left:-6px}.leaflet-tooltip-top:before{bottom:0;margin-bottom:-12px;border-top-color:#fff}.leaflet-tooltip-bottom:before{top:0;margin-top:-12px;margin-left:-6px;border-bottom-color:#fff}.leaflet-tooltip-left{margin-left:-6px}.leaflet-tooltip-right{margin-left:6px}.leaflet-tooltip-left:before,.leaflet-tooltip-right:before{top:50%;margin-top:-6px}.leaflet-tooltip-left:before{right:0;margin-right:-12px;border-left-color:#fff}.leaflet-tooltip-right:before{left:0;margin-left:-12px;border-right-color:#fff}@media print{.leaflet-control{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.5 var(--font-ui);-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+button,select,input{font:inherit;color:inherit}
+#app{height:100%;display:flex;flex-direction:column;min-height:0}
+header{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--line);background:var(--panel)}
+header h1{font-size:16px;font-weight:600;margin:0;letter-spacing:-.01em;text-wrap:balance}
+header .sub{color:var(--muted);font-size:12.5px}
+.spacer{flex:1}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font-size:12.5px;font-weight:500;background:var(--idle-soft);color:var(--idle);white-space:nowrap}
+.pill .dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}.pill.warn{background:var(--warn-soft);color:var(--warn)}.pill.crit{background:var(--crit-soft);color:var(--crit)}
+#main{flex:1;display:flex;min-height:0}
+#map{flex:1;min-width:0;background:var(--sea);outline:none}
+#panel{width:350px;flex:none;overflow:auto;border-left:1px solid var(--line);background:var(--panel);padding:14px 16px 28px;display:flex;flex-direction:column;gap:14px}
+.card{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--panel)}
+.card h2{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;font-weight:600}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.kpi{background:var(--panel-2);border-radius:8px;padding:8px 10px;min-width:0}
+.kpi .v{font:500 20px/1.2 var(--font-num);font-variant-numeric:tabular-nums}
+.kpi .l{font-size:11.5px;color:var(--muted)}
+.num{font-family:var(--font-num);font-variant-numeric:tabular-nums}
+label.chk{display:flex;align-items:center;gap:8px;padding:4px 0;cursor:pointer}
+label.chk input{width:15px;height:15px;accent-color:var(--accent)}
+.swatch{width:18px;height:4px;border-radius:2px;flex:none}
+.swatch.poly{height:12px;border-radius:3px}
+select,input[type=file]{width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--panel-2)}
+button.btn{padding:6px 12px;border-radius:8px;border:1px solid var(--line);background:var(--panel-2);cursor:pointer}
+button.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:transparent}
+button.btn:focus-visible,select:focus-visible,input:focus-visible,label.chk:focus-within{outline:2px solid var(--accent);outline-offset:2px}
+.legend{display:grid;grid-template-columns:auto 1fr;gap:4px 8px;align-items:center;font-size:12.5px}
+.legend .sw{width:26px;height:12px;border-radius:3px;border:1px solid rgba(0,0,0,.08)}
+.ramp{display:flex;height:10px;border-radius:5px;overflow:hidden;border:1px solid var(--line)}
+.ramp span{flex:1}
+.ticks{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);font-family:var(--font-num)}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{padding:4px 6px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+th{color:var(--muted);font-weight:500;font-size:11.5px}
+td.n,th.n{text-align:right;font-family:var(--font-num);font-variant-numeric:tabular-nums}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:var(--panel-2)}
+tbody tr.sel{background:var(--accent-soft)}
+.tablewrap{overflow-x:auto;max-height:260px;overflow-y:auto}
+dl.sel{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;margin:0;font-size:12.5px}
+dl.sel dt{color:var(--muted)}dl.sel dd{margin:0;font-family:var(--font-num)}
+.status-line{font-size:12.5px;color:var(--muted)}
+.note{font-size:12px;color:var(--muted);border-left:3px solid var(--line);padding-left:8px}
+.leaflet-container{font:12px var(--font-ui);background:var(--sea)}
+.leaflet-tooltip.lbl{background:rgba(122,29,76,.85);color:#fff;border:0;border-radius:4px;padding:1px 5px;font:500 11px var(--font-num);box-shadow:none}
+.leaflet-tooltip.lbl::before{display:none}
+.leaflet-tooltip.lbl.trail{background:rgba(0,112,104,.85)}
+.leaflet-popup-content-wrapper{background:var(--panel);color:var(--fg);border-radius:8px;box-shadow:var(--shadow)}
+.leaflet-popup-tip{background:var(--panel)}
+.leaflet-control-zoom a{background:var(--panel);color:var(--fg);border-bottom-color:var(--line)}
+.leaflet-control-attribution{background:rgba(255,255,255,.75);color:#17242b;font-size:10px}
+.credit{font-size:11px;color:var(--muted);line-height:1.4}
+#hint{position:absolute;left:12px;bottom:12px;z-index:500;background:var(--panel);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:12px;box-shadow:var(--shadow);max-width:calc(100% - 24px)}
+@media (max-width:860px){
+  #main{flex-direction:column;overflow:auto}
+  #map{flex:none;height:58vh;min-height:320px}
+  #panel{width:auto;border-left:0;border-top:1px solid var(--line)}
+}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head><body><div id="app">
+<header>
+  <div><h1>제주 지형 라이브 지도</h1><div class="sub">500 m 참고격자 7,519개 · Copernicus GLO-30 경사 · 제주올레 · 한라산 탐방로 · 기상청 레이더 강수 입력</div></div>
+  <div class="spacer"></div>
+  <span class="pill" id="livePill"><span class="dot"></span><span id="liveText">연결 확인 중</span></span>
+  <span class="status-line" id="liveDetail"></span>
+</header>
+<div id="main">
+  <div id="map" tabindex="0"></div>
+  <aside id="panel">
+    <section class="card" id="liveCard">
+      <h2>실시간 강수 입력</h2>
+      <dl class="sel" id="liveMeta"><dt>상태</dt><dd id="mStatus">확인 중</dd><dt>동기화</dt><dd id="mMode">-</dd><dt>관측 시각</dt><dd id="mObserved">-</dd><dt>프레임</dt><dd id="mFrame">-</dd><dt>마지막 확인</dt><dd id="mChecked">-</dd></dl>
+      <div class="row" style="margin-top:8px"><button class="btn" id="btnRefresh" type="button">지금 확인</button><label class="small muted">주기 <select id="selPoll" style="width:auto;display:inline-block;padding:3px 6px"><option value="30000">30초</option><option value="60000" selected>60초</option><option value="300000">5분</option></select></label></div>
+      <div id="importBox" hidden style="margin-top:10px">
+        <div class="note" style="margin-bottom:6px">편집 권한이 있으면 수집기가 만든 <code>frame.json</code>과 <code>grid.geojson</code>을 올려 모든 열람자에게 즉시 반영할 수 있습니다.</div>
+        <input type="file" id="fileFrame" accept=".json,application/json" aria-label="frame.json 또는 latest.json">
+        <input type="file" id="fileGrid" accept=".geojson,.json,application/json" aria-label="grid.geojson" style="margin-top:6px">
+        <div class="row" style="margin-top:6px"><button class="btn primary" id="btnImport" type="button">프레임 올리기</button><span class="small muted" id="importMsg"></span></div>
+      </div>
+    </section>
+    <section class="card">
+      <h2>격자 색상</h2>
+      <select id="selMetric" aria-label="격자 색상 기준"><option value="mean_deg">평균 경사 (°)</option><option value="max_deg">최대 경사 (°)</option><option value="steep_pct">20° 이상 면적 비율 (%)</option><option value="rain" disabled>강수 (mm/h) · 입력 대기</option></select>
+      <div style="margin-top:8px"><div class="ramp" id="ramp"></div><div class="ticks" id="ticks"></div></div>
+      <div class="row small muted" style="margin-top:6px"><label class="chk" style="padding:0"><input type="range" id="gridOpacity" min="0" max="100" value="55" style="width:120px;accent-color:var(--accent)" aria-label="격자 채움 투명도">채움 농도</label></div>
+    </section>
+    <section class="card">
+      <h2>레이어</h2>
+      <label class="chk"><input type="checkbox" id="lyGrid" checked><span class="swatch poly" style="background:#e9823a"></span>500 m 격자 (색상 기준 적용)</label>
+      <label class="chk"><input type="checkbox" id="lySlope"><span class="swatch poly" style="background:linear-gradient(90deg,#fff158,#ff7826,#a40000)"></span>30 m 경사 등급 래스터</label>
+      <label class="chk"><input type="checkbox" id="lyOlle" checked><span class="swatch" style="background:#ff4fa3"></span>제주올레 코스 (OSM)</label>
+      <label class="chk"><input type="checkbox" id="lyTrails" checked><span class="swatch" style="background:#00f0e1"></span>한라산 탐방로 6코스</label>
+      <label class="chk"><input type="checkbox" id="lySteep" checked><span class="swatch" style="background:#ff2a2a"></span>탐방로 급경사 구간 (20° 이상)</label>
+      <label class="chk"><input type="checkbox" id="lyBoundary" checked><span class="swatch" style="background:#ffffff;border:1px solid var(--line)"></span>분석 범위 · 국립공원 경계</label>
+      <label class="chk"><input type="checkbox" id="lySat" checked><span class="swatch poly" style="background:#5a6b4e"></span>Esri 위성 배경</label>
+      <div class="legend" id="slopeLegend" hidden style="margin-top:6px"></div>
+    </section>
+    <section class="card">
+      <h2>요약</h2>
+      <div class="kpis">
+        <div class="kpi"><div class="v" id="kCells">-</div><div class="l">격자 수</div></div>
+        <div class="kpi"><div class="v" id="kMean">-</div><div class="l">면적가중 평균 경사</div></div>
+        <div class="kpi"><div class="v" id="kMax">-</div><div class="l">최대 경사 (격자)</div></div>
+        <div class="kpi"><div class="v" id="kOlle">-</div><div class="l">올레 OSM 선형 길이</div></div>
+      </div>
+    </section>
+    <section class="card" id="selCard"><h2>선택</h2><div id="selBody" class="small muted">지도의 격자, 올레 코스, 탐방로를 클릭하면 값이 여기에 표시됩니다.</div></section>
+    <section class="card">
+      <h2>제주올레 코스별 경사 (OSM 선형, 10 m 표본)</h2>
+      <div class="tablewrap"><table id="olleTable"><thead><tr><th>코스</th><th class="n">km</th><th class="n">평균°</th><th class="n">최대°</th><th class="n">≥20° m</th></tr></thead><tbody></tbody></table></div>
+    </section>
+    <section class="card">
+      <h2>출처</h2>
+      <div class="credit" id="credits">고도: Copernicus GLO-30 DSM (ESA/DLR/Airbus) · 배경: Esri World Imagery · 격자·탐방로·올레: 가정 LCC 격자, © OpenStreetMap contributors (ODbL), Natural Earth. 경사는 지형 표면 경사이며 보행 경사·공식 난이도가 아닙니다. 격자의 기상청 공식 격자 정렬은 미검증입니다.</div>
+    </section>
+  </aside>
+</div>
+</div>
+<script src="leaflet-1.9.4.min.js"></script>
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const STATIC_BASE='../hallasan_radar_layers_v1/dist/';           // radar pipeline output when served from the repository
+const RAMPS={
+  slope:['#fff6e0','#fed9a0','#f9b25f','#e9823a','#c2512a','#8a2a1d'],
+  rain:['#e4f1fb','#b7d9f0','#7fb8e2','#4a92cf','#2a67ad','#163f7a']};
+const METRICS={
+  mean_deg:{label:'평균 경사',unit:'°',breaks:[2,5,10,15,20],ramp:'slope',get:p=>p.mean_deg},
+  max_deg:{label:'최대 경사',unit:'°',breaks:[10,20,30,40,50],ramp:'slope',get:p=>p.max_deg},
+  steep_pct:{label:'20° 이상 면적',unit:'%',breaks:[1,5,10,20,40],ramp:'slope',get:p=>p.steep_pct},
+  rain:{label:'강수 (평균)',unit:'mm/h',breaks:[0.5,1,2,5,10],ramp:'rain',get:p=>{const r=rain.values[p.grid_id];return r?r[0]:null;}}};
+const SLOPE_CLASSES=[['#ffffff','0–5°'],['#fcffb8','5–10°'],['#fff158','10–15°'],['#ffd800','15–20°'],['#ffab09','20–25°'],['#ff7826','25–30°'],['#f53b22','30–35°'],['#d20000','35–40°'],['#a40000','40–45°'],['#7c0014','45° 이상']];
+let metric='mean_deg', fillOpacity=.55, selected=null, selectedLayer=null;
+const rain={status:'waiting',frame_id:null,observed_at:null,message:'',values:{},parts:0,loaded:0,checked:null,mode:'static'};
+const layers={};
+let map, grid, db=null, user=null, canWrite=null, pollTimer=null, unsubLatest=null, unsubParts=null;
+
+function colorFor(v,m){ if(v==null||isNaN(v)) return null; const r=RAMPS[m.ramp]; let i=0; while(i<m.breaks.length&&v>=m.breaks[i]) i++; return r[i]; }
+function gridStyle(f){ const m=METRICS[metric]; const v=m.get(f.properties); const c=colorFor(v,m);
+  if(c==null) return {color:'rgba(255,255,255,.35)',weight:.6,fillColor:'#000',fillOpacity:0};
+  return {color:'rgba(255,255,255,.45)',weight:.5,fillColor:c,fillOpacity:fillOpacity}; }
+function fmt(v,d){ return (v==null||isNaN(v))?'–':Number(v).toFixed(d==null?1:d); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+function renderLegend(){ const m=METRICS[metric]; const r=RAMPS[m.ramp]; $('ramp').innerHTML=r.map(c=>`<span style="background:${c}"></span>`).join('');
+  $('ticks').innerHTML=['0',...m.breaks.map(b=>String(b))].map(t=>`<span>${t}</span>`).join('')+`<span>${esc(m.unit)}</span>`; }
+function renderSlopeLegend(){ $('slopeLegend').innerHTML=SLOPE_CLASSES.map(([c,l])=>`<span class="sw" style="background:${c}"></span><span>${l}</span>`).join(''); }
+function restyleGrid(){ if(grid) grid.setStyle(gridStyle); renderLegend(); }
+
+function showSelection(kind,p,layer){ selected={kind,p}; if(selectedLayer&&selectedLayer!==layer){ try{selectedLayer.setStyle(selectedLayer._baseStyle);}catch(e){} }
+  selectedLayer=layer; if(layer&&layer.setStyle){ layer._baseStyle=layer._baseStyle||layer.options; layer.setStyle({weight:(layer.options.weight||1)+2}); }
+  let rows=[];
+  if(kind==='grid'){ const r=rain.values[p.grid_id]; rows=[['격자',p.grid_id],['열·행 (i, j)',p.i_ref+', '+p.j_ref],['평균 경사',fmt(p.mean_deg,2)+'°'],['90백분위',fmt(p.p90_deg,2)+'°'],['최대 경사',fmt(p.max_deg,2)+'°'],['20° 이상 면적',fmt(p.steep_pct,2)+' %'],['평균 고도',fmt(p.elev_mean,0)+' m'],['최고 고도',fmt(p.elev_max,0)+' m']];
+    if(rain.frame_id) rows.push(['강수 평균/최대',r?fmt(r[0],2)+' / '+fmt(r[1],2)+' mm/h':'자료 없음'],['강수 유효면적',r?fmt(r[2],0)+' %':'–']); }
+  else if(kind==='olle'){ rows=[['올레 코스',p.course+(p.variant?' ('+p.variant+')':'')],['OSM 이름',p.name_osm||'–'],['출처',p.source_kind],['길이',fmt(p.length_km,2)+' km'],['평균 경사',fmt(p.mean_deg,2)+'°'],['90백분위',fmt(p.p90_deg,2)+'°'],['최대 경사',fmt(p.max_deg,2)+'°'],['20° 이상',fmt(p.steep20_m,0)+' m']]; }
+  else if(kind==='trail'){ rows=[['탐방로',p.course],['길이',fmt(p.length_m/1000,2)+' km'],['평균 경사',fmt(p.mean_deg,2)+'°'],['90백분위',fmt(p.p90_deg,2)+'°'],['최대 경사',fmt(p.max_deg,2)+'°'],['20° 이상',fmt(p.steep20_m,0)+' m ('+fmt(p.steep20_pc,1)+' %)'],['급경사 구간 수',p.seg20_n]]; }
+  else if(kind==='steep'){ rows=[['구간',p.seg_id],['탐방로',p.course],['길이',fmt(p.length_m,0)+' m'],['평균 경사',fmt(p.mean_deg,2)+'°'],['최대 경사',fmt(p.max_deg,2)+'°'],['시작 (lon, lat)',fmt(p.start_lon,5)+', '+fmt(p.start_lat,5)]]; }
+  $('selBody').innerHTML='<dl class="sel">'+rows.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')+'</dl>';
+  document.querySelectorAll('#olleTable tbody tr').forEach(tr=>tr.classList.toggle('sel',kind==='olle'&&tr.dataset.course===p.course+'|'+(p.variant||''))); }
+
+function setLive(state,text,detail){ const pill=$('livePill'); pill.className='pill '+(state||''); $('liveText').textContent=text; $('liveDetail').textContent=detail||''; }
+function ageText(iso){ if(!iso) return ''; const ms=Date.now()-Date.parse(iso); if(isNaN(ms)) return ''; const m=Math.round(ms/60000); return m<1?'방금':m<60?m+'분 전':(m/60).toFixed(1)+'시간 전'; }
+function renderLiveMeta(){ $('mStatus').textContent=rain.status==='available'?'강수 프레임 수신':rain.status==='error'?'오류':'입력 대기 (실제 강수값 없음)';
+  $('mMode').textContent=rain.mode==='db'?'Artifact 공유 DB (실시간 구독)':rain.mode==='static'?'저장소 파일 폴링 ('+STATIC_BASE+'state/latest.json)':'연결 없음';
+  $('mObserved').textContent=rain.observed_at?(rain.observed_at.replace('T',' ').replace('Z',' UTC')+' · '+ageText(rain.observed_at)):'–';
+  $('mFrame').textContent=rain.frame_id?(rain.frame_id+(rain.parts?' · '+rain.loaded+'/'+rain.parts+' 조각':'')):'–';
+  $('mChecked').textContent=rain.checked?rain.checked.toLocaleTimeString('ko-KR'):'–';
+  const opt=$('selMetric').querySelector('option[value=rain]');
+  if(rain.status==='available'&&Object.keys(rain.values).length){ opt.disabled=false; opt.textContent='강수 (mm/h) · '+ageText(rain.observed_at); setLive(Date.now()-Date.parse(rain.observed_at)>15*60000?'warn':'ok',Date.now()-Date.parse(rain.observed_at)>15*60000?'강수 자료 오래됨':'강수 수신 중','관측 '+rain.observed_at.replace('T',' ').replace('Z','Z')); }
+  else { opt.disabled=true; opt.textContent='강수 (mm/h) · 입력 대기'; if(metric==='rain'){metric='mean_deg';$('selMetric').value=metric;restyleGrid();}
+    if(rain.status==='error') setLive('crit','강수 입력 오류',rain.message||''); else setLive('','강수 입력 대기',rain.message||'수집기 자료가 들어오면 자동 반영'); } }
+
+/* ---------- live source A: artifact shared database ---------- */
+function safeId(s){ return String(s||'').replace(/[^A-Za-z0-9_\-.~:@+]/g,'_').slice(0,200); }
+async function connectDb(){ if(!(window.claude&&typeof window.claude.use==='function')) return false;
+  db=await window.claude.use('db'); if(!db) return false; rain.mode='db';
+  try{ user=await window.claude.use('user'); canWrite=user?await user.can('data.write'):null; }catch(e){ canWrite=null; }
+  if(canWrite!==false){ $('importBox').hidden=false; }
+  unsubLatest=db.doc('radar/latest').onSnapshot(snap=>{ rain.checked=new Date(); const d=snap.exists?snap.data():null;
+    if(!d){ rain.status='waiting'; rain.frame_id=null; rain.observed_at=null; rain.message='공유 DB에 아직 프레임이 없습니다'; rain.values={}; renderLiveMeta(); restyleGrid(); return; }
+    const changed=d.frame_id!==rain.frame_id; rain.status=d.status||'available'; rain.frame_id=d.frame_id||null; rain.observed_at=d.observed_at||null; rain.message=d.message||''; rain.parts=d.parts||0;
+    if(changed) loadPartsFromDb(); renderLiveMeta(); },
+    err=>{ rain.status='error'; rain.message='DB 구독 오류: '+err.code; renderLiveMeta(); });
+  return true; }
+function loadPartsFromDb(){ if(unsubParts){unsubParts();unsubParts=null;} rain.values={}; rain.loaded=0; if(!rain.frame_id){restyleGrid();return;}
+  unsubParts=db.collection('frames/'+safeId(rain.frame_id)+'/parts').onSnapshot(qs=>{ const v={}; let n=0; qs.docs.forEach(doc=>{ const d=doc.data()||{}; Object.assign(v,d.v||{}); n++; }); rain.values=v; rain.loaded=n; renderLiveMeta(); restyleGrid(); if(selected&&selected.kind==='grid') showSelection('grid',selected.p,selectedLayer); },
+    err=>{ rain.message='프레임 읽기 오류: '+err.code; renderLiveMeta(); }); }
+async function importFrame(){ const fFrame=$('fileFrame').files[0], fGrid=$('fileGrid').files[0]; const msg=$('importMsg'); if(!db){msg.textContent='공유 DB를 쓸 수 없습니다';return;} if(!fFrame||!fGrid){msg.textContent='두 파일을 모두 선택하세요';return;}
+  try{ msg.textContent='읽는 중…'; const frame=JSON.parse(await fFrame.text()); const gj=JSON.parse(await fGrid.text());
+    if(!frame.frame_id||!frame.observed_at) throw new Error('frame.json에 frame_id/observed_at이 없습니다'); if(!gj.features) throw new Error('grid.geojson 형식이 아닙니다');
+    const entries=gj.features.map(f=>f.properties).filter(p=>p&&p.grid_id).map(p=>[p.grid_id,[p.rain_mean_mm_h==null?null:+(+p.rain_mean_mm_h).toFixed(3),p.rain_max_mm_h==null?null:+(+p.rain_max_mm_h).toFixed(3),p.rain_valid_pct==null?null:+(+p.rain_valid_pct).toFixed(1)]]);
+    if(!entries.length) throw new Error('grid_id가 있는 피처가 없습니다'); const id=safeId(frame.frame_id); const size=1500; const parts=Math.ceil(entries.length/size);
+    for(let i=0;i<parts;i++){ const chunk=Object.fromEntries(entries.slice(i*size,(i+1)*size)); msg.textContent=`조각 ${i+1}/${parts} 저장 중…`; await db.doc('frames/'+id+'/parts/p'+String(i).padStart(3,'0')).set({v:chunk,part:i}); }
+    await db.doc('frames/'+id).set({frame_id:frame.frame_id,observed_at:frame.observed_at,published_at:frame.published_at||new Date().toISOString(),unit:frame.unit||'mm/h',quantity:frame.quantity||'rain_rate',source_product:frame.source_product||'',revision:frame.revision||0,parts:parts,cells:entries.length,imported_at:new Date().toISOString()});
+    await db.doc('radar/latest').set({status:'available',frame_id:frame.frame_id,observed_at:frame.observed_at,published_at:frame.published_at||null,message:'',parts:parts,cells:entries.length,unit:frame.unit||'mm/h'});
+    msg.textContent=`완료: ${entries.length}개 격자, ${parts}개 조각`; }
+  catch(e){ msg.textContent='실패: '+(e&&e.code?e.code+' ':'')+(e&&e.message?e.message:e); if(e&&e.code==='invalid_argument'&&canWrite!==true){ $('importBox').hidden=true; } } }
+
+/* ---------- live source B: repository files (GitHub Pages / local server) ---------- */
+async function pollStatic(){ rain.mode='static'; rain.checked=new Date();
+  try{ const r=await fetch(STATIC_BASE+'state/latest.json',{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status); const d=await r.json();
+    rain.status=d.status||'waiting'; rain.message=d.message||'';
+    if(d.status==='available'&&d.frame_id){ if(d.frame_id!==rain.frame_id){ rain.frame_id=d.frame_id; rain.observed_at=d.observed_at; const asset=(d.assets&&d.assets.grid)||('frames/'+d.frame_id+'/grid.geojson'); if(!/^frames\/[A-Za-z0-9_\-]+\/grid\.geojson$/.test(asset)) throw new Error('자료 경로 형식 오류');
+        const g=await (await fetch(STATIC_BASE+asset,{cache:'no-store'})).json(); const v={}; g.features.forEach(f=>{const p=f.properties||{}; if(p.grid_id) v[p.grid_id]=[p.rain_mean_mm_h,p.rain_max_mm_h,p.rain_valid_pct];}); rain.values=v; rain.parts=0; restyleGrid(); } }
+    else { rain.frame_id=null; rain.observed_at=null; rain.values={}; restyleGrid(); } }
+  catch(e){ rain.status='error'; rain.message='latest.json을 읽을 수 없습니다 ('+(e.message||e)+'). 저장소 루트의 outputs/ 아래에서 서비스하거나 GitHub Pages에서 여세요.'; }
+  renderLiveMeta(); }
+function startPolling(){ if(pollTimer) clearInterval(pollTimer); pollTimer=setInterval(pollStatic,+$('selPoll').value); }
+
+/* ---------- map ---------- */
+async function fetchJson(url,tries){ let last; for(let i=0;i<(tries||3);i++){ try{ const r=await fetch(url,{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status+' '+url); return await r.json(); } catch(e){ last=e; await new Promise(res=>setTimeout(res,400*(i+1))); } } throw last; }
+async function boot(){
+  setLive('','자료 불러오는 중','');
+  const names=['overlays','olle','trails','steep','boundary','park','grid']; const got={};
+  for(const n of names){ got[n]=await fetchJson('data/'+n+(n==='overlays'?'.json':'.geojson')); }
+  const ov=got.overlays, gridGj=got.grid, olle=got.olle, trails=got.trails, steep=got.steep, boundary=got.boundary, park=got.park;
+  const satB=[ov.satellite_jpg.sw,ov.satellite_jpg.ne], slopeB=[ov.slope_png.sw,ov.slope_png.ne];
+  map=L.map('map',{zoomSnap:.25,minZoom:9,maxZoom:15,maxBounds:[[satB[0][0]-.1,satB[0][1]-.15],[satB[1][0]+.1,satB[1][1]+.15]],attributionControl:true,preferCanvas:true});
+  map.attributionControl.setPrefix('');
+  layers.sat=L.imageOverlay('data/satellite.jpg',satB,{attribution:'배경: Esri, Vantor, Earthstar Geographics, GIS User Community · 고도: Copernicus GLO-30 (ESA/DLR/Airbus) · © OpenStreetMap contributors'}).addTo(map);
+  layers.slope=L.imageOverlay('data/slope.png',slopeB,{opacity:.6});
+  const canvas=L.canvas({padding:.3});
+  grid=L.geoJSON(gridGj,{renderer:canvas,style:gridStyle,onEachFeature:(f,l)=>{ l.on('click',()=>showSelection('grid',f.properties,l)); l.bindTooltip(()=>{const p=f.properties;const m=METRICS[metric];const v=m.get(p);return `${p.grid_id} · ${m.label} ${fmt(v,m.unit==='mm/h'?2:1)}${m.unit}`;},{sticky:true,direction:'top',opacity:.9}); }});
+  layers.grid=grid.addTo(map);
+  layers.boundary=L.layerGroup([L.geoJSON(boundary,{style:{color:'#ffffff',weight:1.2,fill:false,dashArray:'4 3',opacity:.9}}),L.geoJSON(park,{style:{color:'#9cffad',weight:1,fill:false,dashArray:'3 3',opacity:.9}})]).addTo(map);
+  layers.steep=L.geoJSON(steep,{style:{color:'#ff2a2a',weight:4,opacity:.95},onEachFeature:(f,l)=>l.on('click',()=>showSelection('steep',f.properties,l))}).addTo(map);
+  layers.trails=L.geoJSON(trails,{style:{color:'#00f0e1',weight:2.2,opacity:.95},onEachFeature:(f,l)=>{ l.on('click',()=>showSelection('trail',f.properties,l)); l.bindTooltip(f.properties.course,{permanent:true,direction:'center',className:'lbl trail'}); }}).addTo(map);
+  layers.olle=L.geoJSON(olle,{style:{color:'#ff4fa3',weight:2.4,opacity:.95},onEachFeature:(f,l)=>{ l.on('click',()=>showSelection('olle',f.properties,l)); l.bindTooltip(f.properties.course,{permanent:true,direction:'center',className:'lbl'}); }}).addTo(map);
+  map.fitBounds(satB,{padding:[4,4]});
+  const toggle=(id,layer)=>$(id).addEventListener('change',e=>{ if(e.target.checked) layer.addTo(map); else map.removeLayer(layer); });
+  toggle('lyGrid',layers.grid); toggle('lySlope',layers.slope); toggle('lyOlle',layers.olle); toggle('lyTrails',layers.trails); toggle('lySteep',layers.steep); toggle('lyBoundary',layers.boundary); toggle('lySat',layers.sat);
+  $('lySlope').addEventListener('change',e=>{ $('slopeLegend').hidden=!e.target.checked; });
+  $('selMetric').addEventListener('change',e=>{ metric=e.target.value; restyleGrid(); });
+  $('gridOpacity').addEventListener('input',e=>{ fillOpacity=e.target.value/100; restyleGrid(); });
+  $('btnRefresh').addEventListener('click',()=>{ if(rain.mode==='db'){ rain.checked=new Date(); renderLiveMeta(); } else pollStatic(); });
+  $('selPoll').addEventListener('change',()=>{ if(rain.mode==='static') startPolling(); });
+  $('btnImport').addEventListener('click',importFrame);
+  const relabel=()=>{ const z=map.getZoom(); document.querySelectorAll('.leaflet-tooltip.lbl').forEach(t=>t.style.display=z>=10.5?'':'none'); }; map.on('zoomend',relabel); relabel();
+  // Summary numbers from the loaded data (area-weighted mean from the bundle's validation; cells are equal-area squares so the plain mean is close).
+  const props=gridGj.features.map(f=>f.properties); $('kCells').textContent=props.length.toLocaleString('ko-KR'); $('kMean').textContent=fmt(props.reduce((a,p)=>a+p.mean_deg,0)/props.length,2)+'°'; $('kMax').textContent=fmt(Math.max(...props.map(p=>p.max_deg)),1)+'°';
+  const olleKm=olle.features.reduce((a,f)=>a+(f.properties.length_km||0),0); $('kOlle').textContent=fmt(olleKm,0)+' km';
+  const tb=$('olleTable').querySelector('tbody'); const key=c=>{const [a,b]=String(c).split('-');return [parseInt(a,10),b||''];};
+  olle.features.slice().sort((x,y)=>{const a=key(x.properties.course),b=key(y.properties.course);return a[0]-b[0]||a[1].localeCompare(b[1]);}).forEach(f=>{ const p=f.properties; const tr=document.createElement('tr'); tr.dataset.course=p.course+'|'+(p.variant||''); tr.innerHTML=`<td>${esc(p.course)}${p.variant?' <span class="muted">'+esc(p.variant)+'</span>':''}</td><td class="n">${fmt(p.length_km,1)}</td><td class="n">${fmt(p.mean_deg,1)}</td><td class="n">${fmt(p.max_deg,1)}</td><td class="n">${fmt(p.steep20_m,0)}</td>`;
+    tr.addEventListener('click',()=>{ let target=null; layers.olle.eachLayer(l=>{ if(l.feature===f) target=l; }); if(target){ map.fitBounds(target.getBounds(),{padding:[30,30],maxZoom:13}); showSelection('olle',p,target); } }); tb.appendChild(tr); });
+  renderLegend(); renderSlopeLegend(); renderLiveMeta();
+  const live=await connectDb(); if(!live){ rain.mode='static'; await pollStatic(); startPolling(); } }
+boot().catch(e=>{ setLive('crit','자료를 불러오지 못했습니다',String(e.message||e)); $('selBody').textContent='data/ 폴더의 GeoJSON·이미지를 같은 위치에서 서비스해야 합니다. '+(e.message||e); });
+})();
+</script>
+</body></html>
