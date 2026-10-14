@@ -143,6 +143,11 @@ dl.sel dt{color:var(--muted);white-space:nowrap}dl.sel dd{margin:0;font-family:v
       <h2>제주올레 코스별 경사 (OSM 선형, 10 m 표본)</h2>
       <div class="tablewrap"><table id="olleTable"><thead><tr><th>코스</th><th class="n">km</th><th class="n">평균°</th><th class="n">최대°</th><th class="n">≥20° m</th></tr></thead><tbody></tbody></table></div>
     </section>
+    <section class="card" id="dlCard">
+      <h2>내려받기</h2>
+      <p class="small muted" style="margin:0 0 8px">자료·이미지·Leaflet을 한 파일에 담은 독립 실행 HTML(약 6 MB)을 만듭니다. 서버 없이 더블클릭으로 열리며, 실시간 연결 대신 "가상 강수 예시" 버튼이 들어 있습니다.</p>
+      <div class="row"><button class="btn primary" id="btnDownload" type="button">독립 실행 HTML 다운로드</button><span class="small muted" id="dlMsg"></span></div>
+    </section>
     <section class="card">
       <h2>출처</h2>
       <div class="credit" id="credits">고도: Copernicus GLO-30 DSM (ESA/DLR/Airbus) · 배경: Esri World Imagery · 격자·탐방로·올레: 가정 LCC 격자, © OpenStreetMap contributors (ODbL), Natural Earth. 경사는 지형 표면 경사이며 보행 경사·공식 난이도가 아닙니다. 격자의 기상청 공식 격자 정렬은 미검증입니다.</div>
@@ -253,6 +258,8 @@ async function boot(){
   for(const n of names){ got[n]=E?E[n]:await fetchJson('data/'+n+(n==='overlays'?'.json':'.geojson')); }
   const ov=got.overlays, gridGj=got.grid, olle=got.olle, trails=got.trails, steep=got.steep, boundary=got.boundary, park=got.park;
   const satUrl=E&&E.images?E.images.satellite:'data/satellite.jpg', slopeUrl=E&&E.images?E.images.slope:'data/slope.png';
+  loadedData=got; loadedImages={satellite:satUrl,slope:slopeUrl};
+  if(E){ $('dlCard').hidden=true; } else { $('btnDownload').addEventListener('click',downloadStandalone); }
   const satB=[ov.satellite_jpg.sw,ov.satellite_jpg.ne], slopeB=[ov.slope_png.sw,ov.slope_png.ne];
   map=L.map('map',{zoomSnap:.25,minZoom:9,maxZoom:15,maxBounds:[[satB[0][0]-.1,satB[0][1]-.15],[satB[1][0]+.1,satB[1][1]+.15]],attributionControl:true,preferCanvas:true});
   map.attributionControl.setPrefix('');
@@ -284,6 +291,21 @@ async function boot(){
   renderLegend(); renderSlopeLegend(); renderLiveMeta();
   if(E){ rain.mode='embedded'; rain.checked=new Date(); rain.message='내장 자료 파일 · 실시간 연결 없음'; renderLiveMeta(); $('demoBox').hidden=false; $('btnDemo').addEventListener('click',toggleDemo); return; }
   const live=await connectDb(); if(!live){ rain.mode='static'; await pollStatic(); startPolling(); } }
+/* ---------- build the standalone file in the browser and hand it to the viewer ---------- */
+let loadedData=null, loadedImages=null;
+async function toDataUrl(url){ const r=await fetch(url,{cache:'force-cache'}); if(!r.ok) throw new Error('HTTP '+r.status+' '+url); const blob=await r.blob(); return await new Promise((res,rej)=>{ const fr=new FileReader(); fr.onload=()=>res(fr.result); fr.onerror=()=>rej(fr.error); fr.readAsDataURL(blob); }); }
+async function downloadStandalone(){ const msg=$('dlMsg'); const btn=$('btnDownload'); btn.disabled=true;
+  try{ msg.textContent='파일 구성 중…';
+    const [template,leaflet,sat,slope]=await Promise.all([fetch('standalone.template.html',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('템플릿 '+r.status);return r.text();}),fetch('leaflet-1.9.4.min.js',{cache:'force-cache'}).then(r=>{if(!r.ok)throw new Error('leaflet '+r.status);return r.text();}),toDataUrl(loadedImages.satellite),toDataUrl(loadedImages.slope)]);
+    const embed=Object.assign({},loadedData,{images:{satellite:sat,slope:slope}});
+    const payload=JSON.stringify(embed).replace(/<\//g,'<\\/');
+    const html=template.replace('/*__EMBED_JSON__*/null',()=>payload).replace('/*leaflet-1.9.4.min.js*/',()=>leaflet);
+    const filename='jeju_live_map_standalone.html'; const blob=new Blob([html],{type:'text/html'});
+    let dl=null; if(window.claude&&typeof window.claude.use==='function'){ dl=await window.claude.use('downloads'); }
+    if(dl){ msg.textContent='저장 확인 창을 확인하세요…'; await dl.save({filename,data:blob}); msg.textContent='저장됨 ('+(blob.size/1e6).toFixed(1)+' MB)'; }
+    else { const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),60000); msg.textContent='다운로드 시작 ('+(blob.size/1e6).toFixed(1)+' MB)'; } }
+  catch(e){ msg.textContent=(e&&e.code==='declined')?'취소됨':'실패: '+(e&&e.code?e.code+' ':'')+(e&&e.message?e.message:e); }
+  finally{ btn.disabled=false; } }
 /* ---------- standalone file only: clearly labelled synthetic rainfall preview ---------- */
 let demoOn=false;
 function toggleDemo(){ demoOn=!demoOn;
