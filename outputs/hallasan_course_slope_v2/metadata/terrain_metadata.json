@@ -1,6 +1,6 @@
 {
   "title": "한라산 전체 참고격자 경사도",
-  "created": "2026-10-13",
+  "created": "2026-10-15",
   "not_vworld_output": true,
   "user_approved_alternative": "Public DEM derived analysis",
   "elevation_source": {
@@ -49,11 +49,11 @@
   },
   "grid": {
     "count": 1849,
-    "source": "Existing candidate_lcc_grid_500m in hallasan_course_cells.gpkg",
+    "source": "hallasan_grid_500m in radar_grid_cells.gpkg: official KMA radar composite grid (LCC 30/60, 126E/38N, WGS84 ellipsoid, i0=1121/j0=1681), block i 1202-1244, j 651-693",
     "ids_preserved": true,
     "original_crs": "Assumed spherical LCC, standard parallels 30/60, radius 6371008.77m",
     "original_plane_area_km2": 462.25,
-    "utm_plane_area_km2": 474.5901136927313,
+    "utm_plane_area_km2": 474.7075972443533,
     "area_difference": "Projection-scale difference. Same geographic footprint; original assumed LCC metres differ from UTM ground-scale area.",
     "radar_alignment_verified": false
   },
@@ -97,20 +97,66 @@
       "reused_download": true
     },
     {
-      "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=14074422.57372%2C3930552.40601%2C14102017.30862%2C3958147.14090&bboxSR=3857&imageSR=3857&size=2400%2C2400&format=jpg&transparent=false&f=json",
-      "file": "satellite_export.json",
-      "bytes": 368,
-      "sha256": "107f0c680eaaf74815325b004df881077dbf0df01329dfff003bd38d841014bc",
+      "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=14042647.79142%2C3919659.21532%2C14134497.89764%2C3972128.64587&bboxSR=3857&imageSR=3857&size=4096%2C2340&format=jpg&transparent=false&f=json",
+      "file": "satellite_jeju_export.json",
+      "bytes": 372,
+      "sha256": "48618042f8462a855995205a5ce72f50d8e66d825d48d864c141f4e21eab4fe6",
       "content_type": "application/json;charset=UTF-8",
-      "downloaded_utc": "2026-10-13T02:31:37.187255+00:00"
+      "downloaded_utc": "2026-10-14T10:50:46.362540+00:00"
     },
     {
-      "url": "https://services.arcgisonline.com/arcgis/rest/directories/arcgisoutput/World_Imagery_MapServer/_ags_map3021f9e5e2904c16ac19782390ceeea5.jpg",
-      "file": "satellite.jpg",
-      "bytes": 1662339,
-      "sha256": "d307ea9ef3a6a356bb7994f3f4a5478256e42b5b38bf63a9781539271423d981",
+      "url": "https://services.arcgisonline.com/arcgis/rest/directories/arcgisoutput/World_Imagery_MapServer/_ags_map84140ed16364411f8437acfc21502996.jpg",
+      "file": "satellite_jeju.jpg",
+      "bytes": 2010149,
+      "sha256": "8321dde12f35c39871fd8d435237a88a5a24ccde5562d76fa64f4101f4423716",
       "content_type": "image/jpeg",
-      "downloaded_utc": "2026-10-13T02:31:37.544753+00:00"
+      "downloaded_utc": "2026-10-14T10:50:54.015713+00:00"
+    },
+    {
+      "url": "https://overpass.kumi.systems/api/interpreter (Overpass QL: [out:json][timeout:240];relation(id:3793143,3793206,3809942,3878188,4869085,5232945,5458299,5535857,5637062,5650389,6089470,6089589,6107767,7248520,7248521,7248522,7248523,8246395,9149294,9149725,9173551,9180869);out tags geom;)",
+      "file": "osm_olle_routes.json",
+      "bytes": 7974,
+      "sha256": "c864af99146f14c10b93fcc56671c9f44cb8d64f4b7ada521528b2ad4a0e74fb",
+      "content_type": "application/json",
+      "downloaded_utc": "2026-10-14T13:07:36.147371+00:00",
+      "licence": "ODbL 1.0, © OpenStreetMap contributors",
+      "listing_query": "[out:json][timeout:180];(relation[\"route\"~\"^(hiking|foot|walking)$\"](33.1,126.1,33.6,127.0);relation[\"network\"~\"^(iwn|nwn|rwn|lwn)$\"](33.1,126.1,33.6,127.0);relation[\"type\"=\"superroute\"](33.1,126.1,33.6,127.0););out tags;"
+    },
+    {
+      "url": "https://z.overpass-api.de/api/interpreter",
+      "overpass_ql": "[out:json][timeout:240];relation(id:3793143,3793206,3809942,3878188,4869085,5232945,5458299,5535857,5637062,5650389,6089470,6089589,6107767,7248520,7248521,7248522,7248523,8246395,9149294,9149725,9173551,9180869);out geom;",
+      "file": "osm_olle_relations.json",
+      "bytes": 946680,
+      "sha256": "cdea7510abab7fc598b4f2dc381d975c9d002e0cd68477ddc5caf1944b220866",
+      "content_type": "application/json",
+      "downloaded_utc": "2026-10-14T13:27:55.889015+00:00",
+      "licence": "ODbL 1.0, © OpenStreetMap contributors"
+    },
+    {
+      "url": "https://overpass.private.coffee/api/interpreter",
+      "overpass_ql": "[out:json][timeout:240];way[\"highway\"][\"name\"~\"올레\"](33.1,126.1,33.6,127.0);out geom;",
+      "file": "osm_olle_ways.json",
+      "bytes": 500853,
+      "sha256": "ce21a1e5f8efa7bf6bfdd0aa4c8eec563bf152f79fe7d49cc6daa5799253fd15",
+      "content_type": "application/json",
+      "downloaded_utc": "2026-10-14T13:35:23.029227+00:00",
+      "licence": "ODbL 1.0, © OpenStreetMap contributors"
+    },
+    {
+      "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=14074247.38042%2C3929236.91903%2C14101903.73785%2C3956893.27647&bboxSR=3857&imageSR=3857&size=2400%2C2400&format=jpg&transparent=false&f=json",
+      "file": "satellite_export.json",
+      "bytes": 372,
+      "sha256": "8e55890acaba93ef277edf053d277b5e54fea424d9b0576e36d6e76ca954e8cc",
+      "content_type": "application/json;charset=UTF-8",
+      "downloaded_utc": "2026-10-14T22:33:41.181189+00:00"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/directories/arcgisoutput/World_Imagery_MapServer/_ags_mapebdc3bb3d5ad4b8db9bce415dafec145.jpg",
+      "file": "satellite.jpg",
+      "bytes": 1687335,
+      "sha256": "658933521cb7d1d60101919d2de1a29597a6d166338da9ec872e49dbd3c3ac4e",
+      "content_type": "image/jpeg",
+      "downloaded_utc": "2026-10-14T22:33:42.564637+00:00"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "title": "제주도 전역 참고격자 경사도",
-  "created": "2026-10-14",
+  "created": "2026-10-15",
   "not_vworld_output": true,
   "user_approved_alternative": "Public DEM derived analysis",
   "elevation_source": {
@@ -48,12 +48,12 @@
     "actual_vworld_results_collected": false
   },
   "grid": {
-    "count": 7519,
-    "source": "jeju_lcc_grid_500m in jeju_grid_cells.gpkg: same assumed LCC and i0=1121/j0=1681 cell numbering as the Hallasan grid, extended to every 500m cell touching the Natural Earth 1:10m Jeju outline",
+    "count": 7518,
+    "source": "jeju_grid_500m in radar_grid_cells.gpkg: official KMA radar composite grid (LCC 30/60, 126E/38N, WGS84 ellipsoid, i0=1121/j0=1681), every 500m cell touching the Natural Earth 1:10m Jeju outline",
     "ids_preserved": true,
     "original_crs": "Assumed spherical LCC, standard parallels 30/60, radius 6371008.77m",
     "original_plane_area_km2": 1879.75,
-    "utm_plane_area_km2": 1930.1672275663163,
+    "utm_plane_area_km2": 1930.5063025137397,
     "area_difference": "Projection-scale difference. Same geographic footprint; original assumed LCC metres differ from UTM ground-scale area.",
     "radar_alignment_verified": false
   },
@@ -67,9 +67,9 @@
     "No rainfall data, weather API, authentication key, or hiking safety classification used."
   ],
   "files": {
-    "jeju_grid_slope.csv": "7519 grid rows with UTF-8 BOM",
+    "jeju_grid_slope.csv": "7518 grid rows with UTF-8 BOM",
     "jeju_slope_classes.csv": "Overall area by slope class",
-    "shapefiles/grid_slope_500m.shp": "7519 grid polygons with statistics",
+    "shapefiles/grid_slope_500m.shp": "7518 grid polygons with statistics",
     "shapefiles/slope_classes.shp": "Contiguous 30m slope-class polygons clipped to study boundary",
     "jeju_slope.qgs": "Portable QGIS project using relative local paths",
     "jeju_slope_satellite.png": "Satellite/aerial backdrop with slope classes and reference trails"
@@ -95,38 +95,6 @@
       "bytes": 11142,
       "sha256": "3c41ca79d7ddc2267fa1ac60c43263acbfed04915e3b2433e6b8e5d30378e2dc",
       "reused_download": true
-    },
-    {
-      "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=14074422.57372%2C3930552.40601%2C14102017.30862%2C3958147.14090&bboxSR=3857&imageSR=3857&size=2400%2C2400&format=jpg&transparent=false&f=json",
-      "file": "satellite_export.json",
-      "bytes": 368,
-      "sha256": "107f0c680eaaf74815325b004df881077dbf0df01329dfff003bd38d841014bc",
-      "content_type": "application/json;charset=UTF-8",
-      "downloaded_utc": "2026-10-13T02:31:37.187255+00:00"
-    },
-    {
-      "url": "https://services.arcgisonline.com/arcgis/rest/directories/arcgisoutput/World_Imagery_MapServer/_ags_map3021f9e5e2904c16ac19782390ceeea5.jpg",
-      "file": "satellite.jpg",
-      "bytes": 1662339,
-      "sha256": "d307ea9ef3a6a356bb7994f3f4a5478256e42b5b38bf63a9781539271423d981",
-      "content_type": "image/jpeg",
-      "downloaded_utc": "2026-10-13T02:31:37.544753+00:00"
-    },
-    {
-      "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=14042647.79142%2C3919659.21532%2C14134497.89764%2C3972128.64587&bboxSR=3857&imageSR=3857&size=4096%2C2340&format=jpg&transparent=false&f=json",
-      "file": "satellite_jeju_export.json",
-      "bytes": 372,
-      "sha256": "48618042f8462a855995205a5ce72f50d8e66d825d48d864c141f4e21eab4fe6",
-      "content_type": "application/json;charset=UTF-8",
-      "downloaded_utc": "2026-10-14T10:50:46.362540+00:00"
-    },
-    {
-      "url": "https://services.arcgisonline.com/arcgis/rest/directories/arcgisoutput/World_Imagery_MapServer/_ags_map84140ed16364411f8437acfc21502996.jpg",
-      "file": "satellite_jeju.jpg",
-      "bytes": 2010149,
-      "sha256": "8321dde12f35c39871fd8d435237a88a5a24ccde5562d76fa64f4101f4423716",
-      "content_type": "image/jpeg",
-      "downloaded_utc": "2026-10-14T10:50:54.015713+00:00"
     },
     {
       "url": "https://overpass.kumi.systems/api/interpreter (Overpass QL: [out:json][timeout:240];relation(id:3793143,3793206,3809942,3878188,4869085,5232945,5458299,5535857,5637062,5650389,6089470,6089589,6107767,7248520,7248521,7248522,7248523,8246395,9149294,9149725,9173551,9180869);out tags geom;)",
@@ -157,6 +125,38 @@
       "content_type": "application/json",
       "downloaded_utc": "2026-10-14T13:35:23.029227+00:00",
       "licence": "ODbL 1.0, © OpenStreetMap contributors"
+    },
+    {
+      "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=14074247.38042%2C3929236.91903%2C14101903.73785%2C3956893.27647&bboxSR=3857&imageSR=3857&size=2400%2C2400&format=jpg&transparent=false&f=json",
+      "file": "satellite_export.json",
+      "bytes": 372,
+      "sha256": "8e55890acaba93ef277edf053d277b5e54fea424d9b0576e36d6e76ca954e8cc",
+      "content_type": "application/json;charset=UTF-8",
+      "downloaded_utc": "2026-10-14T22:33:41.181189+00:00"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/directories/arcgisoutput/World_Imagery_MapServer/_ags_mapebdc3bb3d5ad4b8db9bce415dafec145.jpg",
+      "file": "satellite.jpg",
+      "bytes": 1687335,
+      "sha256": "658933521cb7d1d60101919d2de1a29597a6d166338da9ec872e49dbd3c3ac4e",
+      "content_type": "image/jpeg",
+      "downloaded_utc": "2026-10-14T22:33:42.564637+00:00"
+    },
+    {
+      "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=14042609.80077%2C3919535.72228%2C14134270.66404%2C3972127.17617&bboxSR=3857&imageSR=3857&size=4096%2C2350&format=jpg&transparent=false&f=json",
+      "file": "satellite_jeju_export.json",
+      "bytes": 372,
+      "sha256": "bc6fd53643a9bb96442be653207a2bb3b31e5620ab8c66b75edcf8b31dc97897",
+      "content_type": "application/json;charset=UTF-8",
+      "downloaded_utc": "2026-10-14T22:36:45.225003+00:00"
+    },
+    {
+      "url": "https://services.arcgisonline.com/arcgis/rest/directories/arcgisoutput/World_Imagery_MapServer/_ags_mapac03561d33d94786acf189bc6a1332a3.jpg",
+      "file": "satellite_jeju.jpg",
+      "bytes": 2015905,
+      "sha256": "bf7b1285d5c4b1af2d5decc4130575f6ea25de6dee613bcc3cd36b8bb76e0b3d",
+      "content_type": "image/jpeg",
+      "downloaded_utc": "2026-10-14T22:36:46.670932+00:00"
     }
   ]
 }

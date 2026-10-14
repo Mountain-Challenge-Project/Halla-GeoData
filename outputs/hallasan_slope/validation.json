@@ -1,98 +1,99 @@
 {
   "grid_count": 1849,
   "unique_grid_ids": 1849,
-  "slope_polygon_count": 27501,
-  "area_utm_m2": 474590113.6927313,
+  "slope_polygon_count": 27277,
+  "area_utm_m2": 474707597.2443533,
   "source_lcc_area_m2": 462250000,
-  "slope_polygon_area_m2": 474590113.6927516,
-  "area_coverage_min_pct": 99.99999999994748,
-  "area_coverage_max_pct": 100.00000000005103,
-  "overall_mean_slope_degrees": 8.4290352687966,
-  "maximum_slope_degrees": 60.30902862548828,
+  "slope_polygon_area_m2": 474707597.2443654,
+  "area_coverage_min_pct": 99.99999999994115,
+  "area_coverage_max_pct": 100.0000000000554,
+  "overall_mean_slope_degrees": 8.413780897398265,
+  "maximum_slope_degrees": 60.32805633544922,
   "elevation_range_m": [
-    -0.06858138740062714,
-    1922.921142578125
+    -0.5288680791854858,
+    1922.925537109375
   ],
   "classes": [
     {
       "class_id": 1,
       "min_deg": 0,
       "max_deg": 5,
-      "area_m2": 151182406.43157074,
-      "area_pct": 31.8553636221436
+      "area_m2": 152039810.85801268,
+      "area_pct": 32.028097241457694
     },
     {
       "class_id": 2,
       "min_deg": 5,
       "max_deg": 10,
-      "area_m2": 184916521.8260458,
-      "area_pct": 38.96341632302949
+      "area_m2": 183457480.63956,
+      "area_pct": 38.646417648361655
     },
     {
       "class_id": 3,
       "min_deg": 10,
       "max_deg": 15,
-      "area_m2": 82021641.06364438,
-      "area_pct": 17.282627407772967
+      "area_m2": 82290847.61794461,
+      "area_pct": 17.33506017085792
     },
     {
       "class_id": 4,
       "min_deg": 15,
       "max_deg": 20,
-      "area_m2": 32234751.520167142,
-      "area_pct": 6.792124528121931
+      "area_m2": 32459490.18763432,
+      "area_pct": 6.83778611845665
     },
     {
       "class_id": 5,
       "min_deg": 20,
       "max_deg": 25,
-      "area_m2": 13011618.856170274,
-      "area_pct": 2.7416540043212874
+      "area_m2": 13224367.999897616,
+      "area_pct": 2.78579236495558
     },
     {
       "class_id": 6,
       "min_deg": 25,
       "max_deg": 30,
-      "area_m2": 6102275.478873033,
-      "area_pct": 1.2857991143961398
+      "area_m2": 6110692.964027235,
+      "area_pct": 1.2872540906232077
     },
     {
       "class_id": 7,
       "min_deg": 30,
       "max_deg": 35,
-      "area_m2": 2813298.5162802413,
-      "area_pct": 0.5927848969271964
+      "area_m2": 2818206.977288923,
+      "area_pct": 0.5936721876052456
     },
     {
       "class_id": 8,
       "min_deg": 35,
       "max_deg": 40,
-      "area_m2": 1456200.0,
-      "area_pct": 0.306833193104132
+      "area_m2": 1454400.0,
+      "area_pct": 0.3063780753547363
     },
     {
       "class_id": 9,
       "min_deg": 40,
       "max_deg": 45,
-      "area_m2": 552600.0,
-      "area_pct": 0.11643731802591906
+      "area_m2": 553500.0,
+      "area_pct": 0.11659809179651165
     },
     {
       "class_id": 10,
       "min_deg": 45,
       "max_deg": 90,
       "area_m2": 298800.0,
-      "area_pct": 0.06295959215733735
+      "area_pct": 0.06294401053079979
     }
   ],
   "raster_shape_buffered": [
-    763,
-    766
+    765,
+    765
   ],
   "crs": "EPSG:32652",
-  "grid_source_crs": "+proj=lcc +lat_0=38 +lon_0=126 +lat_1=30 +lat_2=60 +x_0=0 +y_0=0 +R=6371008.77 +units=m +no_defs",
+  "grid_source_crs": "+proj=lcc +lat_0=38 +lon_0=126 +lat_1=30 +lat_2=60 +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs",
+  "grid_alignment": "official KMA radar composite grid (LCC 30/60, 126E/38N, WGS84 ellipsoid; verified 2026-10-15, max 0.78 m)",
   "method": "Copernicus GLO-30 DSM; bilinear reprojection to 30m UTM52; GDAL Horn slope; exact pixel/grid intersection area weighting",
-  "source_warning": "Not VWorld analysis output. DSM includes vegetation and structures. Original 500m LCC reference grid alignment to official radar is unverified.",
+  "source_warning": "Not VWorld analysis output. DSM includes vegetation and structures.",
   "nodata": -9999,
   "statistics_status": "passed",
   "qgis_project_reopened_all_layers_valid": true,
@@ -118,7 +119,7 @@
       "sidecars_present": true
     },
     "slope_classes.shp": {
-      "features": 27501,
+      "features": 27277,
       "invalid_geometries": 0,
       "sidecars_present": true
     },
@@ -130,36 +131,36 @@
   },
   "rasters": {
     "dem_30m.tif": {
-      "valid_pixels": 527324,
-      "min": -0.06858138740062714,
-      "max": 1922.921142578125,
+      "valid_pixels": 527456,
+      "min": -0.5288680791854858,
+      "max": 1922.925537109375,
       "statistics": [
-        -0.06858138740062714,
-        1922.921142578125,
-        635.9347752410305,
-        373.42350095778653
+        -0.5288680791854858,
+        1922.925537109375,
+        629.4291629009205,
+        381.7472717329655
       ]
     },
     "slope_degrees_30m.tif": {
-      "valid_pixels": 527324,
+      "valid_pixels": 527456,
       "min": 0.0,
-      "max": 60.30902862548828,
+      "max": 60.32805633544922,
       "statistics": [
         0.0,
-        60.30902862548828,
-        8.428899060055112,
-        6.047022882588127
+        60.32805633544922,
+        8.413575988533612,
+        6.088567161818338
       ]
     },
     "aspect_degrees_30m.tif": {
-      "valid_pixels": 527280,
+      "valid_pixels": 524965,
       "min": 0.0002593994140625,
-      "max": 359.999755859375,
+      "max": 359.99835205078125,
       "statistics": [
         0.0002593994140625,
-        359.999755859375,
-        173.30569166346675,
-        105.18518593425067
+        359.99835205078125,
+        172.4025946795843,
+        101.33246191822525
       ]
     }
   },

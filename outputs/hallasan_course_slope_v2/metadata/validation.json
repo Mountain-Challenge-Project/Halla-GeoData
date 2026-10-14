@@ -19,37 +19,37 @@
     {
       "course": "어리목",
       "length_delta_m": 2.332853910047561e-09,
-      "mean_delta_deg": 8.78040751217668e-10,
+      "mean_delta_deg": 3.5655283170399343e-09,
       "steep_length_delta_m": 7.860307960072532e-10
     },
     {
       "course": "영실",
       "length_delta_m": 3.788045432884246e-10,
-      "mean_delta_deg": -2.1621087142875695e-09,
+      "mean_delta_deg": -5.676028536072408e-10,
       "steep_length_delta_m": 9.727045835461468e-10
     },
     {
       "course": "성판악",
       "length_delta_m": 2.926753950305283e-09,
-      "mean_delta_deg": -4.07553812920014e-09,
+      "mean_delta_deg": 3.1815474699214974e-09,
       "steep_length_delta_m": 3.6118308344157413e-10
     },
     {
       "course": "관음사",
       "length_delta_m": -1.6552803572267294e-09,
-      "mean_delta_deg": -9.117382404610908e-10,
+      "mean_delta_deg": 1.5580905454726235e-09,
       "steep_length_delta_m": -6.625668902415782e-10
     },
     {
       "course": "돈내코",
       "length_delta_m": -2.6548150344751775e-09,
-      "mean_delta_deg": -4.6763091177126626e-09,
+      "mean_delta_deg": -1.003204630478649e-09,
       "steep_length_delta_m": 0.0
     },
     {
       "course": "어승생악",
       "length_delta_m": -3.2662228477420285e-10,
-      "mean_delta_deg": 2.629825246458495e-09,
+      "mean_delta_deg": -2.918094210713207e-09,
       "steep_length_delta_m": -2.1734081201429944e-10
     }
   ],

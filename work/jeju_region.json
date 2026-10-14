@@ -1,28 +1,28 @@
 {
-  "source_file": "inputs/reference/jeju_grid_cells.gpkg",
-  "source_layer": "jeju_lcc_grid_500m",
-  "grid_count": 7519,
-  "unique_ids": 7519,
-  "source_lcc_area_km2": 1879.75,
-  "utm52_area_km2": 1930.1672275657536,
+  "source_file": "inputs/reference/radar_grid_cells.gpkg",
+  "source_layer": "jeju_grid_500m",
+  "grid_count": 7518,
+  "unique_ids": 7518,
+  "source_lcc_area_km2": 1879.5,
+  "utm52_area_km2": 1930.506302513118,
   "bounds_by_epsg": {
     "4326": [
-      126.16072613466159,
-      33.194575787110615,
-      126.95888021878399,
-      33.56565870121595
+      126.16038485887992,
+      33.193647454454045,
+      126.95683894466553,
+      33.56564770017539
     ],
     "32652": [
-      235568.58348350233,
-      3676154.155346973,
-      310324.43967394484,
-      3716262.0730188233
+      235548.38484700996,
+      3676065.861762092,
+      310144.1432357541,
+      3716264.188606084
     ],
     "3857": [
-      14044147.79142017,
-      3921159.2153241043,
-      14132997.897639245,
-      3970628.645868501
+      14044109.800773934,
+      3921035.7222830406,
+      14132770.66404381,
+      3970627.1761702416
     ]
   },
   "notice": "Existing assumed LCC reference grid; official radar alignment unverified. No slope observations collected in this preparation step."
