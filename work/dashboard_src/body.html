@@ -12,6 +12,7 @@
       <h2>실시간 강수 입력</h2>
       <dl class="sel" id="liveMeta"><dt>상태</dt><dd id="mStatus">확인 중</dd><dt>동기화</dt><dd id="mMode">-</dd><dt>관측 시각</dt><dd id="mObserved">-</dd><dt>프레임</dt><dd id="mFrame">-</dd><dt>마지막 확인</dt><dd id="mChecked">-</dd></dl>
       <div class="row" style="margin-top:8px"><button class="btn" id="btnRefresh" type="button">지금 확인</button><label class="small muted">주기 <select id="selPoll" style="width:auto;display:inline-block;padding:3px 6px"><option value="30000">30초</option><option value="60000" selected>60초</option><option value="300000">5분</option></select></label></div>
+      <div id="demoBox" hidden style="margin-top:10px"><div class="note" style="margin-bottom:6px">이 파일은 자료를 내장한 독립 실행본이라 실시간 연결이 없습니다. 아래 버튼은 <b>가상 합성값</b>으로 강수 색상 표현만 미리 보여 줍니다. 실제 관측이 아닙니다.</div><button class="btn" id="btnDemo" type="button">가상 강수 예시 보기</button></div>
       <div id="importBox" hidden style="margin-top:10px">
         <div class="note" style="margin-bottom:6px">편집 권한이 있으면 수집기가 만든 <code>frame.json</code>과 <code>grid.geojson</code>을 올려 모든 열람자에게 즉시 반영할 수 있습니다.</div>
         <input type="file" id="fileFrame" accept=".json,application/json" aria-label="frame.json 또는 latest.json">
@@ -103,12 +104,12 @@ function showSelection(kind,p,layer){ selected={kind,p}; if(selectedLayer&&selec
 function setLive(state,text,detail){ const pill=$('livePill'); pill.className='pill '+(state||''); $('liveText').textContent=text; $('liveDetail').textContent=detail||''; }
 function ageText(iso){ if(!iso) return ''; const ms=Date.now()-Date.parse(iso); if(isNaN(ms)) return ''; const m=Math.round(ms/60000); return m<1?'방금':m<60?m+'분 전':(m/60).toFixed(1)+'시간 전'; }
 function renderLiveMeta(){ $('mStatus').textContent=rain.status==='available'?'강수 프레임 수신':rain.status==='error'?'오류':'입력 대기 (실제 강수값 없음)';
-  $('mMode').textContent=rain.mode==='db'?'공유 DB 실시간 구독':rain.mode==='static'?'저장소 파일 폴링 (latest.json)':rain.mode==='none'?'로그인 필요':'연결 없음';
+  $('mMode').textContent=rain.mode==='db'?'공유 DB 실시간 구독':rain.mode==='static'?'저장소 파일 폴링 (latest.json)':rain.mode==='none'?'로그인 필요':rain.mode==='embedded'?'내장 자료 (연결 없음)':'연결 없음';
   $('mObserved').textContent=rain.observed_at?(rain.observed_at.replace('T',' ').replace('Z',' UTC')+' · '+ageText(rain.observed_at)):'–';
   $('mFrame').textContent=rain.frame_id?(rain.frame_id+(rain.parts?' · '+rain.loaded+'/'+rain.parts+' 조각':'')):'–';
   $('mChecked').textContent=rain.checked?rain.checked.toLocaleTimeString('ko-KR'):'–';
   const opt=$('selMetric').querySelector('option[value=rain]');
-  if(rain.status==='available'&&Object.keys(rain.values).length){ opt.disabled=false; opt.textContent='강수 (mm/h) · '+ageText(rain.observed_at); setLive(Date.now()-Date.parse(rain.observed_at)>15*60000?'warn':'ok',Date.now()-Date.parse(rain.observed_at)>15*60000?'강수 자료 오래됨':'강수 수신 중','관측 '+rain.observed_at.replace('T',' ').replace('Z','Z')); }
+  if(rain.status==='available'&&Object.keys(rain.values).length){ opt.disabled=false; opt.textContent='강수 (mm/h) · '+(demoOn?'가상 예시':ageText(rain.observed_at)); if(demoOn){ return; } setLive(Date.now()-Date.parse(rain.observed_at)>15*60000?'warn':'ok',Date.now()-Date.parse(rain.observed_at)>15*60000?'강수 자료 오래됨':'강수 수신 중','관측 '+rain.observed_at.replace('T',' ').replace('Z','Z')); }
   else { opt.disabled=true; opt.textContent='강수 (mm/h) · 입력 대기'; if(metric==='rain'){metric='mean_deg';$('selMetric').value=metric;restyleGrid();}
     if(rain.status==='error') setLive('crit','강수 입력 오류',rain.message||''); else if(rain.mode==='none') setLive('','강수 상태: 로그인 필요',''); else setLive('','강수 입력 대기',rain.message||'수집기 자료가 들어오면 자동 반영'); } }
 
@@ -156,13 +157,15 @@ async function fetchJson(url,tries){ let last; for(let i=0;i<(tries||3);i++){ tr
 async function boot(){
   setLive('','자료 불러오는 중','');
   const names=['overlays','olle','trails','steep','boundary','park','grid']; const got={};
-  for(const n of names){ got[n]=await fetchJson('data/'+n+(n==='overlays'?'.json':'.geojson')); }
+  const E=window.__EMBED__||null;   // standalone build: data and images are embedded in the file
+  for(const n of names){ got[n]=E?E[n]:await fetchJson('data/'+n+(n==='overlays'?'.json':'.geojson')); }
   const ov=got.overlays, gridGj=got.grid, olle=got.olle, trails=got.trails, steep=got.steep, boundary=got.boundary, park=got.park;
+  const satUrl=E&&E.images?E.images.satellite:'data/satellite.jpg', slopeUrl=E&&E.images?E.images.slope:'data/slope.png';
   const satB=[ov.satellite_jpg.sw,ov.satellite_jpg.ne], slopeB=[ov.slope_png.sw,ov.slope_png.ne];
   map=L.map('map',{zoomSnap:.25,minZoom:9,maxZoom:15,maxBounds:[[satB[0][0]-.1,satB[0][1]-.15],[satB[1][0]+.1,satB[1][1]+.15]],attributionControl:true,preferCanvas:true});
   map.attributionControl.setPrefix('');
-  layers.sat=L.imageOverlay('data/satellite.jpg',satB,{attribution:'배경: Esri, Vantor, Earthstar Geographics, GIS User Community · 고도: Copernicus GLO-30 (ESA/DLR/Airbus) · © OpenStreetMap contributors'}).addTo(map);
-  layers.slope=L.imageOverlay('data/slope.png',slopeB,{opacity:.6});
+  layers.sat=L.imageOverlay(satUrl,satB,{attribution:'배경: Esri, Vantor, Earthstar Geographics, GIS User Community · 고도: Copernicus GLO-30 (ESA/DLR/Airbus) · © OpenStreetMap contributors'}).addTo(map);
+  layers.slope=L.imageOverlay(slopeUrl,slopeB,{opacity:.6});
   const canvas=L.canvas({padding:.3});
   grid=L.geoJSON(gridGj,{renderer:canvas,style:gridStyle,onEachFeature:(f,l)=>{ l.on('click',()=>showSelection('grid',f.properties,l)); l.bindTooltip(()=>{const p=f.properties;const m=METRICS[metric];const v=m.get(p);return `${p.grid_id} · ${m.label} ${fmt(v,m.unit==='mm/h'?2:1)}${m.unit}`;},{sticky:true,direction:'top',opacity:.9}); }});
   layers.grid=grid.addTo(map);
@@ -187,7 +190,17 @@ async function boot(){
   olle.features.slice().sort((x,y)=>{const a=key(x.properties.course),b=key(y.properties.course);return a[0]-b[0]||a[1].localeCompare(b[1]);}).forEach(f=>{ const p=f.properties; const tr=document.createElement('tr'); tr.dataset.course=p.course+'|'+(p.variant||''); tr.innerHTML=`<td>${esc(p.course)}${p.variant?' <span class="muted">'+esc(p.variant)+'</span>':''}</td><td class="n">${fmt(p.length_km,1)}</td><td class="n">${fmt(p.mean_deg,1)}</td><td class="n">${fmt(p.max_deg,1)}</td><td class="n">${fmt(p.steep20_m,0)}</td>`;
     tr.addEventListener('click',()=>{ let target=null; layers.olle.eachLayer(l=>{ if(l.feature===f) target=l; }); if(target){ map.fitBounds(target.getBounds(),{padding:[30,30],maxZoom:13}); showSelection('olle',p,target); } }); tb.appendChild(tr); });
   renderLegend(); renderSlopeLegend(); renderLiveMeta();
+  if(E){ rain.mode='embedded'; rain.checked=new Date(); rain.message='내장 자료 파일 · 실시간 연결 없음'; renderLiveMeta(); $('demoBox').hidden=false; $('btnDemo').addEventListener('click',toggleDemo); return; }
   const live=await connectDb(); if(!live){ rain.mode='static'; await pollStatic(); startPolling(); } }
+/* ---------- standalone file only: clearly labelled synthetic rainfall preview ---------- */
+let demoOn=false;
+function toggleDemo(){ demoOn=!demoOn;
+  if(!demoOn){ rain.status='waiting'; rain.frame_id=null; rain.observed_at=null; rain.values={}; rain.message='내장 자료 파일 · 실시간 연결 없음'; $('btnDemo').textContent='가상 강수 예시 보기'; renderLiveMeta(); restyleGrid(); return; }
+  const v={}; const cx=126.53+0.25*Math.sin(Date.now()/1e5), cy=33.38; let seed=7;
+  const rnd=()=>{ seed=(seed*16807)%2147483647; return seed/2147483647; };
+  grid.eachLayer(l=>{ const p=l.feature.properties; const c=l.getBounds().getCenter(); const dx=(c.lng-cx)*85, dy=(c.lat-cy)*111; const band=Math.exp(-((dx*0.6+dy)**2)/180)*9; const blob=Math.exp(-(dx*dx+dy*dy)/400)*4; const val=Math.max(0,band+blob+(rnd()-0.5)*1.2); v[p.grid_id]=[+val.toFixed(2),+(val*1.8).toFixed(2),100]; });
+  rain.status='available'; rain.frame_id='DEMO-가상예시'; rain.observed_at=new Date().toISOString().slice(0,19)+'Z'; rain.values=v; rain.parts=0; rain.message='가상 예시 · 실제 관측 아님';
+  $('btnDemo').textContent='가상 예시 끄기'; renderLiveMeta(); setLive('warn','가상 예시 강수 (실제 관측 아님)','색상 표현 미리보기용 합성값'); metric='rain'; $('selMetric').value='rain'; restyleGrid(); }
 boot().catch(e=>{ setLive('crit','자료를 불러오지 못했습니다',String(e.message||e)); $('selBody').textContent='data/ 폴더의 GeoJSON·이미지를 같은 위치에서 서비스해야 합니다. '+(e.message||e); });
 })();
 </script>
