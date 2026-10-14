@@ -1,0 +1,34 @@
+# Local credentials: publish only the blank template.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.aws/
+credentials*
+
+# Live API responses, logs and generated observations stay local.
+runtime/
+outputs/hallasan_radar_layers_v1/input/*
+!outputs/hallasan_radar_layers_v1/input/*.example.json
+outputs/hallasan_radar_layers_v1/dist/frames/
+outputs/hallasan_radar_layers_v1/dist/state/collector.json
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.tmp/
+*.tmp
+*.log
+*.qgs~
+*.aux.xml
+work/radar-relocation-*/
+work/course_bundle_relocation/
+work/relocated_slope_check/
+work/qgis_*profile/
+work/qgis_*check/
+work/dem_utm_buffer.tif
+work/slope_full.tif
+work/aspect_full.tif
+.venv/
+.DS_Store
+Thumbs.db

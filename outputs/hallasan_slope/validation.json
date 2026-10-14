@@ -1,0 +1,167 @@
+{
+  "grid_count": 1849,
+  "unique_grid_ids": 1849,
+  "slope_polygon_count": 27501,
+  "area_utm_m2": 474590113.6927313,
+  "source_lcc_area_m2": 462250000,
+  "slope_polygon_area_m2": 474590113.6927516,
+  "area_coverage_min_pct": 99.99999999994748,
+  "area_coverage_max_pct": 100.00000000005103,
+  "overall_mean_slope_degrees": 8.4290352687966,
+  "maximum_slope_degrees": 60.30902862548828,
+  "elevation_range_m": [
+    -0.06858138740062714,
+    1922.921142578125
+  ],
+  "classes": [
+    {
+      "class_id": 1,
+      "min_deg": 0,
+      "max_deg": 5,
+      "area_m2": 151182406.43157074,
+      "area_pct": 31.8553636221436
+    },
+    {
+      "class_id": 2,
+      "min_deg": 5,
+      "max_deg": 10,
+      "area_m2": 184916521.8260458,
+      "area_pct": 38.96341632302949
+    },
+    {
+      "class_id": 3,
+      "min_deg": 10,
+      "max_deg": 15,
+      "area_m2": 82021641.06364438,
+      "area_pct": 17.282627407772967
+    },
+    {
+      "class_id": 4,
+      "min_deg": 15,
+      "max_deg": 20,
+      "area_m2": 32234751.520167142,
+      "area_pct": 6.792124528121931
+    },
+    {
+      "class_id": 5,
+      "min_deg": 20,
+      "max_deg": 25,
+      "area_m2": 13011618.856170274,
+      "area_pct": 2.7416540043212874
+    },
+    {
+      "class_id": 6,
+      "min_deg": 25,
+      "max_deg": 30,
+      "area_m2": 6102275.478873033,
+      "area_pct": 1.2857991143961398
+    },
+    {
+      "class_id": 7,
+      "min_deg": 30,
+      "max_deg": 35,
+      "area_m2": 2813298.5162802413,
+      "area_pct": 0.5927848969271964
+    },
+    {
+      "class_id": 8,
+      "min_deg": 35,
+      "max_deg": 40,
+      "area_m2": 1456200.0,
+      "area_pct": 0.306833193104132
+    },
+    {
+      "class_id": 9,
+      "min_deg": 40,
+      "max_deg": 45,
+      "area_m2": 552600.0,
+      "area_pct": 0.11643731802591906
+    },
+    {
+      "class_id": 10,
+      "min_deg": 45,
+      "max_deg": 90,
+      "area_m2": 298800.0,
+      "area_pct": 0.06295959215733735
+    }
+  ],
+  "raster_shape_buffered": [
+    763,
+    766
+  ],
+  "crs": "EPSG:32652",
+  "grid_source_crs": "+proj=lcc +lat_0=38 +lon_0=126 +lat_1=30 +lat_2=60 +x_0=0 +y_0=0 +R=6371008.77 +units=m +no_defs",
+  "method": "Copernicus GLO-30 DSM; bilinear reprojection to 30m UTM52; GDAL Horn slope; exact pixel/grid intersection area weighting",
+  "source_warning": "Not VWorld analysis output. DSM includes vegetation and structures. Original 500m LCC reference grid alignment to official radar is unverified.",
+  "nodata": -9999,
+  "statistics_status": "passed",
+  "qgis_project_reopened_all_layers_valid": true,
+  "shapefiles": {
+    "grid_slope_500m.shp": {
+      "features": 1849,
+      "invalid_geometries": 0,
+      "sidecars_present": true
+    },
+    "reference_labels.shp": {
+      "features": 9,
+      "invalid_geometries": 0,
+      "sidecars_present": true
+    },
+    "reference_park.shp": {
+      "features": 1,
+      "invalid_geometries": 0,
+      "sidecars_present": true
+    },
+    "reference_trails.shp": {
+      "features": 6,
+      "invalid_geometries": 0,
+      "sidecars_present": true
+    },
+    "slope_classes.shp": {
+      "features": 27501,
+      "invalid_geometries": 0,
+      "sidecars_present": true
+    },
+    "study_boundary.shp": {
+      "features": 1,
+      "invalid_geometries": 0,
+      "sidecars_present": true
+    }
+  },
+  "rasters": {
+    "dem_30m.tif": {
+      "valid_pixels": 527324,
+      "min": -0.06858138740062714,
+      "max": 1922.921142578125,
+      "statistics": [
+        -0.06858138740062714,
+        1922.921142578125,
+        635.9347752410305,
+        373.42350095778653
+      ]
+    },
+    "slope_degrees_30m.tif": {
+      "valid_pixels": 527324,
+      "min": 0.0,
+      "max": 60.30902862548828,
+      "statistics": [
+        0.0,
+        60.30902862548828,
+        8.428899060055112,
+        6.047022882588127
+      ]
+    },
+    "aspect_degrees_30m.tif": {
+      "valid_pixels": 527280,
+      "min": 0.0002593994140625,
+      "max": 359.999755859375,
+      "statistics": [
+        0.0002593994140625,
+        359.999755859375,
+        173.30569166346675,
+        105.18518593425067
+      ]
+    }
+  },
+  "png_created": true
+}

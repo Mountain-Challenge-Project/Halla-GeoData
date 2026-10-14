@@ -1,0 +1,76 @@
+{
+  "course_summary": {
+    "rows": 6,
+    "invalid_geometry": 0,
+    "max_csv_shp_difference": 0
+  },
+  "steep_sections": {
+    "rows": 55,
+    "invalid_geometry": 0,
+    "max_csv_shp_difference": 0
+  },
+  "trail_slope_pieces": {
+    "rows": 2979,
+    "invalid_geometry": 0,
+    "max_csv_shp_difference": 0
+  },
+  "status": "passed",
+  "independent_geometry_intersection": [
+    {
+      "course": "어리목",
+      "length_delta_m": 2.332853910047561e-09,
+      "mean_delta_deg": 8.78040751217668e-10,
+      "steep_length_delta_m": 7.860307960072532e-10
+    },
+    {
+      "course": "영실",
+      "length_delta_m": 3.788045432884246e-10,
+      "mean_delta_deg": -2.1621087142875695e-09,
+      "steep_length_delta_m": 9.727045835461468e-10
+    },
+    {
+      "course": "성판악",
+      "length_delta_m": 2.926753950305283e-09,
+      "mean_delta_deg": -4.07553812920014e-09,
+      "steep_length_delta_m": 3.6118308344157413e-10
+    },
+    {
+      "course": "관음사",
+      "length_delta_m": -1.6552803572267294e-09,
+      "mean_delta_deg": -9.117382404610908e-10,
+      "steep_length_delta_m": -6.625668902415782e-10
+    },
+    {
+      "course": "돈내코",
+      "length_delta_m": -2.6548150344751775e-09,
+      "mean_delta_deg": -4.6763091177126626e-09,
+      "steep_length_delta_m": 0.0
+    },
+    {
+      "course": "어승생악",
+      "length_delta_m": -3.2662228477420285e-10,
+      "mean_delta_deg": 2.629825246458495e-09,
+      "steep_length_delta_m": -2.1734081201429944e-10
+    }
+  ],
+  "project_layers": 25,
+  "standalone_qml_styles": {
+    "trail_slope_pieces": "categorizedSymbol",
+    "slope_classes": "categorizedSymbol",
+    "grid_slope_500m": "graduatedSymbol",
+    "course_summary": "graduatedSymbol"
+  },
+  "png_dimensions": {
+    "course_slope_overview.png": [
+      3023,
+      2343
+    ],
+    "course_steep_detail.png": [
+      2834,
+      3288
+    ]
+  },
+  "relocated_all_25_layers_valid": true,
+  "zip_crc": "passed",
+  "all_guide_links_exist": true
+}

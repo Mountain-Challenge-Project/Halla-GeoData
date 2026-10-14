@@ -1,0 +1,14 @@
+{
+  "raster": "YOUR_VERIFIED_RAIN_RATE.tif",
+  "observed_at": "2026-10-14T09:00:00+09:00",
+  "source_product": "기상청 상품과 요소명을 확인 후 기입",
+  "source_reference": "실제 포맷 설명서 URL 또는 로컬 문서 경로",
+  "quantity": "rain_rate",
+  "unit": "mm/h",
+  "value_encoding": "physical_float",
+  "grid_verified": false,
+  "unit_verified": false,
+  "nodata_verified": false,
+  "verification_note": "좌표계·원점·픽셀 중심/경계·행 방향·배율·단위·결측 코드의 확인 근거를 기록",
+  "revision": 0
+}

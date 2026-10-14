@@ -1,0 +1,111 @@
+{
+  "created": "2026-10-13",
+  "method": "Split existing trail line edges exactly at 30m raster cell boundaries; assign cell slope to the within-cell line segment; mean and percentiles weighted by UTM planar segment length.",
+  "crs": "EPSG:32652",
+  "source_raster": "data/slope_degrees_30m.tif",
+  "source_trails": "shapefiles/reference_trails.shp",
+  "slope_meaning": "Terrain slope (steepest surface gradient) along the mapped line, not the longitudinal gradient of a staircase/path or walking grade.",
+  "thresholds": {
+    "steep_degrees": 20,
+    "additional_degrees": 30,
+    "authority": "Analytical cutoffs chosen for this deliverable; not official hazard classes."
+  },
+  "continuity": "Only touching source parts were line-merged. No missing links or trailhead ordering inferred. from_m/to_m reset at each merged part; not official distance from trailhead.",
+  "maximum": "Largest raster-cell terrain slope touched by a nonzero-length line segment; tiny intersections retained.",
+  "short_sections": "short30=1 flags steep sections under one 30m pixel width. No minimum-length filtering was applied.",
+  "missing_course": "석굴암: no source geometry; blank statistics, not zero.",
+  "limits": [
+    "Existing OSM line completeness/current access not verified.",
+    "30m DSM includes vegetation/structures and smooths trail-scale terrain.",
+    "Terrain slopes are not VWorld outputs.",
+    "Maximum and short steep sections are sensitive to line position and DSM resolution.",
+    "All distances are horizontal UTM planar lengths, not 3D walking distances."
+  ],
+  "counts": {
+    "courses_with_geometry": 6,
+    "csv_course_rows": 7,
+    "parts": 6,
+    "pieces": 2979,
+    "steep_sections": 55
+  },
+  "parts": [
+    {
+      "course": "어리목",
+      "part_id": 1,
+      "length_m": 4377.059913122333,
+      "start": [
+        126.5177738,
+        33.36212789999997
+      ],
+      "end": [
+        126.4953827,
+        33.39153039999999
+      ]
+    },
+    {
+      "course": "영실",
+      "part_id": 1,
+      "length_m": 3681.036546140381,
+      "start": [
+        126.4964926,
+        33.3484503
+      ],
+      "end": [
+        126.5177738,
+        33.36212789999997
+      ]
+    },
+    {
+      "course": "성판악",
+      "part_id": 1,
+      "length_m": 9262.44113431292,
+      "start": [
+        126.61906910000002,
+        33.38484730000001
+      ],
+      "end": [
+        126.5357159,
+        33.36099799999998
+      ]
+    },
+    {
+      "course": "관음사",
+      "part_id": 1,
+      "length_m": 8335.787371138344,
+      "start": [
+        126.5357159,
+        33.36099799999998
+      ],
+      "end": [
+        126.55022630000002,
+        33.4219432
+      ]
+    },
+    {
+      "course": "돈내코",
+      "part_id": 1,
+      "length_m": 6735.373113737343,
+      "start": [
+        126.53402659999999,
+        33.3545568
+      ],
+      "end": [
+        126.5704852,
+        33.31467280000002
+      ]
+    },
+    {
+      "course": "어승생악",
+      "part_id": 1,
+      "length_m": 973.0002705396732,
+      "start": [
+        126.49502889999998,
+        33.3926026
+      ],
+      "end": [
+        126.48922339999999,
+        33.39669070000001
+      ]
+    }
+  ]
+}

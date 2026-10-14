@@ -1,0 +1,29 @@
+{
+  "source_file": "inputs/reference/hallasan_course_cells.gpkg",
+  "source_layer": "candidate_lcc_grid_500m",
+  "grid_count": 1849,
+  "unique_ids": 1849,
+  "source_lcc_area_km2": 462.25,
+  "utm52_area_km2": 474.59011369260895,
+  "bounds_by_epsg": {
+    "4326": [
+      126.43852818065075,
+      33.27004065547244,
+      126.6747378031443,
+      33.46731008304004
+    ],
+    "32652": [
+      261421.36688282742,
+      3683640.097918906,
+      283909.19116862817,
+      3706027.4922813685
+    ],
+    "3857": [
+      14075072.573721012,
+      3931202.4425758515,
+      14101367.308617463,
+      3957497.104331777
+    ]
+  },
+  "notice": "Existing assumed LCC reference grid; official radar alignment unverified. No slope observations collected in this preparation step."
+}

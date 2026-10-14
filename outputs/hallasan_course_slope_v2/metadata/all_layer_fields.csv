@@ -1,0 +1,104 @@
+﻿layer,field,type,meaning
+trail_slope_pieces,piece_id,String,셀 교차 선분 ID
+trail_slope_pieces,course,String,코스 이름
+trail_slope_pieces,course_id,String,코스 ID
+trail_slope_pieces,part_id,Integer,연결 선형 번호
+trail_slope_pieces,from_m,Real,해당 선형 시작점부터 거리 m (탐방로 입구 기준 아님)
+trail_slope_pieces,to_m,Real,해당 선형 끝 거리 m
+trail_slope_pieces,length_m,Real,수평 선형 길이 m
+trail_slope_pieces,slope_deg,Real,해당 30m 셀의 지형 경사각 °
+trail_slope_pieces,class_id,Integer,경사 구간 코드 1–10
+trail_slope_pieces,steep20,Integer,경사 20° 이상이면 1
+trail_slope_pieces,steep30,Integer,경사 30° 이상이면 1
+trail_slope_pieces,elev_m,Real,해당 셀의 DSM 고도 m
+trail_slope_pieces,px_row,Integer,경사 래스터 행 번호 (0 기반)
+trail_slope_pieces,px_col,Integer,경사 래스터 열 번호 (0 기반)
+trail_slope_pieces,start_lon,Real,시작 경도 WGS84
+trail_slope_pieces,start_lat,Real,시작 위도 WGS84
+trail_slope_pieces,end_lon,Real,끝 경도 WGS84
+trail_slope_pieces,end_lat,Real,끝 위도 WGS84
+steep_sections,seg_id,String,급경사 구간 ID
+steep_sections,course,String,코스 이름
+steep_sections,course_id,String,코스 ID
+steep_sections,part_id,Integer,연결 선형 번호
+steep_sections,from_m,Real,해당 선형 시작점부터 거리 m (탐방로 입구 기준 아님)
+steep_sections,to_m,Real,해당 선형 끝 거리 m
+steep_sections,length_m,Real,수평 선형 길이 m
+steep_sections,mean_deg,Real,길이 가중 평균 지형 경사 °
+steep_sections,max_deg,Real,선형과 겹친 셀의 최대 지형 경사 °
+steep_sections,len30_m,Real,구간 중 30° 이상 길이 m
+steep_sections,short30,Integer,총 길이 30m 미만이면 1
+steep_sections,start_lon,Real,시작 경도 WGS84
+steep_sections,start_lat,Real,시작 위도 WGS84
+steep_sections,end_lon,Real,끝 경도 WGS84
+steep_sections,end_lat,Real,끝 위도 WGS84
+steep_sections,len_rank,Integer,코스 내 급경사 구간 길이 순위 (1이 가장 김)
+course_summary,course_id,String,코스 ID
+course_summary,course,String,코스 이름
+course_summary,length_m,Real,수평 선형 길이 m
+course_summary,parts,Integer,연결 선형 개수
+course_summary,cover_pc,Real,유효 길이 비율 % (정확도 아님)
+course_summary,valid_m,Real,유효 경사값이 있는 길이 m
+course_summary,mean_deg,Real,길이 가중 평균 지형 경사 °
+course_summary,max_deg,Real,선형과 겹친 셀의 최대 지형 경사 °
+course_summary,p90_deg,Real,길이 가중 90백분위 지형 경사 °
+course_summary,mean_pct,Real,길이 가중 평균 지형 경사율 %
+course_summary,steep20_m,Real,20° 이상 지형을 지나는 길이 m
+course_summary,steep30_m,Real,30° 이상 지형을 지나는 길이 m
+course_summary,steep20_pc,Real,20° 이상 길이 비율 %
+course_summary,steep30_pc,Real,30° 이상 길이 비율 %
+course_summary,seg20_n,Integer,20° 이상 연속 구간 수
+course_summary,status,String,원자료 상태 및 한계
+reference_trails,course,String,코스 이름
+reference_trails,number,String,기존 코스 번호
+reference_trails,status,String,원자료 상태 및 한계
+reference_trails,source,String,자료 출처
+slope_classes,poly_id,Integer,연속 경사구간 폴리곤 ID
+slope_classes,class_id,Integer,경사 구간 코드 1–10
+slope_classes,deg_lo,Integer,경사각 구간 하한 ° (포함)
+slope_classes,deg_hi,Integer,경사각 구간 상한 ° (미포함; 마지막 90 포함)
+slope_classes,class_txt,String,경사각 범위 문자
+slope_classes,area_m2,Real,UTM 평면 면적 m²
+slope_classes,source,String,자료 출처
+grid_slope_500m,grid_id,String,기존 LCC 격자 식별자
+grid_slope_500m,i_ref,Integer,기존 추정 LCC 열 번호 (1 기반)
+grid_slope_500m,j_ref,Integer,기존 추정 LCC 행 번호 (1 기반)
+grid_slope_500m,lon,Real,격자 중심 경도 WGS84
+grid_slope_500m,lat,Real,격자 중심 위도 WGS84
+grid_slope_500m,area_m2,Real,EPSG:32652 격자 폴리곤 면적 m²
+grid_slope_500m,valid_m2,Real,유효 경사 표본의 격자 내 교차면적 m²
+grid_slope_500m,cover_pct,Real,valid_m2 / area_m2 ×100; 정확도 지표 아님
+grid_slope_500m,n_px,Integer,조금이라도 겹치는 유효 30m 픽셀 수
+grid_slope_500m,mean_deg,Real,교차면적 가중 평균 경사각 °
+grid_slope_500m,p90_deg,Real,교차면적 가중 90백분위 경사각 °
+grid_slope_500m,max_deg,Real,격자와 겹치는 표본의 최대 경사각 °
+grid_slope_500m,min_deg,Real,최소 경사각 °
+grid_slope_500m,sd_deg,Real,교차면적 가중 경사각 표준편차 °
+grid_slope_500m,mean_pct,Real,픽셀별 tan(경사각)×100의 교차면적 가중 평균 %
+grid_slope_500m,elev_mean,Real,면적 가중 평균 DSM 고도 m
+grid_slope_500m,elev_min,Real,최소 DSM 고도 m
+grid_slope_500m,elev_max,Real,최대 DSM 고도 m
+grid_slope_500m,asp_deg,Real,경사향의 면적 가중 원형평균; 북0 동90 남180 서270
+grid_slope_500m,asp_r,Real,경사향 평균의 집중도 0–1; 작을수록 방향 해석 제한
+grid_slope_500m,p00_05,Real,0–5° 범주의 유효 교차면적 비율 %
+grid_slope_500m,p05_10,Real,5–10° 범주의 유효 교차면적 비율 %
+grid_slope_500m,p10_15,Real,10–15° 범주의 유효 교차면적 비율 %
+grid_slope_500m,p15_20,Real,15–20° 범주의 유효 교차면적 비율 %
+grid_slope_500m,p20_25,Real,20–25° 범주의 유효 교차면적 비율 %
+grid_slope_500m,p25_30,Real,25–30° 범주의 유효 교차면적 비율 %
+grid_slope_500m,p30_35,Real,30–35° 범주의 유효 교차면적 비율 %
+grid_slope_500m,p35_40,Real,35–40° 범주의 유효 교차면적 비율 %
+grid_slope_500m,p40_45,Real,40–45° 범주의 유효 교차면적 비율 %
+grid_slope_500m,p45_plus,Real,45° 이상 범주의 유효 교차면적 비율 %
+grid_slope_500m,src_m,Integer,"처리 격자 간격 30m, 원자료 명목해상도 약30m"
+grid_slope_500m,source,String,고도 원자료
+grid_slope_500m,method,String,계산·집계 방법
+study_boundary,name,String,이름
+study_boundary,area_m2,Real,UTM 평면 면적 m²
+reference_park,name,String,이름
+reference_park,osm_id,String,OSM 원자료 객체 ID
+reference_park,source,String,자료 출처
+reference_labels,label,String,지도 표시 이름
+reference_labels,kind,String,지명 분류
+reference_labels,course,String,코스 이름
+reference_labels,source,String,자료 출처

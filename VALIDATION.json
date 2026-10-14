@@ -1,0 +1,22 @@
+{
+  "checked_on": "2026-10-14",
+  "offline_kma_client_tests_passed": 9,
+  "gis_pipeline_tests_passed": 6,
+  "qgis_runtime": "QGIS 4.2.0 / GDAL 3.13.1 / Windows",
+  "qgis_project_valid_layer_counts": {"terrain": 10, "course": 25, "radar_static": 6},
+  "zip_crc": "passed",
+  "readme_local_links": "passed",
+  "credential_pattern_scan": "passed; heuristic scan, not a guarantee",
+  "local_env_ignored_by_git": true,
+  "real_kma_api_called": false,
+  "real_authentication_key_used": false,
+  "raw_collector_test_method": "fake HTTP responses and synthetic ASCII only",
+  "initial_map_state": "waiting; no real or synthetic rainfall published",
+  "not_verified": [
+    "real KMA API authorization and data availability",
+    "real KMA grid, timestamps and missing-value semantics",
+    "PCPH cumulative rainfall to map integration",
+    "live VWorld authenticated tile response",
+    "AWS deployment and continuous production operation"
+  ]
+}

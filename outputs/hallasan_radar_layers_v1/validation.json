@@ -1,0 +1,36 @@
+{
+  "created": "2026-10-14T12:15:14.116553",
+  "actual_radar_api_called": false,
+  "authentication_key_used": false,
+  "default_radar_state": "waiting",
+  "unit_and_integration_tests": {
+    "passed": 6,
+    "includes": [
+      "zero vs missing",
+      "area/length weighting",
+      "shared-edge ownership",
+      "unit and timezone validation",
+      "out-of-order frames and revision collision",
+      "whole Hallasan ingestion and QGIS synchronization"
+    ]
+  },
+  "browser_checked": [
+    "local HTTP 200",
+    "six course rows plus missing Seokgulam",
+    "slope/grid switches",
+    "waiting state and no invented rainfall"
+  ],
+  "not_verified": [
+    "VWorld authorized tile response",
+    "real KMA product decoding and alignment",
+    "production continuous collection",
+    "AWS deployment",
+    "browser PNG download event"
+  ],
+  "qgis_base_layers": 6,
+  "counts": {
+    "reference_grid": 1849,
+    "courses": 6,
+    "steep_sections": 55
+  }
+}

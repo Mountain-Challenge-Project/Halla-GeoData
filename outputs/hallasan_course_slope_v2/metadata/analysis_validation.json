@@ -1,0 +1,48 @@
+{
+  "status": "passed",
+  "length_conservation": [
+    {
+      "course": "어리목",
+      "source_m": 4377.0599131223335,
+      "merged_m": 4377.059913122333,
+      "pieces_m": 4377.059913122333
+    },
+    {
+      "course": "영실",
+      "source_m": 3681.036546140381,
+      "merged_m": 3681.036546140381,
+      "pieces_m": 3681.036546140379
+    },
+    {
+      "course": "성판악",
+      "source_m": 9262.441134312925,
+      "merged_m": 9262.44113431292,
+      "pieces_m": 9262.441134312927
+    },
+    {
+      "course": "관음사",
+      "source_m": 8335.787371138344,
+      "merged_m": 8335.787371138344,
+      "pieces_m": 8335.787371138345
+    },
+    {
+      "course": "돈내코",
+      "source_m": 6735.373113737345,
+      "merged_m": 6735.373113737343,
+      "pieces_m": 6735.373113737345
+    },
+    {
+      "course": "어승생악",
+      "source_m": 973.0002705396732,
+      "merged_m": 973.0002705396732,
+      "pieces_m": 973.0002705396734
+    }
+  ],
+  "counts": {
+    "courses_with_geometry": 6,
+    "csv_course_rows": 7,
+    "parts": 6,
+    "pieces": 2979,
+    "steep_sections": 55
+  }
+}

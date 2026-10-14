@@ -1,0 +1,25 @@
+* text=auto
+*.py text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.html text eol=lf
+*.js text eol=lf
+*.yml text eol=lf
+.env.example text eol=lf
+.gitattributes text eol=lf
+.gitignore text eol=lf
+FILE_MANIFEST.csv -text
+*.cmd -text whitespace=cr-at-eol
+*.shp binary
+*.shx binary
+*.dbf binary
+*.tif binary
+*.png binary
+*.jpg binary
+*.zip binary
+*.gpkg binary
+*.qgz binary
+# Preserve delivered data/archive hashes across Windows and Linux checkouts.
+outputs/** -text whitespace=cr-at-eol
+inputs/** -text
+work/public_sources/** -text whitespace=cr-at-eol

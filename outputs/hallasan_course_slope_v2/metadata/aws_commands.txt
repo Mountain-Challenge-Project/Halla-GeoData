@@ -1,0 +1,8 @@
+DOWNLOAD PUBLIC SOURCE (no credentials required):
+aws s3 cp "s3://copernicus-dem-30m/Copernicus_DSM_COG_10_N33_00_E126_00_DEM/Copernicus_DSM_COG_10_N33_00_E126_00_DEM.tif" "copernicus_N33_E126.tif" --no-sign-request --region eu-central-1
+
+UPLOAD TO YOUR OWN BUCKET (not executed):
+aws s3 cp "hallasan_course_slope_QGIS_v2.zip" "s3://YOUR-BUCKET/hallasan/2026-10-13/hallasan_course_slope_QGIS_v2.zip" --region ap-northeast-2 --profile YOUR-PROFILE
+
+CREATE ONE-HOUR DOWNLOAD LINK (not executed):
+aws s3 presign "s3://YOUR-BUCKET/hallasan/2026-10-13/hallasan_course_slope_QGIS_v2.zip" --expires-in 3600 --region ap-northeast-2 --profile YOUR-PROFILE

@@ -1,0 +1,16 @@
+name: Offline collector tests
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test configuration, parsing, retries and credential redaction
+        run: python -m unittest discover -s tests -v
+      - name: Check configuration without calling the API
+        run: python kma_client.py check
