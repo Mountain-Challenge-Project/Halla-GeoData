@@ -135,6 +135,8 @@ dl.sel dt{color:var(--muted);white-space:nowrap}dl.sel dd{margin:0;font-family:v
       <label class="chk"><input type="checkbox" id="lyHill"><span class="swatch poly" style="background:linear-gradient(90deg,#222,#ddd)"></span>GLO-30 음영기복</label>
       <label class="chk"><input type="checkbox" id="lySac"><span class="swatch" style="background:linear-gradient(90deg,#2e9e4f,#e3a000,#e4572e)"></span>등산로 난이도 (OSM sac_scale)</label>
       <label class="chk"><input type="checkbox" id="lyPoi"><span class="swatch poly" style="background:#7c3aed;width:10px;height:10px;border-radius:50%"></span>대피소·화장실·주차장·안내소·AED (OSM)</label>
+      <label class="chk"><input type="checkbox" id="lyObs" checked><span class="swatch poly" style="background:linear-gradient(90deg,#2c4ea3,#f7d58c,#c0392b);width:10px;height:10px;border-radius:50%"></span>관측 지점 AWS·ASOS (최신 기온)</label>
+      <div class="small muted" id="obsInfo" style="margin:-2px 0 4px 22px"></div>
       <label class="chk"><input type="checkbox" id="lySat" checked><span class="swatch poly" style="background:#5a6b4e"></span>Esri 위성 배경</label>
       <div class="legend" id="slopeLegend" hidden style="margin-top:6px"></div>
     </section>
@@ -252,6 +254,7 @@ const SLOPE_CLASSES=[['#ffffff','0–5°'],['#fcffb8','5–10°'],['#fff158','10
 let metric='mean_deg', fillOpacity=.55, selected=null, selectedLayer=null;
 const rain={status:'waiting',frame_id:null,observed_at:null,message:'',values:{},accum:{},parts:0,loaded:0,checked:null,mode:'static'};
 let warnings=null;  // {status, message, jeju:[...], checked_at}
+let obs=null; const cellProps={};  // obs: data/obs_latest.json or db radar/obs; cellProps: grid_id -> properties
 const layers={};
 let map, grid, db=null, user=null, canWrite=null, pollTimer=null, unsubLatest=null, unsubParts=null;
 
@@ -296,6 +299,19 @@ function renderForecast(){ const box=$('fcBody'); const opts=FC_METRICS.map(v=>$
     <div class="small muted" id="fcDerived"></div>`;
   renderDerived();
   box.querySelectorAll('#fcHours button').forEach(b=>b.addEventListener('click',()=>{ fcHour=+b.dataset.i; renderForecast(); if(isFc(metric)) restyleGrid(); if(selected&&selected.kind==='grid') showSelection('grid',selected.p,selectedLayer); })); }
+/* ---------- KMA stations (AWS 1-min + ASOS hourly, work/fetch_kma_obs.py): markers coloured by air temperature ---------- */
+function renderObs(){ const info=$('obsInfo'); if(!layers.obs) return; layers.obs.clearLayers(); if(!obs||!obs.stations){ if(info) info.textContent='관측 자료 없음 (data/obs_latest.json)'; $('lyObs').disabled=true; return; }
+  $('lyObs').disabled=false; const m=METRICS.cell_t; let n=0, tm=null, hi=null;
+  for(const [stn,st] of Object.entries(obs.stations)){ if(st.lon==null||st.lat==null) continue; const ta=num(st.ta); const c=colorFor(ta,m)||'#888'; n++; if(st.tm&&(!tm||st.tm>tm)) tm=st.tm; if(ta!=null&&(!hi||(st.ht_m||0)>(hi.ht_m||0))) hi=st;
+    const mk=L.circleMarker([st.lat,st.lon],{radius:st.kind==='SFC'?7:5.5,color:'#111',weight:1,fillColor:c,fillOpacity:.95});
+    mk.bindTooltip(`${st.name} (${st.kind==='SFC'?'ASOS':'AWS'} ${stn}) · ${ta==null?'–':ta+' °C'} · ${st.hm||'–'} % · ${st.ws10||'–'} m/s`,{direction:'top'});
+    mk.on('click',()=>showSelection('obs',Object.assign({stn},st),mk)); layers.obs.addLayer(mk); }
+  if(info) info.textContent=n?`${n}지점 · 관측 ${tm?tm.slice(4,6)+'-'+tm.slice(6,8)+' '+tm.slice(8,10)+':'+tm.slice(10,12):'–'} KST`+(hi?` · 최고 지점 ${hi.name} ${hi.ta} °C / ${hi.hm} %`:''):'관측 자료 없음'; }
+function obsRows(p){ const rows=[['지점',`${p.name} (${p.kind==='SFC'?'ASOS':'AWS'} ${p.stn})`],['노장 고도',fmt(p.ht_m,0)+' m'],['셀',p.grid_id||'격자 밖'],['관측 시각 (AWS 1분)',p.tm?p.tm.slice(0,8)+' '+p.tm.slice(8,10)+':'+p.tm.slice(10,12):'–'],
+    ['기온 / 이슬점',`${p.ta||'–'} / ${p.td||'–'} °C`],['상대습도',(p.hm||'–')+' %'],['현지 / 해면기압',`${p.pa||'–'} / ${p.ps||'–'} hPa`],['10분 풍향·풍속',`${p.wd10?windName(p.wd10)+' '+p.wd10+'°':'–'} · ${p.ws10||'–'} m/s (순간 ${p.wss||'–'})`],['60분 / 일 강수',`${p.rn60||'–'} / ${p.rn_day||'–'} mm`]];
+  if(p.asos){ const a=p.asos; rows.push(['ASOS 정시 ('+(a.tm||'').slice(8,10)+'시)',`기온 ${a.ta||'–'} · 이슬점 ${a.td||'–'} · 운량 ${a.ca_tot||'–'}/10 · 시정 ${a.vs?(a.vs*10/1000).toFixed(1)+' km':'–'} · 일사 ${a.si||'–'} MJ/m²`]); }
+  const cp=p.grid_id&&cellProps[p.grid_id]; if(cp&&forecast){ const t=cellTemp(cp), d=dewDep(cp), ta=num(p.ta), td=num(p.td); rows.push(['셀 추정 기온 (예보 '+hourLabel(forecast.hours[fcHour])+')',t==null?'–':fmt(t,1)+' °C'+(ta!=null?` · 관측 대비 ${fmt(t-ta,1)} °C`:'')],['셀 기온−이슬점 추정',d==null?'–':fmt(d,1)+' °C'+(ta!=null&&td!=null?` · 관측 ${fmt(ta-td,1)} °C`:'')]); }
+  return rows; }
 function renderWarnings(){ const box=$('warnBody'); if(!warnings){ box.textContent='특보 자료 없음'; return; }
   const when=warnings.checked_at?new Date(warnings.checked_at).toLocaleString('ko-KR'):'';
   if(warnings.status==='ok'){ if(!warnings.jeju||!warnings.jeju.length){ box.innerHTML=`<span class="pill ok"><span class="dot"></span>제주 특보 없음</span> <span class="muted">${esc(when)}</span>`; return; }
@@ -318,6 +334,7 @@ function showSelection(kind,p,layer){ selected={kind,p}; if(selectedLayer&&selec
   else if(kind==='trail'){ rows=[['탐방로',p.course],['길이',fmt(p.length_m/1000,2)+' km'],['평균 경사',fmt(p.mean_deg,2)+'°'],['90백분위',fmt(p.p90_deg,2)+'°'],['최대 경사',fmt(p.max_deg,2)+'°'],['20° 이상',fmt(p.steep20_m,0)+' m ('+fmt(p.steep20_pc,1)+' %)'],['급경사 구간 수',p.seg20_n]]; }
   else if(kind==='steep'){ rows=[['구간',p.seg_id],['탐방로',p.course],['길이',fmt(p.length_m,0)+' m'],['평균 경사',fmt(p.mean_deg,2)+'°'],['최대 경사',fmt(p.max_deg,2)+'°'],['시작 (lon, lat)',fmt(p.start_lon,5)+', '+fmt(p.start_lat,5)]]; }
   else if(kind==='poi'){ rows=[['종류',p.kind_ko||p.kind],['이름',p.name||'–'],['대피소 유형',p.shelter_type||'–'],['요금',p.fee||'–'],['수용',p.capacity||'–'],['OSM',p.osm]]; }
+  else if(kind==='obs'){ rows=obsRows(p); }
   else if(kind==='sac'){ rows=[['난이도 (sac_scale)',p.sac_scale],['이름',p.name||'–'],['도로 유형',p.highway||'–'],['가시성',p.trail_visibility||'–'],['OSM',p.osm]]; }
   $('selBody').innerHTML='<dl class="sel">'+rows.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')+'</dl>';
   document.querySelectorAll('#olleTable tbody tr').forEach(tr=>tr.classList.toggle('sel',kind==='olle'&&tr.dataset.course===p.course+'|'+(p.variant||''))); }
@@ -344,6 +361,7 @@ async function connectDb(){ if(!(window.claude&&typeof window.claude.use==='func
   try{ user=await window.claude.use('user'); canWrite=user?await user.can('data.write'):null; }catch(e){ canWrite=null; }
   if(canWrite!==false){ $('importBox').hidden=false; }
   db.doc('radar/warnings').onSnapshot(snap=>{ warnings=snap.exists?snap.data():null; renderWarnings(); },err=>{ warnings={status:'error',message:'DB 구독 오류: '+err.code}; renderWarnings(); });
+  db.doc('radar/obs').onSnapshot(snap=>{ if(snap.exists&&snap.data().stations){ obs=snap.data(); renderObs(); } },err=>{});
   db.doc('radar/forecast').onSnapshot(snap=>{ forecast=snap.exists?snap.data():null; renderForecast(); if(isFc(metric)) restyleGrid(); else rebuildMove(); },err=>{ forecast=null; renderForecast(); });
   unsubLatest=db.doc('radar/latest').onSnapshot(snap=>{ rain.checked=new Date(); const d=snap.exists?snap.data():null;
     if(!d){ rain.status='waiting'; rain.frame_id=null; rain.observed_at=null; rain.message='공유 DB에 아직 프레임이 없습니다'; rain.values={}; rain.accum={}; renderLiveMeta(); restyleGrid(); return; }
@@ -391,8 +409,8 @@ async function boot(){
   const ov=got.overlays, gridGj=got.grid, olle=got.olle, trails=got.trails, steep=got.steep, boundary=got.boundary, park=got.park;
   const satUrl=E&&E.images?E.images.satellite:'data/satellite.jpg', slopeUrl=E&&E.images?E.images.slope:'data/slope.png';
   // optional open-data layers (absent files are skipped)
-  const optional=async n=>{ if(E) return E[n]||null; try{ return await fetchJson('data/'+n+(n==='s2_meta'?'.json':'.geojson'),1); }catch(e){ return null; } };
-  const s2meta=await optional('s2_meta'), pois=await optional('pois'), sac=await optional('sac_scale');
+  const optional=async n=>{ if(E) return E[n]||null; try{ return await fetchJson('data/'+n+((n==='s2_meta'||n==='obs_latest')?'.json':'.geojson'),1); }catch(e){ return null; } };
+  const s2meta=await optional('s2_meta'), pois=await optional('pois'), sac=await optional('sac_scale'); const obs0=await optional('obs_latest'); if(obs0&&obs0.stations) obs=obs0;
   const img=n=>E&&E.images&&E.images[n]?E.images[n]:'data/'+n+'.png';
   loadedData=got; loadedImages={satellite:satUrl,slope:slopeUrl};
   if(E){ $('dlCard').hidden=true; } else { $('btnDownload').addEventListener('click',downloadStandalone); }
@@ -407,13 +425,13 @@ async function boot(){
     $('s2Info').innerHTML=`합성 규칙: 가장 최근의 구름 없는 픽셀 우선 (SCL 구름·그림자 제외) · 해상도 ${s2meta.resolution_m} m · 육지 피복률 ${fmt(s2meta.coverage_pct,1)} %<br>${(s2meta.dates_used||[]).map(u=>`${esc(u.date)}: 픽셀 ${fmt(u.pixel_share_pct,1)} % (타일 구름 ${Object.values(u.tiles).map(t=>fmt(t.cloud_cover_pct,0)).join('/')} %)`).join('<br>')}<br>NDVI 육지 평균 ${s2meta.ndvi_mean_land==null?'–':fmt(s2meta.ndvi_mean_land,2)} · 적설 ${fmt(s2meta.snow_area_km2,1)} km²`; }
   else { ['lyS2','lyNdvi','lySnow'].forEach(id=>{$(id).disabled=true;}); $('s2Info').textContent='Sentinel-2 합성 자료 없음 (work/build_open_data_layers.py 실행 필요)'; }
   const canvas=L.canvas({padding:.3});
-  grid=L.geoJSON(gridGj,{renderer:canvas,style:gridStyle,onEachFeature:(f,l)=>{ fcKey(f.properties,l); l.on('click',()=>showSelection('grid',f.properties,l)); l.bindTooltip(()=>{const p=f.properties;const m=METRICS[metric];const v=m.get(p);return `${p.grid_id} · ${m.label} ${fmt(v,m.unit==='mm/h'?2:1)}${m.unit}`;},{sticky:true,direction:'top',opacity:.9}); }});
+  grid=L.geoJSON(gridGj,{renderer:canvas,style:gridStyle,onEachFeature:(f,l)=>{ fcKey(f.properties,l); cellProps[f.properties.grid_id]=f.properties; l.on('click',()=>showSelection('grid',f.properties,l)); l.bindTooltip(()=>{const p=f.properties;const m=METRICS[metric];const v=m.get(p);return `${p.grid_id} · ${m.label} ${fmt(v,m.unit==='mm/h'?2:1)}${m.unit}`;},{sticky:true,direction:'top',opacity:.9}); }});
   layers.grid=grid.addTo(map);
   layers.boundary=L.layerGroup([L.geoJSON(boundary,{style:{color:'#ffffff',weight:1.2,fill:false,dashArray:'4 3',opacity:.9}}),L.geoJSON(park,{style:{color:'#9cffad',weight:1,fill:false,dashArray:'3 3',opacity:.9}})]).addTo(map);
   layers.steep=L.geoJSON(steep,{style:{color:'#ff2a2a',weight:4,opacity:.95},onEachFeature:(f,l)=>l.on('click',()=>showSelection('steep',f.properties,l))}).addTo(map);
   layers.trails=L.geoJSON(trails,{style:{color:'#00f0e1',weight:2.2,opacity:.95},onEachFeature:(f,l)=>{ l.on('click',()=>showSelection('trail',f.properties,l)); l.bindTooltip(f.properties.course,{permanent:true,direction:'center',className:'lbl trail'}); }}).addTo(map);
   layers.olle=L.geoJSON(olle,{style:{color:'#ff4fa3',weight:2.4,opacity:.95},onEachFeature:(f,l)=>{ l.on('click',()=>showSelection('olle',f.properties,l)); l.bindTooltip(f.properties.course,{permanent:true,direction:'center',className:'lbl'}); }}).addTo(map);
-  layers.risk=L.layerGroup().addTo(map); layers.move=L.layerGroup().addTo(map);
+  layers.risk=L.layerGroup().addTo(map); layers.move=L.layerGroup().addTo(map); layers.obs=L.layerGroup().addTo(map); renderObs();
   if(forecast) renderForecast();   // forecast may have arrived before the grid existed: fill the derived counts and arrows now
   const SAC={hiking:['#2e9e4f','하이킹'],mountain_hiking:['#e3a000','산악 하이킹'],demanding_mountain_hiking:['#e4572e','고난도 산악'],alpine_hiking:['#8b0000','알파인'],demanding_alpine_hiking:['#5a0010','고난도 알파인'],difficult_alpine_hiking:['#2b0008','극난도 알파인']};
   if(sac&&sac.features&&sac.features.length){ layers.sac=L.geoJSON(sac,{style:f=>({color:(SAC[f.properties.sac_scale]||['#888'])[0],weight:3,opacity:.95}),onEachFeature:(f,l)=>{ const p=f.properties; l.bindTooltip(`${(SAC[p.sac_scale]||[p.sac_scale,p.sac_scale])[1]} · ${p.name||p.highway}`,{sticky:true}); l.on('click',()=>showSelection('sac',p,l)); }}).addTo(map); $('lySac').checked=true; const cnt={}; sac.features.forEach(f=>{cnt[f.properties.sac_scale]=(cnt[f.properties.sac_scale]||0)+1;}); $('sacInfo').innerHTML=Object.entries(cnt).map(([k,v])=>`<span class="swatch" style="background:${(SAC[k]||['#888'])[0]};display:inline-block"></span> ${esc((SAC[k]||[k,k])[1])} ${v}`).join(' · '); }
@@ -424,7 +442,7 @@ async function boot(){
   map.fitBounds(satB,{padding:[4,4]});
   const toggle=(id,layer)=>{ if(!layer) return; $(id).addEventListener('change',e=>{ if(e.target.checked) layer.addTo(map); else map.removeLayer(layer); }); };
   toggle('lyGrid',layers.grid); toggle('lySlope',layers.slope); toggle('lyOlle',layers.olle); toggle('lyTrails',layers.trails); toggle('lySteep',layers.steep); toggle('lyBoundary',layers.boundary); toggle('lySat',layers.sat); toggle('lyRisk',layers.risk); toggle('lyMove',layers.move);
-  toggle('lyS2',layers.s2); toggle('lyNdvi',layers.ndvi); toggle('lySnow',layers.snow); toggle('lyHill',layers.hill); toggle('lyPoi',layers.pois); toggle('lySac',layers.sac);
+  toggle('lyS2',layers.s2); toggle('lyNdvi',layers.ndvi); toggle('lySnow',layers.snow); toggle('lyHill',layers.hill); toggle('lyPoi',layers.pois); toggle('lySac',layers.sac); toggle('lyObs',layers.obs);
   $('lySlope').addEventListener('change',e=>{ $('slopeLegend').hidden=!e.target.checked; });
   $('selMetric').addEventListener('change',e=>{ metric=e.target.value; restyleGrid(); });
   $('gridOpacity').addEventListener('input',e=>{ fillOpacity=e.target.value/100; restyleGrid(); });
@@ -442,6 +460,7 @@ async function boot(){
   if(E){ rain.mode='embedded'; rain.checked=new Date(); rain.message='내장 자료 파일 · 실시간 연결 없음'; $('demoBox').hidden=false; $('btnDemo').addEventListener('click',toggleDemo);
     if(E.warnings){ warnings=E.warnings; renderWarnings(); }
     if(E.forecast){ forecast=E.forecast; renderForecast(); }
+    if(E.obs_latest&&E.obs_latest.stations){ obs=E.obs_latest; renderObs(); }
     if(E.frame&&E.frame.cells){ applyFrame(E.frame,'내장 프레임 (파일 생성 시점 자료)'); } else renderLiveMeta(); return; }
   const live=await connectDb(); if(!live){ rain.mode='static'; await pollStatic(); startPolling(); } }
 /* ---------- build the standalone file in the browser and hand it to the viewer ---------- */
