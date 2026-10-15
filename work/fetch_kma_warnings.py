@@ -34,6 +34,7 @@ def key_from_env():
 
 
 def parse(text):
+    """wrn_now_data.php: '#' comment block, then a '# REG_UP  REG_UP_KO---- ...' column line, then comma-separated rows."""
     headers, rows = [], []
     for line in text.splitlines():
         s = line.strip()
@@ -41,8 +42,8 @@ def parse(text):
             continue
         if s.startswith('#'):
             body = s.lstrip('#').strip()
-            if ',' in body and re.search(r'[A-Z_]{2,}', body) and not headers:
-                headers = [h.strip() for h in body.split(',') if h.strip()]
+            if body.startswith('REG_UP') and not headers:
+                headers = [h.strip('-').strip() for h in re.split(r'\s{2,}', body) if h.strip('-').strip()]
             continue
         fields = [f.strip() for f in s.rstrip('=').split(',')]
         if len(fields) >= 3:
@@ -66,7 +67,10 @@ def main():
             raw = e.read(2000); code = e.code
         except Exception as e:
             raw = b''; code = None; result['message'] = '네트워크 오류: ' + type(e).__name__
-        text = raw.decode('utf-8', 'replace') if raw else ''
+        if raw:
+            try: text = raw.decode('utf-8')          # JSON error bodies are UTF-8
+            except UnicodeDecodeError: text = raw.decode('cp949', 'replace')   # data responses are EUC-KR
+        else: text = ''
         if key in text:
             text = text.replace(key, '<KEY>')
         if code == 200 and raw:
