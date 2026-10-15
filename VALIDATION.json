@@ -9,8 +9,29 @@
     "course": 25,
     "radar_static": 6
   },
-  "open_data_layers": {"sentinel2": "composite of the newest clear pixels from the four Jeju tiles over the last 90 days, SCL cloud mask, 40 m; dates and cloud shares in outputs/jeju_dashboard/data/s2_meta.json", "hillshade": "GLO-30 dem_30m.tif, GDAL hillshade az 315 alt 45", "osm_pois": {"shelter": 227, "toilets": 577, "parking": 1121, "information": 16, "defibrillator": 6}, "osm_sac_scale_ways": 110, "built_on": "2026-10-15", "note": "GDAL remote reads needed CURL_CA_BUNDLE with the Windows root store because the local antivirus re-signs HTTPS"},
-  "reference_grid": {"definition": "official KMA radar composite grid: LCC lat_1=30 lat_2=60 lat_0=38 lon_0=126 ellps=WGS84, i0=1121 j0=1681, 500 m", "file": "inputs/reference/radar_grid_cells.gpkg", "regenerated_on": "2026-10-15", "hallasan_cells": 1849, "hallasan_slope_polygons": 27277, "hallasan_mean_slope_deg": 8.41, "previous_spherical_grid_offset_m_at_jeju": 1062},
+  "open_data_layers": {
+    "sentinel2": "composite of the newest clear pixels from the four Jeju tiles over the last 90 days, SCL cloud mask, 40 m; dates and cloud shares in outputs/jeju_dashboard/data/s2_meta.json",
+    "hillshade": "GLO-30 dem_30m.tif, GDAL hillshade az 315 alt 45",
+    "osm_pois": {
+      "shelter": 227,
+      "toilets": 577,
+      "parking": 1121,
+      "information": 16,
+      "defibrillator": 6
+    },
+    "osm_sac_scale_ways": 110,
+    "built_on": "2026-10-15",
+    "note": "GDAL remote reads needed CURL_CA_BUNDLE with the Windows root store because the local antivirus re-signs HTTPS"
+  },
+  "reference_grid": {
+    "definition": "official KMA radar composite grid: LCC lat_1=30 lat_2=60 lat_0=38 lon_0=126 ellps=WGS84, i0=1121 j0=1681, 500 m",
+    "file": "inputs/reference/radar_grid_cells.gpkg",
+    "regenerated_on": "2026-10-15",
+    "hallasan_cells": 1849,
+    "hallasan_slope_polygons": 27277,
+    "hallasan_mean_slope_deg": 8.41,
+    "previous_spherical_grid_offset_m_at_jeju": 1062
+  },
   "jeju_wide_bundle": {
     "grid_cells": 7518,
     "hallasan_cells_included": 1844,
@@ -170,5 +191,31 @@
       "negative codes: -25000 valid 0, -30000 and -20000 nodata",
       "PCPH 60-min accumulation converted to hourly mean mm/h and ingested as rain_rate; frame 20261014T163500Z-r0-a1f33b9fac6daa6f"
     ]
+  },
+  "wind_humidity_grid_metrics": {
+    "built_on": "2026-10-15",
+    "forecast_base_kst": "2026-10-15T10:30",
+    "points": 95,
+    "new_point_fields": [
+      "vec",
+      "uuu",
+      "vvv",
+      "elev_m"
+    ],
+    "grid_fields_added": [
+      "asp_deg",
+      "asp_r"
+    ],
+    "cells_with_aspect": 7433,
+    "cells_flat_no_aspect": 85,
+    "metrics": {
+      "wind_exp": "WSD*cos(VEC-asp_deg)*asp_r, null when asp_r<0.2",
+      "cell_t": "T1H-0.0065*(elev_mean-point elev_m)",
+      "dewdep": "cell_t-(T1H-(100-REH)/5)",
+      "wchill": "KMA/JAG-TI when T<=10C and V>=4.8 km/h"
+    },
+    "rain_movement_arrows": "cells >=0.5 mm/h displaced downwind by WSD*3600 m, max ~400 arrows",
+    "browser_check": "local build: 4 metrics render, legend ticks correct, cell detail shows wind side/temperature/dew-point depression/wind chill, hour switch updates; arrows verified with the standalone demo rain (5681 cells -> 379 arrows); console errors 0",
+    "caveat": "5 km point values applied to 500 m cells; 10 m wind ignores terrain sheltering; analytical, not an official product"
   }
 }
