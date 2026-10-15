@@ -81,5 +81,25 @@
     "sha256": "bf7b1285d5c4b1af2d5decc4130575f6ea25de6dee613bcc3cd36b8bb76e0b3d",
     "content_type": "image/jpeg",
     "downloaded_utc": "2026-10-14T22:36:46.670932+00:00"
+  },
+  {
+    "url": "https://z.overpass-api.de/api/interpreter",
+    "overpass_ql": "[out:json][timeout:240];\n(\n  nwr[\"amenity\"=\"shelter\"](33.1,126.1,33.6,127.0);\n  nwr[\"amenity\"=\"toilets\"](33.1,126.1,33.6,127.0);\n  nwr[\"amenity\"=\"parking\"][\"access\"!=\"private\"](33.1,126.1,33.6,127.0);\n  nwr[\"tourism\"=\"information\"][\"information\"~\"office|visitor_centre\"](33.1,126.1,33.6,127.0);\n  nwr[\"emergency\"=\"defibrillator\"](33.1,126.1,33.6,127.0);\n  way[\"highway\"~\"^(path|footway|track|steps)$\"][\"sac_scale\"](33.1,126.1,33.6,127.0);\n);\nout center tags;",
+    "file": "osm_pois_sacscale.json",
+    "bytes": 520984,
+    "sha256": "5e964c729310c059d6b682a7176859e6bb4d2dcf547787842fe3a00f62c34158",
+    "content_type": "application/json",
+    "downloaded_utc": "2026-10-15T00:01:18.022900+00:00",
+    "licence": "ODbL 1.0, © OpenStreetMap contributors"
+  },
+  {
+    "url": "https://overpass-api.de/api/interpreter",
+    "overpass_ql": "[out:json][timeout:240];way[\"highway\"~\"^(path|footway|track|steps)$\"][\"sac_scale\"](33.1,126.1,33.6,127.0);out geom;",
+    "file": "osm_sacscale_geom.json",
+    "bytes": 295831,
+    "sha256": "69992f862872801849851bbb13c28cc2c69b03eaced5d500efbf106c4d824717",
+    "content_type": "application/json",
+    "downloaded_utc": "2026-10-15T00:03:43.327655+00:00",
+    "licence": "ODbL 1.0, © OpenStreetMap contributors"
   }
 ]

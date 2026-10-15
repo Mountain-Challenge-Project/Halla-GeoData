@@ -51,6 +51,14 @@ if '--standalone' in sys.argv:
              for n in ['overlays', 'olle', 'trails', 'steep', 'boundary', 'park', 'grid']}
     embed['images'] = {'satellite': 'data:image/jpeg;base64,' + base64.b64encode((data_dir / 'satellite.jpg').read_bytes()).decode(),
                        'slope': 'data:image/png;base64,' + base64.b64encode((data_dir / 'slope.png').read_bytes()).decode()}
+    for name in ['hillshade', 's2_truecolor', 's2_ndvi', 's2_snow']:  # optional open-data overlays
+        p = data_dir / (name + '.png')
+        if p.exists():
+            embed['images'][name] = 'data:image/png;base64,' + base64.b64encode(p.read_bytes()).decode()
+    for name, fn in [('s2_meta', 's2_meta.json'), ('pois', 'pois.geojson'), ('sac_scale', 'sac_scale.geojson')]:
+        p = data_dir / fn
+        if p.exists():
+            embed[name] = json.loads(p.read_text('utf-8'))
     frame_path = OUT / 'data' / 'latest_frame.json'
     if frame_path.exists():  # real radar frame produced by work/radar_to_frame.py, embedded with its observation time
         embed['frame'] = json.loads(frame_path.read_text('utf-8'))

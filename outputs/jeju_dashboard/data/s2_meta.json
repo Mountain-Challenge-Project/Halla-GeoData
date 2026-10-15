@@ -1,0 +1,253 @@
+{
+ "source": "Copernicus Sentinel-2 L2A COG, AWS Open Data (sentinel-cogs), Earth Search STAC",
+ "generated_at": "2026-10-15T01:36:48.503667+00:00",
+ "resolution_m": 40.0,
+ "composite_rule": "newest clear pixel first; SCL classes 0,1,3,8,9,10 masked; water (SCL 6) transparent in NDVI/snow; true colour = per-band 2-98 % percentile stretch over land, gamma 0.9",
+ "snow_rule": "NDSI > 0.4 and green reflectance > 0.11 and NDVI < 0.1 on land; leftover cloud can still be counted",
+ "dates_used": [
+  {
+   "date": "2026-10-13",
+   "tiles": {
+    "52SBB": {
+     "id": "S2C_52SBB_20261013_0_L2A",
+     "cloud_cover_pct": 44.9
+    },
+    "52SBC": {
+     "id": "S2C_52SBC_20261013_0_L2A",
+     "cloud_cover_pct": 53.8
+    },
+    "52SCB": {
+     "id": "S2C_52SCB_20261013_0_L2A",
+     "cloud_cover_pct": 34.5
+    },
+    "52SCC": {
+     "id": "S2C_52SCC_20261013_0_L2A",
+     "cloud_cover_pct": 33.8
+    }
+   },
+   "pixel_share_pct": 32.11
+  },
+  {
+   "date": "2026-10-08",
+   "tiles": {
+    "52SBB": {
+     "id": "S2B_52SBB_20261008_0_L2A",
+     "cloud_cover_pct": 25.6
+    },
+    "52SBC": {
+     "id": "S2B_52SBC_20261008_0_L2A",
+     "cloud_cover_pct": 3.5
+    },
+    "52SCB": {
+     "id": "S2B_52SCB_20261008_0_L2A",
+     "cloud_cover_pct": 48.0
+    },
+    "52SCC": {
+     "id": "S2B_52SCC_20261008_0_L2A",
+     "cloud_cover_pct": 10.5
+    }
+   },
+   "pixel_share_pct": 50.45
+  },
+  {
+   "date": "2026-09-23",
+   "tiles": {
+    "52SBB": {
+     "id": "S2C_52SBB_20260923_0_L2A",
+     "cloud_cover_pct": 11.8
+    },
+    "52SBC": {
+     "id": "S2C_52SBC_20260923_0_L2A",
+     "cloud_cover_pct": 8.0
+    },
+    "52SCB": {
+     "id": "S2C_52SCB_20260923_0_L2A",
+     "cloud_cover_pct": 19.7
+    },
+    "52SCC": {
+     "id": "S2C_52SCC_20260923_0_L2A",
+     "cloud_cover_pct": 14.3
+    }
+   },
+   "pixel_share_pct": 9.23
+  },
+  {
+   "date": "2026-09-13",
+   "tiles": {
+    "52SBB": {
+     "id": "S2C_52SBB_20260913_0_L2A",
+     "cloud_cover_pct": 5.3
+    },
+    "52SBC": {
+     "id": "S2C_52SBC_20260913_0_L2A",
+     "cloud_cover_pct": 9.0
+    },
+    "52SCB": {
+     "id": "S2C_52SCB_20260913_0_L2A",
+     "cloud_cover_pct": 2.5
+    },
+    "52SCC": {
+     "id": "S2C_52SCC_20260913_0_L2A",
+     "cloud_cover_pct": 10.8
+    }
+   },
+   "pixel_share_pct": 2.65
+  },
+  {
+   "date": "2026-09-08",
+   "tiles": {
+    "52SBB": {
+     "id": "S2B_52SBB_20260908_0_L2A",
+     "cloud_cover_pct": 3.6
+    },
+    "52SBC": {
+     "id": "S2B_52SBC_20260908_0_L2A",
+     "cloud_cover_pct": 2.8
+    },
+    "52SCB": {
+     "id": "S2B_52SCB_20260908_0_L2A",
+     "cloud_cover_pct": 31.4
+    },
+    "52SCC": {
+     "id": "S2B_52SCC_20260908_0_L2A",
+     "cloud_cover_pct": 0.7
+    }
+   },
+   "pixel_share_pct": 3.58
+  },
+  {
+   "date": "2026-09-05",
+   "tiles": {
+    "52SBB": {
+     "id": "S2B_52SBB_20260905_0_L2A",
+     "cloud_cover_pct": 22.2
+    },
+    "52SBC": {
+     "id": "S2A_52SBC_20260905_0_L2A",
+     "cloud_cover_pct": 13.9
+    },
+    "52SCB": {
+     "id": "S2A_52SCB_20260905_1_L2A",
+     "cloud_cover_pct": 59.9
+    },
+    "52SCC": {
+     "id": "S2B_52SCC_20260905_0_L2A",
+     "cloud_cover_pct": 14.5
+    }
+   },
+   "pixel_share_pct": 0.0
+  },
+  {
+   "date": "2026-08-29",
+   "tiles": {
+    "52SBB": {
+     "id": "S2B_52SBB_20260829_0_L2A",
+     "cloud_cover_pct": 36.9
+    },
+    "52SBC": {
+     "id": "S2B_52SBC_20260829_0_L2A",
+     "cloud_cover_pct": 57.1
+    },
+    "52SCB": {
+     "id": "S2B_52SCB_20260829_0_L2A",
+     "cloud_cover_pct": 31.4
+    },
+    "52SCC": {
+     "id": "S2B_52SCC_20260829_0_L2A",
+     "cloud_cover_pct": 27.1
+    }
+   },
+   "pixel_share_pct": 0.48
+  },
+  {
+   "date": "2026-08-24",
+   "tiles": {
+    "52SBB": {
+     "id": "S2C_52SBB_20260824_0_L2A",
+     "cloud_cover_pct": 17.1
+    },
+    "52SBC": {
+     "id": "S2C_52SBC_20260824_0_L2A",
+     "cloud_cover_pct": 6.1
+    },
+    "52SCB": {
+     "id": "S2C_52SCB_20260824_0_L2A",
+     "cloud_cover_pct": 24.9
+    },
+    "52SCC": {
+     "id": "S2C_52SCC_20260824_0_L2A",
+     "cloud_cover_pct": 6.7
+    }
+   },
+   "pixel_share_pct": 1.22
+  }
+ ],
+ "dates_skipped": [],
+ "coverage_pct": 99.71,
+ "land_pixels": 1145320,
+ "water_pixels": 946887,
+ "ndvi_mean_land": 0.657,
+ "snow_pixels": 17,
+ "snow_area_km2": 0.027,
+ "truecolor": {
+  "epsg3857": [
+   14041278.606404603,
+   3918869.0999698434,
+   14135336.556545274,
+   3972985.9450100465
+  ],
+  "sw": [
+   33.177359,
+   126.134952
+  ],
+  "ne": [
+   33.583302,
+   126.979889
+  ],
+  "pixels": [
+   1964,
+   1130
+  ]
+ },
+ "ndvi": {
+  "epsg3857": [
+   14041278.606404603,
+   3918869.0999698434,
+   14135336.556545274,
+   3972985.9450100465
+  ],
+  "sw": [
+   33.177359,
+   126.134952
+  ],
+  "ne": [
+   33.583302,
+   126.979889
+  ],
+  "pixels": [
+   1964,
+   1130
+  ]
+ },
+ "snow": {
+  "epsg3857": [
+   14041278.606404603,
+   3918869.0999698434,
+   14135336.556545274,
+   3972985.9450100465
+  ],
+  "sw": [
+   33.177359,
+   126.134952
+  ],
+  "ne": [
+   33.583302,
+   126.979889
+  ],
+  "pixels": [
+   1964,
+   1130
+  ]
+ },
+ "licence": "Contains modified Copernicus Sentinel data 2026"
+}

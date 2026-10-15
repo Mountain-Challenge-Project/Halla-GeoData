@@ -39,5 +39,26 @@
   "terrain": "produced using Copernicus WorldDEM-30 (c) DLR e.V. 2010-2014 and (c) Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights reserved.",
   "imagery": "Esri, Vantor, Earthstar Geographics, GIS User Community",
   "vectors": "(c) OpenStreetMap contributors, ODbL; Natural Earth"
+ },
+ "hillshade_png": {
+  "epsg3857": [
+   14043113.546682822,
+   3920693.030443263,
+   14133478.99930278,
+   3971119.538979996
+  ],
+  "sw": [
+   33.191071,
+   126.151435
+  ],
+  "ne": [
+   33.569333,
+   126.963202
+  ],
+  "pixels": [
+   2516,
+   1404
+  ],
+  "source": "Copernicus GLO-30 DSM, GDAL hillshade az 315 alt 45"
  }
 }

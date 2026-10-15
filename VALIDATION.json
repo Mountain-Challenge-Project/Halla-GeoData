@@ -9,6 +9,7 @@
     "course": 25,
     "radar_static": 6
   },
+  "open_data_layers": {"sentinel2": "composite of the newest clear pixels from the four Jeju tiles over the last 90 days, SCL cloud mask, 40 m; dates and cloud shares in outputs/jeju_dashboard/data/s2_meta.json", "hillshade": "GLO-30 dem_30m.tif, GDAL hillshade az 315 alt 45", "osm_pois": {"shelter": 227, "toilets": 577, "parking": 1121, "information": 16, "defibrillator": 6}, "osm_sac_scale_ways": 110, "built_on": "2026-10-15", "note": "GDAL remote reads needed CURL_CA_BUNDLE with the Windows root store because the local antivirus re-signs HTTPS"},
   "reference_grid": {"definition": "official KMA radar composite grid: LCC lat_1=30 lat_2=60 lat_0=38 lon_0=126 ellps=WGS84, i0=1121 j0=1681, 500 m", "file": "inputs/reference/radar_grid_cells.gpkg", "regenerated_on": "2026-10-15", "hallasan_cells": 1849, "hallasan_slope_polygons": 27277, "hallasan_mean_slope_deg": 8.41, "previous_spherical_grid_offset_m_at_jeju": 1062},
   "jeju_wide_bundle": {
     "grid_cells": 7518,
