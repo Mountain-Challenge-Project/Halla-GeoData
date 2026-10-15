@@ -7,6 +7,8 @@
 | 기존 OSM 기반 벡터 | 탐방로·공원·지명 | `inputs/reference/hallasan_course_cells.gpkg` 및 결과 메타데이터 |
 | 레이더 500m 격자 (한라산·제주) | 분석 범위와 집계 단위 | `inputs/reference/radar_grid_cells.gpkg`; 기상청 레이더 합성 격자 정의(LCC 30/60, 126E/38N, WGS84 타원체, i0=1121/j0=1681)를 공식 좌표 API로 검증해 생성. 제주는 Natural Earth 1:10m 외곽선(퍼블릭 도메인)과 겹치는 셀만 선택. 이전 가정 격자는 `hallasan_course_cells.gpkg`에 기록용으로 보존 |
 | Esri World Imagery (제주 범위) | 제주 전역 위성/항공 배경 | `work/public_sources/satellite_jeju*.{jpg,json}`, 다운로드 매니페스트의 원 URL·SHA-256 |
+| Copernicus Sentinel-2 L2A (AWS Open Data COG) | 대시보드 날짜 있는 실색 배경, NDVI, 적설 마스크 | Earth Search STAC로 검색, `sentinel-cogs` 버킷에서 /vsicurl 읽기. 사용 장면 ID·날짜·구름 비율은 `outputs/jeju_dashboard/data/s2_meta.json`. "Contains modified Copernicus Sentinel data" 표기 |
+| OSM POI·sac_scale | 대피소·화장실·주차장·안내소·AED 점, 등산로 난이도 선 | `work/public_sources/osm_pois_sacscale.json`, `osm_sacscale_geom.json` (Overpass, 매니페스트에 질의문·SHA-256). © OpenStreetMap contributors, ODbL. 현장 상태 미검증 |
 | OSM 제주올레 루트 | 올레 코스 참고 선형과 코스별 경사 요약 | `work/public_sources/osm_olle_relations.json`, `osm_olle_ways.json` (Overpass API, 질의문·SHA-256은 매니페스트). © OpenStreetMap contributors, ODbL. 공식 코스 선형이 아니며 OSM에 없는 코스는 `outputs/jeju_slope/olle_coverage.json`에 기록 |
 | 기상청 레이더 | 수집 코드와 변환기 | 실응답 2026-10-15 확인(PCPH acc=60). 원자료·GeoTIFF·프레임은 로컬 `runtime/`·`input/`·`dist/frames/`에만 두고 Git 제외. 격자 정의는 `work/public_sources/kma_radar_grid.json` |
 | AWS 순서 PNG | 사용 안내 | 설명용 생성 이미지, 실제 콘솔 화면을 보증하지 않음 |

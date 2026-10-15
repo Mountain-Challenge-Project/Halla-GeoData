@@ -127,8 +127,21 @@ dl.sel dt{color:var(--muted);white-space:nowrap}dl.sel dd{margin:0;font-family:v
       <label class="chk"><input type="checkbox" id="lySteep" checked><span class="swatch" style="background:#ff2a2a"></span>탐방로 급경사 구간 (20° 이상)</label>
       <label class="chk"><input type="checkbox" id="lyRisk" checked><span class="swatch poly" style="background:linear-gradient(90deg,#f0b34a,#e4572e,#8b0000)"></span>급경사·강수 강조 셀 (주의/경계/심각)</label>
       <label class="chk"><input type="checkbox" id="lyBoundary" checked><span class="swatch" style="background:#ffffff;border:1px solid var(--line)"></span>분석 범위 · 국립공원 경계</label>
+      <label class="chk"><input type="checkbox" id="lyS2"><span class="swatch poly" style="background:#4f6b3c"></span><span id="lblS2">Sentinel-2 실색 합성</span></label>
+      <label class="chk"><input type="checkbox" id="lyNdvi"><span class="swatch poly" style="background:linear-gradient(90deg,#8c5e32,#ebe278,#1e8c32)"></span>Sentinel-2 NDVI (식생)</label>
+      <label class="chk"><input type="checkbox" id="lySnow"><span class="swatch poly" style="background:#78c8ff"></span><span id="lblSnow">Sentinel-2 적설 마스크</span></label>
+      <label class="chk"><input type="checkbox" id="lyHill"><span class="swatch poly" style="background:linear-gradient(90deg,#222,#ddd)"></span>GLO-30 음영기복</label>
+      <label class="chk"><input type="checkbox" id="lySac"><span class="swatch" style="background:linear-gradient(90deg,#2e9e4f,#e3a000,#e4572e)"></span>등산로 난이도 (OSM sac_scale)</label>
+      <label class="chk"><input type="checkbox" id="lyPoi"><span class="swatch poly" style="background:#7c3aed;width:10px;height:10px;border-radius:50%"></span>대피소·화장실·주차장·안내소·AED (OSM)</label>
       <label class="chk"><input type="checkbox" id="lySat" checked><span class="swatch poly" style="background:#5a6b4e"></span>Esri 위성 배경</label>
       <div class="legend" id="slopeLegend" hidden style="margin-top:6px"></div>
+    </section>
+    <section class="card">
+      <h2>오픈데이터 레이어</h2>
+      <div class="small" id="s2Info">Sentinel-2 합성 자료 없음</div>
+      <div class="small" id="sacInfo" style="margin-top:6px"></div>
+      <div class="small" id="poiInfo" style="margin-top:4px"></div>
+      <div class="note" style="margin-top:6px">Sentinel-2: Copernicus 위성 자료(AWS Open Data). 적설 마스크는 NDSI &gt; 0.4이면서 녹색 반사도 &gt; 0.11인 픽셀입니다. POI·난이도는 OpenStreetMap 태그이며 현장 상태를 보증하지 않습니다.</div>
     </section>
     <section class="card">
       <h2>6시간 강수 예보 (동네예보 초단기)</h2>
@@ -165,7 +178,7 @@ dl.sel dt{color:var(--muted);white-space:nowrap}dl.sel dd{margin:0;font-family:v
     </section>
     <section class="card">
       <h2>출처</h2>
-      <div class="credit" id="credits">고도: Copernicus GLO-30 DSM (ESA/DLR/Airbus) · 배경: Esri World Imagery · 격자·탐방로·올레: 가정 LCC 격자, © OpenStreetMap contributors (ODbL), Natural Earth. 경사는 지형 표면 경사이며 보행 경사·공식 난이도가 아닙니다. 격자의 기상청 공식 격자 정렬은 미검증입니다.</div>
+      <div class="credit" id="credits">고도: Copernicus GLO-30 DSM (ESA/DLR/Airbus) · 배경: Esri World Imagery, Contains modified Copernicus Sentinel data · 격자: 기상청 레이더 합성 격자 정의 · 탐방로·올레·POI: © OpenStreetMap contributors (ODbL), Natural Earth · 강수·예보: 기상청 API허브. 경사는 지형 표면 경사이며 보행 경사·공식 난이도가 아닙니다.</div>
     </section>
   </aside>
 </div>
@@ -261,6 +274,8 @@ function showSelection(kind,p,layer){ selected={kind,p}; if(selectedLayer&&selec
   else if(kind==='olle'){ rows=[['올레 코스',p.course+(p.variant?' ('+p.variant+')':'')],['OSM 이름',p.name_osm||'–'],['출처',p.source_kind],['길이',fmt(p.length_km,2)+' km'],['평균 경사',fmt(p.mean_deg,2)+'°'],['90백분위',fmt(p.p90_deg,2)+'°'],['최대 경사',fmt(p.max_deg,2)+'°'],['20° 이상',fmt(p.steep20_m,0)+' m']]; }
   else if(kind==='trail'){ rows=[['탐방로',p.course],['길이',fmt(p.length_m/1000,2)+' km'],['평균 경사',fmt(p.mean_deg,2)+'°'],['90백분위',fmt(p.p90_deg,2)+'°'],['최대 경사',fmt(p.max_deg,2)+'°'],['20° 이상',fmt(p.steep20_m,0)+' m ('+fmt(p.steep20_pc,1)+' %)'],['급경사 구간 수',p.seg20_n]]; }
   else if(kind==='steep'){ rows=[['구간',p.seg_id],['탐방로',p.course],['길이',fmt(p.length_m,0)+' m'],['평균 경사',fmt(p.mean_deg,2)+'°'],['최대 경사',fmt(p.max_deg,2)+'°'],['시작 (lon, lat)',fmt(p.start_lon,5)+', '+fmt(p.start_lat,5)]]; }
+  else if(kind==='poi'){ rows=[['종류',p.kind_ko||p.kind],['이름',p.name||'–'],['대피소 유형',p.shelter_type||'–'],['요금',p.fee||'–'],['수용',p.capacity||'–'],['OSM',p.osm]]; }
+  else if(kind==='sac'){ rows=[['난이도 (sac_scale)',p.sac_scale],['이름',p.name||'–'],['도로 유형',p.highway||'–'],['가시성',p.trail_visibility||'–'],['OSM',p.osm]]; }
   $('selBody').innerHTML='<dl class="sel">'+rows.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')+'</dl>';
   document.querySelectorAll('#olleTable tbody tr').forEach(tr=>tr.classList.toggle('sel',kind==='olle'&&tr.dataset.course===p.course+'|'+(p.variant||''))); }
 
@@ -332,6 +347,10 @@ async function boot(){
   for(const n of names){ got[n]=E?E[n]:await fetchJson('data/'+n+(n==='overlays'?'.json':'.geojson')); }
   const ov=got.overlays, gridGj=got.grid, olle=got.olle, trails=got.trails, steep=got.steep, boundary=got.boundary, park=got.park;
   const satUrl=E&&E.images?E.images.satellite:'data/satellite.jpg', slopeUrl=E&&E.images?E.images.slope:'data/slope.png';
+  // optional open-data layers (absent files are skipped)
+  const optional=async n=>{ if(E) return E[n]||null; try{ return await fetchJson('data/'+n+(n==='s2_meta'?'.json':'.geojson'),1); }catch(e){ return null; } };
+  const s2meta=await optional('s2_meta'), pois=await optional('pois'), sac=await optional('sac_scale');
+  const img=n=>E&&E.images&&E.images[n]?E.images[n]:'data/'+n+'.png';
   loadedData=got; loadedImages={satellite:satUrl,slope:slopeUrl};
   if(E){ $('dlCard').hidden=true; } else { $('btnDownload').addEventListener('click',downloadStandalone); }
   const satB=[ov.satellite_jpg.sw,ov.satellite_jpg.ne], slopeB=[ov.slope_png.sw,ov.slope_png.ne];
@@ -339,6 +358,11 @@ async function boot(){
   map.attributionControl.setPrefix('');
   layers.sat=L.imageOverlay(satUrl,satB,{attribution:'배경: Esri, Vantor, Earthstar Geographics, GIS User Community · 고도: Copernicus GLO-30 (ESA/DLR/Airbus) · © OpenStreetMap contributors'}).addTo(map);
   layers.slope=L.imageOverlay(slopeUrl,slopeB,{opacity:.6});
+  if(ov.hillshade_png){ layers.hill=L.imageOverlay(img('hillshade'),[ov.hillshade_png.sw,ov.hillshade_png.ne],{opacity:.45}); } else { $('lyHill').disabled=true; }
+  if(s2meta&&s2meta.truecolor){ layers.s2=L.imageOverlay(img('s2_truecolor'),[s2meta.truecolor.sw,s2meta.truecolor.ne],{opacity:1}).addTo(map); layers.ndvi=L.imageOverlay(img('s2_ndvi'),[s2meta.ndvi.sw,s2meta.ndvi.ne],{opacity:.8}); layers.snow=L.imageOverlay(img('s2_snow'),[s2meta.snow.sw,s2meta.snow.ne],{opacity:.9});
+    const d=(s2meta.dates_used||[]).map(u=>u.date); $('lyS2').checked=true; $('lblS2').textContent='Sentinel-2 실색 합성 ('+(d[0]||'')+(d.length>1?' 외 '+(d.length-1)+'일':'')+')'; $('lblSnow').textContent='Sentinel-2 적설 마스크 ('+(s2meta.snow_area_km2!=null?fmt(s2meta.snow_area_km2,1)+' km²':'–')+')';
+    $('s2Info').innerHTML=`합성 규칙: 가장 최근의 구름 없는 픽셀 우선 (SCL 구름·그림자 제외) · 해상도 ${s2meta.resolution_m} m · 육지 피복률 ${fmt(s2meta.coverage_pct,1)} %<br>${(s2meta.dates_used||[]).map(u=>`${esc(u.date)}: 픽셀 ${fmt(u.pixel_share_pct,1)} % (타일 구름 ${Object.values(u.tiles).map(t=>fmt(t.cloud_cover_pct,0)).join('/')} %)`).join('<br>')}<br>NDVI 육지 평균 ${s2meta.ndvi_mean_land==null?'–':fmt(s2meta.ndvi_mean_land,2)} · 적설 ${fmt(s2meta.snow_area_km2,1)} km²`; }
+  else { ['lyS2','lyNdvi','lySnow'].forEach(id=>{$(id).disabled=true;}); $('s2Info').textContent='Sentinel-2 합성 자료 없음 (work/build_open_data_layers.py 실행 필요)'; }
   const canvas=L.canvas({padding:.3});
   grid=L.geoJSON(gridGj,{renderer:canvas,style:gridStyle,onEachFeature:(f,l)=>{ fcKey(f.properties,l); l.on('click',()=>showSelection('grid',f.properties,l)); l.bindTooltip(()=>{const p=f.properties;const m=METRICS[metric];const v=m.get(p);return `${p.grid_id} · ${m.label} ${fmt(v,m.unit==='mm/h'?2:1)}${m.unit}`;},{sticky:true,direction:'top',opacity:.9}); }});
   layers.grid=grid.addTo(map);
@@ -347,9 +371,16 @@ async function boot(){
   layers.trails=L.geoJSON(trails,{style:{color:'#00f0e1',weight:2.2,opacity:.95},onEachFeature:(f,l)=>{ l.on('click',()=>showSelection('trail',f.properties,l)); l.bindTooltip(f.properties.course,{permanent:true,direction:'center',className:'lbl trail'}); }}).addTo(map);
   layers.olle=L.geoJSON(olle,{style:{color:'#ff4fa3',weight:2.4,opacity:.95},onEachFeature:(f,l)=>{ l.on('click',()=>showSelection('olle',f.properties,l)); l.bindTooltip(f.properties.course,{permanent:true,direction:'center',className:'lbl'}); }}).addTo(map);
   layers.risk=L.layerGroup().addTo(map);
+  const SAC={hiking:['#2e9e4f','하이킹'],mountain_hiking:['#e3a000','산악 하이킹'],demanding_mountain_hiking:['#e4572e','고난도 산악'],alpine_hiking:['#8b0000','알파인'],demanding_alpine_hiking:['#5a0010','고난도 알파인'],difficult_alpine_hiking:['#2b0008','극난도 알파인']};
+  if(sac&&sac.features&&sac.features.length){ layers.sac=L.geoJSON(sac,{style:f=>({color:(SAC[f.properties.sac_scale]||['#888'])[0],weight:3,opacity:.95}),onEachFeature:(f,l)=>{ const p=f.properties; l.bindTooltip(`${(SAC[p.sac_scale]||[p.sac_scale,p.sac_scale])[1]} · ${p.name||p.highway}`,{sticky:true}); l.on('click',()=>showSelection('sac',p,l)); }}).addTo(map); $('lySac').checked=true; const cnt={}; sac.features.forEach(f=>{cnt[f.properties.sac_scale]=(cnt[f.properties.sac_scale]||0)+1;}); $('sacInfo').innerHTML=Object.entries(cnt).map(([k,v])=>`<span class="swatch" style="background:${(SAC[k]||['#888'])[0]};display:inline-block"></span> ${esc((SAC[k]||[k,k])[1])} ${v}`).join(' · '); }
+  else { $('lySac').disabled=true; }
+  const POI={shelter:['#7c3aed','대피소'],toilets:['#0ea5e9','화장실'],parking:['#6b7280','주차장'],information:['#16a34a','안내소'],defibrillator:['#dc2626','AED']};
+  if(pois&&pois.features&&pois.features.length){ layers.pois=L.geoJSON(pois,{pointToLayer:(f,ll)=>L.circleMarker(ll,{renderer:canvas,radius:f.properties.kind==='parking'?3:4.5,color:'#ffffff',weight:.8,fillColor:(POI[f.properties.kind]||['#888'])[0],fillOpacity:.9}),onEachFeature:(f,l)=>{ const p=f.properties; l.bindTooltip(`${(POI[p.kind]||[p.kind,p.kind])[1]}${p.name?' · '+p.name:''}`,{direction:'top'}); l.on('click',()=>showSelection('poi',p,l)); }}); const cnt={}; pois.features.forEach(f=>{cnt[f.properties.kind]=(cnt[f.properties.kind]||0)+1;}); $('poiInfo').innerHTML=Object.entries(cnt).map(([k,v])=>`<span class="swatch poly" style="background:${(POI[k]||['#888'])[0]};display:inline-block;width:10px;height:10px;border-radius:50%"></span> ${esc((POI[k]||[k,k])[1])} ${v}`).join(' · '); }
+  else { $('lyPoi').disabled=true; }
   map.fitBounds(satB,{padding:[4,4]});
-  const toggle=(id,layer)=>$(id).addEventListener('change',e=>{ if(e.target.checked) layer.addTo(map); else map.removeLayer(layer); });
+  const toggle=(id,layer)=>{ if(!layer) return; $(id).addEventListener('change',e=>{ if(e.target.checked) layer.addTo(map); else map.removeLayer(layer); }); };
   toggle('lyGrid',layers.grid); toggle('lySlope',layers.slope); toggle('lyOlle',layers.olle); toggle('lyTrails',layers.trails); toggle('lySteep',layers.steep); toggle('lyBoundary',layers.boundary); toggle('lySat',layers.sat); toggle('lyRisk',layers.risk);
+  toggle('lyS2',layers.s2); toggle('lyNdvi',layers.ndvi); toggle('lySnow',layers.snow); toggle('lyHill',layers.hill); toggle('lyPoi',layers.pois); toggle('lySac',layers.sac);
   $('lySlope').addEventListener('change',e=>{ $('slopeLegend').hidden=!e.target.checked; });
   $('selMetric').addEventListener('change',e=>{ metric=e.target.value; restyleGrid(); });
   $('gridOpacity').addEventListener('input',e=>{ fillOpacity=e.target.value/100; restyleGrid(); });

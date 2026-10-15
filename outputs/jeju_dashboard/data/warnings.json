@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "checked_at": "2026-10-15T08:41:47.624642+09:00",
+ "checked_at": "2026-10-15T09:07:31.425380+09:00",
  "endpoint": "https://apihub.kma.go.kr/api/typ01/url/wrn_now_data.php",
  "region_filter": "제주",
  "status": "not_authorized",
