@@ -1,7 +1,7 @@
 {
  "type": "FeatureCollection",
  "source": "KMA API Hub 지상관측 지점정보 (stn_inf.php inf=AWS, inf=SFC)",
- "fetched_at": "2026-10-16T00:48:30.728351+09:00",
+ "fetched_at": "2026-10-16T01:02:46.679425+09:00",
  "features": [
   {
    "type": "Feature",

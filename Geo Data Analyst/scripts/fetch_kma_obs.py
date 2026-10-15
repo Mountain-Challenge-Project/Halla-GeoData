@@ -1,7 +1,7 @@
 """Stage 1b: collect KMA surface observations for the Jeju stations (the model's ground truth).
 
-  python work/fetch_kma_obs.py                  current AWS minute values + the last complete ASOS hour
-  python work/fetch_kma_obs.py --asos-backfill 2023-01-01   ASOS hourly history in 31-day chunks (kma_sfctm3)
+  python "Geo Data Analyst/scripts/fetch_kma_obs.py"                  current AWS minute values + the last complete ASOS hour
+  python "Geo Data Analyst/scripts/fetch_kma_obs.py" --asos-backfill 2023-01-01   ASOS hourly history in 31-day chunks (kma_sfctm3)
 
 Sources (API Hub, all approved on 2026-10-15/16):
   AWS 매분자료  nph-aws2_min  (tm2=YYYYMMDDHHMI, stn=0) : 1-min T, RH, Td, PA, PS, 10-min wind, 15/60-min rain
@@ -16,8 +16,9 @@ Missing values are KMA's -99.x / -9.x codes and are written as empty cells.
 """
 import csv, json, sys, time, datetime as dt, urllib.error
 from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'work'))
 from fetch_kma_forecast import key_from_env, get, KST, ROOT  # noqa: E402
+GDA = ROOT / 'Geo Data Analyst'
 
 T = 'https://apihub.kma.go.kr/api/typ01/'
 AWS_COLS = ['TM', 'STN', 'WD1', 'WS1', 'WDS', 'WSS', 'WD10', 'WS10', 'TA', 'RE', 'RN_15M', 'RN_60M', 'RN_12H', 'RN_DAY', 'HM', 'PA', 'PS', 'TD']
@@ -78,8 +79,8 @@ def append_csv(path, rows, cols):
 
 
 def load_stations():
-    p = ROOT / 'inputs/reference/kma_stations_jeju.csv'
-    if not p.exists(): raise SystemExit('run work/fetch_kma_stations.py first')
+    p = GDA / 'data/kma_stations_jeju.csv'
+    if not p.exists(): raise SystemExit('run Geo Data Analyst/scripts/fetch_kma_stations.py first')
     with p.open(encoding='utf-8-sig') as f:
         return {r['stn']: r for r in csv.DictReader(f)}
 

@@ -4,8 +4,8 @@ Reads the API Hub station lists (지상관측 지점정보: inf=AWS and inf=SFC)
 bounding box, finds the dashboard cell (outputs/jeju_dashboard/data/grid.geojson) that contains each station
 by point-in-polygon, and writes
 
-  inputs/reference/kma_stations_jeju.csv       one row per station (both lists merged; ASOS rows carry kind=SFC)
-  inputs/reference/kma_stations_jeju.geojson   the same as points, for QGIS / the dashboard
+  Geo Data Analyst/data/kma_stations_jeju.csv      one row per station (both lists merged; ASOS rows carry kind=SFC)
+  Geo Data Analyst/data/kma_stations_jeju.geojson  the same as points, for QGIS / the dashboard
   work/public_sources/kma_stn_inf_{AWS,SFC}.txt the raw responses (key removed)
 
 Run with the system Python (needs .env with KMA_API_KEY). The station height HT is the enclosure
@@ -13,8 +13,9 @@ elevation reported by KMA; the cell's mean DSM elevation is attached as cell_ele
 """
 import csv, json, sys, datetime as dt, time, urllib.error
 from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'work'))
 from fetch_kma_forecast import key_from_env, get, KST, ROOT  # noqa: E402
+GDA = ROOT / 'Geo Data Analyst'
 
 T = 'https://apihub.kma.go.kr/api/typ01/url/stn_inf.php'
 BBOX = (126.05, 33.05, 127.05, 33.65)   # lon_min, lat_min, lon_max, lat_max (includes 마라도·우도·추자 제외)
@@ -92,13 +93,13 @@ def main():
                 rec['grid_id'] = p['grid_id']; rec['cell_elev_m'] = round(p['elev_mean'], 1); rec['cell_mean_slope_deg'] = round(p['mean_deg'], 2); mapped += 1; break
         rec['kind'] = 'SFC' if 'SFC' in rec['kinds'] else 'AWS'; del rec['kinds']
     rows = sorted(stations.values(), key=lambda r: r['stn'])
-    out_csv = ROOT / 'inputs/reference/kma_stations_jeju.csv'
+    out_csv = GDA / 'data/kma_stations_jeju.csv'
     with out_csv.open('w', newline='', encoding='utf-8-sig') as f:
         w = csv.DictWriter(f, fieldnames=['stn', 'kind', 'name', 'name_en', 'lon', 'lat', 'ht_m', 'ht_pa_m', 'ht_wd_m', 'grid_id', 'cell_elev_m', 'cell_mean_slope_deg', 'law_addr'])
         w.writeheader(); [w.writerow({k: r.get(k) for k in w.fieldnames}) for r in rows]
     gj = {'type': 'FeatureCollection', 'source': 'KMA API Hub 지상관측 지점정보 (stn_inf.php inf=AWS, inf=SFC)', 'fetched_at': dt.datetime.now(KST).isoformat(),
           'features': [{'type': 'Feature', 'geometry': {'type': 'Point', 'coordinates': [r['lon'], r['lat']]}, 'properties': {k: v for k, v in r.items() if k not in ('lon', 'lat')}} for r in rows]}
-    (ROOT / 'inputs/reference/kma_stations_jeju.geojson').write_text(json.dumps(gj, ensure_ascii=False, indent=1), encoding='utf-8')
+    (GDA / 'data/kma_stations_jeju.geojson').write_text(json.dumps(gj, ensure_ascii=False, indent=1), encoding='utf-8')
     unmapped = [r['name'] for r in rows if not r['grid_id']]
     print('STATIONS_WRITTEN', json.dumps({'total': len(rows), 'asos': sum(1 for r in rows if r['kind'] == 'SFC'), 'mapped_to_cells': mapped, 'unmapped': unmapped,
                                           'highest': max(rows, key=lambda r: r['ht_m'] or 0)['name']}, ensure_ascii=False))

@@ -1,9 +1,11 @@
-"""Figures for docs/local_weather_model_report.md (run with a Python that has matplotlib, e.g. anaconda).
+"""Figures for Geo Data Analyst/docs/local_weather_model_report.md (run with a Python that has matplotlib, e.g. anaconda).
 
 All plots are computed from files already in the repository: outputs/jeju_dashboard/data/grid.geojson
 (cells with elevation, aspect), outputs/jeju_dashboard/data/forecast.json (KMA 초단기예보, 5 km points) and
-docs/figures/transect_nw_se.csv (30 m DEM sampled along a NW-SE line through the summit). They show what the
+Geo Data Analyst/docs/figures/transect_nw_se.csv (30 m DEM sampled along a NW-SE line through the summit). They show what the
 physics modules of the design produce from one forecast issue; none of them is a validated prediction.
+The committed figures and the report text correspond to the 2026-10-15 10:30 KST issue; re-running with a newer
+forecast.json changes the numbers quoted in the report captions.
 """
 import json, csv, math, sys
 from pathlib import Path
@@ -15,7 +17,8 @@ import matplotlib.font_manager as fm
 from matplotlib.collections import PolyCollection
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
+GDA = ROOT / 'Geo Data Analyst'
 sys.path.insert(0, str(ROOT / 'work'))
 from fetch_kma_forecast import dfs_xy  # noqa: E402
 
@@ -24,7 +27,7 @@ for f in ['malgun.ttf', 'malgunbd.ttf']:
     if p.exists(): fm.fontManager.addfont(str(p))
 plt.rcParams['font.family'] = 'Malgun Gothic'; plt.rcParams['axes.unicode_minus'] = False
 plt.rcParams['figure.dpi'] = 150
-OUT = ROOT / 'docs/figures'; OUT.mkdir(parents=True, exist_ok=True)
+OUT = GDA / 'docs/figures'; OUT.mkdir(parents=True, exist_ok=True)
 
 grid = json.loads((ROOT / 'outputs/jeju_dashboard/data/grid.geojson').read_text('utf-8'))
 fc = json.loads((ROOT / 'outputs/jeju_dashboard/data/forecast.json').read_text('utf-8'))

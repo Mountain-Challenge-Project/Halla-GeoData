@@ -1,7 +1,7 @@
 """Join cell aspect (asp_deg, asp_r) and the static terrain factors into the dashboard grid.
 
 Sources: outputs/jeju_slope/jeju_grid_slope.csv (asp_deg, asp_r) and, when present,
-outputs/jeju_slope/jeju_grid_terrain_factors.csv from work/build_terrain_factors.py (tpi_1km_m, svf, coast_km and the
+Geo Data Analyst/data/jeju_grid_terrain_factors.csv from Geo Data Analyst/scripts/build_terrain_factors.py (tpi_1km_m, svf, coast_km and the
 16-direction upstream ridge height/distance, packed as up_max / up_dist lists ordered N, NNE, ... NNW).
 
 outputs/jeju_dashboard/data/grid.geojson keeps a small property set for the browser. The wind-exposure
@@ -22,7 +22,7 @@ for f in g['features']:
     if r['asp_deg'] in ('', None) or r['asp_r'] in ('', None):
         p['asp_deg'] = None; p['asp_r'] = None; continue   # flat cell: no aspect
     p['asp_deg'] = round(float(r['asp_deg']), 1); p['asp_r'] = round(float(r['asp_r']), 3); n += 1
-tf_path = ROOT / 'outputs/jeju_slope/jeju_grid_terrain_factors.csv'
+tf_path = ROOT / 'Geo Data Analyst/data/jeju_grid_terrain_factors.csv'
 DIRS = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW']
 m = 0
 if tf_path.exists():

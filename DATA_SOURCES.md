@@ -10,7 +10,7 @@
 | Copernicus Sentinel-2 L2A (AWS Open Data COG) | 대시보드 날짜 있는 실색 배경, NDVI, 적설 마스크 | Earth Search STAC로 검색, `sentinel-cogs` 버킷에서 /vsicurl 읽기. 사용 장면 ID·날짜·구름 비율은 `outputs/jeju_dashboard/data/s2_meta.json`. "Contains modified Copernicus Sentinel data" 표기 |
 | OSM POI·sac_scale | 대피소·화장실·주차장·안내소·AED 점, 등산로 난이도 선 | `work/public_sources/osm_pois_sacscale.json`, `osm_sacscale_geom.json` (Overpass, 매니페스트에 질의문·SHA-256). © OpenStreetMap contributors, ODbL. 현장 상태 미검증 |
 | OSM 제주올레 루트 | 올레 코스 참고 선형과 코스별 경사 요약 | `work/public_sources/osm_olle_relations.json`, `osm_olle_ways.json` (Overpass API, 질의문·SHA-256은 매니페스트). © OpenStreetMap contributors, ODbL. 공식 코스 선형이 아니며 OSM에 없는 코스는 `outputs/jeju_slope/olle_coverage.json`에 기록 |
-| 기상청 지점정보·AWS 1분·ASOS 정시 관측 | 국지기상 모델의 정답 자료, 대시보드 관측 지점 레이어 | API허브 `stn_inf.php`, `nph-aws2_min`, `kma_sfctm2/3`. 지점 목록은 `inputs/reference/kma_stations_jeju.csv`(원 응답 `work/public_sources/kma_stn_inf_*.txt`), 관측값 누적은 로컬 `runtime/kma/obs/`에만 두고 Git 제외. 최신값만 `outputs/jeju_dashboard/data/obs_latest.json` |
+| 기상청 지점정보·AWS 1분·ASOS 정시 관측 | 국지기상 모델의 정답 자료, 대시보드 관측 지점 레이어 | API허브 `stn_inf.php`, `nph-aws2_min`, `kma_sfctm2/3`. 지점 목록은 `Geo Data Analyst/data/kma_stations_jeju.csv`(원 응답 `work/public_sources/kma_stn_inf_*.txt`), 관측값 누적은 로컬 `runtime/kma/obs/`에만 두고 Git 제외. 최신값만 `outputs/jeju_dashboard/data/obs_latest.json` |
 | 기상청 레이더 | 수집 코드와 변환기 | 실응답 2026-10-15 확인(PCPH acc=60). 원자료·GeoTIFF·프레임은 로컬 `runtime/`·`input/`·`dist/frames/`에만 두고 Git 제외. 격자 정의는 `work/public_sources/kma_radar_grid.json` |
 | AWS 순서 PNG | 사용 안내 | 설명용 생성 이미지, 실제 콘솔 화면을 보증하지 않음 |
 

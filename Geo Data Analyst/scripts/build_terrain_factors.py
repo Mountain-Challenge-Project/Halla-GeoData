@@ -10,10 +10,10 @@ outputs/jeju_dashboard/data/grid.geojson, computes for every cell
                  "upstream ridge height" for the wind that blows FROM that direction (foehn / lee depth)
   up_dist_<dir>  distance to that maximum (km)
 
-Writes outputs/jeju_slope/jeju_grid_terrain_factors.csv; work/update_grid_properties.py joins the fields
+Writes Geo Data Analyst/data/jeju_grid_terrain_factors.csv; work/update_grid_properties.py joins the fields
 (except the 32 per-direction columns, which it packs into up_max/up_dist lists) into grid.geojson.
 Rays sample the DSM every 100 m (TPI/SVF) or 250 m (upstream) by nearest pixel. Optionally samples the
-DSM at inputs/reference/kma_stations_jeju.csv points and writes station dem_m next to the CSV.
+DSM at Geo Data Analyst/data/kma_stations_jeju.csv points and writes station dem_m next to the CSV.
 """
 import os, csv, json, math, sys
 os.environ['QT_QPA_PLATFORM'] = 'offscreen'
@@ -22,10 +22,11 @@ import numpy as np
 from osgeo import gdal, osr
 gdal.UseExceptions()
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
+GDA = ROOT / 'Geo Data Analyst'
 DEM = ROOT / 'outputs/jeju_slope/dem_30m.tif'
 GRID = ROOT / 'outputs/jeju_dashboard/data/grid.geojson'
-OUT = ROOT / 'outputs/jeju_slope/jeju_grid_terrain_factors.csv'
+OUT = GDA / 'data/jeju_grid_terrain_factors.csv'
 DIRS = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW']
 
 ds = gdal.Open(str(DEM)); gt = ds.GetGeoTransform(); band = ds.GetRasterBand(1)
@@ -83,7 +84,7 @@ tpis = [r['tpi_1km_m'] for r in rows]; svfs = [r['svf'] for r in rows]; coasts =
 print('TERRAIN_FACTORS_WRITTEN', json.dumps({'cells': len(rows), 'tpi_range': [min(tpis), max(tpis)], 'svf_range': [min(svfs), max(svfs)], 'coast_km_max': max(coasts),
                                              'up_max_NW_max': max(r['up_max_NW'] for r in rows)}))
 # station DSM heights
-st = ROOT / 'inputs/reference/kma_stations_jeju.csv'
+st = GDA / 'data/kma_stations_jeju.csv'
 if st.exists():
     with st.open(encoding='utf-8-sig') as fh: srows = list(csv.DictReader(fh))
     for r in srows:

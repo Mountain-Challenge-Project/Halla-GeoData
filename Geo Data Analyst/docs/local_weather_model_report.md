@@ -295,7 +295,7 @@ Halla-GeoData 저장소는 Copernicus GLO-30 지형자료로 만든 제주 전�
 
 # 부록 B. 그림 재현 방법
 
-그림 1–8은 저장소의 `work/make_design_figures.py`로 생성한다. 입력은 `outputs/jeju_dashboard/data/grid.geojson`(셀 고도·경사향), `outputs/jeju_dashboard/data/forecast.json`(초단기예보 2026-10-15 10:30 KST 발표), `docs/figures/transect_nw_se.csv`(30 m DEM을 북서–남동 단면으로 250 m 간격 표본화)이다. matplotlib이 있는 Python(예: anaconda)에서 실행한다.
+그림 1–8은 저장소의 `Geo Data Analyst/scripts/make_design_figures.py`로 생성한다. 입력은 `outputs/jeju_dashboard/data/grid.geojson`(셀 고도·경사향), `outputs/jeju_dashboard/data/forecast.json`(초단기예보 2026-10-15 10:30 KST 발표), `Geo Data Analyst/docs/figures/transect_nw_se.csv`(30 m DEM을 북서–남동 단면으로 250 m 간격 표본화)이다. matplotlib이 있는 Python(예: anaconda)에서 실행한다.
 
 # 참고문헌
 

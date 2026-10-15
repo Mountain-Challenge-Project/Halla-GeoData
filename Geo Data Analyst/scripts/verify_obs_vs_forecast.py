@@ -1,14 +1,15 @@
 """Stage 1 sanity check: the lapse-corrected cell temperature (physics module, no learning) against the
 AWS observations at the same minute. Prints bias/RMSE for the raw 5 km point value and for the corrected value.
 
-Inputs: outputs/jeju_dashboard/data/obs_latest.json (work/fetch_kma_obs.py), forecast.json (work/fetch_kma_forecast.py),
-grid.geojson (cell elevation). Writes outputs/jeju_slope/obs_vs_forecast_check.json. Not a model validation:
+Inputs: outputs/jeju_dashboard/data/obs_latest.json (scripts/fetch_kma_obs.py), forecast.json (work/fetch_kma_forecast.py),
+grid.geojson (cell elevation). Writes Geo Data Analyst/data/obs_vs_forecast_check.json. Not a model validation:
 one forecast issue, one minute of observations, the forecast hour nearest the observation time.
 """
 import json, math, sys
 from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'work'))
 from fetch_kma_forecast import dfs_xy, ROOT  # noqa: E402
+GDA = ROOT / 'Geo Data Analyst'
 
 obs = json.loads((ROOT / 'outputs/jeju_dashboard/data/obs_latest.json').read_text('utf-8'))
 fc = json.loads((ROOT / 'outputs/jeju_dashboard/data/forecast.json').read_text('utf-8'))
@@ -44,6 +45,6 @@ out = {'obs_time': obs['fetched_at'], 'forecast_base_kst': fc['base_time_kst'], 
        'temperature_stations_above_700m': {'raw_5km_point': stats_sub(hi, 'raw_t1h'), 'station_height_corrected': stats_sub(hi, 'stn_t')},
        'dew_point_cell_vs_obs': stats_td(), 'rows': rows,
        'note': 'single issue / single minute; physics only (6.5 and 2 degC/km lapse), no learned residual; forecast hour nearest the observation'}
-(ROOT / 'outputs/jeju_slope/obs_vs_forecast_check.json').write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding='utf-8')
+(GDA / 'data/obs_vs_forecast_check.json').write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding='utf-8')
 print('OBS_VS_FORECAST', json.dumps({k: v for k, v in out.items() if k != 'rows'}, ensure_ascii=False))
 for r in sorted(rows, key=lambda r: -(r['ht_m'] or 0))[:6]: print(' ', r['name'], r['ht_m'], 'obs', r['obs_ta'], 'raw', r['raw_t1h'], 'stn_corr', r['stn_t'], 'cell', r['cell_t'])
