@@ -60,7 +60,7 @@ python "Geo Data Analyst/scripts/fetch_kma_obs.py" --asos-backfill 2023-01-01
 ```
 
 ```bash
-cd "Geo Data Analyst/scripts" && "C:\Program Files\QGIS 4.2.0in\python-qgis.bat" build_terrain_factors.py && cd ../..
+cd "Geo Data Analyst/scripts" && "C:\Program Files\QGIS 4.2.0\bin\python-qgis.bat" build_terrain_factors.py && cd ../..
 ```
 
 (QGIS의 python-qgis.bat는 공백이 든 경로 인자를 받지 못하므로 scripts 폴더 안에서 실행합니다.)
