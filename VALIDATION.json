@@ -217,5 +217,101 @@
     "rain_movement_arrows": "cells >=0.5 mm/h displaced downwind by WSD*3600 m, max ~400 arrows",
     "browser_check": "local build: 4 metrics render, legend ticks correct, cell detail shows wind side/temperature/dew-point depression/wind chill, hour switch updates; arrows verified with the standalone demo rain (5681 cells -> 379 arrows); console errors 0",
     "caveat": "5 km point values applied to 500 m cells; 10 m wind ignores terrain sheltering; analytical, not an official product"
+  },
+  "stage1_observations": {
+    "built_on": "2026-10-16",
+    "stations": {
+      "jeju_total": 42,
+      "asos": 4,
+      "mapped_to_cells": 38,
+      "outside_grid": [
+        "우도",
+        "마라도",
+        "가파도",
+        "지귀도"
+      ],
+      "station_height_vs_dsm_median_abs_m": 1.5,
+      "max_abs_m": 27.4
+    },
+    "collectors": {
+      "aws_min": "nph-aws2_min, 42 stations per fetch, first fetch 2026-10-16 00:45 KST",
+      "asos_hourly": "kma_sfctm2 current hour + kma_sfctm3 backfill from 2023-01-01 (4 stations)"
+    },
+    "terrain_factors": {
+      "cells": 7518,
+      "tpi_1km_range_m": [
+        -98.6,
+        180.1
+      ],
+      "svf_range": [
+        0.605,
+        0.995
+      ],
+      "coast_km_max": 15.26,
+      "upstream_max_16dir_window_km": 25
+    },
+    "first_physics_check_vs_aws": {
+      "obs_time": "2026-10-16T00:48:48.553810+09:00",
+      "forecast_base_kst": "2026-10-16T00:30:00+09:00",
+      "stations": 38,
+      "temperature": {
+        "raw_5km_point": {
+          "n": 38,
+          "bias": 0.31,
+          "rmse": 1.92,
+          "max_abs": 5.6
+        },
+        "cell_lapse_corrected": {
+          "n": 38,
+          "bias": 0.25,
+          "rmse": 1.71,
+          "max_abs": 3.8
+        },
+        "station_height_corrected": {
+          "n": 38,
+          "bias": 0.23,
+          "rmse": 1.73,
+          "max_abs": 3.9
+        }
+      },
+      "temperature_stations_above_700m": {
+        "raw_5km_point": {
+          "n": 8,
+          "bias": 1.74,
+          "rmse": 2.6
+        },
+        "station_height_corrected": {
+          "n": 8,
+          "bias": 1.01,
+          "rmse": 1.96
+        }
+      },
+      "dew_point_cell_vs_obs": {
+        "n": 38,
+        "bias": 1.26,
+        "rmse": 5.05
+      },
+      "note": "single issue / single minute; physics only (6.5 and 2 degC/km lapse), no learned residual; forecast hour nearest the observation"
+    },
+    "api_status_2026-10-16": {
+      "approved": [
+        "AWS 매분",
+        "ASOS 시간",
+        "지점정보",
+        "고층 TEMP 47186",
+        "레이더 PCPH/HSR",
+        "AWS 객관분석",
+        "KIM 국지 등압면",
+        "초단기예보/실황",
+        "단기예보",
+        "특보",
+        "천리안 2A L2 KO"
+      ],
+      "not_yet": [
+        "KIM 지상 2D",
+        "낙뢰",
+        "AWS 시간(awsh)"
+      ]
+    }
   }
 }

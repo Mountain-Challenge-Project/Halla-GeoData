@@ -1,0 +1,931 @@
+{
+ "type": "FeatureCollection",
+ "source": "KMA API Hub 지상관측 지점정보 (stn_inf.php inf=AWS, inf=SFC)",
+ "fetched_at": "2026-10-16T00:48:30.728351+09:00",
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.5,
+     33.51666667
+    ]
+   },
+   "properties": {
+    "stn": 182,
+    "name": "제주(공)",
+    "name_en": "----",
+    "ht_m": 26.5,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 제주시 용담이동",
+    "grid_id": "I1213J0706",
+    "cell_elev_m": 16.2,
+    "cell_mean_slope_deg": 2.4,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.52969,
+     33.51411
+    ]
+   },
+   "properties": {
+    "stn": 184,
+    "name": "제주",
+    "name_en": "----",
+    "ht_m": 20.79,
+    "ht_wd_m": 15.0,
+    "law_addr": "제주특별자치도 제주시 건입동",
+    "ht_pa_m": 21.99,
+    "grid_id": "I1218J0706",
+    "cell_elev_m": 12.3,
+    "cell_mean_slope_deg": 3.43,
+    "kind": "SFC"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.16283,
+     33.29382
+    ]
+   },
+   "properties": {
+    "stn": 185,
+    "name": "고산",
+    "name_en": "----",
+    "ht_m": 71.39,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 제주시 한경면 고산리",
+    "ht_pa_m": 72.49,
+    "grid_id": "I1151J0657",
+    "cell_elev_m": 28.7,
+    "cell_mean_slope_deg": 9.68,
+    "kind": "SFC"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.8802,
+     33.38677
+    ]
+   },
+   "properties": {
+    "stn": 188,
+    "name": "성산",
+    "name_en": "----",
+    "ht_m": 20.34,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 서귀포시 성산읍 신산리",
+    "ht_pa_m": 21.74,
+    "grid_id": "I1283J0679",
+    "cell_elev_m": 17.0,
+    "cell_mean_slope_deg": 2.24,
+    "kind": "SFC"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.5653,
+     33.24616
+    ]
+   },
+   "properties": {
+    "stn": 189,
+    "name": "서귀포",
+    "name_en": "----",
+    "ht_m": 51.86,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 서귀포시 서귀동",
+    "ht_pa_m": 53.16,
+    "grid_id": "I1225J0647",
+    "cell_elev_m": 35.9,
+    "cell_mean_slope_deg": 5.09,
+    "kind": "SFC"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.39838,
+     33.2505
+    ]
+   },
+   "properties": {
+    "stn": 328,
+    "name": "상예",
+    "name_en": "----",
+    "ht_m": 61.0,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 서귀포시 상예동",
+    "grid_id": "I1194J0648",
+    "cell_elev_m": 64.9,
+    "cell_mean_slope_deg": 5.42,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.56546,
+     33.44734
+    ]
+   },
+   "properties": {
+    "stn": 329,
+    "name": "산천단",
+    "name_en": "----",
+    "ht_m": 377.0,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 제주시 아라일동",
+    "grid_id": "I1225J0691",
+    "cell_elev_m": 397.2,
+    "cell_mean_slope_deg": 5.45,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.64947,
+     33.50081
+    ]
+   },
+   "properties": {
+    "stn": 330,
+    "name": "대흘",
+    "name_en": "----",
+    "ht_m": 144.41,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 제주시 조천읍 대흘리",
+    "grid_id": "I1240J0703",
+    "cell_elev_m": 142.1,
+    "cell_mean_slope_deg": 3.67,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.42053,
+     33.29554
+    ]
+   },
+   "properties": {
+    "stn": 331,
+    "name": "제주색달",
+    "name_en": "----",
+    "ht_m": 431.0,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 서귀포시 색달동",
+    "grid_id": "I1198J0658",
+    "cell_elev_m": 427.8,
+    "cell_mean_slope_deg": 5.71,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.95414,
+     33.52289
+    ]
+   },
+   "properties": {
+    "stn": 725,
+    "name": "우도",
+    "name_en": "----",
+    "ht_m": 9.23,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 제주시 우도면 연평리",
+    "grid_id": null,
+    "cell_elev_m": null,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.26786,
+     33.12206
+    ]
+   },
+   "properties": {
+    "stn": 726,
+    "name": "마라도",
+    "name_en": "----",
+    "ht_m": 11.58,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 서귀포시 대정읍 가파리",
+    "grid_id": null,
+    "cell_elev_m": null,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.39293,
+     33.40986
+    ]
+   },
+   "properties": {
+    "stn": 727,
+    "name": "유수암",
+    "name_en": "----",
+    "ht_m": 425.21,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 제주시 애월읍 유수암리",
+    "grid_id": "I1193J0683",
+    "cell_elev_m": 421.0,
+    "cell_mean_slope_deg": 2.8,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.69387,
+     33.47934
+    ]
+   },
+   "properties": {
+    "stn": 751,
+    "name": "와산",
+    "name_en": "----",
+    "ht_m": 248.0,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 제주시 조천읍 와산리",
+    "grid_id": "I1248J0699",
+    "cell_elev_m": 228.5,
+    "cell_mean_slope_deg": 4.02,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.30599,
+     33.30456
+    ]
+   },
+   "properties": {
+    "stn": 752,
+    "name": "서광",
+    "name_en": "----",
+    "ht_m": 188.42,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 서귀포시 안덕면 서광리",
+    "grid_id": "I1177J0660",
+    "cell_elev_m": 184.7,
+    "cell_mean_slope_deg": 3.57,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.4959,
+     33.39304
+    ]
+   },
+   "properties": {
+    "stn": 753,
+    "name": "어리목",
+    "name_en": "----",
+    "ht_m": 967.83,
+    "ht_wd_m": 10.0,
+    "law_addr": "(산지)제주특별자치도 제주시 해안동",
+    "grid_id": "I1212J0679",
+    "cell_elev_m": 985.2,
+    "cell_mean_slope_deg": 9.16,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.25809,
+     33.39268
+    ]
+   },
+   "properties": {
+    "stn": 779,
+    "name": "한림",
+    "name_en": "----",
+    "ht_m": 38.79,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 제주시 한림읍 명월리",
+    "grid_id": "I1168J0679",
+    "cell_elev_m": 36.6,
+    "cell_mean_slope_deg": 3.01,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.70438,
+     33.27718
+    ]
+   },
+   "properties": {
+    "stn": 780,
+    "name": "제주남원",
+    "name_en": "----",
+    "ht_m": 25.86,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 서귀포시 남원읍 남원리",
+    "grid_id": "I1251J0654",
+    "cell_elev_m": 26.8,
+    "cell_mean_slope_deg": 3.89,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.8777,
+     33.5199
+    ]
+   },
+   "properties": {
+    "stn": 781,
+    "name": "구좌",
+    "name_en": "----",
+    "ht_m": 17.18,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 제주시 구좌읍 하도리",
+    "grid_id": "I1282J0708",
+    "cell_elev_m": 15.7,
+    "cell_mean_slope_deg": 1.56,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.6194,
+     33.38514
+    ]
+   },
+   "properties": {
+    "stn": 782,
+    "name": "성판악",
+    "name_en": "----",
+    "ht_m": 760.47,
+    "ht_wd_m": 7.0,
+    "law_addr": "(산지)제주특별자치도 제주시 조천읍 교래리",
+    "grid_id": "I1235J0678",
+    "cell_elev_m": 753.2,
+    "cell_mean_slope_deg": 8.62,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.81839,
+     33.36302
+    ]
+   },
+   "properties": {
+    "stn": 792,
+    "name": "표선",
+    "name_en": "----",
+    "ht_m": 89.0,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 서귀포시 표선면 하천리",
+    "grid_id": "I1271J0673",
+    "cell_elev_m": 93.7,
+    "cell_mean_slope_deg": 2.15,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.22626,
+     33.24101
+    ]
+   },
+   "properties": {
+    "stn": 793,
+    "name": "대정",
+    "name_en": "----",
+    "ht_m": 2.64,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 서귀포시 대정읍 일과리",
+    "grid_id": "I1163J0646",
+    "cell_elev_m": 6.1,
+    "cell_mean_slope_deg": 1.8,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.26833,
+     33.1733
+    ]
+   },
+   "properties": {
+    "stn": 855,
+    "name": "가파도",
+    "name_en": "----",
+    "ht_m": 4.25,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 서귀포시 대정읍 가파리",
+    "grid_id": null,
+    "cell_elev_m": null,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.77295,
+     33.55563
+    ]
+   },
+   "properties": {
+    "stn": 861,
+    "name": "제주김녕",
+    "name_en": "----",
+    "ht_m": 21.0,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 제주시 구좌읍 김녕리",
+    "grid_id": "I1263J0715",
+    "cell_elev_m": 26.9,
+    "cell_mean_slope_deg": 2.33,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.77919,
+     33.47056
+    ]
+   },
+   "properties": {
+    "stn": 862,
+    "name": "송당",
+    "name_en": "----",
+    "ht_m": 196.63,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 제주시 구좌읍 송당리",
+    "grid_id": "I1264J0697",
+    "cell_elev_m": 195.7,
+    "cell_mean_slope_deg": 2.84,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.43165,
+     33.47688
+    ]
+   },
+   "properties": {
+    "stn": 863,
+    "name": "외도",
+    "name_en": "----",
+    "ht_m": 52.65,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 제주시 외도일동",
+    "grid_id": "I1200J0698",
+    "cell_elev_m": 57.1,
+    "cell_mean_slope_deg": 3.02,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.52202,
+     33.45766
+    ]
+   },
+   "properties": {
+    "stn": 865,
+    "name": "오등",
+    "name_en": "----",
+    "ht_m": 233.9,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 제주시 오등동",
+    "grid_id": "I1217J0694",
+    "cell_elev_m": 224.0,
+    "cell_mean_slope_deg": 3.73,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.53049,
+     33.37694
+    ]
+   },
+   "properties": {
+    "stn": 867,
+    "name": "삼각봉",
+    "name_en": "----",
+    "ht_m": 1503.33,
+    "ht_wd_m": 10.0,
+    "law_addr": "(산지)제주특별자치도 제주시 오라이동",
+    "grid_id": "I1218J0676",
+    "cell_elev_m": 1466.3,
+    "cell_mean_slope_deg": 34.21,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.49802,
+     33.37598
+    ]
+   },
+   "properties": {
+    "stn": 868,
+    "name": "사제비",
+    "name_en": "----",
+    "ht_m": 1397.53,
+    "ht_wd_m": 10.0,
+    "law_addr": "(산지)제주특별자치도 제주시 애월읍 광령리",
+    "grid_id": "I1212J0676",
+    "cell_elev_m": 1326.8,
+    "cell_mean_slope_deg": 18.97,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.4964,
+     33.34832
+    ]
+   },
+   "properties": {
+    "stn": 869,
+    "name": "영실",
+    "name_en": "----",
+    "ht_m": 1260.2,
+    "ht_wd_m": 7.0,
+    "law_addr": "(산지)제주특별자치도 서귀포시 하원동",
+    "grid_id": "I1212J0670",
+    "cell_elev_m": 1257.7,
+    "cell_mean_slope_deg": 11.13,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.55571,
+     33.36978
+    ]
+   },
+   "properties": {
+    "stn": 870,
+    "name": "진달래밭",
+    "name_en": "----",
+    "ht_m": 1488.56,
+    "ht_wd_m": 7.0,
+    "law_addr": "(산지)제주특별자치도 서귀포시 남원읍 하례리",
+    "grid_id": "I1223J0674",
+    "cell_elev_m": 1501.3,
+    "cell_mean_slope_deg": 9.34,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.51811,
+     33.3623
+    ]
+   },
+   "properties": {
+    "stn": 871,
+    "name": "윗세오름",
+    "name_en": "----",
+    "ht_m": 1675.81,
+    "ht_wd_m": 7.0,
+    "law_addr": "(산지)제주특별자치도 제주시 애월읍 광령리",
+    "grid_id": "I1216J0673",
+    "cell_elev_m": 1654.8,
+    "cell_mean_slope_deg": 13.33,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.35989,
+     33.36233
+    ]
+   },
+   "properties": {
+    "stn": 883,
+    "name": "새별오름",
+    "name_en": "----",
+    "ht_m": 435.0,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 제주시 애월읍 봉성리",
+    "grid_id": "I1187J0673",
+    "cell_elev_m": 444.9,
+    "cell_mean_slope_deg": 10.44,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.67846,
+     33.33143
+    ]
+   },
+   "properties": {
+    "stn": 885,
+    "name": "한남",
+    "name_en": "----",
+    "ht_m": 244.29,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 서귀포시 남원읍 한남리",
+    "grid_id": "I1246J0666",
+    "cell_elev_m": 230.4,
+    "cell_mean_slope_deg": 4.27,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.73362,
+     33.38535
+    ]
+   },
+   "properties": {
+    "stn": 890,
+    "name": "제주가시리",
+    "name_en": "----",
+    "ht_m": 275.2,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 서귀포시 표선면 가시리",
+    "grid_id": "I1256J0678",
+    "cell_elev_m": 271.3,
+    "cell_mean_slope_deg": 2.49,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.85127,
+     33.45011
+    ]
+   },
+   "properties": {
+    "stn": 892,
+    "name": "성산수산",
+    "name_en": "----",
+    "ht_m": 102.47,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 서귀포시 성산읍 수산리",
+    "grid_id": "I1277J0692",
+    "cell_elev_m": 107.4,
+    "cell_mean_slope_deg": 2.19,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.32745,
+     33.46592
+    ]
+   },
+   "properties": {
+    "stn": 893,
+    "name": "애월",
+    "name_en": "----",
+    "ht_m": 5.24,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 제주시 애월읍 애월리",
+    "grid_id": "I1181J0695",
+    "cell_elev_m": 9.6,
+    "cell_mean_slope_deg": 2.8,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.6542,
+     33.22333
+    ]
+   },
+   "properties": {
+    "stn": 960,
+    "name": "지귀도",
+    "name_en": "Jiguido",
+    "ht_m": 18.0,
+    "ht_wd_m": 2.7,
+    "law_addr": "제주특별자치도 서귀포시 남원읍 위미리",
+    "grid_id": null,
+    "cell_elev_m": null,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.53303,
+     33.35237
+    ]
+   },
+   "properties": {
+    "stn": 965,
+    "name": "한라산남벽",
+    "name_en": "----",
+    "ht_m": 1576.0,
+    "ht_wd_m": 7.0,
+    "law_addr": "(산지)제주특별자치도 서귀포시 토평동",
+    "grid_id": "I1219J0671",
+    "cell_elev_m": 1630.0,
+    "cell_mean_slope_deg": 16.48,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.48917,
+     33.25992
+    ]
+   },
+   "properties": {
+    "stn": 980,
+    "name": "강정",
+    "name_en": "----",
+    "ht_m": 135.0,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 서귀포시 강정동",
+    "grid_id": "I1211J0650",
+    "cell_elev_m": 125.5,
+    "cell_mean_slope_deg": 4.79,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.32992,
+     33.25792
+    ]
+   },
+   "properties": {
+    "stn": 989,
+    "name": "안덕화순",
+    "name_en": "----",
+    "ht_m": 91.2,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 서귀포시 안덕면 화순리",
+    "grid_id": "I1182J0650",
+    "cell_elev_m": 103.0,
+    "cell_mean_slope_deg": 3.56,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.2305,
+     33.31822
+    ]
+   },
+   "properties": {
+    "stn": 990,
+    "name": "낙천",
+    "name_en": "----",
+    "ht_m": 77.67,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 제주시 한경면 낙천리",
+    "grid_id": "I1163J0663",
+    "cell_elev_m": 73.6,
+    "cell_mean_slope_deg": 1.98,
+    "kind": "AWS"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.30985,
+     33.34225
+    ]
+   },
+   "properties": {
+    "stn": 993,
+    "name": "제주금악",
+    "name_en": "----",
+    "ht_m": 279.0,
+    "ht_wd_m": 10.0,
+    "law_addr": "제주특별자치도 제주시 한림읍 금악리",
+    "grid_id": "I1178J0668",
+    "cell_elev_m": 279.5,
+    "cell_mean_slope_deg": 3.73,
+    "kind": "AWS"
+   }
+  }
+ ]
+}
