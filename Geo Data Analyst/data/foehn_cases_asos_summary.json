@@ -1,0 +1,122 @@
+{
+ "archive_hours": 33218,
+ "criteria": {
+  "windward_wind_ms_min": 6.0,
+  "dT_min_degC": 3.0,
+  "dRH_min_pct": 15.0,
+  "lee_RH_max": 70,
+  "direction_tolerance_deg": 50
+ },
+ "candidate_hours": 297,
+ "events": 145,
+ "events_by_month": {
+  "01": 10,
+  "02": 14,
+  "03": 32,
+  "04": 20,
+  "05": 21,
+  "06": 16,
+  "07": 5,
+  "08": 8,
+  "09": 7,
+  "10": 4,
+  "11": 4,
+  "12": 4
+ },
+ "events_by_lee_station": {
+  "서귀포": 36,
+  "성산": 104,
+  "고산": 5
+ },
+ "strongest": [
+  {
+   "start_tm": "202405241000",
+   "last_tm": "202405241500",
+   "axis": "E-W",
+   "windward": "고산",
+   "lee": "성산",
+   "hours": 5,
+   "max_dT": 10.8,
+   "max_dRH": 62.0,
+   "max_wind": 7.1
+  },
+  {
+   "start_tm": "202402151200",
+   "last_tm": "202402151500",
+   "axis": "N-S",
+   "windward": "제주",
+   "lee": "서귀포",
+   "hours": 3,
+   "max_dT": 9.1,
+   "max_dRH": 24.0,
+   "max_wind": 8.1
+  },
+  {
+   "start_tm": "202603281100",
+   "last_tm": "202603281100",
+   "axis": "E-W",
+   "windward": "고산",
+   "lee": "성산",
+   "hours": 1,
+   "max_dT": 9.0,
+   "max_dRH": 66.0,
+   "max_wind": 6.3
+  },
+  {
+   "start_tm": "202503220900",
+   "last_tm": "202503221700",
+   "axis": "E-W",
+   "windward": "고산",
+   "lee": "성산",
+   "hours": 9,
+   "max_dT": 8.7,
+   "max_dRH": 54.0,
+   "max_wind": 11.7
+  },
+  {
+   "start_tm": "202604041400",
+   "last_tm": "202604041400",
+   "axis": "N-S",
+   "windward": "제주",
+   "lee": "서귀포",
+   "hours": 1,
+   "max_dT": 8.5,
+   "max_dRH": 30.0,
+   "max_wind": 6.5
+  },
+  {
+   "start_tm": "202503211200",
+   "last_tm": "202503211800",
+   "axis": "E-W",
+   "windward": "고산",
+   "lee": "성산",
+   "hours": 7,
+   "max_dT": 8.3,
+   "max_dRH": 55.0,
+   "max_wind": 10.7
+  },
+  {
+   "start_tm": "202306021400",
+   "last_tm": "202306021600",
+   "axis": "E-W",
+   "windward": "고산",
+   "lee": "성산",
+   "hours": 3,
+   "max_dT": 7.8,
+   "max_dRH": 30.0,
+   "max_wind": 8.2
+  },
+  {
+   "start_tm": "202602151000",
+   "last_tm": "202602151500",
+   "axis": "E-W",
+   "windward": "고산",
+   "lee": "성산",
+   "hours": 6,
+   "max_dT": 7.7,
+   "max_dRH": 52.0,
+   "max_wind": 10.8
+  }
+ ],
+ "note": "coastal-station screening only; use as case labels (stage 5) and to pick days for AWS-based transect checks"
+}

@@ -1,0 +1,181 @@
+{
+ "issues": 1,
+ "first_issue": "2026-10-17T08:30:00+09:00",
+ "last_issue": "2026-10-17T08:30:00+09:00",
+ "station_rows": 38,
+ "overall": {
+  "temperature": {
+   "raw_5km_point": {
+    "n": 38,
+    "bias": 1.39,
+    "rmse": 2.61
+   },
+   "lapse_corrected": {
+    "n": 38,
+    "bias": 1.33,
+    "rmse": 2.35
+   },
+   "foehn_aware": {
+    "n": 38,
+    "bias": 1.33,
+    "rmse": 2.35
+   }
+  },
+  "dew_point": {
+   "lapse_corrected": {
+    "n": 38,
+    "bias": 1.55,
+    "rmse": 4.38
+   },
+   "foehn_aware": {
+    "n": 38,
+    "bias": 1.55,
+    "rmse": 4.38
+   }
+  }
+ },
+ "by_elevation": {
+  "<300 m": {
+   "temperature": {
+    "raw_5km_point": {
+     "n": 26,
+     "bias": 0.61,
+     "rmse": 1.54
+    },
+    "lapse_corrected": {
+     "n": 26,
+     "bias": 0.8,
+     "rmse": 1.54
+    },
+    "foehn_aware": {
+     "n": 26,
+     "bias": 0.8,
+     "rmse": 1.54
+    }
+   },
+   "dew_point": {
+    "lapse_corrected": {
+     "n": 26,
+     "bias": -0.2,
+     "rmse": 1.36
+    },
+    "foehn_aware": {
+     "n": 26,
+     "bias": -0.2,
+     "rmse": 1.36
+    }
+   }
+  },
+  "300-1000 m": {
+   "temperature": {
+    "raw_5km_point": {
+     "n": 6,
+     "bias": 2.7,
+     "rmse": 3.72
+    },
+    "lapse_corrected": {
+     "n": 6,
+     "bias": 2.25,
+     "rmse": 3.26
+    },
+    "foehn_aware": {
+     "n": 6,
+     "bias": 2.25,
+     "rmse": 3.26
+    }
+   },
+   "dew_point": {
+    "lapse_corrected": {
+     "n": 6,
+     "bias": 1.28,
+     "rmse": 4.06
+    },
+    "foehn_aware": {
+     "n": 6,
+     "bias": 1.28,
+     "rmse": 4.06
+    }
+   }
+  },
+  ">=1000 m": {
+   "temperature": {
+    "raw_5km_point": {
+     "n": 6,
+     "bias": 3.43,
+     "rmse": 4.38
+    },
+    "lapse_corrected": {
+     "n": 6,
+     "bias": 2.7,
+     "rmse": 3.74
+    },
+    "foehn_aware": {
+     "n": 6,
+     "bias": 2.7,
+     "rmse": 3.74
+    }
+   },
+   "dew_point": {
+    "lapse_corrected": {
+     "n": 6,
+     "bias": 9.42,
+     "rmse": 9.86
+    },
+    "foehn_aware": {
+     "n": 6,
+     "bias": 9.42,
+     "rmse": 9.86
+    }
+   }
+  }
+ },
+ "by_hour_kst": {
+  "09": {
+   "temperature": {
+    "raw_5km_point": {
+     "n": 38,
+     "bias": 1.39,
+     "rmse": 2.61
+    },
+    "lapse_corrected": {
+     "n": 38,
+     "bias": 1.33,
+     "rmse": 2.35
+    },
+    "foehn_aware": {
+     "n": 38,
+     "bias": 1.33,
+     "rmse": 2.35
+    }
+   },
+   "dew_point": {
+    "lapse_corrected": {
+     "n": 38,
+     "bias": 1.55,
+     "rmse": 4.38
+    },
+    "foehn_aware": {
+     "n": 38,
+     "bias": 1.55,
+     "rmse": 4.38
+    }
+   }
+  }
+ },
+ "foehn_active_rows": {
+  "temperature": {
+   "raw_5km_point": null,
+   "lapse_corrected": null,
+   "foehn_aware": null
+  },
+  "dew_point": {
+   "lapse_corrected": null,
+   "foehn_aware": null
+  }
+ },
+ "improvement_vs_raw_pct": {
+  "lapse_rmse": 10.0,
+  "foehn_aware_rmse": 10.0
+ },
+ "note": "accumulates one row per station per pipeline run; raw = 5 km point value applied to the cell (no correction), lapse = linear control, foehn-aware = stage-2 physics; needs weeks of runs before the numbers mean much"
+}

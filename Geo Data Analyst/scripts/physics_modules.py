@@ -73,6 +73,17 @@ def foehn(t_up, rh_up, z_up, z_ridge, z_cell, wind_ms, lee_depth_m):
     return {'t': t_cell, 'td': td_cell, 'rh': rh_from(t_cell, td_cell), 'lcl_alt': lcl, 'ridge': z_ridge, 'condensed': condensed, 'index': index, 'active': active}
 
 
+def station_pressure(ps_hpa, t_c, z_m, td_c=None):
+    """Station (local) pressure from sea-level pressure by the hypsometric equation. The layer temperature is the
+    mean of the surface air temperature and the temperature extrapolated to sea level (6.5 degC/km); virtual
+    temperature uses the dew point when given. Validated against ASOS PA (verify_pressure_asos.py)."""
+    t_layer = t_c + 0.0065 * z_m / 2.0
+    tv = t_layer + 273.15
+    if td_c is not None:
+        e = es(min(td_c, t_c)); tv = tv / (1 - (e / ps_hpa) * (1 - EPS))
+    return ps_hpa * math.exp(-G * z_m / (RD * tv))
+
+
 DIRS = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW']
 
 

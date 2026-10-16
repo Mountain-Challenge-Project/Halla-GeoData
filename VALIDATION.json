@@ -358,5 +358,141 @@
     "browser_check": "local build: 3 new colour metrics (cell_td, lcl_rel, foehn) and 2 highlight layers render, foehn cells on the lee (west/north-west) side of the ESE 850 hPa wind, fog cells around the summit; console errors 0",
     "finding": "dew point remains the weak variable (RMSE 4.3 degC vs AWS): the 5 km humidity at the high stations is biased moist in the morning; the foehn parcel does not fix this because most high stations sit on the windward side. Residual learning (stage 4) must target Td.",
     "note": "single issue, physics only; not a validated forecast"
+  },
+  "stage3_station_verification": {
+    "built_on": "2026-10-17",
+    "pipeline": "RUN_PIPELINE.cmd hourly: obs -> forecast -> KIM (6-hourly) -> compute_stage2 -> verify_stations (archive runtime/kma/verification/stationwise.csv)",
+    "first_run": {
+      "issues": 1,
+      "rows": 38,
+      "overall": {
+        "temperature": {
+          "raw_5km_point": {
+            "n": 38,
+            "bias": 1.39,
+            "rmse": 2.61
+          },
+          "lapse_corrected": {
+            "n": 38,
+            "bias": 1.33,
+            "rmse": 2.35
+          },
+          "foehn_aware": {
+            "n": 38,
+            "bias": 1.33,
+            "rmse": 2.35
+          }
+        },
+        "dew_point": {
+          "lapse_corrected": {
+            "n": 38,
+            "bias": 1.55,
+            "rmse": 4.38
+          },
+          "foehn_aware": {
+            "n": 38,
+            "bias": 1.55,
+            "rmse": 4.38
+          }
+        }
+      },
+      "improvement_vs_raw_pct": {
+        "lapse_rmse": 10.0,
+        "foehn_aware_rmse": 10.0
+      }
+    },
+    "pressure_module": {
+      "asos_3yr_rmse_hpa": 0.17,
+      "asos_per_station": {
+        "184": {
+          "n": 33201,
+          "bias_hpa": -0.15,
+          "rmse_hpa": 0.16,
+          "max_abs_hpa": 0.22
+        },
+        "185": {
+          "n": 33096,
+          "bias_hpa": -0.16,
+          "rmse_hpa": 0.16,
+          "max_abs_hpa": 0.29
+        },
+        "188": {
+          "n": 33191,
+          "bias_hpa": -0.17,
+          "rmse_hpa": 0.18,
+          "max_abs_hpa": 0.24
+        },
+        "189": {
+          "n": 33213,
+          "bias_hpa": -0.17,
+          "rmse_hpa": 0.18,
+          "max_abs_hpa": 0.29
+        }
+      },
+      "aws_high_stations": {
+        "871": {
+          "name": "윗세오름",
+          "ht_m": 1675.81,
+          "rmse_hpa": 0.24,
+          "n": 3
+        },
+        "867": {
+          "name": "삼각봉",
+          "ht_m": 1503.33,
+          "rmse_hpa": 0.34,
+          "n": 3
+        },
+        "870": {
+          "name": "진달래밭",
+          "ht_m": 1488.56,
+          "rmse_hpa": 0.22,
+          "n": 3
+        },
+        "868": {
+          "name": "사제비",
+          "ht_m": 1397.53,
+          "rmse_hpa": 0.35,
+          "n": 3
+        },
+        "869": {
+          "name": "영실",
+          "ht_m": 1260.2,
+          "rmse_hpa": 0.24,
+          "n": 3
+        }
+      }
+    },
+    "foehn_cases_asos": {
+      "archive_hours": 33218,
+      "criteria": {
+        "windward_wind_ms_min": 6.0,
+        "dT_min_degC": 3.0,
+        "dRH_min_pct": 15.0,
+        "lee_RH_max": 70,
+        "direction_tolerance_deg": 50
+      },
+      "candidate_hours": 297,
+      "events": 145,
+      "events_by_month": {
+        "01": 10,
+        "02": 14,
+        "03": 32,
+        "04": 20,
+        "05": 21,
+        "06": 16,
+        "07": 5,
+        "08": 8,
+        "09": 7,
+        "10": 4,
+        "11": 4,
+        "12": 4
+      },
+      "events_by_lee_station": {
+        "서귀포": 36,
+        "성산": 104,
+        "고산": 5
+      }
+    },
+    "note": "verification statistics need weeks of hourly runs; the pressure module is validated now because the ASOS archive goes back to 2023"
   }
 }
