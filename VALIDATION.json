@@ -313,5 +313,50 @@
         "AWS 시간(awsh)"
       ]
     }
+  },
+  "stage2_physics_modules": {
+    "built_on": "2026-10-17",
+    "kim_levels": "KIM-L 925/850 hPa T,RH,U,V for the Jeju box aggregated to 204 DFS points, issue 2026-10-16 18 UTC, lead 0-9 h",
+    "modules": {
+      "dew_point": "Magnus at the 5 km point, 2 degC/km dew-point lapse to the cell, capped at the cell temperature",
+      "lcl": "point elevation + 125 m per degC (T - Td); in-cloud when the cell is at or above it",
+      "cross_barrier_wind": "KIM 850 hPa wind, fallback 10 m forecast wind",
+      "foehn": "upstream forecast point in the wind direction at up_dist; dry ascent to LCL, saturated ascent (local moist lapse, 50 m steps) to the upstream ridge up_max, dry descent to the cell; index = foehn T - lapse T; active = condensation + lee depth >= 300 m + wind >= 5 m/s + index >= 1 degC"
+    },
+    "cell_counts_at_check": {
+      "cells": 7518,
+      "in_cloud": 89,
+      "dewdep_le1": 120,
+      "foehn_index_ge1": 974,
+      "foehn_active": 285,
+      "no_point": 0
+    },
+    "station_check": {
+      "temperature_lapse": {
+        "n": 38,
+        "bias": -0.02,
+        "rmse": 1.73
+      },
+      "temperature_foehn_aware": {
+        "n": 38,
+        "bias": 0.03,
+        "rmse": 1.75
+      },
+      "dew_point_lapse": {
+        "n": 38,
+        "bias": 1.27,
+        "rmse": 4.27
+      },
+      "dew_point_foehn_aware": {
+        "n": 38,
+        "bias": 1.32,
+        "rmse": 4.4
+      }
+    },
+    "forecast_base_kst": "2026-10-17T07:30:00+09:00",
+    "obs_time": "2026-10-17T08:37:41.529091+09:00",
+    "browser_check": "local build: 3 new colour metrics (cell_td, lcl_rel, foehn) and 2 highlight layers render, foehn cells on the lee (west/north-west) side of the ESE 850 hPa wind, fog cells around the summit; console errors 0",
+    "finding": "dew point remains the weak variable (RMSE 4.3 degC vs AWS): the 5 km humidity at the high stations is biased moist in the morning; the foehn parcel does not fix this because most high stations sit on the windward side. Residual learning (stage 4) must target Td.",
+    "note": "single issue, physics only; not a validated forecast"
   }
 }

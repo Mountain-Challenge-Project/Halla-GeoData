@@ -16,10 +16,14 @@
 | `scripts/build_terrain_factors.py` | 30 m DSM에서 셀별 지형 파생 인자 계산 (QGIS Python) |
 | `scripts/verify_obs_vs_forecast.py` | 감률 보정 기온·이슬점을 같은 시각 AWS 관측과 비교 |
 | `scripts/make_design_figures.py` | 보고서 그림 생성 (matplotlib) |
+| `scripts/fetch_kim_levels.py` | KIM 국지모델(1.5 km) 925·850 hPa 기온·습도·바람을 5 km 격자점으로 집계 (푄 모듈 상류 공기·횡단 바람) |
+| `scripts/physics_modules.py` | 2단계 물리 모듈 참조 구현: Magnus 이슬점, LCL, 습윤단열감률, 셀 기온·이슬점, 푄 단면 계산 |
+| `scripts/compute_stage2.py` | 현재 예보에 물리 모듈을 전 셀에 적용하고 AWS 지점과 비교 → `data/physics_latest.json` |
 | `scripts/RUN_OBS.cmd` | 관측 수집 주기 실행용 배치 (작업 스케줄러 등록 예시 포함) |
 | `data/kma_stations_jeju.csv`, `.geojson` | 제주 지점 42개(ASOS 4): 좌표, 노장고도, DSM 고도, 속한 셀, 셀 고도·경사 |
 | `data/jeju_grid_terrain_factors.csv` | 셀 7,518개의 TPI·하늘개방도·해안 거리·16방위 상류 최고고도/거리 |
 | `data/obs_vs_forecast_check.json` | 첫 물리 점검 결과 (지점별 관측·추정값, 통계) |
+| `data/physics_latest.json` | 2단계 물리 모듈 점검 결과 (셀 집계: 구름 속·운무·푄 지수·푄 조건, 지점별 감률/푄 반영 기온·이슬점 대 관측) |
 
 관측 원자료는 `runtime/kma/obs/`(저장소 루트, Git 제외)에 월별 CSV로 쌓이고, 지점별 최신값만 대시보드용 `outputs/jeju_dashboard/data/obs_latest.json`과 공유 DB 문서 `radar/obs`에 씁니다.
 
@@ -65,6 +69,16 @@ cd "Geo Data Analyst/scripts" && "C:\Program Files\QGIS 4.2.0\bin\python-qgis.ba
 
 (QGIS의 python-qgis.bat는 공백이 든 경로 인자를 받지 못하므로 scripts 폴더 안에서 실행합니다.)
 
+2단계 물리 모듈(예보·관측을 받은 뒤):
+
+```bash
+python "Geo Data Analyst/scripts/fetch_kim_levels.py"
+```
+
+```bash
+python "Geo Data Analyst/scripts/compute_stage2.py"
+```
+
 ```bash
 python work/update_grid_properties.py
 ```
@@ -80,12 +94,20 @@ python "Geo Data Analyst/scripts/verify_obs_vs_forecast.py"
 | 단계 | 내용 | 상태 |
 |---|---|---|
 | 1 | 지점 메타 정리·셀 매핑, AWS·ASOS 수집기, 지형 파생 인자 | 완료 (2026-10-16) |
-| 2 | 이슬점·LCL·푄 모듈 구현, 대시보드에 이슬점·푄 지수 표시 | 예정 |
+| 2 | 이슬점·LCL·푄 모듈 구현, 대시보드에 이슬점·푄 지수 표시 | 완료 (2026-10-17): KIM 등압면 연결, 색상 기준 3개(셀 이슬점·LCL−셀 고도·푄 지수), 강조 레이어 2개(푄 조건·운무 가능) |
 | 3 | 지점 기준 검증: 물리값 대 AWS, 선형 보정 대조군 대비 개선 | 예정 (첫 점검만 수행) |
 | 4 | KIM 등압면 연결, RF·GBM 학습, 지점 제외 교차검증 | 예정 |
 | 5 | 셀 전역 적용, 신뢰 구간, 사례 검증 | 예정 |
 
 첫 물리 점검(1회차, 38지점, 2026-10-16 00:45 KST): 감률 보정으로 기온 RMSE 1.92 → 1.71 °C, 700 m 이상 8지점 2.6 → 1.96 °C. 이슬점 RMSE 5.0 °C로 고지대 예보 습도 오차가 크며 2단계의 과제입니다. 결과는 `data/obs_vs_forecast_check.json`에 있습니다.
+
+## 2단계 물리 모듈 (구현 내용)
+
+- **이슬점**: 5 km 점의 T1H·REH에서 Magnus 식으로 이슬점을 구하고 이슬점 감률 2 °C/km로 셀 고도에 맞춥니다(셀 기온을 넘지 않도록 제한). 색상 기준 "셀 이슬점", 기존 "기온−이슬점 차"도 이 값을 씁니다.
+- **LCL**: 점 고도 + 125 m × (T − Td). 색상 기준 "LCL − 셀 고도"가 0 이하면 셀이 구름 속에 있을 가능성이 큽니다. 운무 가능 셀 = LCL 이하 또는 기온−이슬점 ≤ 1 °C (강조 레이어).
+- **횡단 바람**: KIM 국지모델 850 hPa 바람(`fetch_kim_levels.py`)을 쓰고, 없으면 초단기예보 10 m 바람을 씁니다.
+- **푄**: 횡단 풍향의 16방위에서 셀의 상류 최고고도(`up_max`)와 거리(`up_dist`)를 꺼내고, 그 거리만큼 풍상측으로 옮긴 위치의 5 km 예보점을 상류 공기로 잡습니다. 상류 공기를 LCL까지 건조단열(9.8 °C/km), 능선까지 습윤단열(기온·기압에 따른 포화단열감률, 50 m 간격 적분)로 올린 뒤 셀 고도까지 건조단열로 내립니다. 응결된 수증기는 제거하고 하강 중 이슬점은 1.8 °C/km로 올립니다. 푄 지수 = 푄 계산 기온 − 단순 감률 보정 기온. 푄 조건 = 능선 통과 시 응결 + 바람그늘 깊이 ≥ 300 m + 횡단 풍속 ≥ 5 m/s + 지수 ≥ 1 °C (강조 레이어, 셀 상세에 상류 점·능선·LCL·계산 기온·습도 표시).
+- 참조 구현은 `scripts/physics_modules.py`, 라이브 구현은 대시보드 자바스크립트이며 같은 식을 씁니다.
 
 ## 한계와 표기
 
