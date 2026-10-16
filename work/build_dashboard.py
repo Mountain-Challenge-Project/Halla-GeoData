@@ -55,7 +55,7 @@ if '--standalone' in sys.argv:
         p = data_dir / (name + '.png')
         if p.exists():
             embed['images'][name] = 'data:image/png;base64,' + base64.b64encode(p.read_bytes()).decode()
-    for name, fn in [('s2_meta', 's2_meta.json'), ('pois', 'pois.geojson'), ('sac_scale', 'sac_scale.geojson'), ('obs_latest', 'obs_latest.json')]:
+    for name, fn in [('s2_meta', 's2_meta.json'), ('pois', 'pois.geojson'), ('sac_scale', 'sac_scale.geojson'), ('obs_latest', 'obs_latest.json'), ('levels', 'levels.json')]:
         p = data_dir / fn
         if p.exists():
             embed[name] = json.loads(p.read_text('utf-8'))
