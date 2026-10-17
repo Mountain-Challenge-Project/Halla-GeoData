@@ -71,6 +71,13 @@ def summarize():
     if o['raw_5km_point'] and o['lapse_corrected']:
         out['improvement_vs_raw_pct'] = {'lapse_rmse': round(100 * (1 - o['lapse_corrected']['rmse'] / o['raw_5km_point']['rmse']), 1), 'foehn_aware_rmse': round(100 * (1 - o['foehn_aware']['rmse'] / o['raw_5km_point']['rmse']), 1) if o['foehn_aware'] else None}
     (GDA / 'data/verification_summary.json').write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding='utf-8')
+    # uncertainty for the dashboard: RMSE of the physics estimate by elevation band (stage 5 confidence display)
+    unc = {'schema_version': 1, 'issues': len(issues), 'rows': len(rows), 'last_issue': issues[-1] if issues else None, 'by_elevation': {}}
+    for b, blk in out['by_elevation'].items():
+        t = blk['temperature']['lapse_corrected']; td = blk['dew_point']['lapse_corrected']
+        unc['by_elevation'][b] = {'n': t['n'] if t else 0, 't_bias': t['bias'] if t else None, 't_rmse': t['rmse'] if t else None, 'td_bias': td['bias'] if td else None, 'td_rmse': td['rmse'] if td else None}
+    unc['note'] = 'station-level error of the physics estimate accumulated over the pipeline runs; shown as +-RMSE in the cell detail'
+    (ROOT / 'outputs/jeju_dashboard/data/uncertainty.json').write_text(json.dumps(unc, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
     return out
 
 

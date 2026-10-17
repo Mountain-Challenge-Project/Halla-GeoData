@@ -1,0 +1,48 @@
+{
+ "archive_rows": 132711,
+ "fog_hours": 2058,
+ "fog_hours_with_dewdep_le1": 991,
+ "fog_rule_recall_pct": 48.2,
+ "all_hours_with_dewdep_le1": 11349,
+ "fog_rule_precision_pct": 8.7,
+ "fog_by_station": {
+  "제주": 648,
+  "고산": 690,
+  "성산": 179,
+  "서귀포": 541
+ },
+ "fog_by_month": {
+  "01": 186,
+  "02": 164,
+  "03": 228,
+  "04": 453,
+  "05": 256,
+  "06": 360,
+  "07": 241,
+  "08": 15,
+  "09": 15,
+  "10": 4,
+  "11": 57,
+  "12": 79
+ },
+ "heavy_rain_hours": 167,
+ "heavy_rain_by_station": {
+  "제주": 21,
+  "고산": 23,
+  "성산": 67,
+  "서귀포": 56
+ },
+ "heavy_rain_by_month": {
+  "02": 2,
+  "03": 3,
+  "04": 10,
+  "05": 21,
+  "06": 38,
+  "07": 18,
+  "08": 12,
+  "09": 33,
+  "10": 5,
+  "11": 25
+ },
+ "note": "fog rule = dew-point depression <= 1 degC at the station; recall = share of fog hours the rule catches, precision = share of rule hours that are fog (coastal ASOS only, so mountain fog is not represented)"
+}

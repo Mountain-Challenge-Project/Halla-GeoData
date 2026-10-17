@@ -6,7 +6,7 @@ outputs/jeju_dashboard/data/grid.geojson, computes for every cell
   tpi_1km_m      cell mean elevation minus the mean DSM elevation within a 1 km radius (cold-air pooling, ridges)
   svf            sky-view factor 1 - mean(sin(horizon angle)) over 16 azimuths, rays to 10 km (night cooling, fog)
   coast_km       distance from the cell centre to the nearest sea pixel (DSM <= 0 m or nodata)
-  up_max_<dir>   highest DSM elevation along the ray towards each of 16 directions within 25 km (m): the
+  up_max_<dir>   highest DSM elevation along the ray towards each of 16 directions within 60 km (m; Hallasan is ~40 km from the east and west coasts, so 25 km missed it for coastal lee cells): the
                  "upstream ridge height" for the wind that blows FROM that direction (foehn / lee depth)
   up_dist_<dir>  distance to that maximum (km)
 
@@ -65,7 +65,7 @@ for k, f in enumerate(grid['features']):
     g = np.arange(-1000, 1001, 100); gx, gy = np.meshgrid(g, g); m = (gx ** 2 + gy ** 2) <= 1000 ** 2
     zz, ok = sample(x0 + gx[m], y0 + gy[m]); tpi = z0 - float(zz[ok].mean()) if ok.any() else 0.0
     # horizon angles (SVF) to 10 km and upstream maxima to 25 km along 16 rays
-    d_svf = np.arange(100, 10001, 100); d_up = np.arange(250, 25001, 250)
+    d_svf = np.arange(100, 10001, 100); d_up = np.arange(250, 60001, 250)
     hsum = 0.0; up_max = []; up_dist = []
     for a in az:
         sx, sy = math.sin(a), math.cos(a)

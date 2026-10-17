@@ -19,8 +19,8 @@
   },
   "temperature_foehn_aware": {
    "n": 38,
-   "bias": -0.14,
-   "rmse": 1.72
+   "bias": -0.15,
+   "rmse": 1.7
   },
   "dew_point_lapse": {
    "n": 38,
@@ -29,8 +29,8 @@
   },
   "dew_point_foehn_aware": {
    "n": 38,
-   "bias": 0.19,
-   "rmse": 3.81
+   "bias": 0.06,
+   "rmse": 3.45
   }
  },
  "stations": [
@@ -248,8 +248,8 @@
    "obs_tm": "202610170944",
    "lapse_t": 19.2,
    "lapse_td": 12.4,
-   "foehn_aware_t": 18.0,
-   "foehn_aware_td": 12.5,
+   "foehn_aware_t": 19.2,
+   "foehn_aware_td": 12.4,
    "foehn_index": 2.3,
    "foehn_active": true,
    "wind_src": "KIM 850 hPa",
@@ -452,8 +452,8 @@
    "obs_tm": "202610170944",
    "lapse_t": 15.7,
    "lapse_td": 8.1,
-   "foehn_aware_t": 17.2,
-   "foehn_aware_td": 13.0,
+   "foehn_aware_t": 15.7,
+   "foehn_aware_td": 8.1,
    "foehn_index": 2.2,
    "foehn_active": true,
    "wind_src": "KIM 850 hPa",
@@ -681,5 +681,5 @@
    "lcl_rel_m": 1392
   }
  ],
- "note": "one issue, one minute of observations; physics only, no learned residual; foehn-aware = foehn parcel values where the foehn condition is active, else the lapse values"
+ "note": "one issue, one minute of observations; physics only, no learned residual; foehn-aware = lapse values moved 30 % towards the parcel values where the foehn condition is active during 11-16 KST (stage-5 calibration), else the lapse values"
 }
