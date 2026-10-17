@@ -114,7 +114,7 @@ dl.sel dt{color:var(--muted);white-space:nowrap}dl.sel dd{margin:0;font-family:v
     </section>
     <section class="card">
       <h2>격자 색상</h2>
-      <select id="selMetric" aria-label="격자 색상 기준"><option value="mean_deg">평균 경사 (°)</option><option value="max_deg">최대 경사 (°)</option><option value="steep_pct">20° 이상 면적 비율 (%)</option><option value="rain" disabled>강수 (mm/h) · 입력 대기</option><option value="acc180" disabled>3시간 누적 (mm) · 없음</option><option value="acc360" disabled>6시간 누적 (mm) · 없음</option><option value="acc1440" disabled>24시간 누적 (mm) · 없음</option><option value="fc_rn1" disabled>예보 1시간 강수 (mm, 선택 시간)</option><option value="fc_total" disabled>예보 6시간 합계 (mm)</option><option value="wind_exp" disabled>풍상 사면 노출 (m/s, 풍향×경사향)</option><option value="cell_t" disabled>셀 추정 기온 (°C, 고도 보정)</option><option value="dewdep" disabled>기온−이슬점 차 (°C, 운무 가능)</option><option value="wchill" disabled>체감온도 (°C)</option><option value="cell_td" disabled>셀 이슬점 (°C, 이슬점 감률)</option><option value="lcl_rel" disabled>LCL − 셀 고도 (m, 음수 = 구름 속)</option><option value="foehn" disabled>푄 지수 (°C, 상류 공기 단열 계산)</option><option value="cell_p" disabled>지점기압 (hPa, ASOS 해면기압 × 셀 고도)</option></select>
+      <select id="selMetric" aria-label="격자 색상 기준"><option value="mean_deg">평균 경사 (°)</option><option value="max_deg">최대 경사 (°)</option><option value="steep_pct">20° 이상 면적 비율 (%)</option><option value="rain" disabled>강수 (mm/h) · 입력 대기</option><option value="acc180" disabled>3시간 누적 (mm) · 없음</option><option value="acc360" disabled>6시간 누적 (mm) · 없음</option><option value="acc1440" disabled>24시간 누적 (mm) · 없음</option><option value="fc_rn1" disabled>예보 1시간 강수 (mm, 선택 시간)</option><option value="fc_total" disabled>예보 6시간 합계 (mm)</option><option value="wind_exp" disabled>풍상 사면 노출 (m/s, 풍향×경사향)</option><option value="cell_t" disabled>셀 추정 기온 (°C, 고도 보정)</option><option value="dewdep" disabled>기온−이슬점 차 (°C, 운무 가능)</option><option value="wchill" disabled>체감온도 (°C)</option><option value="cell_td" disabled>셀 이슬점 (°C, 이슬점 감률)</option><option value="lcl_rel" disabled>LCL − 셀 고도 (m, 음수 = 구름 속)</option><option value="foehn" disabled>푄 지수 (°C, 상류 공기 단열 계산)</option><option value="cell_p" disabled>지점기압 (hPa, ASOS 해면기압 × 셀 고도)</option><option value="ml_t" disabled>학습 보정 기온 (°C) · 모델 없음</option><option value="ml_td" disabled>학습 보정 이슬점 (°C) · 모델 없음</option></select>
       <div style="margin-top:8px"><div class="ramp" id="ramp"></div><div class="ticks" id="ticks"></div></div>
       <div class="row small muted" style="margin-top:6px"><label class="chk" style="padding:0"><input type="range" id="gridOpacity" min="0" max="100" value="55" style="width:120px;accent-color:var(--accent)" aria-label="격자 채움 투명도">채움 농도</label></div>
     </section>
@@ -219,8 +219,13 @@ const METRICS={
   cell_td:{label:'셀 이슬점',unit:'°C',breaks:[-5,0,5,10,15],ramp:'temp',tick0:'<-5',get:p=>cellTd(p)},
   lcl_rel:{label:'LCL − 셀 고도',unit:'m',breaks:[0,200,500,1000,2000],ramp:'fog',tick0:'구름 속',get:p=>lclRel(p)},
   foehn:{label:'푄 지수',unit:'°C',breaks:[0.5,1,2,3,5],ramp:'foehn',get:p=>{ const f=foehnCalc(p); return f?Math.max(0,f.index):null; }},
-  cell_p:{label:'지점기압 (추정)',unit:'hPa',breaks:[820,870,920,970,1000],ramp:'temp',tick0:'<820',get:p=>cellPressure(p)}};
-const FC_METRICS=['fc_rn1','fc_total','wind_exp','cell_t','dewdep','wchill','cell_td','lcl_rel','foehn','cell_p']; function isFc(m){ return FC_METRICS.includes(m); }
+  cell_p:{label:'지점기압 (추정)',unit:'hPa',breaks:[820,870,920,970,1000],ramp:'temp',tick0:'<820',get:p=>cellPressure(p)},
+  ml_t:{label:'학습 보정 기온',unit:'°C',breaks:[0,5,10,15,20],ramp:'temp',tick0:'<0',get:p=>mlVal(p,0)},
+  ml_td:{label:'학습 보정 이슬점',unit:'°C',breaks:[-5,0,5,10,15],ramp:'temp',tick0:'<-5',get:p=>mlVal(p,1)}};
+const FC_METRICS=['fc_rn1','fc_total','wind_exp','cell_t','dewdep','wchill','cell_td','lcl_rel','foehn','cell_p'];
+let unc=null; function uncBand(p){ if(!unc||!unc.by_elevation) return null; const h=p.elev_mean||0; const b=h<300?'<300 m':(h<1000?'300-1000 m':'>=1000 m'); const u=unc.by_elevation[b]; return (u&&u.n)?Object.assign({band:b},u):null; }
+let ml=null; function mlVal(p,i){ if(!ml||ml.status!=='ok'||!ml.cells) return null; const v=ml.cells[p.grid_id]; return v?v[i]:null; }
+function renderMl(){ const ok=!!(ml&&ml.status==='ok'&&ml.cells&&forecast&&ml.hour===forecast.hours[fcHour]); for(const k of ['ml_t','ml_td']){ const o=$('selMetric').querySelector('option[value='+k+']'); o.disabled=!ok; o.textContent=(k==='ml_t'?'학습 보정 기온 (°C)':'학습 보정 이슬점 (°C)')+(ok?' · '+ml.model.t+', '+ml.trained_rows+'행 학습':' · 모델 없음'); if(!ok&&metric===k){ metric='mean_deg'; $('selMetric').value=metric; restyleGrid(); } } } function isFc(m){ return FC_METRICS.includes(m); }
 function accVal(acc,p){ const t=rain.accum&&rain.accum[acc]; const v=t&&t[p.grid_id]; return v?v[0]:null; }
 /* ---------- 초단기예보 (KMA DFS 5 km grid): cell -> DFS point by the public Lambert conversion (verified against nph-dfs_xy_lonlat) ---------- */
 let forecast=null, fcHour=0; const fcKeyCache={};
@@ -273,6 +278,9 @@ function foehnCore(p){ const w=crossWind(p); if(!w) return null; const i=dirIdx(
 function seaLevelP(){ if(!obs||!obs.stations) return null; let s=0,n=0; for(const st of Object.values(obs.stations)){ const v=num(st.ps); if(v!=null&&v>900&&(st.kind==='SFC'||n<4)){ s+=v; n++; } } return n?s/n:null; }
 function stationPressure(ps,t,z,td){ const tl=t+0.0065*z/2; let tv=tl+273.15; if(td!=null){ const e=esat(Math.min(td,t)); tv=tv/(1-(e/ps)*(1-0.622)); } return ps*Math.exp(-9.81*z/(287*tv)); }
 function cellPressure(p){ const ps=seaLevelP(); const t=cellTemp(p); if(ps==null||t==null) return null; return +stationPressure(ps,t,p.elev_mean||0,cellTd(p)).toFixed(1); }
+const FOEHN_BLEND=0.3, FOEHN_HOURS=[11,16];   // stage-5 calibration on 9,359 ASOS cross-island hours: partial, daytime-only correction
+function foehnApplied(p){ const f=foehnCalc(p); const t=cellTemp(p), td=cellTd(p); if(t==null) return null; const h=forecast?parseInt(forecast.hours[fcHour].slice(8,10),10):-1;
+  if(f&&f.active&&f.t!=null&&h>=FOEHN_HOURS[0]&&h<=FOEHN_HOURS[1]){ const ta=t+FOEHN_BLEND*(f.t-t); return {t:+ta.toFixed(1), td:+Math.min(td+FOEHN_BLEND*(f.td-td),ta).toFixed(1), applied:true}; } return {t,td,applied:false}; }
 function fogPossible(p){ const r=lclRel(p), d=dewDep(p); if(r==null&&d==null) return null; return (r!=null&&r<=0)||(d!=null&&d<=1); }
 function windChill(p){ const h=fcHourObj(p); const t=cellTemp(p); if(!h||t==null) return null; const v=(num(h.wsd)||0)*3.6; if(t>10||v<4.8) return t; const k=Math.pow(v,0.16); return +(13.12+0.6215*t-11.37*k+0.3965*t*k).toFixed(1); }
 function windSide(v){ return v==null?'–':(v>=2?'풍상 (바람맞이)':v<=-2?'풍하 (바람그늘)':'중립'); }
@@ -325,7 +333,7 @@ function rebuildRisk(){ if(!layers.risk||!grid) return; layers.risk.clearLayers(
 function hourLabel(h){ return h.slice(8,10)+'시'; }
 function windName(v){ v=num(v); if(v==null) return '–'; return ['북','북북동','북동','동북동','동','동남동','남동','남남동','남','남남서','남서','서남서','서','서북서','북서','북북서'][Math.round(v/22.5)%16]; }
 function renderDerived(){ const el=$('fcDerived'); if(!el||!grid) return; let fog=0,cloud=0,wind=0,cold=0,n=0; grid.eachLayer(l=>{ const p=l.feature.properties; const d=dewDep(p); if(d==null) return; n++; if(d<=1) fog++; const r=lclRel(p); if(r!=null&&r<=0) cloud++; const w=windExp(p); if(w!=null&&w>=4) wind++; const c=windChill(p); if(c!=null&&c<=0) cold++; });
-  const ph=rebuildPhys()||{nf:0,ng:0}; const sp=forecast&&forecast.points['54,36']; const Lv=levels&&levels.points&&sp?levels.points['54,36']:null; const lv=Lv?Lv[forecast.hours[fcHour]]:null;
+  renderMl(); const ph=rebuildPhys()||{nf:0,ng:0}; const sp=forecast&&forecast.points['54,36']; const Lv=levels&&levels.points&&sp?levels.points['54,36']:null; const lv=Lv?Lv[forecast.hours[fcHour]]:null;
   el.innerHTML=n?esc(`${hourLabel(forecast.hours[fcHour])} 기준 셀 계산: 운무 가능 ${ph.ng} (구름 속 ${cloud}, 기온−이슬점 ≤1 °C ${fog}) · 푄 조건 ${ph.nf} · 풍상 노출 ≥4 m/s ${wind} · 체감 0 °C 이하 ${cold} 셀 (5 km 예보값 × 셀 고도·경사향·상류 능선, 참고용)`)
     +(levels?`<br>KIM 국지모델 ${esc((levels.tmfc_utc||'').slice(0,8))} ${esc((levels.tmfc_utc||'').slice(8,10))} UTC 발표 · 정상 점 850 hPa ${lv?esc(fmt(lv.t850,1))+' °C / '+esc(fmt(lv.rh850,0))+' % / '+esc(windName((Math.atan2(-lv.u850,-lv.v850)*180/Math.PI+360)%360))+' '+esc(fmt(Math.hypot(lv.u850,lv.v850),1))+' m/s':'–'} · 925 hPa ${lv?esc(fmt(lv.t925,1))+' °C / '+esc(fmt(lv.rh925,0))+' %':'–'}`:'<br>KIM 등압면 자료 없음 (횡단 바람은 10 m 예보 바람)'):''; rebuildMove(); }
 function renderForecast(){ const box=$('fcBody'); const opts=FC_METRICS.map(v=>$('selMetric').querySelector('option[value='+v+']'));
@@ -351,7 +359,7 @@ function renderObs(){ const info=$('obsInfo'); if(!layers.obs) return; layers.ob
 function obsRows(p){ const rows=[['지점',`${p.name} (${p.kind==='SFC'?'ASOS':'AWS'} ${p.stn})`],['노장 고도',fmt(p.ht_m,0)+' m'],['셀',p.grid_id||'격자 밖'],['관측 시각 (AWS 1분)',p.tm?p.tm.slice(0,8)+' '+p.tm.slice(8,10)+':'+p.tm.slice(10,12):'–'],
     ['기온 / 이슬점',`${p.ta||'–'} / ${p.td||'–'} °C`],['상대습도',(p.hm||'–')+' %'],['현지 / 해면기압',`${p.pa||'–'} / ${p.ps||'–'} hPa`],['10분 풍향·풍속',`${p.wd10?windName(p.wd10)+' '+p.wd10+'°':'–'} · ${p.ws10||'–'} m/s (순간 ${p.wss||'–'})`],['60분 / 일 강수',`${p.rn60||'–'} / ${p.rn_day||'–'} mm`]];
   if(p.asos){ const a=p.asos; rows.push(['ASOS 정시 ('+(a.tm||'').slice(8,10)+'시)',`기온 ${a.ta||'–'} · 이슬점 ${a.td||'–'} · 운량 ${a.ca_tot||'–'}/10 · 시정 ${a.vs?(a.vs*10/1000).toFixed(1)+' km':'–'} · 일사 ${a.si||'–'} MJ/m²`]); }
-  const cp=p.grid_id&&cellProps[p.grid_id]; if(cp&&forecast){ const t=cellTemp(cp), d=dewDep(cp), ta=num(p.ta), td=num(p.td); const ctd=cellTd(cp); rows.push(['셀 추정 기온 (예보 '+hourLabel(forecast.hours[fcHour])+')',t==null?'–':fmt(t,1)+' °C'+(ta!=null?` · 관측 대비 ${fmt(t-ta,1)} °C`:'')],['셀 추정 이슬점',ctd==null?'–':fmt(ctd,1)+' °C'+(td!=null?` · 관측 대비 ${fmt(ctd-td,1)} °C`:'')],['셀 기온−이슬점 추정',d==null?'–':fmt(d,1)+' °C'+(ta!=null&&td!=null?` · 관측 ${fmt(ta-td,1)} °C`:'')]); const f=foehnCalc(cp); if(f&&f.t!=null) rows.push(['푄 계산 기온 (상류 공기 단열)',fmt(f.t,1)+' °C'+(ta!=null?` · 관측 대비 ${fmt(f.t-ta,1)} °C`:'')+(f.active?' · 푄 조건':'')]); const ps0=seaLevelP(), pa=num(p.pa); if(ps0!=null&&ta!=null&&p.ht_m!=null){ const pe=stationPressure(ps0,ta,p.ht_m,td); rows.push(['지점기압 추정 (정역학, 노장 고도)',fmt(pe,1)+' hPa'+(pa!=null?` · 관측 현지기압 대비 ${fmt(pe-pa,1)} hPa`:'')]); } }
+  const cp=p.grid_id&&cellProps[p.grid_id]; if(cp&&forecast){ const t=cellTemp(cp), d=dewDep(cp), ta=num(p.ta), td=num(p.td); const ctd=cellTd(cp); rows.push(['셀 추정 기온 (예보 '+hourLabel(forecast.hours[fcHour])+')',t==null?'–':fmt(t,1)+' °C'+(ta!=null?` · 관측 대비 ${fmt(t-ta,1)} °C`:'')],['셀 추정 이슬점',ctd==null?'–':fmt(ctd,1)+' °C'+(td!=null?` · 관측 대비 ${fmt(ctd-td,1)} °C`:'')],['셀 기온−이슬점 추정',d==null?'–':fmt(d,1)+' °C'+(ta!=null&&td!=null?` · 관측 ${fmt(ta-td,1)} °C`:'')]); const ap=foehnApplied(cp); if(ap&&ap.applied) rows.push(['푄 반영 기온 (30 % 블렌드)',fmt(ap.t,1)+' °C'+(ta!=null?` · 관측 대비 ${fmt(ap.t-ta,1)} °C`:'')]); const ps0=seaLevelP(), pa=num(p.pa); if(ps0!=null&&ta!=null&&p.ht_m!=null){ const pe=stationPressure(ps0,ta,p.ht_m,td); rows.push(['지점기압 추정 (정역학, 노장 고도)',fmt(pe,1)+' hPa'+(pa!=null?` · 관측 현지기압 대비 ${fmt(pe-pa,1)} hPa`:'')]); } }
   return rows; }
 function renderWarnings(){ const box=$('warnBody'); if(!warnings){ box.textContent='특보 자료 없음'; return; }
   const when=warnings.checked_at?new Date(warnings.checked_at).toLocaleString('ko-KR'):'';
@@ -368,9 +376,9 @@ function showSelection(kind,p,layer){ selected={kind,p}; if(selectedLayer&&selec
     for(const acc of ['180','360','1440']){ const v=rain.accum&&rain.accum[acc]&&rain.accum[acc][p.grid_id]; if(v) rows.push([(acc/60)+'시간 누적 평균/최대',fmt(v[0],1)+' / '+fmt(v[1],1)+' mm']); }
     rows.push(['경사향 / 집중도',p.asp_deg==null?'없음 (평탄)':fmt(p.asp_deg,0)+'° '+windName(p.asp_deg)+'향 / '+fmt(p.asp_r,2)]);
     const fh=fcHourObj(p); if(fh){ const pt=fcPoint(p); const we=windExp(p); rows.push(['예보 ('+hourLabel(forecast.hours[fcHour])+', 5 km 점 '+(pt.nx+','+pt.ny)+')',(fh.t1h||'–')+'°C / '+(fh.wsd||'–')+' m/s / '+(fh.reh||'–')+' % / 풍향 '+(fh.vec?fh.vec+'° '+windName(fh.vec):'–')],
-      ['풍상·풍하 노출',we==null?'경사향 불명확':fmt(we,1)+' m/s · '+windSide(we)],['셀 추정 기온 (고도 보정)',fmt(cellTemp(p),1)+' °C (점 고도 '+fmt(pt.elev_m,0)+' m → 셀 '+fmt(p.elev_mean,0)+' m)'],['셀 이슬점 (감률 2 °C/km)',fmt(cellTd(p),1)+' °C'],['기온−이슬점 차',(d=>d==null?'–':fmt(d,1)+' °C'+(d<=1?' · 운무 가능':''))(dewDep(p))],['LCL − 셀 고도',(r=>r==null?'–':r+' m'+(r<=0?' · 구름 속':''))(lclRel(p))],['체감온도',fmt(windChill(p),1)+' °C'],['지점기압 추정',(v=>v==null?'관측 해면기압 없음':fmt(v,1)+' hPa (ASOS 해면기압 '+fmt(seaLevelP(),1)+' hPa 기준)')(cellPressure(p))]);
+      ['풍상·풍하 노출',we==null?'경사향 불명확':fmt(we,1)+' m/s · '+windSide(we)],['셀 추정 기온 (고도 보정)',fmt(cellTemp(p),1)+' °C (점 고도 '+fmt(pt.elev_m,0)+' m → 셀 '+fmt(p.elev_mean,0)+' m)'],['셀 이슬점 (감률 2 °C/km)',fmt(cellTd(p),1)+' °C'],['기온−이슬점 차',(d=>d==null?'–':fmt(d,1)+' °C'+(d<=1?' · 운무 가능':''))(dewDep(p))],['LCL − 셀 고도',(r=>r==null?'–':r+' m'+(r<=0?' · 구름 속':''))(lclRel(p))],['체감온도',fmt(windChill(p),1)+' °C'],['지점기압 추정',(v=>v==null?'관측 해면기압 없음':fmt(v,1)+' hPa (ASOS 해면기압 '+fmt(seaLevelP(),1)+' hPa 기준)')(cellPressure(p))]); const mv=mlVal(p,0); if(mv!=null) rows.push(['학습 보정 기온 / 이슬점',fmt(mv,1)+' / '+fmt(mlVal(p,1),1)+' °C ('+ml.model.t+', '+ml.trained_rows+'행)']); const ub=uncBand(p); if(ub) rows.push(['추정 불확실성 (지점 검증, '+ub.band+')','기온 ±'+fmt(ub.t_rmse,1)+' °C (편향 '+fmt(ub.t_bias,1)+') · 이슬점 ±'+fmt(ub.td_rmse,1)+' °C · '+ub.n+'건 / '+unc.issues+'회차']);
       const f=foehnCalc(p); if(f){ rows.push(['횡단 바람 ('+f.w.src+')',windName(f.w.dir)+' '+fmt(f.w.dir,0)+'° · '+fmt(f.w.spd,1)+' m/s'],['상류 능선 / 바람그늘 깊이',fmt(f.ridge,0)+' m / '+fmt(f.lee,0)+' m']); if(f.up) rows.push(['상류 점 (5 km)',f.up.nx+','+f.up.ny+' · 고도 '+fmt(f.up.elev_m,0)+' m · LCL '+(f.lcl!=null?fmt(f.lcl,0)+' m':'–')]);
-        rows.push(['푄 지수',f.reason?f.reason:fmt(f.index,1)+' °C'+(f.cond?' (능선 통과 시 응결)':' (응결 없음)')+(f.active?' · 푄 조건 충족':'')]); if(f.t!=null) rows.push(['푄 계산 기온 / 이슬점 / 습도',fmt(f.t,1)+' / '+fmt(f.td,1)+' °C / '+f.rh+' %']); } }
+        rows.push(['푄 지수',f.reason?f.reason:fmt(f.index,1)+' °C'+(f.cond?' (능선 통과 시 응결)':' (응결 없음)')+(f.active?' · 푄 조건 충족':'')]); if(f.t!=null){ rows.push(['푄 공기덩이 기온 / 이슬점 / 습도',fmt(f.t,1)+' / '+fmt(f.td,1)+' °C / '+f.rh+' %']); const ap=foehnApplied(p); if(ap) rows.push(['적용 기온 / 이슬점 (푄 30 % 반영, 11–16시)',fmt(ap.t,1)+' / '+fmt(ap.td,1)+' °C'+(ap.applied?' · 반영됨':' · 미반영 (감률값)')]); } } }
     if(rain.accum&&Object.keys(rain.accum).length){ const lv=riskLevel(p); rows.push(['급경사·강수 강조',RISK.names[lv]+(p.steep_pct>=20?' (급경사 셀)':'')]); }
     fcKey(p,layer); const pt=fcPoint(p); if(pt&&forecast.hours){ const h=pt.hours[forecast.hours[fcHour]]; rows.push(['예보 격자점',fcKeyCache[p.grid_id]],['예보 '+hourLabel(forecast.hours[fcHour])+' 강수',h?(h.rn1||'–')+' · '+(PTY_NAMES[h.pty]||'')+' · '+h.t1h+'°C':'–'],['예보 6시간 합계',fmt(fcTotal(p),1)+' mm']); } }
   else if(kind==='olle'){ rows=[['올레 코스',p.course+(p.variant?' ('+p.variant+')':'')],['OSM 이름',p.name_osm||'–'],['출처',p.source_kind],['길이',fmt(p.length_km,2)+' km'],['평균 경사',fmt(p.mean_deg,2)+'°'],['90백분위',fmt(p.p90_deg,2)+'°'],['최대 경사',fmt(p.max_deg,2)+'°'],['20° 이상',fmt(p.steep20_m,0)+' m']]; }
@@ -404,6 +412,8 @@ async function connectDb(){ if(!(window.claude&&typeof window.claude.use==='func
   try{ user=await window.claude.use('user'); canWrite=user?await user.can('data.write'):null; }catch(e){ canWrite=null; }
   if(canWrite!==false){ $('importBox').hidden=false; }
   db.doc('radar/warnings').onSnapshot(snap=>{ warnings=snap.exists?snap.data():null; renderWarnings(); },err=>{ warnings={status:'error',message:'DB 구독 오류: '+err.code}; renderWarnings(); });
+  db.doc('radar/uncertainty').onSnapshot(snap=>{ if(snap.exists&&snap.data().by_elevation){ unc=snap.data(); } },err=>{});
+  db.doc('radar/ml').onSnapshot(snap=>{ if(snap.exists&&snap.data().status){ ml=snap.data(); renderMl(); } },err=>{});
   db.doc('radar/levels').onSnapshot(snap=>{ if(snap.exists&&snap.data().points){ levels=snap.data(); renderForecast(); if(isFc(metric)) restyleGrid(); } },err=>{});
   db.doc('radar/obs').onSnapshot(snap=>{ if(snap.exists&&snap.data().stations){ obs=snap.data(); renderObs(); } },err=>{});
   db.doc('radar/forecast').onSnapshot(snap=>{ forecast=snap.exists?snap.data():null; renderForecast(); if(isFc(metric)) restyleGrid(); else rebuildMove(); },err=>{ forecast=null; renderForecast(); });
@@ -453,8 +463,8 @@ async function boot(){
   const ov=got.overlays, gridGj=got.grid, olle=got.olle, trails=got.trails, steep=got.steep, boundary=got.boundary, park=got.park;
   const satUrl=E&&E.images?E.images.satellite:'data/satellite.jpg', slopeUrl=E&&E.images?E.images.slope:'data/slope.png';
   // optional open-data layers (absent files are skipped)
-  const optional=async n=>{ if(E) return E[n]||null; try{ return await fetchJson('data/'+n+((n==='s2_meta'||n==='obs_latest'||n==='levels')?'.json':'.geojson'),1); }catch(e){ return null; } };
-  const s2meta=await optional('s2_meta'), pois=await optional('pois'), sac=await optional('sac_scale'); const obs0=await optional('obs_latest'); if(obs0&&obs0.stations) obs=obs0; const lv0=await optional('levels'); if(lv0&&lv0.points) levels=lv0;
+  const optional=async n=>{ if(E) return E[n]||null; try{ return await fetchJson('data/'+n+((n==='s2_meta'||n==='obs_latest'||n==='levels'||n==='ml_cells'||n==='uncertainty')?'.json':'.geojson'),1); }catch(e){ return null; } };
+  const s2meta=await optional('s2_meta'), pois=await optional('pois'), sac=await optional('sac_scale'); const obs0=await optional('obs_latest'); if(obs0&&obs0.stations) obs=obs0; const lv0=await optional('levels'); if(lv0&&lv0.points) levels=lv0; const ml0=await optional('ml_cells'); if(ml0&&ml0.status) ml=ml0; const un0=await optional('uncertainty'); if(un0&&un0.by_elevation) unc=un0;
   const img=n=>E&&E.images&&E.images[n]?E.images[n]:'data/'+n+'.png';
   loadedData=got; loadedImages={satellite:satUrl,slope:slopeUrl};
   if(E){ $('dlCard').hidden=true; } else { $('btnDownload').addEventListener('click',downloadStandalone); }
@@ -506,6 +516,8 @@ async function boot(){
     if(E.forecast){ forecast=E.forecast; renderForecast(); }
     if(E.obs_latest&&E.obs_latest.stations){ obs=E.obs_latest; renderObs(); }
     if(E.levels&&E.levels.points){ levels=E.levels; renderForecast(); }
+    if(E.ml_cells&&E.ml_cells.status){ ml=E.ml_cells; renderMl(); }
+    if(E.uncertainty&&E.uncertainty.by_elevation){ unc=E.uncertainty; }
     if(E.frame&&E.frame.cells){ applyFrame(E.frame,'내장 프레임 (파일 생성 시점 자료)'); } else renderLiveMeta(); return; }
   const live=await connectDb(); if(!live){ rain.mode='static'; await pollStatic(); startPolling(); } }
 /* ---------- build the standalone file in the browser and hand it to the viewer ---------- */

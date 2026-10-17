@@ -9,7 +9,7 @@ import json, math, sys
 from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parents[1] / 'work'))
-from physics_modules import magnus_td, cell_state, foehn, dir_index, wind_from_uv  # noqa: E402
+from physics_modules import magnus_td, cell_state, foehn, foehn_applied, dir_index, wind_from_uv  # noqa: E402
 from fetch_kma_forecast import dfs_xy, ROOT  # noqa: E402
 
 D = ROOT / 'outputs/jeju_dashboard/data'
@@ -81,7 +81,7 @@ def main():
         for stn, s in obs['stations'].items():
             if not s.get('grid_id') or s['grid_id'] not in cells or s.get('ta') in (None, ''): continue
             st = cells[s['grid_id']]; ta = float(s['ta']); td = float(s['td']) if s.get('td') not in (None, '') else None
-            fo = st['foehn']; t_f = fo['t'] if fo and fo['active'] else st['t']; td_f = fo['td'] if fo and fo['active'] else st['td']
+            fo = st['foehn']; t_f, td_f = foehn_applied(st['t'], st['td'], fo, int(hour[8:10]))
             rows.append({'stn': stn, 'name': s['name'], 'ht_m': s.get('ht_m'), 'grid_id': s['grid_id'], 'obs_ta': ta, 'obs_td': td, 'obs_tm': s.get('tm'),
                          'lapse_t': round(st['t'], 1), 'lapse_td': round(st['td'], 1), 'foehn_aware_t': round(t_f, 1), 'foehn_aware_td': round(td_f, 1),
                          'foehn_index': round(fo['index'], 1) if fo else None, 'foehn_active': bool(fo and fo['active']), 'wind_src': fo['wind_src'] if fo else None, 'lcl_rel_m': round(st['lcl_rel'])})
@@ -91,7 +91,7 @@ def main():
     out = {'forecast_base_kst': fc['base_time_kst'], 'hour': hour, 'kim_issue_utc': levels and levels.get('tmfc_utc'), 'obs_time': obs and obs.get('fetched_at'), 'counts': counts,
            'station_check': {'temperature_lapse': stats('lapse_t', 'obs_ta'), 'temperature_foehn_aware': stats('foehn_aware_t', 'obs_ta'),
                              'dew_point_lapse': stats('lapse_td', 'obs_td'), 'dew_point_foehn_aware': stats('foehn_aware_td', 'obs_td')}, 'stations': rows,
-           'note': 'one issue, one minute of observations; physics only, no learned residual; foehn-aware = foehn parcel values where the foehn condition is active, else the lapse values'}
+           'note': 'one issue, one minute of observations; physics only, no learned residual; foehn-aware = lapse values moved 30 % towards the parcel values where the foehn condition is active during 11-16 KST (stage-5 calibration), else the lapse values'}
     (HERE.parent / 'data/physics_latest.json').write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding='utf-8')
     print('STAGE2_PHYSICS', json.dumps({k: v for k, v in out.items() if k != 'stations'}, ensure_ascii=False))
     for r in sorted(rows, key=lambda r: -(r['ht_m'] or 0))[:6]:

@@ -1,0 +1,325 @@
+{
+ "ridges_m": {
+  "E-W": 1921.093384,
+  "N-S": 1922.931885
+ },
+ "wind_min_ms": 6.0,
+ "hours": {
+  "event": 303,
+  "other": 9056
+ },
+ "results": {
+  "event": {
+   "temperature": {
+    "persist": {
+     "n": 303,
+     "bias": -4.51,
+     "rmse": 4.74
+    },
+    "lapse": {
+     "n": 303,
+     "bias": -4.3,
+     "rmse": 4.53
+    },
+    "foehn": {
+     "n": 303,
+     "bias": 1.31,
+     "rmse": 2.63
+    }
+   },
+   "humidity": {
+    "persist": {
+     "n": 303,
+     "bias": 26.32,
+     "rmse": 28.08
+    },
+    "lapse": {
+     "n": 303,
+     "bias": 25.65,
+     "rmse": 27.4
+    },
+    "foehn": {
+     "n": 303,
+     "bias": -9.54,
+     "rmse": 15.92
+    }
+   },
+   "condensed_share_pct": 100.0,
+   "by_lee": {
+    "고산": {
+     "n": 13,
+     "temperature": {
+      "persist": {
+       "n": 13,
+       "bias": -3.73,
+       "rmse": 3.8
+      },
+      "lapse": {
+       "n": 13,
+       "bias": -4.06,
+       "rmse": 4.13
+      },
+      "foehn": {
+       "n": 13,
+       "bias": 3.74,
+       "rmse": 4.23
+      }
+     }
+    },
+    "서귀포": {
+     "n": 50,
+     "temperature": {
+      "persist": {
+       "n": 50,
+       "bias": -4.2,
+       "rmse": 4.4
+      },
+      "lapse": {
+       "n": 50,
+       "bias": -4.4,
+       "rmse": 4.59
+      },
+      "foehn": {
+       "n": 50,
+       "bias": 0.19,
+       "rmse": 2.27
+      }
+     }
+    },
+    "성산": {
+     "n": 240,
+     "temperature": {
+      "persist": {
+       "n": 240,
+       "bias": -4.62,
+       "rmse": 4.85
+      },
+      "lapse": {
+       "n": 240,
+       "bias": -4.29,
+       "rmse": 4.54
+      },
+      "foehn": {
+       "n": 240,
+       "bias": 1.41,
+       "rmse": 2.59
+      }
+     }
+    }
+   },
+   "corr_index_vs_observed_warming": 0.096
+  },
+  "other": {
+   "temperature": {
+    "persist": {
+     "n": 9056,
+     "bias": 0.27,
+     "rmse": 1.86
+    },
+    "lapse": {
+     "n": 9056,
+     "bias": 0.46,
+     "rmse": 1.94
+    },
+    "foehn": {
+     "n": 9056,
+     "bias": 5.09,
+     "rmse": 5.74
+    }
+   },
+   "humidity": {
+    "persist": {
+     "n": 9056,
+     "bias": 0.69,
+     "rmse": 10.44
+    },
+    "lapse": {
+     "n": 9056,
+     "bias": 0.1,
+     "rmse": 10.45
+    },
+    "foehn": {
+     "n": 9056,
+     "bias": -32.22,
+     "rmse": 35.4
+    }
+   },
+   "condensed_share_pct": 99.8,
+   "by_lee": {
+    "고산": {
+     "n": 557,
+     "temperature": {
+      "persist": {
+       "n": 557,
+       "bias": 0.32,
+       "rmse": 1.43
+      },
+      "lapse": {
+       "n": 557,
+       "bias": -0.01,
+       "rmse": 1.39
+      },
+      "foehn": {
+       "n": 557,
+       "bias": 6.68,
+       "rmse": 7.16
+      }
+     }
+    },
+    "서귀포": {
+     "n": 1724,
+     "temperature": {
+      "persist": {
+       "n": 1724,
+       "bias": -0.28,
+       "rmse": 1.57
+      },
+      "lapse": {
+       "n": 1724,
+       "bias": -0.48,
+       "rmse": 1.62
+      },
+      "foehn": {
+       "n": 1724,
+       "bias": 2.66,
+       "rmse": 3.36
+      }
+     }
+    },
+    "성산": {
+     "n": 6711,
+     "temperature": {
+      "persist": {
+       "n": 6711,
+       "bias": 0.43,
+       "rmse": 1.95
+      },
+      "lapse": {
+       "n": 6711,
+       "bias": 0.76,
+       "rmse": 2.05
+      },
+      "foehn": {
+       "n": 6711,
+       "bias": 5.56,
+       "rmse": 6.06
+      }
+     }
+    },
+    "제주": {
+     "n": 64,
+     "temperature": {
+      "persist": {
+       "n": 64,
+       "bias": -1.7,
+       "rmse": 2.53
+      },
+      "lapse": {
+       "n": 64,
+       "bias": -1.5,
+       "rmse": 2.4
+      },
+      "foehn": {
+       "n": 64,
+       "bias": 7.45,
+       "rmse": 7.65
+      }
+     }
+    }
+   }
+  }
+ },
+ "gate_search": {
+  "lapse_rmse_all_hours": 2.076,
+  "full_parcel_rmse_all_hours": 5.665,
+  "best": [
+   {
+    "hours": [
+     11,
+     16
+    ],
+    "rh_w_min": 0,
+    "wind_min": 6,
+    "blend": 0.3,
+    "gated_hours": 2717,
+    "rmse_all": 2.008
+   },
+   {
+    "hours": [
+     11,
+     16
+    ],
+    "rh_w_min": 60,
+    "wind_min": 6,
+    "blend": 0.3,
+    "gated_hours": 1782,
+    "rmse_all": 2.014
+   },
+   {
+    "hours": [
+     11,
+     16
+    ],
+    "rh_w_min": 70,
+    "wind_min": 6,
+    "blend": 0.3,
+    "gated_hours": 1075,
+    "rmse_all": 2.029
+   },
+   {
+    "hours": [
+     9,
+     18
+    ],
+    "rh_w_min": 70,
+    "wind_min": 6,
+    "blend": 0.3,
+    "gated_hours": 1738,
+    "rmse_all": 2.047
+   },
+   {
+    "hours": [
+     9,
+     18
+    ],
+    "rh_w_min": 60,
+    "wind_min": 6,
+    "blend": 0.3,
+    "gated_hours": 2889,
+    "rmse_all": 2.054
+   }
+  ],
+  "event_hours_by_hour_of_day": {
+   "0": 0,
+   "1": 0,
+   "2": 0,
+   "3": 0,
+   "4": 0,
+   "5": 0,
+   "6": 0,
+   "7": 0,
+   "8": 2,
+   "9": 5,
+   "10": 17,
+   "11": 31,
+   "12": 40,
+   "13": 44,
+   "14": 52,
+   "15": 47,
+   "16": 27,
+   "17": 22,
+   "18": 10,
+   "19": 2,
+   "20": 1,
+   "21": 2,
+   "22": 1,
+   "23": 0
+  },
+  "windward_clear_sky_share": {
+   "event": 0.51,
+   "other": 0.19
+  },
+  "conclusion": "the parcel value must not replace the lapse value whenever condensation is possible (+5 degC bias over all cross-wind hours); coastal lee warming is rare, daytime and clear-sky, so a 30 % blend during 11-16 KST is applied (physics_modules.FOEHN_BLEND / FOEHN_HOURS) and the index stays a diagnostic"
+ },
+ "note": "upstream air = windward ASOS surface values (no upper-air), ridge = highest cell within 2 km of the station-to-station line; event hours come from the stage-3 screening so their temperature contrast is partly selected by construction; the humidity and the other-hours block are the independent checks"
+}

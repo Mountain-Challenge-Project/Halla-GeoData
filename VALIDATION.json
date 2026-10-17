@@ -494,5 +494,163 @@
       }
     },
     "note": "verification statistics need weeks of hourly runs; the pressure module is validated now because the ASOS archive goes back to 2023"
+  },
+  "stage4_residual_learning": {
+    "built_on": "2026-10-17",
+    "status": "insufficient_data",
+    "archive": {
+      "rows": 38,
+      "stations": 38,
+      "issues": 1
+    },
+    "thresholds": {
+      "min_rows": 2000,
+      "min_stations": 20,
+      "min_issues": 48
+    },
+    "features": 37,
+    "models": [
+      "ridge (linear control)",
+      "random forest",
+      "hist gradient boosting"
+    ],
+    "validation": "leave-one-station-out (GroupKFold) + time split (last 20 % of issues)",
+    "smoke_test": {
+      "t": {
+        "n": 38,
+        "physics_only_rmse": 1.7,
+        "loso_rmse": {
+          "ridge": 0.74,
+          "rf": 1.33,
+          "gbm": 1.76
+        }
+      },
+      "td": {
+        "n": 38,
+        "physics_only_rmse": 3.45,
+        "loso_rmse": {
+          "ridge": 1.43,
+          "rf": 2.28,
+          "gbm": 3.53
+        }
+      }
+    },
+    "note": "one forecast issue only: the smoke-test numbers are not a performance estimate (station-level cross-validation inside a single hour mostly learns the elevation pattern); models are saved and applied to cells only above the thresholds"
+  },
+  "stage5_case_validation": {
+    "built_on": "2026-10-17",
+    "foehn": {
+      "hours": {
+        "event": 303,
+        "other": 9056
+      },
+      "ridges_m": {
+        "E-W": 1921.093384,
+        "N-S": 1922.931885
+      },
+      "event": {
+        "temperature": {
+          "persist": {
+            "n": 303,
+            "bias": -4.51,
+            "rmse": 4.74
+          },
+          "lapse": {
+            "n": 303,
+            "bias": -4.3,
+            "rmse": 4.53
+          },
+          "foehn": {
+            "n": 303,
+            "bias": 1.31,
+            "rmse": 2.63
+          }
+        },
+        "humidity": {
+          "persist": {
+            "n": 303,
+            "bias": 26.32,
+            "rmse": 28.08
+          },
+          "lapse": {
+            "n": 303,
+            "bias": 25.65,
+            "rmse": 27.4
+          },
+          "foehn": {
+            "n": 303,
+            "bias": -9.54,
+            "rmse": 15.92
+          }
+        },
+        "corr_index_vs_observed_warming": 0.096
+      },
+      "other": {
+        "temperature": {
+          "persist": {
+            "n": 9056,
+            "bias": 0.27,
+            "rmse": 1.86
+          },
+          "lapse": {
+            "n": 9056,
+            "bias": 0.46,
+            "rmse": 1.94
+          },
+          "foehn": {
+            "n": 9056,
+            "bias": 5.09,
+            "rmse": 5.74
+          }
+        },
+        "humidity": {
+          "persist": {
+            "n": 9056,
+            "bias": 0.69,
+            "rmse": 10.44
+          },
+          "lapse": {
+            "n": 9056,
+            "bias": 0.1,
+            "rmse": 10.45
+          },
+          "foehn": {
+            "n": 9056,
+            "bias": -32.22,
+            "rmse": 35.4
+          }
+        }
+      },
+      "gate_search": {
+        "lapse_rmse_all_hours": 2.076,
+        "full_parcel_rmse_all_hours": 5.665,
+        "windward_clear_sky_share": {
+          "event": 0.51,
+          "other": 0.19
+        },
+        "conclusion": "the parcel value must not replace the lapse value whenever condensation is possible (+5 degC bias over all cross-wind hours); coastal lee warming is rare, daytime and clear-sky, so a 30 % blend during 11-16 KST is applied (physics_modules.FOEHN_BLEND / FOEHN_HOURS) and the index stays a diagnostic"
+      },
+      "best_rule": {
+        "hours": [
+          11,
+          16
+        ],
+        "rh_w_min": 0,
+        "wind_min": 6,
+        "blend": 0.3,
+        "gated_hours": 2717,
+        "rmse_all": 2.008
+      }
+    },
+    "applied_rule": "FOEHN_BLEND 0.3 during 11-16 KST when the foehn condition is active (physics_modules + dashboard)",
+    "upstream_ridge_window_km": 60,
+    "fog_rule_on_asos": {
+      "fog_hours": 2058,
+      "fog_rule_recall_pct": 48.2,
+      "fog_rule_precision_pct": 8.7
+    },
+    "heavy_rain_hours": 167,
+    "uncertainty_display": "cell detail shows +-RMSE of the physics estimate by elevation band from uncertainty.json",
+    "note": "coastal ASOS only; the learned residual model (stage 4) will be applied to the cells once the archive passes its thresholds"
   }
 }
