@@ -494,5 +494,47 @@
       }
     },
     "note": "verification statistics need weeks of hourly runs; the pressure module is validated now because the ASOS archive goes back to 2023"
+  },
+  "stage4_residual_learning": {
+    "built_on": "2026-10-17",
+    "status": "insufficient_data",
+    "archive": {
+      "rows": 38,
+      "stations": 38,
+      "issues": 1
+    },
+    "thresholds": {
+      "min_rows": 2000,
+      "min_stations": 20,
+      "min_issues": 48
+    },
+    "features": 37,
+    "models": [
+      "ridge (linear control)",
+      "random forest",
+      "hist gradient boosting"
+    ],
+    "validation": "leave-one-station-out (GroupKFold) + time split (last 20 % of issues)",
+    "smoke_test": {
+      "t": {
+        "n": 38,
+        "physics_only_rmse": 1.7,
+        "loso_rmse": {
+          "ridge": 0.74,
+          "rf": 1.33,
+          "gbm": 1.76
+        }
+      },
+      "td": {
+        "n": 38,
+        "physics_only_rmse": 3.45,
+        "loso_rmse": {
+          "ridge": 1.43,
+          "rf": 2.28,
+          "gbm": 3.53
+        }
+      }
+    },
+    "note": "one forecast issue only: the smoke-test numbers are not a performance estimate (station-level cross-validation inside a single hour mostly learns the elevation pattern); models are saved and applied to cells only above the thresholds"
   }
 }

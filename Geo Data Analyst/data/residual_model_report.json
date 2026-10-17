@@ -1,0 +1,200 @@
+{
+ "trained_at": "2026-10-17T09:48",
+ "rows": 38,
+ "stations": 38,
+ "issues": 1,
+ "first_issue": "2026-10-17T09:30:00+09:00",
+ "last_issue": "2026-10-17T09:30:00+09:00",
+ "features": [
+  "hour_kst",
+  "doy_sin",
+  "doy_cos",
+  "stn_ht_m",
+  "cell_elev_m",
+  "pt_elev_m",
+  "dz_cell_pt",
+  "mean_deg",
+  "asp_sin",
+  "asp_cos",
+  "asp_r",
+  "tpi_1km_m",
+  "svf",
+  "coast_km",
+  "ridge_m",
+  "lee_m",
+  "t1h",
+  "reh",
+  "wsd",
+  "vec_sin",
+  "vec_cos",
+  "rn1_mm",
+  "sky",
+  "pty",
+  "t850",
+  "rh850",
+  "u850",
+  "v850",
+  "t925",
+  "rh925",
+  "u925",
+  "v925",
+  "lapse_t",
+  "lapse_td",
+  "lcl_rel_m",
+  "foehn_index",
+  "foehn_active"
+ ],
+ "thresholds": {
+  "min_rows": 2000,
+  "min_stations": 20,
+  "min_issues": 48
+ },
+ "status": "insufficient_data",
+ "targets": {
+  "t": {
+   "physics_only": {
+    "bias": -0.1486842105263159,
+    "rmse": 1.698735597901847
+   },
+   "loso": {
+    "ridge": {
+     "bias": -0.050602906812344105,
+     "rmse": 0.7449959507631755
+    },
+    "rf": {
+     "bias": -0.019204952734849318,
+     "rmse": 1.333265924609623
+    },
+    "gbm": {
+     "bias": -0.00018664307828363783,
+     "rmse": 1.7580400063462323
+    }
+   },
+   "time_split": {},
+   "n": 38,
+   "importance_rf": [
+    [
+     "u850",
+     0.2859
+    ],
+    [
+     "lcl_rel_m",
+     0.2029
+    ],
+    [
+     "t850",
+     0.0799
+    ],
+    [
+     "rh925",
+     0.0738
+    ],
+    [
+     "asp_cos",
+     0.0696
+    ],
+    [
+     "lapse_td",
+     0.0407
+    ],
+    [
+     "u925",
+     0.0362
+    ],
+    [
+     "dz_cell_pt",
+     0.0274
+    ],
+    [
+     "v925",
+     0.0247
+    ],
+    [
+     "asp_r",
+     0.0178
+    ],
+    [
+     "svf",
+     0.0141
+    ],
+    [
+     "lapse_t",
+     0.0132
+    ]
+   ]
+  },
+  "td": {
+   "physics_only": {
+    "bias": 0.05789473684210529,
+    "rmse": 3.4455440331260503
+   },
+   "loso": {
+    "ridge": {
+     "bias": 0.17569136151239928,
+     "rmse": 1.4274834198113016
+    },
+    "rf": {
+     "bias": -0.009839887014093896,
+     "rmse": 2.2790926156809803
+    },
+    "gbm": {
+     "bias": 0.00951879699248119,
+     "rmse": 3.530833831493121
+    }
+   },
+   "time_split": {},
+   "n": 38,
+   "importance_rf": [
+    [
+     "lapse_td",
+     0.1428
+    ],
+    [
+     "cell_elev_m",
+     0.1308
+    ],
+    [
+     "ridge_m",
+     0.1253
+    ],
+    [
+     "pt_elev_m",
+     0.0944
+    ],
+    [
+     "coast_km",
+     0.0708
+    ],
+    [
+     "stn_ht_m",
+     0.0682
+    ],
+    [
+     "svf",
+     0.0559
+    ],
+    [
+     "mean_deg",
+     0.0424
+    ],
+    [
+     "lapse_t",
+     0.0424
+    ],
+    [
+     "lcl_rel_m",
+     0.0379
+    ],
+    [
+     "wsd",
+     0.0365
+    ],
+    [
+     "t1h",
+     0.0327
+    ]
+   ]
+  }
+ },
+ "message": "38 rows / 38 stations / 1 issues; need 2000 / 20 / 48. Cross-validation below is a smoke test only."
+}
