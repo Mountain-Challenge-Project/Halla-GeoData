@@ -19,11 +19,18 @@
 | `scripts/fetch_kim_levels.py` | KIM 국지모델(1.5 km) 925·850 hPa 기온·습도·바람을 5 km 격자점으로 집계 (푄 모듈 상류 공기·횡단 바람) |
 | `scripts/physics_modules.py` | 2단계 물리 모듈 참조 구현: Magnus 이슬점, LCL, 습윤단열감률, 셀 기온·이슬점, 푄 단면 계산 |
 | `scripts/compute_stage2.py` | 현재 예보에 물리 모듈을 전 셀에 적용하고 AWS 지점과 비교 → `data/physics_latest.json` |
+| `scripts/verify_stations.py` | 3단계 지점 검증 누적: 매 실행의 지점별 원값·감률·푄 반영 추정과 관측을 로컬 아카이브에 쌓고 고도대·시각·푄 조건별 통계 → `data/verification_summary.json` |
+| `scripts/verify_pressure_asos.py` | 지점기압 모듈(정역학)을 ASOS 3년·AWS 고지대 관측으로 검증 → `data/pressure_module_check.json` |
+| `scripts/find_foehn_cases_asos.py` | ASOS 동서·남북 지점 쌍으로 푄 후보 사례 선별 → `data/foehn_cases_asos.csv`, 요약 JSON (5단계 사례 라벨) |
+| `scripts/RUN_PIPELINE.cmd` | 관측 → 예보 → (6시간마다 KIM) → 물리 모듈 → 지점 검증 누적을 한 번에 실행 (작업 스케줄러 매시 등록용) |
 | `scripts/RUN_OBS.cmd` | 관측 수집 주기 실행용 배치 (작업 스케줄러 등록 예시 포함) |
 | `data/kma_stations_jeju.csv`, `.geojson` | 제주 지점 42개(ASOS 4): 좌표, 노장고도, DSM 고도, 속한 셀, 셀 고도·경사 |
 | `data/jeju_grid_terrain_factors.csv` | 셀 7,518개의 TPI·하늘개방도·해안 거리·16방위 상류 최고고도/거리 |
 | `data/obs_vs_forecast_check.json` | 첫 물리 점검 결과 (지점별 관측·추정값, 통계) |
 | `data/physics_latest.json` | 2단계 물리 모듈 점검 결과 (셀 집계: 구름 속·운무·푄 지수·푄 조건, 지점별 감률/푄 반영 기온·이슬점 대 관측) |
+| `data/verification_summary.json` | 3단계 누적 검증 통계 (원값 대조군·감률·푄 반영, 고도대·시각·푄 조건별) |
+| `data/pressure_module_check.json` | 지점기압 모듈 검증: ASOS 4지점 3년 RMSE 0.17 hPa, 고지대 AWS 0.2–0.3 hPa |
+| `data/foehn_cases_asos.csv` | ASOS 아카이브(2023-01~)에서 선별한 푄 후보 사례 145건 (봄철 집중, 풍하 성산 104건) |
 
 관측 원자료는 `runtime/kma/obs/`(저장소 루트, Git 제외)에 월별 CSV로 쌓이고, 지점별 최신값만 대시보드용 `outputs/jeju_dashboard/data/obs_latest.json`과 공유 DB 문서 `radar/obs`에 씁니다.
 
@@ -95,7 +102,7 @@ python "Geo Data Analyst/scripts/verify_obs_vs_forecast.py"
 |---|---|---|
 | 1 | 지점 메타 정리·셀 매핑, AWS·ASOS 수집기, 지형 파생 인자 | 완료 (2026-10-16) |
 | 2 | 이슬점·LCL·푄 모듈 구현, 대시보드에 이슬점·푄 지수 표시 | 완료 (2026-10-17): KIM 등압면 연결, 색상 기준 3개(셀 이슬점·LCL−셀 고도·푄 지수), 강조 레이어 2개(푄 조건·운무 가능) |
-| 3 | 지점 기준 검증: 물리값 대 AWS, 선형 보정 대조군 대비 개선 | 예정 (첫 점검만 수행) |
+| 3 | 지점 기준 검증: 물리값 대 AWS, 선형 보정 대조군 대비 개선 | 진행 중 (2026-10-17): 검증 파이프라인·누적 아카이브 가동, 지점기압 모듈 검증 완료, 푄 사례 목록 확보. 통계는 수 주 누적 뒤 유의 |
 | 4 | KIM 등압면 연결, RF·GBM 학습, 지점 제외 교차검증 | 예정 |
 | 5 | 셀 전역 적용, 신뢰 구간, 사례 검증 | 예정 |
 
@@ -108,6 +115,12 @@ python "Geo Data Analyst/scripts/verify_obs_vs_forecast.py"
 - **횡단 바람**: KIM 국지모델 850 hPa 바람(`fetch_kim_levels.py`)을 쓰고, 없으면 초단기예보 10 m 바람을 씁니다.
 - **푄**: 횡단 풍향의 16방위에서 셀의 상류 최고고도(`up_max`)와 거리(`up_dist`)를 꺼내고, 그 거리만큼 풍상측으로 옮긴 위치의 5 km 예보점을 상류 공기로 잡습니다. 상류 공기를 LCL까지 건조단열(9.8 °C/km), 능선까지 습윤단열(기온·기압에 따른 포화단열감률, 50 m 간격 적분)로 올린 뒤 셀 고도까지 건조단열로 내립니다. 응결된 수증기는 제거하고 하강 중 이슬점은 1.8 °C/km로 올립니다. 푄 지수 = 푄 계산 기온 − 단순 감률 보정 기온. 푄 조건 = 능선 통과 시 응결 + 바람그늘 깊이 ≥ 300 m + 횡단 풍속 ≥ 5 m/s + 지수 ≥ 1 °C (강조 레이어, 셀 상세에 상류 점·능선·LCL·계산 기온·습도 표시).
 - 참조 구현은 `scripts/physics_modules.py`, 라이브 구현은 대시보드 자바스크립트이며 같은 식을 씁니다.
+
+## 3단계 지점 검증 (구성)
+
+- **누적 검증**: `RUN_PIPELINE.cmd`를 매시 실행하면 지점 42개(격자 안 38개)마다 원값(5 km 값 그대로, 무보정 대조군)·감률 보정(선형 대조군)·푄 반영 추정 기온과 이슬점이 관측과 함께 로컬 아카이브(`runtime/kma/verification/stationwise.csv`)에 쌓이고, `data/verification_summary.json`에 고도대(<300, 300–1000, ≥1000 m)·시각·푄 조건별 편향·RMSE와 원값 대비 개선율이 갱신됩니다. 첫 실행(2026-10-17 08:30 발표)에서는 감률 보정이 원값 대비 RMSE 10 % 개선이었고, 이슬점은 RMSE 4.4 °C로 큰 편향(+1.6 °C)을 보였습니다.
+- **지점기압 모듈**: 해면기압 → 셀 고도 정역학 환산(층 평균기온, 가온도)을 ASOS 4지점 3년 자료 13만 시간으로 검증해 RMSE 0.17 hPa, 고지대 AWS(윗세오름 1,676 m 등)에서 0.2–0.3 hPa였습니다. 대시보드 색상 기준 "지점기압 (추정)"은 ASOS 해면기압 평균과 셀 기온·이슬점으로 이 식을 적용합니다.
+- **푄 사례 목록**: ASOS 동서(성산↔고산)·남북(제주↔서귀포) 쌍에서 풍상 풍속 ≥ 6 m/s, 풍하 기온 +3 °C 이상, 습도 15 %p 이상 하락 조건으로 2023년 이후 145건을 선별했습니다. 3–5월에 집중되고 서풍 때 성산이 풍하인 경우가 104건으로 가장 많습니다. 5단계 사례 검증의 라벨이며, 해안 지점 기준 선별이라 산지 사면 푄은 포착하지 못합니다.
 
 ## 한계와 표기
 
