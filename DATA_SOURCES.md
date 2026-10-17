@@ -16,6 +16,8 @@
 | ESA WorldCover 2021 (10 m) — **차선**, 1순위는 환경부 세분류 토지피복도 | 셀별 토지피복 비율 (수목·초지·농지·시가지·나지·수역) | https://esa-worldcover.org, AWS Open Data 타일 N33E126 (CC-BY 4.0). 로컬 `runtime/external/`, 매니페스트 `external_rasters_manifest.json`, 셀 집계 `jeju_grid_landcover.csv` |
 | ETH 전지구 수관고 2020 (10 m) — **차선**, 1순위는 산림청 임상도 | 셀별 평균·90백분위 식생 높이 | Lang et al. 2023, https://langnico.github.io/globalcanopyheight/ (CC-BY 4.0). 같은 방식 |
 | 기상청 레이더 | 수집 코드와 변환기 | 실응답 2026-10-15 확인(PCPH acc=60). 원자료·GeoTIFF·프레임은 로컬 `runtime/`·`input/`·`dist/frames/`에만 두고 Git 제외. 격자 정의는 `work/public_sources/kma_radar_grid.json` |
+| 기상청 지상·고층 관측 및 예보 | 수집 코드와 2026-10-17 고정 CSV 수집본 | `outputs/jeju_weather/20261017/`의 목록·품질표·파일 해시. 30일 관측과 단일 격자 예보. 부분 수집·결측 포함 |
+| 기상청 레이더 PCPH 및 공식 PCP 좌표 | 제주 주변 원격자점 CSV 한 시각 | 2026-10-16 08:05 KST 종료 60분 누적강수. 음수코드 의미·기존 500m 격자 정렬·독립 위치 검증 미완료 |
 | AWS 순서 PNG | 사용 안내 | 설명용 생성 이미지, 실제 콘솔 화면을 보증하지 않음 |
 
 ## 원 제공자 링크
@@ -28,6 +30,12 @@
 - [Overpass API](https://overpass-api.de/) (OSM 루트 릴레이션·길 다운로드 경로)
 - [Natural Earth 1:10m Admin 0](https://www.naturalearthdata.com/) (제주 외곽선, 퍼블릭 도메인)
 - [기상청 레이더 API 문서](https://apihub.kma.go.kr/apiList.do?seqApi=5)
+- [기상청 지상관측 API 문서](https://apihub.kma.go.kr/apiList.do)
+- [기상청 AWS API 문서](https://apihub.kma.go.kr/apiList.do?seqApi=2&seqApiSub=239)
+- [기상청 고층관측 API 문서](https://apihub.kma.go.kr/apiList.do?seqApi=4)
+- [기상청 초단기·단기예보 API 문서](https://apihub.kma.go.kr/apiList.do?seqApi=10&seqApiSub=286)
+
+기상자료 출처: **기상청 API허브**. 원 제공자 단위를 유지하고, 시간대·결측코드 처리 및 정규화 방법을 `DATA_COLLECTION.md`에 기록했습니다. 원자료 응답 전체와 인증키는 Git에 포함하지 않습니다. `_raw.csv`는 원래 필드 확인용 CSV이며 HTTP 원본 파일은 아닙니다. 공개 CSV의 고정 시각과 품질 한계를 함께 전달하고, 제공기관의 최신 이용조건을 따르세요. 이 저장소는 외부 기상자료에 별도의 무제한 이용허락을 부여하지 않습니다.
 
 이 저장소의 자료를 외부 서비스로 재배포할 때는 원 제공자의 해당 자료 이용조건과 출처 표시를 적용해야 합니다. 기존 문서·메타데이터의 분석 한계도 함께 전달하세요. 이 파일은 외부 데이터에 새로운 라이선스를 부여하지 않습니다.
 

@@ -1,0 +1,27 @@
+﻿network,output_column,original_field,unit,scale,missing
+SFC,temperature_c,TA,degC,1,empty cell + qc_flags; original raw code preserved
+SFC,dewpoint_c,TD,degC,1,empty cell + qc_flags; original raw code preserved
+SFC,relative_humidity_pct,HM,%,1,empty cell + qc_flags; original raw code preserved
+SFC,station_pressure_hpa,PA,hPa,1,empty cell + qc_flags; original raw code preserved
+SFC,sea_level_pressure_hpa,PS,hPa,1,empty cell + qc_flags; original raw code preserved
+SFC,wind_speed_ms,WS,m/s,1,empty cell + qc_flags; original raw code preserved
+SFC,wind_direction_deg,WD,degree,10,empty cell + qc_flags; original raw code preserved
+SFC,rainfall_window_mm,RN,mm,1,empty cell + qc_flags; original raw code preserved
+SFC,rainfall_day_mm,RN_DAY,mm,1,empty cell + qc_flags; original raw code preserved
+SFC,rain_intensity_mmh,RN_INT,mm/h,1,empty cell + qc_flags; original raw code preserved
+SFC,visibility_m,VS,m,10,empty cell + qc_flags; original raw code preserved
+SFC,solar_radiation_mj_m2,SI,MJ/m2,1,empty cell + qc_flags; original raw code preserved
+SFC,sunshine_hours,SS,hour,1,empty cell + qc_flags; original raw code preserved
+SFC,snow_depth_cm,SD_TOT,cm,1,empty cell + qc_flags; original raw code preserved
+AWS,temperature_c,TA,degC,1,empty cell + qc_flags; original raw code preserved
+AWS,dewpoint_c,TD,degC,1,empty cell + qc_flags; original raw code preserved
+AWS,relative_humidity_pct,HM,%,1,empty cell + qc_flags; original raw code preserved
+AWS,station_pressure_hpa,PA,hPa,1,empty cell + qc_flags; original raw code preserved
+AWS,sea_level_pressure_hpa,PS,hPa,1,empty cell + qc_flags; original raw code preserved
+AWS,wind_speed_ms,WS10,m/s,1,empty cell + qc_flags; original raw code preserved
+AWS,wind_direction_deg,WD10,degree,1,empty cell + qc_flags; original raw code preserved
+AWS,gust_speed_ms,WSS,m/s,1,empty cell + qc_flags; original raw code preserved
+AWS,rainfall_15min_mm,RN_15m,mm,1,empty cell + qc_flags; original raw code preserved
+AWS,rainfall_60min_mm,RN_60m,mm,1,empty cell + qc_flags; original raw code preserved
+AWS,rainfall_12h_mm,RN_12h,mm,1,empty cell + qc_flags; original raw code preserved
+AWS,rainfall_day_mm,RN_DAY,mm,1,empty cell + qc_flags; original raw code preserved

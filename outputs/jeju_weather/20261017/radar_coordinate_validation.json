@@ -1,0 +1,44 @@
+{
+  "shape": [
+    2881,
+    2305
+  ],
+  "grid_metadata": {
+    "grid_nx": "2305",
+    "grid_ny": "2881",
+    "grid_size": "0",
+    "lat_name": "Latitude",
+    "lat_unit": "degree",
+    "lon_name": "Longitude",
+    "lon_unit": "degree",
+    "map_nx": "2304",
+    "map_ny": "2880",
+    "map_pro": "Lambert Conformal Conic Projection",
+    "map_slat": "38",
+    "map_slon": "126",
+    "map_sx": "1120",
+    "map_sy": "1680",
+    "nx_CLASS": "DIMENSION_SCALE",
+    "nx_NAME": "This is a netCDF dimension but not a netCDF variable.      2305",
+    "nx_REFERENCE_LIST": "",
+    "ny_CLASS": "DIMENSION_SCALE",
+    "ny_NAME": "This is a netCDF dimension but not a netCDF variable.      2881",
+    "ny_REFERENCE_LIST": "",
+    "_NCProperties": "version=2,netcdf=4.6.2,hdf5=1.8.21"
+  },
+  "coordinate_rows_south_to_north": true,
+  "coordinate_columns_west_to_east": true,
+  "bbox": [
+    125.8,
+    33.0,
+    127.1,
+    34.1
+  ],
+  "selected_points": 57258,
+  "orientation_check": "passed",
+  "independent_control_points_checked": false,
+  "existing_500m_grid_alignment_verified": false,
+  "nodata_semantics_verified": false,
+  "output": "csv/radar_jeju_native_points.csv",
+  "note": "Official PCP coordinates paired to PCPH by matching dimensions and documented storage order; includes sea cells, no local-grid resampling"
+}
