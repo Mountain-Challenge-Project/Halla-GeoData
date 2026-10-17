@@ -84,6 +84,22 @@ def station_pressure(ps_hpa, t_c, z_m, td_c=None):
     return ps_hpa * math.exp(-G * z_m / (RD * tv))
 
 
+# Stage-5 calibration (foehn_case_validation.py on 9,359 cross-island ASOS hours, 2023-01..2026-10): applying the full
+# parcel temperature whenever the parcel condenses over the ridge over-warms the lee by +5 degC on average, because the
+# coastal lee warming that the screening finds (303 h) is rare, daytime and mostly clear-sky (51 % vs 19 %). The best
+# simple rule was a 30 % blend towards the parcel value during 11-16 KST (all-hour RMSE 2.08 -> 2.01 degC); the index
+# itself stays a diagnostic for the highlight layer.
+FOEHN_BLEND, FOEHN_HOURS = 0.3, (11, 16)
+
+
+def foehn_applied(lapse_t, lapse_td, fo, hour_kst):
+    """temperature / dew point actually used for a cell: lapse values moved FOEHN_BLEND of the way to the parcel values
+    when the foehn condition is active during FOEHN_HOURS, else the lapse values."""
+    if fo and fo.get('active') and FOEHN_HOURS[0] <= hour_kst <= FOEHN_HOURS[1]:
+        return lapse_t + FOEHN_BLEND * (fo['t'] - lapse_t), min(lapse_td + FOEHN_BLEND * (fo['td'] - lapse_td), lapse_t + FOEHN_BLEND * (fo['t'] - lapse_t))
+    return lapse_t, lapse_td
+
+
 DIRS = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW']
 
 
