@@ -1,7 +1,7 @@
 {
  "type": "FeatureCollection",
  "source": "KMA API Hub 지상관측 지점정보 (stn_inf.php inf=AWS, inf=SFC)",
- "fetched_at": "2026-10-16T01:02:46.679425+09:00",
+ "fetched_at": "2026-10-17T15:58:46.084857+09:00",
  "features": [
   {
    "type": "Feature",
@@ -20,7 +20,7 @@
     "ht_wd_m": 10.0,
     "law_addr": "제주특별자치도 제주시 용담이동",
     "grid_id": "I1213J0706",
-    "cell_elev_m": 16.2,
+    "cell_elev_m": 16.3,
     "cell_mean_slope_deg": 2.4,
     "kind": "AWS"
    }
@@ -66,8 +66,8 @@
     "law_addr": "제주특별자치도 제주시 한경면 고산리",
     "ht_pa_m": 72.49,
     "grid_id": "I1151J0657",
-    "cell_elev_m": 28.7,
-    "cell_mean_slope_deg": 9.68,
+    "cell_elev_m": 28.6,
+    "cell_mean_slope_deg": 9.67,
     "kind": "SFC"
    }
   },
@@ -135,7 +135,7 @@
     "law_addr": "제주특별자치도 서귀포시 상예동",
     "grid_id": "I1194J0648",
     "cell_elev_m": 64.9,
-    "cell_mean_slope_deg": 5.42,
+    "cell_mean_slope_deg": 5.43,
     "kind": "AWS"
    }
   },
@@ -221,8 +221,9 @@
     "ht_m": 9.23,
     "ht_wd_m": 10.0,
     "law_addr": "제주특별자치도 제주시 우도면 연평리",
-    "grid_id": null,
-    "cell_elev_m": null,
+    "grid_id": "I1296J0709",
+    "cell_elev_m": 1.4,
+    "cell_mean_slope_deg": 0.82,
     "kind": "AWS"
    }
   },
@@ -242,8 +243,9 @@
     "ht_m": 11.58,
     "ht_wd_m": 10.0,
     "law_addr": "제주특별자치도 서귀포시 대정읍 가파리",
-    "grid_id": null,
-    "cell_elev_m": null,
+    "grid_id": "I1170J0620",
+    "cell_elev_m": 2.0,
+    "cell_mean_slope_deg": 1.29,
     "kind": "AWS"
    }
   },
@@ -353,7 +355,7 @@
     "law_addr": "제주특별자치도 제주시 한림읍 명월리",
     "grid_id": "I1168J0679",
     "cell_elev_m": 36.6,
-    "cell_mean_slope_deg": 3.01,
+    "cell_mean_slope_deg": 3.02,
     "kind": "AWS"
    }
   },
@@ -419,7 +421,7 @@
     "law_addr": "(산지)제주특별자치도 제주시 조천읍 교래리",
     "grid_id": "I1235J0678",
     "cell_elev_m": 753.2,
-    "cell_mean_slope_deg": 8.62,
+    "cell_mean_slope_deg": 8.63,
     "kind": "AWS"
    }
   },
@@ -483,8 +485,9 @@
     "ht_m": 4.25,
     "ht_wd_m": 10.0,
     "law_addr": "제주특별자치도 서귀포시 대정읍 가파리",
-    "grid_id": null,
-    "cell_elev_m": null,
+    "grid_id": "I1170J0631",
+    "cell_elev_m": 1.9,
+    "cell_mean_slope_deg": 1.01,
     "kind": "AWS"
    }
   },
@@ -527,8 +530,8 @@
     "ht_wd_m": 10.0,
     "law_addr": "제주특별자치도 제주시 구좌읍 송당리",
     "grid_id": "I1264J0697",
-    "cell_elev_m": 195.7,
-    "cell_mean_slope_deg": 2.84,
+    "cell_elev_m": 195.6,
+    "cell_mean_slope_deg": 2.83,
     "kind": "AWS"
    }
   },
@@ -549,7 +552,7 @@
     "ht_wd_m": 10.0,
     "law_addr": "제주특별자치도 제주시 외도일동",
     "grid_id": "I1200J0698",
-    "cell_elev_m": 57.1,
+    "cell_elev_m": 57.0,
     "cell_mean_slope_deg": 3.02,
     "kind": "AWS"
    }
@@ -593,8 +596,8 @@
     "ht_wd_m": 10.0,
     "law_addr": "(산지)제주특별자치도 제주시 오라이동",
     "grid_id": "I1218J0676",
-    "cell_elev_m": 1466.3,
-    "cell_mean_slope_deg": 34.21,
+    "cell_elev_m": 1466.4,
+    "cell_mean_slope_deg": 34.2,
     "kind": "AWS"
    }
   },
@@ -615,7 +618,7 @@
     "ht_wd_m": 10.0,
     "law_addr": "(산지)제주특별자치도 제주시 애월읍 광령리",
     "grid_id": "I1212J0676",
-    "cell_elev_m": 1326.8,
+    "cell_elev_m": 1326.9,
     "cell_mean_slope_deg": 18.97,
     "kind": "AWS"
    }
@@ -704,7 +707,7 @@
     "law_addr": "제주특별자치도 제주시 애월읍 봉성리",
     "grid_id": "I1187J0673",
     "cell_elev_m": 444.9,
-    "cell_mean_slope_deg": 10.44,
+    "cell_mean_slope_deg": 10.42,
     "kind": "AWS"
    }
   },
@@ -748,7 +751,7 @@
     "law_addr": "제주특별자치도 서귀포시 표선면 가시리",
     "grid_id": "I1256J0678",
     "cell_elev_m": 271.3,
-    "cell_mean_slope_deg": 2.49,
+    "cell_mean_slope_deg": 2.48,
     "kind": "AWS"
    }
   },
@@ -812,8 +815,9 @@
     "ht_m": 18.0,
     "ht_wd_m": 2.7,
     "law_addr": "제주특별자치도 서귀포시 남원읍 위미리",
-    "grid_id": null,
-    "cell_elev_m": null,
+    "grid_id": "I1241J0642",
+    "cell_elev_m": 0.1,
+    "cell_mean_slope_deg": 0.18,
     "kind": "AWS"
    }
   },
@@ -834,7 +838,7 @@
     "ht_wd_m": 7.0,
     "law_addr": "(산지)제주특별자치도 서귀포시 토평동",
     "grid_id": "I1219J0671",
-    "cell_elev_m": 1630.0,
+    "cell_elev_m": 1629.9,
     "cell_mean_slope_deg": 16.48,
     "kind": "AWS"
    }
@@ -878,7 +882,7 @@
     "ht_wd_m": 10.0,
     "law_addr": "제주특별자치도 서귀포시 안덕면 화순리",
     "grid_id": "I1182J0650",
-    "cell_elev_m": 103.0,
+    "cell_elev_m": 103.1,
     "cell_mean_slope_deg": 3.56,
     "kind": "AWS"
    }

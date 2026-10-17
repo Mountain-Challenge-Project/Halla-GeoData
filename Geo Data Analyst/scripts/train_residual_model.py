@@ -25,7 +25,7 @@ import joblib
 HERE = Path(__file__).resolve().parent; ROOT = HERE.parents[1]; GDA = HERE.parent
 ARCH = ROOT / 'runtime/kma/verification/features.csv'; MODELS = ROOT / 'runtime/kma/models'
 MIN_ROWS, MIN_STATIONS, MIN_ISSUES, TIME_SPLIT, MLP_MIN = 2000, 20, 48, 0.2, 5000
-FEATURES = ['hour_kst', 'doy_sin', 'doy_cos', 'stn_ht_m', 'cell_elev_m', 'pt_elev_m', 'dz_cell_pt', 'mean_deg', 'asp_sin', 'asp_cos', 'asp_r', 'tpi_1km_m', 'svf', 'coast_km', 'ridge_m', 'lee_m',
+FEATURES = ['hour_kst', 'doy_sin', 'doy_cos', 'stn_ht_m', 'cell_elev_m', 'pt_elev_m', 'dz_cell_pt', 'mean_deg', 'asp_sin', 'asp_cos', 'asp_r', 'tpi_1km_m', 'svf', 'coast_km', 'ridge_m', 'lee_m', 'lc_tree', 'lc_grass', 'lc_crop', 'lc_builtup', 'lc_water', 'canopy_mean_m',
             't1h', 'reh', 'wsd', 'vec_sin', 'vec_cos', 'rn1_mm', 'sky', 'pty', 't850', 'rh850', 'u850', 'v850', 't925', 'rh925', 'u925', 'v925', 'lapse_t', 'lapse_td', 'lcl_rel_m', 'foehn_index', 'foehn_active']
 TARGETS = {'t': ('obs_ta', 'lapse_t'), 'td': ('obs_td', 'lapse_td')}
 
@@ -49,9 +49,9 @@ def evaluate(df, target, phys):
             for tr, te in GroupKFold(n_splits=k).split(X, resid, groups):
                 m = models()[name]; m.fit(X[tr], resid[tr]); pred[te] = m.predict(X[te])
             est = base + pred; out['loso'][name] = {'bias': float(np.mean(est - y)), 'rmse': rmse(est - y)}
-    issues = sorted(df['issue_kst'].unique()); n_hold = max(1, int(len(issues) * TIME_SPLIT))
+    tkey = df['hour'].astype(str); issues = sorted(tkey.unique()); n_hold = max(1, int(len(issues) * TIME_SPLIT))
     if len(issues) >= 5:
-        hold = set(issues[-n_hold:]); te = df['issue_kst'].isin(hold).values; tr = ~te
+        hold = set(issues[-n_hold:]); te = tkey.isin(hold).values; tr = ~te
         for name in models():
             m = models()[name]; m.fit(X[tr], resid[tr]); est = base[te] + m.predict(X[te]); out['time_split'][name] = {'bias': float(np.mean(est - y[te])), 'rmse': rmse(est - y[te]), 'n_test': int(te.sum())}
         out['time_split']['physics_only'] = {'bias': float(np.mean(base[te] - y[te])), 'rmse': rmse(base[te] - y[te]), 'n_test': int(te.sum())}
@@ -65,14 +65,19 @@ def importance(df, target, phys):
 
 
 def main():
-    if not ARCH.exists(): raise SystemExit('no feature archive yet: run the pipeline first')
-    df = pd.read_csv(ARCH); df = df.replace('', np.nan)
+    frames = []
+    if ARCH.exists(): frames.append(pd.read_csv(ARCH).assign(source='live'))
+    era = ROOT / 'runtime/kma/verification/features_era5.csv'      # reanalysis-paired history (build_training_set_era5.py)
+    if '--with-era5' in sys.argv and era.exists(): frames.append(pd.read_csv(era))
+    if not frames: raise SystemExit('no feature archive yet: run the pipeline first')
+    df = pd.concat(frames, ignore_index=True); df = df.replace('', np.nan)
     for c in FEATURES + ['obs_ta', 'obs_td']: df[c] = pd.to_numeric(df[c], errors='coerce')
     report = {'trained_at': dt.datetime.now().isoformat(timespec='minutes'), 'rows': int(len(df)), 'stations': int(df['stn'].nunique()), 'issues': int(df['issue_kst'].nunique()),
-              'first_issue': str(df['issue_kst'].min()), 'last_issue': str(df['issue_kst'].max()), 'features': FEATURES, 'thresholds': {'min_rows': MIN_ROWS, 'min_stations': MIN_STATIONS, 'min_issues': MIN_ISSUES},
+              'first_issue': str(df['issue_kst'].min()), 'last_issue': str(df['issue_kst'].max()), 'rows_by_source': df['source'].value_counts().to_dict() if 'source' in df else {'live': int(len(df))}, 'features': FEATURES, 'thresholds': {'min_rows': MIN_ROWS, 'min_stations': MIN_STATIONS, 'min_issues': MIN_ISSUES},
               'status': 'ok', 'targets': {}}
-    enough = len(df) >= MIN_ROWS and df['stn'].nunique() >= MIN_STATIONS and df['issue_kst'].nunique() >= MIN_ISSUES
-    if not enough: report['status'] = 'insufficient_data'; report['message'] = f'{len(df)} rows / {df["stn"].nunique()} stations / {df["issue_kst"].nunique()} issues; need {MIN_ROWS} / {MIN_STATIONS} / {MIN_ISSUES}. Cross-validation below is a smoke test only.'
+    n_issues = df.loc[df['issue_kst'] != 'reanalysis', 'issue_kst'].nunique() + (df['hour'].nunique() if (df['issue_kst'] == 'reanalysis').any() else 0)
+    enough = len(df) >= MIN_ROWS and df['stn'].nunique() >= MIN_STATIONS and n_issues >= MIN_ISSUES
+    if not enough: report['status'] = 'insufficient_data'; report['message'] = f'{len(df)} rows / {df["stn"].nunique()} stations / {n_issues} issues; need {MIN_ROWS} / {MIN_STATIONS} / {MIN_ISSUES}. Cross-validation below is a smoke test only.'
     MODELS.mkdir(parents=True, exist_ok=True)
     for key, (target, phys) in TARGETS.items():
         d = df.dropna(subset=[target, phys]).copy()

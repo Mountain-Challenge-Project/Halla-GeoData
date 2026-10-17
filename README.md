@@ -1,6 +1,6 @@
 # Halla-GeoData
 
-기상청 레이더 합성 격자 정의 그대로 만든 한라산 주변 **500m 격자 1,849개**와 **제주도 전역 격자 7,518개**, Copernicus GLO-30 파생 경사도, 탐방로별 통계와 웹·VWorld 배경·QGIS 레이어를 모은 저장소입니다. CSV, SHP와 스타일, GeoTIFF, 지도 PNG, ZIP 및 생성 코드를 포함합니다.
+기상청 레이더 합성 격자 정의 그대로 만든 한라산 주변 **500m 격자 1,849개**와 **제주도 전역 격자 9,449개(육지 7,518 + 우도·마라도·가파도·비양도·지귀도 등 부속섬 136 + 해안 2 km 완충 1,795)**, Copernicus GLO-30 파생 경사도, 탐방로별 통계와 웹·VWorld 배경·QGIS 레이어를 모은 저장소입니다. CSV, SHP와 스타일, GeoTIFF, 지도 PNG, ZIP 및 생성 코드를 포함합니다.
 
 ![제주도 전역 500m 격자 경사도](outputs/jeju_slope/jeju_slope_satellite.png)
 
@@ -27,6 +27,7 @@
 - **급경사·강수 강조 셀**: 자체 분석 지표입니다. 3h ≥30/60/90 mm, 6h ≥50/90 mm, 24h ≥80/150/200 mm를 1/2/3단계로 보고, 셀 면적의 20% 이상이 20° 초과 경사면 그 단계를, 아니면 한 단계 낮춰 주의·경계·심각 색으로 테두리를 그립니다. 공식 산사태·호우 예보가 아니며, 산림청 산사태 위험예보 API(data.go.kr 키 필요)가 연결되면 그 값을 우선 표시하도록 바꿀 예정입니다.
 - **6시간 강수 예보 레이어**: `python work/fetch_kma_forecast.py`가 API허브 동네예보 초단기예보(`VilageFcstInfoService_2.0/getUltraSrtFcst`, 매시 30분 발표)를 제주 500 m 셀이 속한 5 km DFS 격자점 95개에 대해 받아 `outputs/jeju_dashboard/data/forecast.json`과 공유 DB `radar/forecast`에 씁니다. DFS 좌표 변환은 실행 때마다 `nph-dfs_xy_lonlat`로 3개 지점을 대조합니다. 대시보드 색상 기준에 "예보 1시간 강수(선택 시간)"와 "예보 6시간 합계"가 생기고, 예보 카드에서 시각을 고르며 한라산 정상 격자점(54,36)의 기온·강수형태·풍속을 보여 줍니다. RN1 문자열은 하한값(1 mm 미만 = 0.5)으로 환산합니다.
 - **풍향·습도 격자 지표** (초단기예보 VEC·WSD·T1H·REH × 셀 지형): `fetch_kma_forecast.py`가 풍향(VEC)·바람 성분(UUU/VVV)과 격자점 대표 고도(`elev_m`, 그 점에 속한 500 m 셀의 평균 DSM 고도)를 함께 저장하고, `python work/update_grid_properties.py`가 셀 경사향(`asp_deg`, 내리막 방향)과 집중도(`asp_r`)를 `grid.geojson`에 붙입니다. 대시보드 색상 기준 4개가 추가됩니다. ① **풍상 사면 노출** = WSD × cos(VEC − 경사향) × asp_r (양수 = 바람맞이, 음수 = 바람그늘; asp_r < 0.2인 평탄 셀은 제외). ② **셀 추정 기온** = T1H − 6.5 °C/km × (셀 평균고도 − 격자점 대표 고도). ③ **기온−이슬점 차** (이슬점 ≈ T1H − (100 − REH)/5, 고도에 따라 일정하다고 가정해 보수적) — 1 °C 이하를 운무 가능 셀로 셉니다. ④ **체감온도** = 기상청 산식(T ≤ 10 °C, 풍속 ≥ 4.8 km/h일 때). 셀을 선택하면 풍상·풍하 판정, 추정 기온, 이슬점 차, 체감온도가 상세에 나오고, "강수 이동 예상" 레이어는 0.5 mm/h 이상 레이더 셀을 선택 시각의 풍향으로 WSD × 3600 m 옮긴 1시간 뒤 위치를 화살표(최대 400개 표본)로 그립니다. 모두 5 km 격자점 10 m 바람을 500 m 셀에 그대로 적용한 분석값이며 공식 예보·경보가 아닙니다.
+- **격자 범위 확장 (2026-10-17)**: `work/build_reference_grids.py`의 제주 셀 선택을 Natural Earth 외곽선 접촉에서 **GLO-30 육지 픽셀 기준 + 해안 2 km 완충**으로 바꿔 우도·마라도·가파도·비양도·지귀도가 들어가고(부속섬 136셀) 해안 바다 셀 1,795개가 완충 구역(`zone=sea_buffer`)으로 추가됐습니다. 경사 파이프라인과 대시보드 자료(`work/build_dashboard_grid.py`: 격자·경계·위성 배경·경사 PNG)를 새 격자로 다시 만들었고, 완충 셀은 점선으로 그리며 지형 통계 없이 기상값만 표시합니다. 위성 배경은 마라도까지 포함하는 범위로 다시 받았습니다.
 - **기상 예측 모델 (Geo Data Analyst/)**: 이슬점·푄 기반 소지역 국지기상 분석 모델의 설계서(`docs/`), 지점·관측·지형 스크립트(`scripts/`), 산출 자료(`data/`)는 별도 폴더 [`Geo Data Analyst/`](Geo%20Data%20Analyst/README.md)에 모여 있고 전용 README가 있습니다. 대시보드는 그 산출물(`data/obs_latest.json`의 관측 지점 레이어, `grid.geojson`의 경사향·지형 인자)을 읽기만 합니다.
 - **오픈데이터 레이어** (`work/build_open_data_layers.py`, QGIS Python): ① Sentinel-2 L2A COG(AWS Open Data, Earth Search STAC — 검색은 `python work/stac_search_s2.py`로 먼저 실행)를 제주 4개 타일(52SBB·52SBC·52SCB·52SCC) 기준 40 m로 모자이크하고 SCL로 구름·그림자를 가린 뒤 "가장 최근의 맑은 픽셀" 합성 실색 배경, NDVI, 적설 마스크(NDSI>0.4, 녹색 반사도>0.11)를 만듭니다(`data/s2_*.png`, 사용 날짜·피복률은 `s2_meta.json`). ② Copernicus GLO-30 음영기복(`hillshade.png`). ③ OSM 대피소·화장실·주차장·안내소·AED 점(`pois.geojson`)과 `sac_scale` 난이도 등산로 선(`sac_scale.geojson`). 이 PC처럼 보안 프로그램이 HTTPS를 중계하는 환경에서는 GDAL의 원격 읽기(/vsicurl)에 Windows 인증서를 합친 번들을 `CURL_CA_BUNDLE`로 넘겨야 합니다. VWorld 타일은 키가 필요하고 아티팩트의 외부 타일 제한 때문에 정적 사이트에서만 쓸 수 있어 포함하지 않았습니다.
 - **기상 특보 카드**: `python work/fetch_kma_warnings.py`가 API허브 특보 현황(`wrn_now_data.php`)에서 제주 관련 특보를 읽어 `outputs/jeju_dashboard/data/warnings.json`과 공유 DB `radar/warnings`에 씁니다. 특보 API는 별도 활용신청이 필요하며, 승인 전에는 카드에 "활용신청 필요"로 표시됩니다. 응답 형식은 승인 후 첫 실응답으로 재확인해야 합니다.
@@ -64,8 +65,8 @@ python kma_client.py watch
 | 경로 | 내용 |
 |---|---|
 | `outputs/hallasan_slope/` | 전체 참고격자 경사 통계, 10개 등급의 경사 폴리곤, DSM·경사·방향 래스터, QGIS·PNG |
-| `outputs/jeju_slope/` | 제주도 전역 7,518개 격자의 같은 통계·등급 폴리곤·래스터, `jeju_slope.qgs`, 제주 전역 위성배경 PNG |
-| `inputs/reference/radar_grid_cells.gpkg` | 공식 레이더 격자 정의로 생성한 500m 격자: `hallasan_grid_500m`(1,849), `jeju_grid_500m`(7,518), 제주 외곽선, `grid_definition`. `work/build_reference_grids.py` |
+| `outputs/jeju_slope/` | 제주도 전역 9,449개 격자(육지 7,518 · 부속섬 136 · 해안 2 km 완충 1,795)의 같은 통계·등급 폴리곤·래스터, `jeju_slope.qgs`, 제주 전역 위성배경 PNG |
+| `inputs/reference/radar_grid_cells.gpkg` | 공식 레이더 격자 정의로 생성한 500m 격자: `hallasan_grid_500m`(1,849), `jeju_grid_500m`(9,449: zone 필드 land 7,518 · islet 136 · sea_buffer 1,795), 제주 외곽선, `grid_definition`. `work/build_reference_grids.py` |
 | `inputs/reference/jeju_olle_routes.gpkg` | OSM 제주올레 코스 선형(`olle_routes`, WGS84)과 코스별 길이·경사 요약. `work/fetch_olle_routes.py` → `work/build_olle_layer.py` |
 | `outputs/jeju_slope/START_HERE.html` | 제주 번들 안내: ZIP 구조, 레이어 역할, 폴리곤·격자·래스터 시각화 방법, 올레 코스, 칼럼 사전 |
 | `work/regions/*.json`, `work/region_config.py` | `SLOPE_REGION=hallasan|jeju`로 같은 경사 파이프라인을 두 범위에 적용하는 설정 |

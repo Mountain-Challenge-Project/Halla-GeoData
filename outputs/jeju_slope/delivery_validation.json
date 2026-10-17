@@ -4,19 +4,19 @@
   "relocated_project_layers": {
     "고도 DSM (m)": true,
     "배경: Esri 위성·항공영상": true,
-    "제주 전역 500m 레이더 격자 · 통계 7,518개": true,
+    "제주 전역 500m 레이더 격자 · 통계 9,449개 (육지 7,518 · 섬 136 · 해안 2 km 완충 1,795)": true,
     "경사 등급: Copernicus 30m / Horn": true,
     "기존 지명 참고점": true,
     "제주올레 코스 · OSM 참고 선형": true,
+    "경사향 래스터 (도)": true,
     "경사각 래스터 (도)": true,
     "탐방로 참고 선형 · OSM 6코스": true,
-    "분석 범위: 제주 외곽선과 겹치는 레이더 격자": true,
-    "경사향 래스터 (도)": true,
+    "분석 범위: 육지·부속섬 셀과 해안 2 km 완충 셀": true,
     "국립공원 참고 경계": true
   },
-  "csv_rows": 7518,
+  "csv_rows": 9449,
   "csv_shp_values_match": true,
-  "class_area_reconciliation_max_difference_m2": 13076.594348430634,
+  "class_area_reconciliation_max_difference_m2": 162.10129356384277,
   "png_dimensions": [
     2834,
     2740

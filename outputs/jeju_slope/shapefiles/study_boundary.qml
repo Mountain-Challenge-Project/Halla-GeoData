@@ -154,7 +154,7 @@
             <Option name="type" type="QString" value="collection"/>
           </Option>
         </data_defined_properties>
-        <layer class="SimpleFill" enabled="1" id="{af60024c-c447-4749-a85e-ea2714f2f613}" locked="0" pass="0">
+        <layer class="SimpleFill" enabled="1" id="{16535c85-a45c-410a-9ac2-32dd83ec4cb3}" locked="0" pass="0">
           <Option type="Map">
             <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
             <Option name="color" type="QString" value="0,0,255,255,rgb:0,0,1,1"/>

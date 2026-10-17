@@ -12,6 +12,9 @@
 | OSM 제주올레 루트 | 올레 코스 참고 선형과 코스별 경사 요약 | `work/public_sources/osm_olle_relations.json`, `osm_olle_ways.json` (Overpass API, 질의문·SHA-256은 매니페스트). © OpenStreetMap contributors, ODbL. 공식 코스 선형이 아니며 OSM에 없는 코스는 `outputs/jeju_slope/olle_coverage.json`에 기록 |
 | 기상청 지점정보·AWS 1분·ASOS 정시 관측 | 국지기상 모델의 정답 자료, 대시보드 관측 지점 레이어 | API허브 `stn_inf.php`, `nph-aws2_min`, `kma_sfctm2/3`. 지점 목록은 `Geo Data Analyst/data/kma_stations_jeju.csv`(원 응답 `work/public_sources/kma_stn_inf_*.txt`), 관측값 누적은 로컬 `runtime/kma/obs/`에만 두고 Git 제외. 최신값만 `outputs/jeju_dashboard/data/obs_latest.json` |
 | 기상청 KIM 국지모델 등압면 (925·850 hPa) | 푄 모듈 상류 공기·횡단 바람 | API허브 `nwp_nc_prs2d_down.php` group=KIML. 1.5 km 점을 5 km 격자점 평균으로 집계해 `outputs/jeju_dashboard/data/levels.json`에만 두고 원 CSV는 로컬 `runtime/kma/kim/` |
+| ERA5-Land·ERA5 (Open-Meteo 아카이브 API) — **차선**, 1순위는 Copernicus CDS 직접 다운로드 | 과거 격자 입력(2023~): 지점별 2 m 기온·이슬점·습도·기압·바람·강수·운량·일사, 925·850 hPa 기온·습도·바람·지위고도 | https://open-meteo.com (CC-BY 4.0, 비상업 무료, 키 불필요). 원자료 © Copernicus Climate Change Service ERA5/ERA5-Land. 파일은 로컬 `runtime/kma/era5/`, 목록·SHA-256은 `Geo Data Analyst/data/era5_openmeteo_manifest.json` |
+| ESA WorldCover 2021 (10 m) — **차선**, 1순위는 환경부 세분류 토지피복도 | 셀별 토지피복 비율 (수목·초지·농지·시가지·나지·수역) | https://esa-worldcover.org, AWS Open Data 타일 N33E126 (CC-BY 4.0). 로컬 `runtime/external/`, 매니페스트 `external_rasters_manifest.json`, 셀 집계 `jeju_grid_landcover.csv` |
+| ETH 전지구 수관고 2020 (10 m) — **차선**, 1순위는 산림청 임상도 | 셀별 평균·90백분위 식생 높이 | Lang et al. 2023, https://langnico.github.io/globalcanopyheight/ (CC-BY 4.0). 같은 방식 |
 | 기상청 레이더 | 수집 코드와 변환기 | 실응답 2026-10-15 확인(PCPH acc=60). 원자료·GeoTIFF·프레임은 로컬 `runtime/`·`input/`·`dist/frames/`에만 두고 Git 제외. 격자 정의는 `work/public_sources/kma_radar_grid.json` |
 | 기상청 지상·고층 관측 및 예보 | 수집 코드와 2026-10-17 고정 CSV 수집본 | `outputs/jeju_weather/20261017/`의 목록·품질표·파일 해시. 30일 관측과 단일 격자 예보. 부분 수집·결측 포함 |
 | 기상청 레이더 PCPH 및 공식 PCP 좌표 | 제주 주변 원격자점 CSV 한 시각 | 2026-10-16 08:05 KST 종료 60분 누적강수. 음수코드 의미·기존 500m 격자 정렬·독립 위치 검증 미완료 |

@@ -29,14 +29,19 @@
 | `scripts/RUN_TRAIN.cmd` | 주 1회 재학습·적용 배치 |
 | `scripts/foehn_case_validation.py` | 5단계 푄 사례 검증: ASOS 횡단 바람 9,359시간에 공기덩이 모듈을 적용해 풍하 지점 관측과 비교, 적용 규칙(게이트·블렌드) 탐색 → `data/foehn_case_validation.json` |
 | `scripts/asos_case_catalogue.py` | 안개·호우 사례 목록(ASOS)과 운무 규칙 적중률 → `data/fog_cases_asos.csv`, `data/heavy_rain_cases_asos.csv`, 요약 JSON |
+| `scripts/fetch_era5_openmeteo.py` | **차선 자료**: Open-Meteo 아카이브 API로 42지점의 ERA5-Land 지상·ERA5 925/850 hPa 시간자료(2023~)를 연도별 CSV로 받음 (계정 불필요). 1순위는 Copernicus CDS 원자료이며, `runtime/kma/era5_cds/`에 CDS NetCDF가 있으면 학습 자료 구성 시 그쪽을 우선 사용 |
+| `scripts/build_landcover_factors.py` | **차선 자료**: ESA WorldCover·ETH 수관고 타일에서 셀별 토지피복 비율·수관고 계산 (QGIS Python, scripts 폴더에서 실행) → `data/jeju_grid_landcover.csv`. 1순위는 환경부 세분류 토지피복도·산림청 임상도이며, 받으면 같은 열 이름으로 재계산해 덮어씀 |
 | `scripts/RUN_OBS.cmd` | 관측 수집 주기 실행용 배치 (작업 스케줄러 등록 예시 포함) |
-| `data/kma_stations_jeju.csv`, `.geojson` | 제주 지점 42개(ASOS 4): 좌표, 노장고도, DSM 고도, 속한 셀, 셀 고도·경사 |
-| `data/jeju_grid_terrain_factors.csv` | 셀 7,518개의 TPI·하늘개방도·해안 거리·16방위 상류 최고고도/거리 |
+| `data/kma_stations_jeju.csv`, `.geojson` | 제주 지점 42개(ASOS 4): 좌표, 노장고도, DSM 고도, 속한 셀(부속섬 포함), 셀 고도·경사 |
+| `data/jeju_grid_terrain_factors.csv` | 셀 9,449개(해안 완충 포함)의 TPI·하늘개방도·해안 거리·16방위 상류 최고고도/거리 |
 | `data/obs_vs_forecast_check.json` | 첫 물리 점검 결과 (지점별 관측·추정값, 통계) |
 | `data/physics_latest.json` | 2단계 물리 모듈 점검 결과 (셀 집계: 구름 속·운무·푄 지수·푄 조건, 지점별 감률/푄 반영 기온·이슬점 대 관측) |
 | `data/verification_summary.json` | 3단계 누적 검증 통계 (원값 대조군·감률·푄 반영, 고도대·시각·푄 조건별) |
 | `data/pressure_module_check.json` | 지점기압 모듈 검증: ASOS 4지점 3년 RMSE 0.17 hPa, 고지대 AWS 0.2–0.3 hPa |
 | `data/foehn_cases_asos.csv` | ASOS 아카이브(2023-01~)에서 선별한 푄 후보 사례 145건 (봄철 집중, 풍하 성산 104건) |
+| `data/era5_openmeteo_manifest.json` | ERA5 다운로드 목록(지점·모델·연도·행수·SHA-256); 자료는 로컬 |
+| `data/external_rasters_manifest.json` | WorldCover·수관고 타일 출처·SHA-256; 자료는 로컬 |
+| `data/jeju_grid_landcover.csv` | 셀 9,449개의 토지피복 비율(%)과 수관고(m); `grid.geojson`에 결합 |
 
 관측 원자료는 `runtime/kma/obs/`(저장소 루트, Git 제외)에 월별 CSV로 쌓이고, 지점별 최신값만 대시보드용 `outputs/jeju_dashboard/data/obs_latest.json`과 공유 DB 문서 `radar/obs`에 씁니다.
 
@@ -58,7 +63,8 @@
 | 격자 입력 | 초단기예보·실황, 단기예보, 레이더 PCPH·HSR, AWS 객관분석 격자, KIM 등압면, 천리안 2A L2, 특보 | API 승인 |
 | 격자 입력 | KIM 지상 2D, 낙뢰 | 활용신청 대기 |
 | 지형 | 셀 고도·경사·경사향·집중도, TPI, 하늘개방도, 해안 거리, 16방위 상류 최고고도 | 완료 (`grid.geojson`에 결합) |
-| 외부 | AWS 과거 분자료(기상자료개방포털 CSV), ERA5, MODIS, Sentinel-3, 토지피복·임상도 | 미수집 (계정 필요, 보고서 5장에 경로) |
+| 외부 (1순위, 계정 필요) | AWS 과거 분자료(기상자료개방포털 CSV), Copernicus CDS ERA5, 환경부 토지피복도, 산림청 임상도, MODIS, Sentinel-3 | 미수집 (보고서 5장에 경로) |
+| 외부 (차선, 계정 불필요) | Open-Meteo ERA5-Land·ERA5(2023~, 42지점), ESA WorldCover 2021, ETH 수관고 2020 | 수집됨 (로컬). 1순위 자료가 들어오면 교체 |
 
 ## 실행 순서
 
