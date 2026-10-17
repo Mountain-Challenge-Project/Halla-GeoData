@@ -14,3 +14,5 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Check configuration without calling the API
         run: python kma_client.py check
+      - name: Verify published weather CSV checksums, row counts and references
+        run: python work/package_weather.py --verify-only

@@ -1,0 +1,232 @@
+{
+  "schema_version": 1,
+  "published_at_utc": "2026-10-17T00:43:51.419085+00:00",
+  "snapshot_type": "fixed research snapshot; not a live feed",
+  "source": "Korea Meteorological Administration API Hub",
+  "source_url": "https://apihub.kma.go.kr/",
+  "credential_scan": "passed",
+  "raw_http_responses_included": false,
+  "provenance_note": "API results and local raw-response references are audit metadata; raw HTTP files stay local.",
+  "files": [
+    {
+      "path": "api_status.csv",
+      "bytes": 4182,
+      "sha256": "1c58c7cfb594086dcffab7268c065e024f110b2469ac76593da3c46463efeb56"
+    },
+    {
+      "path": "collection_catalog_36.csv",
+      "bytes": 11678,
+      "sha256": "047af6e0dd78e99d258ba62c9f82d9869d295993fe2b05a5508415037e264013"
+    },
+    {
+      "path": "collection_summary.json",
+      "bytes": 15493,
+      "sha256": "ce5d9ae5e387caede122649b1317331b782683905d343cc62e6edbc5c914a53f"
+    },
+    {
+      "path": "csv/asos_hourly_20260916_20261015.csv",
+      "bytes": 1125408,
+      "sha256": "c06a9ba6cba7ee8d122b7844168621f583e341e32a1cf58116a45652dd52d830"
+    },
+    {
+      "path": "csv/asos_hourly_20260916_20261015_raw.csv",
+      "bytes": 722242,
+      "sha256": "cf125805fb93e22a63ca8b740905d129140b259cefce1ac813ee4b6c545ab77a"
+    },
+    {
+      "path": "csv/aws_daily_20260916_20261015.csv",
+      "bytes": 638197,
+      "sha256": "40e4f421292a158295f3434d6a9d784fac140e4e9b351e71273061b8306ee200"
+    },
+    {
+      "path": "csv/aws_hourly_snapshot_753_20260916_20261015.csv",
+      "bytes": 172949,
+      "sha256": "8e177489e4500e5766a29bc60471a8d2f49252be0b12e2e09dffc7994b659211"
+    },
+    {
+      "path": "csv/aws_hourly_snapshot_782_20260916_20261015.csv",
+      "bytes": 184832,
+      "sha256": "9e02c02b238b9a7da717c47b26d8e1c8dd98fb365f708bec4d63cb1cbf69ebf8"
+    },
+    {
+      "path": "csv/aws_hourly_snapshot_867_20260916_20261015.csv",
+      "bytes": 30723,
+      "sha256": "37d2f9776abe0ca72c7207918f1589c865f0387655fc98a1c0fa0e42a365e25a"
+    },
+    {
+      "path": "csv/aws_hourly_snapshot_868_20260916_20261015.csv",
+      "bytes": 34949,
+      "sha256": "09c9a398b3047cee017e38a8f7b87dd7f6cb69660b5360bf9048f057fdc1a1b4"
+    },
+    {
+      "path": "csv/aws_minute_753_20260916_20261015.csv",
+      "bytes": 10345196,
+      "sha256": "f49a37cd285cb67b4aecf4297f20f262ad47339618ca31e66f5fde002c71b6b4"
+    },
+    {
+      "path": "csv/aws_minute_753_20260916_20261015_raw.csv",
+      "bytes": 4031696,
+      "sha256": "8aeecca5759f7cd9152e061a10bc2191a4d5643c251a06ee73f00b2b13570576"
+    },
+    {
+      "path": "csv/aws_minute_782_20260916_20261015.csv",
+      "bytes": 11076590,
+      "sha256": "61b6fca12bad427cfc21d014a0c5c8cf09ea2d61fab098601a882aa2d6245f1f"
+    },
+    {
+      "path": "csv/aws_minute_782_20260916_20261015_raw.csv",
+      "bytes": 4155510,
+      "sha256": "f36777871a2137263453d7621b18af0c38cf93a901635557bdffcb517a9b00bb"
+    },
+    {
+      "path": "csv/aws_minute_867_20260916_20261015.csv",
+      "bytes": 1824150,
+      "sha256": "08a32b8d1120f1b5b9cbae79a1992ffeb28fac8855e328ce6766ec8f89932235"
+    },
+    {
+      "path": "csv/aws_minute_867_20260916_20261015_raw.csv",
+      "bytes": 718667,
+      "sha256": "7bd6d7fa9ad655f9b70907abef4d58fd66ba892acd1f14d9ab9181728793c0c5"
+    },
+    {
+      "path": "csv/aws_minute_868_20260916_20261015.csv",
+      "bytes": 2077521,
+      "sha256": "149c454705d05848c52a7c34a8bc61f2aacc95f21c49cba667a6c781179b6321"
+    },
+    {
+      "path": "csv/aws_minute_868_20260916_20261015_raw.csv",
+      "bytes": 812442,
+      "sha256": "4e68beaa28f06aac2affc508289000be7d9078c600ba6eac00e913f08679f556"
+    },
+    {
+      "path": "csv/radar_jeju_native_points.csv",
+      "bytes": 10108259,
+      "sha256": "6ad73b336387c6bf16566a90b24afdf0d558df9b5de9688c3b058a9e238b55fb"
+    },
+    {
+      "path": "csv/sounding_47186_history.csv",
+      "bytes": 3122759,
+      "sha256": "1f8711626db5a0bbffb67f6e5d55288d9a9e813f64852141595203fa49146e73"
+    },
+    {
+      "path": "csv/stations_aws.csv",
+      "bytes": 6708,
+      "sha256": "756048db958b0108d24f263846247659bad7d3d9e5f89186b1afe26a47544b96"
+    },
+    {
+      "path": "csv/stations_sfc.csv",
+      "bytes": 873,
+      "sha256": "a9a33782cf7dd67f7ee0f15faf62207b95b0e3cf41ff9f2fb69e8697e5fb3c33"
+    },
+    {
+      "path": "field_dictionary.csv",
+      "bytes": 2234,
+      "sha256": "46db7d094cdb2546739eef0ea5e640a93756ec52ea28a6784e9bfc98710011b7"
+    },
+    {
+      "path": "file_inventory.csv",
+      "bytes": 3997,
+      "sha256": "63b5afbc0f4364d5cdd0dcd188c43056b8d7d766e31e645ef45536ad987a5457"
+    },
+    {
+      "path": "latest/asos_latest.csv",
+      "bytes": 1949,
+      "sha256": "9ddb3bc4425e8c401008f2687a573bc94793da80f9c908fbea8e54d6c733aaa1"
+    },
+    {
+      "path": "latest/aws_latest.csv",
+      "bytes": 12173,
+      "sha256": "3e65f4610639491b1021b652391ab45b7336138f064df62bd2253a0fe7ded704"
+    },
+    {
+      "path": "latest/latest.json",
+      "bytes": 2470,
+      "sha256": "643bc48116533c71b610eca786133816aa9f5e36040ca1e57ca7c9f429829207"
+    },
+    {
+      "path": "latest/short_forecast.csv",
+      "bytes": 189624,
+      "sha256": "c916e814ddd14d31313860d8da8a12f619e5b4776a63f6710270e339519d8d69"
+    },
+    {
+      "path": "latest/sounding_latest.csv",
+      "bytes": 32734,
+      "sha256": "91cc75e81727a665703ac8dcaf26a649fd314d8e171733d5b94de1e93ec6e951"
+    },
+    {
+      "path": "latest/ultra_forecast.csv",
+      "bytes": 13719,
+      "sha256": "650a5c42e0ca95da682158f93571e048fa0475967b549de4e5fff4e9f9b24f57"
+    },
+    {
+      "path": "quality/aws_chunk_validation.json",
+      "bytes": 1173,
+      "sha256": "bc2807282c01a1c47388b48d04617e98321c5d1d1a29cd637facb2558b8ea24c"
+    },
+    {
+      "path": "quality/daily_missing_records.csv",
+      "bytes": 1228,
+      "sha256": "0f9c812f9c5367289079d71faa558d39ee9b81b586c099354e20957b4c893282"
+    },
+    {
+      "path": "quality/mountain_history_coverage.csv",
+      "bytes": 399,
+      "sha256": "d590e1735cda26ec4d63a43fd27351cb6fa5a72b05ddd8587fe369659734732c"
+    },
+    {
+      "path": "quality/parse_validation.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "quality/sounding_profiles.csv",
+      "bytes": 3007,
+      "sha256": "3329d2c6b20259a4cca66a34617fbeacdd2852eaea006187394e14e7eae5c754"
+    },
+    {
+      "path": "quality/station_variable_availability.csv",
+      "bytes": 37716,
+      "sha256": "144861868c564b037566f994e7c82b9a1f9d68f0b1613f16a1315dc82abaaa06"
+    },
+    {
+      "path": "radar_coordinate_validation.json",
+      "bytes": 1317,
+      "sha256": "03cb33082d99773bef7488befe776333bb2b870f0a2faeec4381707565fea92d"
+    },
+    {
+      "path": "radar_validation.json",
+      "bytes": 580,
+      "sha256": "4054636b1d46e56a9f816cee21ed71e3007a38eaa986e487de3d02ed6abc2eec"
+    },
+    {
+      "path": "snapshots/20261016T234810991876Z/asos_latest.csv",
+      "bytes": 1949,
+      "sha256": "9ddb3bc4425e8c401008f2687a573bc94793da80f9c908fbea8e54d6c733aaa1"
+    },
+    {
+      "path": "snapshots/20261016T234810991876Z/aws_latest.csv",
+      "bytes": 12173,
+      "sha256": "3e65f4610639491b1021b652391ab45b7336138f064df62bd2253a0fe7ded704"
+    },
+    {
+      "path": "snapshots/20261016T234810991876Z/short_forecast.csv",
+      "bytes": 189624,
+      "sha256": "c916e814ddd14d31313860d8da8a12f619e5b4776a63f6710270e339519d8d69"
+    },
+    {
+      "path": "snapshots/20261016T234810991876Z/sounding_latest.csv",
+      "bytes": 32734,
+      "sha256": "91cc75e81727a665703ac8dcaf26a649fd314d8e171733d5b94de1e93ec6e951"
+    },
+    {
+      "path": "snapshots/20261016T234810991876Z/ultra_forecast.csv",
+      "bytes": 13719,
+      "sha256": "650a5c42e0ca95da682158f93571e048fa0475967b549de4e5fff4e9f9b24f57"
+    },
+    {
+      "path": "static_inventory.csv",
+      "bytes": 1587,
+      "sha256": "3f93ce4ea17580d5893e363d0cd80da6aa80eb4b1ad8cda515677c28d2f67df1"
+    }
+  ]
+}

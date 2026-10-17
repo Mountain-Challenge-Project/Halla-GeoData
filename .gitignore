@@ -7,7 +7,8 @@
 .aws/
 credentials*
 
-# Live API responses, logs and generated observations stay local.
+# Live API responses and logs stay local. Reviewed fixed CSV snapshots are
+# explicitly published under outputs/jeju_weather/<date>/.
 runtime/
 outputs/hallasan_radar_layers_v1/input/*
 !outputs/hallasan_radar_layers_v1/input/*.example.json

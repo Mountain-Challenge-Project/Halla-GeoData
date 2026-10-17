@@ -1,0 +1,38 @@
+[
+  {
+    "raw_file": "raw/aws_minute_753_20260922/20261015T232706039394Z.txt",
+    "status": "incomplete_or_invalid_excluded"
+  },
+  {
+    "raw_file": "raw/aws_minute_753_20260923/20261015T232736434948Z.txt",
+    "status": "incomplete_or_invalid_excluded"
+  },
+  {
+    "raw_file": "raw/aws_minute_753_20260925/20261015T232832133827Z.txt",
+    "status": "incomplete_or_invalid_excluded"
+  },
+  {
+    "raw_file": "raw/aws_minute_753_20261004/20261016T233927213384Z.txt",
+    "status": "incomplete_or_invalid_excluded"
+  },
+  {
+    "raw_file": "raw/aws_minute_782_20260922/20261015T232705878493Z.txt",
+    "status": "incomplete_or_invalid_excluded"
+  },
+  {
+    "raw_file": "raw/aws_minute_782_20260923/20261015T232736287900Z.txt",
+    "status": "incomplete_or_invalid_excluded"
+  },
+  {
+    "raw_file": "raw/aws_minute_782_20260925/20261015T232832317557Z.txt",
+    "status": "incomplete_or_invalid_excluded"
+  },
+  {
+    "raw_file": "raw/aws_minute_782_20261005/20261016T233915060417Z.txt",
+    "status": "incomplete_or_invalid_excluded"
+  },
+  {
+    "raw_file": "raw/aws_minute_867_20260921/20261016T234156564225Z.txt",
+    "status": "incomplete_or_invalid_excluded"
+  }
+]

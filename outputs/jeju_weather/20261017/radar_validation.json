@@ -1,0 +1,21 @@
+{
+  "nx": 2305,
+  "ny": 2881,
+  "value_count": 6640705,
+  "order": "x_fastest_south_to_north",
+  "negative_code_counts": {
+    "-30000": 3970486,
+    "-25000": 2516229,
+    "-20000": 783
+  },
+  "encoded_nonnegative_min": 0,
+  "encoded_nonnegative_max": 632,
+  "structural_validation": "passed",
+  "spatial_alignment_verified": false,
+  "observed_at_verified": false,
+  "nodata_semantics_verified": false,
+  "requested_time_kst": "202610160805",
+  "accumulation_minutes": 60,
+  "unit": "encoded mm*100",
+  "conversion": "nonnegative value * 0.01 = mm; negative codes unresolved"
+}

@@ -1,0 +1,67 @@
+{
+  "generated_at_utc": "2026-10-16T23:47:57.072747+00:00",
+  "sources": {
+    "asos_latest": {
+      "csv": "snapshots/20261016T234810991876Z/asos_latest.csv",
+      "rows": 4,
+      "source_time_kst": "2026-10-17T08:00:00+09:00",
+      "received_at_utc": "2026-10-16T23:44:09.513335+00:00",
+      "last_attempt_status": "downloaded_unvalidated",
+      "using_older_success": false,
+      "stale_after_seconds": 5400,
+      "age_seconds_at_publish": 2891,
+      "stale_at_publish": false,
+      "status": "available"
+    },
+    "ultra_forecast": {
+      "csv": "snapshots/20261016T234810991876Z/ultra_forecast.csv",
+      "rows": 66,
+      "source_time_kst": "2026-10-17T07:00:00+09:00",
+      "received_at_utc": "2026-10-16T23:44:17.036343+00:00",
+      "last_attempt_status": "downloaded_unvalidated",
+      "using_older_success": false,
+      "stale_after_seconds": 7200,
+      "age_seconds_at_publish": 6491,
+      "stale_at_publish": false,
+      "status": "available"
+    },
+    "short_forecast": {
+      "csv": "snapshots/20261016T234810991876Z/short_forecast.csv",
+      "rows": 907,
+      "source_time_kst": "2026-10-17T05:00:00+09:00",
+      "received_at_utc": "2026-10-16T23:44:18.476329+00:00",
+      "last_attempt_status": "downloaded_unvalidated",
+      "using_older_success": false,
+      "stale_after_seconds": 14400,
+      "age_seconds_at_publish": 13691,
+      "stale_at_publish": false,
+      "status": "available"
+    },
+    "sounding_latest": {
+      "csv": "snapshots/20261016T234810991876Z/sounding_latest.csv",
+      "rows": 138,
+      "source_time_kst": "2026-10-15T21:00:00+09:00",
+      "received_at_utc": "2026-10-15T23:23:42.250355+00:00",
+      "last_attempt_status": "downloaded_unvalidated",
+      "using_older_success": false,
+      "stale_after_seconds": 21600,
+      "age_seconds_at_publish": 128891,
+      "stale_at_publish": true,
+      "status": "stale"
+    },
+    "aws_latest": {
+      "csv": "snapshots/20261016T234810991876Z/aws_latest.csv",
+      "rows": 43,
+      "expected_stations": 43,
+      "source_time_kst_min": "2026-10-17T08:33:00+09:00",
+      "source_time_kst": "2026-10-17T08:33:00+09:00",
+      "received_at_utc": "2026-10-16T23:44:16.542091+00:00",
+      "stale_after_seconds": 3600,
+      "note": "Read individual row timestamps; missing stations are not zero values",
+      "age_seconds_at_publish": 911,
+      "stale_at_publish": false,
+      "status": "available",
+      "missing_station_ids": []
+    }
+  }
+}
