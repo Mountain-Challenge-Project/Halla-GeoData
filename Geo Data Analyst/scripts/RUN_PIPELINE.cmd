@@ -14,4 +14,5 @@ set /a HM=%HH% %% 6
 if "%HM%"=="3" python "Geo Data Analyst\scripts\fetch_kim_levels.py" >> %LOG% 2>&1
 python "Geo Data Analyst\scripts\compute_stage2.py" >> %LOG% 2>&1
 python "Geo Data Analyst\scripts\verify_stations.py" >> %LOG% 2>&1
+python "Geo Data Analyst\scripts\archive_features.py" >> %LOG% 2>&1
 python work\fetch_kma_warnings.py >> %LOG% 2>&1
