@@ -1,0 +1,18 @@
+{
+ "ESA_WorldCover_10m_2021_v200_N33E126_Map.tif": {
+  "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N33E126_Map.tif",
+  "bytes": 46477787,
+  "sha256": "f0e72e6011c908e9158b6f27a54f50b014b80873eded1355d291c49b1fdab9d2",
+  "downloaded_utc": "2026-10-17T02:00:45.666704+00:00",
+  "seconds": 91,
+  "licence": "CC-BY 4.0; (c) ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data (2021) processed by ESA WorldCover consortium"
+ },
+ "ETH_GlobalCanopyHeight_10m_2020_N33E126_Map.tif": {
+  "url": "https://libdrive.ethz.ch/index.php/s/cO8or7iOe5dT2Rt/download?path=%2F3deg_cogs&files=ETH_GlobalCanopyHeight_10m_2020_N33E126_Map.tif",
+  "bytes": 169992908,
+  "sha256": "5ee30303ac1571ac25d80b35b27b2a38caa2638d5206e7f52a97fd5c90b64375",
+  "downloaded_utc": "2026-10-17T02:07:14.541570+00:00",
+  "seconds": 389,
+  "licence": "CC-BY 4.0; Lang, Jetz, Schindler, Wegner (2023) A high-resolution canopy height model of the Earth, Nature Ecology & Evolution"
+ }
+}

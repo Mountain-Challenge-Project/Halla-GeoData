@@ -92,7 +92,7 @@ dl.sel dt{color:var(--muted);white-space:nowrap}dl.sel dd{margin:0;font-family:v
 </style>
 </head><body><div id="app">
 <header>
-  <div><h1>제주 지형 라이브 지도</h1><div class="sub">레이더 500 m 격자 7,518개 · Copernicus GLO-30 경사 · 제주올레 · 한라산 탐방로 · 기상청 레이더 강수 · 초단기예보</div></div>
+  <div><h1>제주 지형 라이브 지도</h1><div class="sub">레이더 500 m 격자 9,449개 (육지·부속섬 7,654 + 해안 2 km 완충 1,795) · Copernicus GLO-30 경사 · 제주올레 · 한라산 탐방로 · 기상청 레이더 강수 · 초단기예보</div></div>
   <div class="spacer"></div>
   <span class="pill" id="livePill"><span class="dot"></span><span id="liveText">연결 확인 중</span></span>
   <span class="status-line" id="liveDetail"></span>
@@ -130,7 +130,7 @@ dl.sel dt{color:var(--muted);white-space:nowrap}dl.sel dd{margin:0;font-family:v
       <label class="chk"><input type="checkbox" id="lyFoehn" checked><span class="swatch poly" style="background:#ef8a3a"></span>푄 조건 셀 (풍하·능선 통과·지수 ≥1 °C)</label>
       <label class="chk"><input type="checkbox" id="lyFog" checked><span class="swatch poly" style="background:#7b8794"></span>운무 가능 셀 (LCL 이하 또는 기온−이슬점 ≤1 °C)</label>
       <div class="small muted" id="moveInfo" style="margin:-2px 0 4px 22px"></div>
-      <label class="chk"><input type="checkbox" id="lyBoundary" checked><span class="swatch" style="background:#ffffff;border:1px solid var(--line)"></span>분석 범위 · 국립공원 경계</label>
+      <label class="chk"><input type="checkbox" id="lyBoundary" checked><span class="swatch" style="background:#ffffff;border:1px solid var(--line)"></span>분석 범위(육지·섬 / 해안 완충) · 국립공원 경계</label>
       <label class="chk"><input type="checkbox" id="lyS2"><span class="swatch poly" style="background:#4f6b3c"></span><span id="lblS2">Sentinel-2 실색 합성</span></label>
       <label class="chk"><input type="checkbox" id="lyNdvi"><span class="swatch poly" style="background:linear-gradient(90deg,#8c5e32,#ebe278,#1e8c32)"></span>Sentinel-2 NDVI (식생)</label>
       <label class="chk"><input type="checkbox" id="lySnow"><span class="swatch poly" style="background:#78c8ff"></span><span id="lblSnow">Sentinel-2 적설 마스크</span></label>
@@ -290,7 +290,7 @@ const PTY_NAMES={'0':'없음','1':'비','2':'비/눈','3':'눈','5':'빗방울',
    cell area is steeper than 20 deg; elsewhere one level lower. Thresholds follow the KMA heavy-rain advisory
    scale (3h 60 mm / 90 mm) loosely and are documented in the panel. */
 const RISK={colors:['','#f0b34a','#e4572e','#8b0000'],names:['없음','주의','경계','심각']};
-function riskLevel(p){ const a3=accVal('180',p)||0, a6=accVal('360',p)||0, a24=accVal('1440',p)||0; let r=0;
+function riskLevel(p){ if(p.zone==='sea_buffer') return 0; const a3=accVal('180',p)||0, a6=accVal('360',p)||0, a24=accVal('1440',p)||0; let r=0;
   if(a3>=30||a6>=50||a24>=80) r=1; if(a3>=60||a6>=90||a24>=150) r=2; if(a3>=90||a24>=200) r=3;
   if(!r) return 0; return (p.steep_pct>=20)?r:Math.max(0,r-1); }
 const SLOPE_CLASSES=[['#ffffff','0–5°'],['#fcffb8','5–10°'],['#fff158','10–15°'],['#ffd800','15–20°'],['#ffab09','20–25°'],['#ff7826','25–30°'],['#f53b22','30–35°'],['#d20000','35–40°'],['#a40000','40–45°'],['#7c0014','45° 이상']];
@@ -302,9 +302,9 @@ const layers={};
 let map, grid, db=null, user=null, canWrite=null, pollTimer=null, unsubLatest=null, unsubParts=null;
 
 function colorFor(v,m){ if(v==null||isNaN(v)) return null; const r=RAMPS[m.ramp]; let i=0; while(i<m.breaks.length&&v>=m.breaks[i]) i++; return r[i]; }
-function gridStyle(f){ const m=METRICS[metric]; const v=m.get(f.properties); const c=colorFor(v,m);
-  if(c==null) return {color:'rgba(255,255,255,.35)',weight:.6,fillColor:'#000',fillOpacity:0};
-  return {color:'rgba(255,255,255,.45)',weight:.5,fillColor:c,fillOpacity:fillOpacity}; }
+function gridStyle(f){ const m=METRICS[metric]; const p=f.properties; const sea=p.zone==='sea_buffer'; const v=(sea&&m.ramp==='slope')?null:m.get(p); const c=colorFor(v,m);
+  if(c==null) return sea?{color:'rgba(140,200,255,.45)',weight:.6,dashArray:'2 3',fillColor:'#000',fillOpacity:0}:{color:'rgba(255,255,255,.35)',weight:.6,fillColor:'#000',fillOpacity:0};
+  return {color:sea?'rgba(140,200,255,.6)':'rgba(255,255,255,.45)',weight:.5,dashArray:sea?'2 3':null,fillColor:c,fillOpacity:sea?fillOpacity*.7:fillOpacity}; }
 function fmt(v,d){ return (v==null||isNaN(v))?'–':Number(v).toFixed(d==null?1:d); }
 function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
@@ -371,10 +371,12 @@ function renderWarnings(){ const box=$('warnBody'); if(!warnings){ box.textConte
 function showSelection(kind,p,layer){ selected={kind,p}; if(selectedLayer&&selectedLayer!==layer){ try{selectedLayer.setStyle(selectedLayer._baseStyle);}catch(e){} }
   selectedLayer=layer; if(layer&&layer.setStyle){ layer._baseStyle=layer._baseStyle||layer.options; layer.setStyle({weight:(layer.options.weight||1)+2}); }
   let rows=[];
-  if(kind==='grid'){ const r=rain.values[p.grid_id]; rows=[['격자',p.grid_id],['열·행 (i, j)',p.i_ref+', '+p.j_ref],['평균 경사',fmt(p.mean_deg,2)+'°'],['90백분위',fmt(p.p90_deg,2)+'°'],['최대 경사',fmt(p.max_deg,2)+'°'],['20° 이상 면적',fmt(p.steep_pct,2)+' %'],['평균 고도',fmt(p.elev_mean,0)+' m'],['최고 고도',fmt(p.elev_max,0)+' m']];
+  if(kind==='grid'){ const r=rain.values[p.grid_id]; rows=[['격자',p.grid_id+(p.zone==='sea_buffer'?' · 해안 2 km 완충 셀 (바다, 지형 통계 없음)':p.zone==='islet'?' · 부속섬 셀 (육지 '+fmt(p.land_pct,0)+' %)':'')],['열·행 (i, j)',p.i_ref+', '+p.j_ref],['평균 경사',fmt(p.mean_deg,2)+'°'],['90백분위',fmt(p.p90_deg,2)+'°'],['최대 경사',fmt(p.max_deg,2)+'°'],['20° 이상 면적',fmt(p.steep_pct,2)+' %'],['평균 고도',fmt(p.elev_mean,0)+' m'],['최고 고도',fmt(p.elev_max,0)+' m']];
     if(rain.frame_id) rows.push(['강수 평균/최대',r?fmt(r[0],2)+' / '+fmt(r[1],2)+' mm/h':'자료 없음'],['강수 유효면적',r?fmt(r[2],0)+' %':'–']);
     for(const acc of ['180','360','1440']){ const v=rain.accum&&rain.accum[acc]&&rain.accum[acc][p.grid_id]; if(v) rows.push([(acc/60)+'시간 누적 평균/최대',fmt(v[0],1)+' / '+fmt(v[1],1)+' mm']); }
     rows.push(['경사향 / 집중도',p.asp_deg==null?'없음 (평탄)':fmt(p.asp_deg,0)+'° '+windName(p.asp_deg)+'향 / '+fmt(p.asp_r,2)]);
+    if(p.tpi_1km_m!=null) rows.push(['지형 인자 (TPI 1 km / 하늘개방도 / 해안 거리)',fmt(p.tpi_1km_m,0)+' m / '+fmt(p.svf,2)+' / '+fmt(p.coast_km,1)+' km']);
+    if(p.lc_tree!=null) rows.push(['토지피복 (WorldCover) · 수관고',`수목 ${fmt(p.lc_tree,0)} · 초지 ${fmt(p.lc_grass,0)} · 농지 ${fmt(p.lc_crop,0)} · 시가지 ${fmt(p.lc_builtup,0)} %`+(p.canopy_mean_m!=null?` · 수관고 ${fmt(p.canopy_mean_m,1)} m`:'')]);
     const fh=fcHourObj(p); if(fh){ const pt=fcPoint(p); const we=windExp(p); rows.push(['예보 ('+hourLabel(forecast.hours[fcHour])+', 5 km 점 '+(pt.nx+','+pt.ny)+')',(fh.t1h||'–')+'°C / '+(fh.wsd||'–')+' m/s / '+(fh.reh||'–')+' % / 풍향 '+(fh.vec?fh.vec+'° '+windName(fh.vec):'–')],
       ['풍상·풍하 노출',we==null?'경사향 불명확':fmt(we,1)+' m/s · '+windSide(we)],['셀 추정 기온 (고도 보정)',fmt(cellTemp(p),1)+' °C (점 고도 '+fmt(pt.elev_m,0)+' m → 셀 '+fmt(p.elev_mean,0)+' m)'],['셀 이슬점 (감률 2 °C/km)',fmt(cellTd(p),1)+' °C'],['기온−이슬점 차',(d=>d==null?'–':fmt(d,1)+' °C'+(d<=1?' · 운무 가능':''))(dewDep(p))],['LCL − 셀 고도',(r=>r==null?'–':r+' m'+(r<=0?' · 구름 속':''))(lclRel(p))],['체감온도',fmt(windChill(p),1)+' °C'],['지점기압 추정',(v=>v==null?'관측 해면기압 없음':fmt(v,1)+' hPa (ASOS 해면기압 '+fmt(seaLevelP(),1)+' hPa 기준)')(cellPressure(p))]); const mv=mlVal(p,0); if(mv!=null) rows.push(['학습 보정 기온 / 이슬점',fmt(mv,1)+' / '+fmt(mlVal(p,1),1)+' °C ('+ml.model.t+', '+ml.trained_rows+'행)']); const ub=uncBand(p); if(ub) rows.push(['추정 불확실성 (지점 검증, '+ub.band+')','기온 ±'+fmt(ub.t_rmse,1)+' °C (편향 '+fmt(ub.t_bias,1)+') · 이슬점 ±'+fmt(ub.td_rmse,1)+' °C · '+ub.n+'건 / '+unc.issues+'회차']);
       const f=foehnCalc(p); if(f){ rows.push(['횡단 바람 ('+f.w.src+')',windName(f.w.dir)+' '+fmt(f.w.dir,0)+'° · '+fmt(f.w.spd,1)+' m/s'],['상류 능선 / 바람그늘 깊이',fmt(f.ridge,0)+' m / '+fmt(f.lee,0)+' m']); if(f.up) rows.push(['상류 점 (5 km)',f.up.nx+','+f.up.ny+' · 고도 '+fmt(f.up.elev_m,0)+' m · LCL '+(f.lcl!=null?fmt(f.lcl,0)+' m':'–')]);
@@ -479,9 +481,9 @@ async function boot(){
     $('s2Info').innerHTML=`합성 규칙: 가장 최근의 구름 없는 픽셀 우선 (SCL 구름·그림자 제외) · 해상도 ${s2meta.resolution_m} m · 육지 피복률 ${fmt(s2meta.coverage_pct,1)} %<br>${(s2meta.dates_used||[]).map(u=>`${esc(u.date)}: 픽셀 ${fmt(u.pixel_share_pct,1)} % (타일 구름 ${Object.values(u.tiles).map(t=>fmt(t.cloud_cover_pct,0)).join('/')} %)`).join('<br>')}<br>NDVI 육지 평균 ${s2meta.ndvi_mean_land==null?'–':fmt(s2meta.ndvi_mean_land,2)} · 적설 ${fmt(s2meta.snow_area_km2,1)} km²`; }
   else { ['lyS2','lyNdvi','lySnow'].forEach(id=>{$(id).disabled=true;}); $('s2Info').textContent='Sentinel-2 합성 자료 없음 (work/build_open_data_layers.py 실행 필요)'; }
   const canvas=L.canvas({padding:.3});
-  grid=L.geoJSON(gridGj,{renderer:canvas,style:gridStyle,onEachFeature:(f,l)=>{ fcKey(f.properties,l); cellProps[f.properties.grid_id]=f.properties; cellCenter[f.properties.grid_id]=l.getBounds().getCenter(); l.on('click',()=>showSelection('grid',f.properties,l)); l.bindTooltip(()=>{const p=f.properties;const m=METRICS[metric];const v=m.get(p);return `${p.grid_id} · ${m.label} ${fmt(v,m.unit==='mm/h'?2:1)}${m.unit}`;},{sticky:true,direction:'top',opacity:.9}); }});
+  grid=L.geoJSON(gridGj,{renderer:canvas,style:gridStyle,onEachFeature:(f,l)=>{ fcKey(f.properties,l); cellProps[f.properties.grid_id]=f.properties; cellCenter[f.properties.grid_id]=l.getBounds().getCenter(); l.on('click',()=>showSelection('grid',f.properties,l)); l.bindTooltip(()=>{const p=f.properties;const m=METRICS[metric];const v=m.get(p);return `${p.grid_id}${p.zone==='sea_buffer'?' · 해안 완충(바다)':p.zone==='islet'?' · 부속섬':''} · ${m.label} ${fmt(v,m.unit==='mm/h'?2:1)}${m.unit}`;},{sticky:true,direction:'top',opacity:.9}); }});
   layers.grid=grid.addTo(map);
-  layers.boundary=L.layerGroup([L.geoJSON(boundary,{style:{color:'#ffffff',weight:1.2,fill:false,dashArray:'4 3',opacity:.9}}),L.geoJSON(park,{style:{color:'#9cffad',weight:1,fill:false,dashArray:'3 3',opacity:.9}})]).addTo(map);
+  layers.boundary=L.layerGroup([L.geoJSON(boundary,{style:f=>f.properties&&f.properties.name==='grid_with_coastal_buffer'?{color:'#8cc8ff',weight:1,fill:false,dashArray:'2 4',opacity:.8}:{color:'#ffffff',weight:1.2,fill:false,dashArray:'4 3',opacity:.9}}),L.geoJSON(park,{style:{color:'#9cffad',weight:1,fill:false,dashArray:'3 3',opacity:.9}})]).addTo(map);
   layers.steep=L.geoJSON(steep,{style:{color:'#ff2a2a',weight:4,opacity:.95},onEachFeature:(f,l)=>l.on('click',()=>showSelection('steep',f.properties,l))}).addTo(map);
   layers.trails=L.geoJSON(trails,{style:{color:'#00f0e1',weight:2.2,opacity:.95},onEachFeature:(f,l)=>{ l.on('click',()=>showSelection('trail',f.properties,l)); l.bindTooltip(f.properties.course,{permanent:true,direction:'center',className:'lbl trail'}); }}).addTo(map);
   layers.olle=L.geoJSON(olle,{style:{color:'#ff4fa3',weight:2.4,opacity:.95},onEachFeature:(f,l)=>{ l.on('click',()=>showSelection('olle',f.properties,l)); l.bindTooltip(f.properties.course,{permanent:true,direction:'center',className:'lbl'}); }}).addTo(map);

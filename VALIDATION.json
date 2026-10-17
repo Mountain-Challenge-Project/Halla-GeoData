@@ -26,14 +26,16 @@
   "reference_grid": {
     "definition": "official KMA radar composite grid: LCC lat_1=30 lat_2=60 lat_0=38 lon_0=126 ellps=WGS84, i0=1121 j0=1681, 500 m",
     "file": "inputs/reference/radar_grid_cells.gpkg",
-    "regenerated_on": "2026-10-15",
+    "regenerated_on": "2026-10-17",
     "hallasan_cells": 1849,
     "hallasan_slope_polygons": 27277,
     "hallasan_mean_slope_deg": 8.41,
-    "previous_spherical_grid_offset_m_at_jeju": 1062
+    "previous_spherical_grid_offset_m_at_jeju": 1062,
+    "jeju_cells": 9449,
+    "jeju_selection": "GLO-30 land (>=5 % of a 50 m lattice above 0.5 m, full 1-degree tile) or touching the Natural Earth outline, plus sea cells within 2 km; zone = land 7518 / islet 136 / sea_buffer 1795 (우도·마라도·가파도·비양도·지귀도 now inside)"
   },
   "jeju_wide_bundle": {
-    "grid_cells": 7518,
+    "grid_cells": 9449,
     "hallasan_cells_included": 1844,
     "slope_polygons": 78049,
     "hallasan_regression_csv_identical": "n/a after grid regeneration (checked before, on the spherical grid)",
@@ -46,7 +48,8 @@
       "18-1",
       "21"
     ],
-    "verified_on": "2026-10-14"
+    "verified_on": "2026-10-17",
+    "note": "rebuilt on the 9,449-cell grid (land + islets + 2 km coastal buffer); sea_buffer cells have slope 0"
   },
   "zip_crc": "passed",
   "readme_local_links": "passed",
@@ -652,5 +655,13 @@
     "heavy_rain_hours": 167,
     "uncertainty_display": "cell detail shows +-RMSE of the physics estimate by elevation band from uncertainty.json",
     "note": "coastal ASOS only; the learned residual model (stage 4) will be applied to the cells once the archive passes its thresholds"
+  },
+  "open_data_fallbacks": {
+    "built_on": "2026-10-17",
+    "policy": "fallback (차선) sources; replaced by the primary sources (CDS ERA5, 환경부 토지피복도, 산림청 임상도, 포털 AWS CSV) when available",
+    "era5_openmeteo": "ERA5-Land + ERA5 925/850 hPa hourly at the 42 stations, 2023-01..now (download in progress, see era5_openmeteo_manifest.json)",
+    "worldcover_2021": "tile N33E126, per-cell class shares -> jeju_grid_landcover.csv (tree share mean 60.6 %)",
+    "eth_canopy_2020": "tile N33E126, per-cell mean/p90 canopy height (mean 15.4 m)",
+    "stations_mapped": "42 of 42 (islands included after the regrid)"
   }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis projectname="제주도 전역 참고격자 경사도 | Copernicus GLO-30 별도 계산" saveDateTime="2026-10-15T07:44:31" saveUser="" saveUserFull="" version="4.2.0-Belém do Pará">
+<qgis projectname="제주도 전역 참고격자 경사도 | Copernicus GLO-30 별도 계산" saveDateTime="2026-10-17T15:58:50" saveUser="mw595" saveUserFull="서목원" version="4.2.0-Belém do Pará">
   <homePath path=""/>
   <title>제주도 전역 참고격자 경사도 | Copernicus GLO-30 별도 계산</title>
   <transaction mode="Disabled"/>
@@ -35,87 +35,87 @@
     <customproperties>
       <Option/>
     </customproperties>
-    <layer-tree-layer checked="Qt::Unchecked" expanded="1" id="____________c7e080f9_a6cb_4a64_a92d_98f7a5c76913" legend_exp="" legend_split_behavior="0" name="경사향 래스터 (도)" patch_size="-1,-1" providerKey="gdal" source="./aspect_degrees_30m.tif">
+    <layer-tree-layer checked="Qt::Unchecked" expanded="1" id="____________33bb68fd_8b62_4767_a1ee_0aa068b4e63a" legend_exp="" legend_split_behavior="0" name="경사향 래스터 (도)" patch_size="-1,-1" providerKey="gdal" source="./aspect_degrees_30m.tif">
       <customproperties>
         <Option/>
       </customproperties>
     </layer-tree-layer>
-    <layer-tree-layer checked="Qt::Unchecked" expanded="1" id="___DSM__m__8daf5aeb_9b41_4aa2_95d0_d8ea138a3d75" legend_exp="" legend_split_behavior="0" name="고도 DSM (m)" patch_size="-1,-1" providerKey="gdal" source="./dem_30m.tif">
+    <layer-tree-layer checked="Qt::Unchecked" expanded="1" id="___DSM__m__54857928_5268_4311_9fd6_c6d81f859b5f" legend_exp="" legend_split_behavior="0" name="고도 DSM (m)" patch_size="-1,-1" providerKey="gdal" source="./dem_30m.tif">
       <customproperties>
         <Option/>
       </customproperties>
     </layer-tree-layer>
-    <layer-tree-layer checked="Qt::Unchecked" expanded="1" id="____________9b0cc91e_6be3_4606_b4a0_092b83763b15" legend_exp="" legend_split_behavior="0" name="경사각 래스터 (도)" patch_size="-1,-1" providerKey="gdal" source="./slope_degrees_30m.tif">
+    <layer-tree-layer checked="Qt::Unchecked" expanded="1" id="____________4cce3b73_2553_4c3f_8651_21821024f47a" legend_exp="" legend_split_behavior="0" name="경사각 래스터 (도)" patch_size="-1,-1" providerKey="gdal" source="./slope_degrees_30m.tif">
       <customproperties>
         <Option/>
       </customproperties>
     </layer-tree-layer>
-    <layer-tree-layer checked="Qt::Unchecked" expanded="1" id="__________7f6e6c1e_d13f_4230_beee_4fc018c5f382" legend_exp="" legend_split_behavior="0" name="기존 지명 참고점" patch_size="-1,-1" providerKey="ogr" source="./shapefiles/reference_labels.shp">
+    <layer-tree-layer checked="Qt::Unchecked" expanded="1" id="__________72804743_9854_4db0_87d6_bf048877ffb1" legend_exp="" legend_split_behavior="0" name="기존 지명 참고점" patch_size="-1,-1" providerKey="ogr" source="./shapefiles/reference_labels.shp">
       <customproperties>
         <Option/>
       </customproperties>
     </layer-tree-layer>
-    <layer-tree-layer checked="Qt::Unchecked" expanded="1" id="___________f98dd312_7a99_4941_9a07_600731e180c7" legend_exp="" legend_split_behavior="0" name="국립공원 참고 경계" patch_size="-1,-1" providerKey="ogr" source="./shapefiles/reference_park.shp">
+    <layer-tree-layer checked="Qt::Unchecked" expanded="1" id="___________b965dfb1_5fa5_4683_8779_bfc11dbe4d1d" legend_exp="" legend_split_behavior="0" name="국립공원 참고 경계" patch_size="-1,-1" providerKey="ogr" source="./shapefiles/reference_park.shp">
       <customproperties>
         <Option/>
       </customproperties>
     </layer-tree-layer>
-    <layer-tree-layer checked="Qt::Checked" expanded="1" id="__________________________f2ab0aad_8cdc_4bab_8416_5e4886a75c54" legend_exp="" legend_split_behavior="0" name="분석 범위: 제주 외곽선과 겹치는 레이더 격자" patch_size="-1,-1" providerKey="ogr" source="./shapefiles/study_boundary.shp">
+    <layer-tree-layer checked="Qt::Checked" expanded="1" id="____________________2_km______c9cfeb8a_f852_405b_9406_4d5a563de2a7" legend_exp="" legend_split_behavior="0" name="분석 범위: 육지·부속섬 셀과 해안 2 km 완충 셀" patch_size="-1,-1" providerKey="ogr" source="./shapefiles/study_boundary.shp">
       <customproperties>
         <Option/>
       </customproperties>
     </layer-tree-layer>
-    <layer-tree-layer checked="Qt::Checked" expanded="1" id="__________OSM_______b1bc26c3_5989_4fc7_903a_b1700250533a" legend_exp="" legend_split_behavior="0" name="제주올레 코스 · OSM 참고 선형" patch_size="-1,-1" providerKey="ogr" source="./shapefiles/reference_olle.shp">
+    <layer-tree-layer checked="Qt::Checked" expanded="1" id="__________OSM_______8a60e469_8a23_4043_8d2d_d73d52485927" legend_exp="" legend_split_behavior="0" name="제주올레 코스 · OSM 참고 선형" patch_size="-1,-1" providerKey="ogr" source="./shapefiles/reference_olle.shp">
       <customproperties>
         <Option/>
       </customproperties>
     </layer-tree-layer>
-    <layer-tree-layer checked="Qt::Checked" expanded="1" id="____________OSM_6___e5f1dbd1_b78c_42df_b329_baf1c92c9c18" legend_exp="" legend_split_behavior="0" name="탐방로 참고 선형 · OSM 6코스" patch_size="-1,-1" providerKey="ogr" source="./shapefiles/reference_trails.shp">
+    <layer-tree-layer checked="Qt::Checked" expanded="1" id="____________OSM_6___55bad793_9234_42b8_9074_3d02ed7f3029" legend_exp="" legend_split_behavior="0" name="탐방로 참고 선형 · OSM 6코스" patch_size="-1,-1" providerKey="ogr" source="./shapefiles/reference_trails.shp">
       <customproperties>
         <Option/>
       </customproperties>
     </layer-tree-layer>
-    <layer-tree-layer checked="Qt::Checked" expanded="1" id="______500m_____________7_518__7ef12aef_93f9_433b_851b_790328a0941b" legend_exp="" legend_split_behavior="0" name="제주 전역 500m 레이더 격자 · 통계 7,518개" patch_size="-1,-1" providerKey="ogr" source="./shapefiles/grid_slope_500m.shp">
+    <layer-tree-layer checked="Qt::Checked" expanded="1" id="______500m_____________9_449______7_518_____136______2_km____1_795__56198663_8c7e_4889_aef1_73e2aa0c594c" legend_exp="" legend_split_behavior="0" name="제주 전역 500m 레이더 격자 · 통계 9,449개 (육지 7,518 · 섬 136 · 해안 2 km 완충 1,795)" patch_size="-1,-1" providerKey="ogr" source="./shapefiles/grid_slope_500m.shp">
       <customproperties>
         <Option/>
       </customproperties>
     </layer-tree-layer>
-    <layer-tree-layer checked="Qt::Checked" expanded="1" id="_______Copernicus_30m___Horn_96e109d4_7c0a_44f0_8cee_165a908171fc" legend_exp="" legend_split_behavior="0" name="경사 등급: Copernicus 30m / Horn" patch_size="-1,-1" providerKey="ogr" source="./shapefiles/slope_classes.shp">
+    <layer-tree-layer checked="Qt::Checked" expanded="1" id="_______Copernicus_30m___Horn_f2c334b4_b340_44d3_9525_45db57dc69f5" legend_exp="" legend_split_behavior="0" name="경사 등급: Copernicus 30m / Horn" patch_size="-1,-1" providerKey="ogr" source="./shapefiles/slope_classes.shp">
       <customproperties>
         <Option/>
       </customproperties>
     </layer-tree-layer>
-    <layer-tree-layer checked="Qt::Checked" expanded="1" id="____Esri_________28a9af7e_ffab_44cb_8c14_21693e721797" legend_exp="" legend_split_behavior="0" name="배경: Esri 위성·항공영상" patch_size="-1,-1" providerKey="gdal" source="./satellite_background.tif">
+    <layer-tree-layer checked="Qt::Checked" expanded="1" id="____Esri_________712106bf_2849_4139_b032_b6d893385f2d" legend_exp="" legend_split_behavior="0" name="배경: Esri 위성·항공영상" patch_size="-1,-1" providerKey="gdal" source="./satellite_background.tif">
       <customproperties>
         <Option/>
       </customproperties>
     </layer-tree-layer>
     <custom-order enabled="1">
-      <item>__________OSM_______b1bc26c3_5989_4fc7_903a_b1700250533a</item>
-      <item>____________OSM_6___e5f1dbd1_b78c_42df_b329_baf1c92c9c18</item>
-      <item>__________________________f2ab0aad_8cdc_4bab_8416_5e4886a75c54</item>
-      <item>______500m_____________7_518__7ef12aef_93f9_433b_851b_790328a0941b</item>
-      <item>_______Copernicus_30m___Horn_96e109d4_7c0a_44f0_8cee_165a908171fc</item>
-      <item>____Esri_________28a9af7e_ffab_44cb_8c14_21693e721797</item>
-      <item>___________f98dd312_7a99_4941_9a07_600731e180c7</item>
-      <item>__________7f6e6c1e_d13f_4230_beee_4fc018c5f382</item>
+      <item>__________OSM_______8a60e469_8a23_4043_8d2d_d73d52485927</item>
+      <item>____________OSM_6___55bad793_9234_42b8_9074_3d02ed7f3029</item>
+      <item>____________________2_km______c9cfeb8a_f852_405b_9406_4d5a563de2a7</item>
+      <item>______500m_____________9_449______7_518_____136______2_km____1_795__56198663_8c7e_4889_aef1_73e2aa0c594c</item>
+      <item>_______Copernicus_30m___Horn_f2c334b4_b340_44d3_9525_45db57dc69f5</item>
+      <item>____Esri_________712106bf_2849_4139_b032_b6d893385f2d</item>
+      <item>___________b965dfb1_5fa5_4683_8779_bfc11dbe4d1d</item>
+      <item>__________72804743_9854_4db0_87d6_bf048877ffb1</item>
     </custom-order>
   </layer-tree-group>
   <snapping-settings enabled="0" intersection-snapping="0" maxScale="0" minScale="0" mode="2" scaleDependencyMode="0" self-snapping="0" tolerance="12" type="1" unit="1">
     <individual-layer-settings>
-      <layer-setting enabled="1" id="______500m_____________7_518__7ef12aef_93f9_433b_851b_790328a0941b" maxScale="0" minScale="0" tolerance="12" type="1" units="1"/>
-      <layer-setting enabled="1" id="_______Copernicus_30m___Horn_96e109d4_7c0a_44f0_8cee_165a908171fc" maxScale="0" minScale="0" tolerance="12" type="1" units="1"/>
-      <layer-setting enabled="1" id="__________7f6e6c1e_d13f_4230_beee_4fc018c5f382" maxScale="0" minScale="0" tolerance="12" type="1" units="1"/>
-      <layer-setting enabled="1" id="__________OSM_______b1bc26c3_5989_4fc7_903a_b1700250533a" maxScale="0" minScale="0" tolerance="12" type="1" units="1"/>
-      <layer-setting enabled="1" id="____________OSM_6___e5f1dbd1_b78c_42df_b329_baf1c92c9c18" maxScale="0" minScale="0" tolerance="12" type="1" units="1"/>
-      <layer-setting enabled="1" id="__________________________f2ab0aad_8cdc_4bab_8416_5e4886a75c54" maxScale="0" minScale="0" tolerance="12" type="1" units="1"/>
-      <layer-setting enabled="1" id="___________f98dd312_7a99_4941_9a07_600731e180c7" maxScale="0" minScale="0" tolerance="12" type="1" units="1"/>
+      <layer-setting enabled="1" id="______500m_____________9_449______7_518_____136______2_km____1_795__56198663_8c7e_4889_aef1_73e2aa0c594c" maxScale="0" minScale="0" tolerance="12" type="1" units="1"/>
+      <layer-setting enabled="1" id="_______Copernicus_30m___Horn_f2c334b4_b340_44d3_9525_45db57dc69f5" maxScale="0" minScale="0" tolerance="12" type="1" units="1"/>
+      <layer-setting enabled="1" id="__________72804743_9854_4db0_87d6_bf048877ffb1" maxScale="0" minScale="0" tolerance="12" type="1" units="1"/>
+      <layer-setting enabled="1" id="__________OSM_______8a60e469_8a23_4043_8d2d_d73d52485927" maxScale="0" minScale="0" tolerance="12" type="1" units="1"/>
+      <layer-setting enabled="1" id="____________OSM_6___55bad793_9234_42b8_9074_3d02ed7f3029" maxScale="0" minScale="0" tolerance="12" type="1" units="1"/>
+      <layer-setting enabled="1" id="____________________2_km______c9cfeb8a_f852_405b_9406_4d5a563de2a7" maxScale="0" minScale="0" tolerance="12" type="1" units="1"/>
+      <layer-setting enabled="1" id="___________b965dfb1_5fa5_4683_8779_bfc11dbe4d1d" maxScale="0" minScale="0" tolerance="12" type="1" units="1"/>
     </individual-layer-settings>
   </snapping-settings>
   <relations/>
   <polymorphicRelations/>
   <main-annotation-layer autoRefreshMode="Disabled" autoRefreshTime="0" hasScaleBasedVisibilityFlag="0" layerType="Annotation" legendPlaceholderImage="" maxScale="0" minScale="1e+08" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" type="annotation">
-    <id>Annotations_7a10f927_3dc3_458a_a058_fc37da9019a0</id>
+    <id>Annotations_3f1ba6f6_2ab3_4d04_ae40_86623c7e407e</id>
     <datasource></datasource>
     <layername>Annotations</layername>
     <srs>
@@ -174,18 +174,18 @@
   <projectlayers>
     <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" hasScaleBasedVisibilityFlag="0" layerType="Raster" legendPlaceholderImage="" maxScale="0" minScale="1e+08" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" type="raster">
       <extent>
-        <xmin>235530</xmin>
-        <ymin>3676050</ymin>
-        <xmax>310170</xmax>
-        <ymax>3716280</ymax>
+        <xmin>232050</xmin>
+        <ymin>3664920</ymin>
+        <xmax>313860</xmax>
+        <ymax>3718320</ymax>
       </extent>
       <wgs84extent>
-        <xmin>126.15143535611079528</xmin>
-        <ymin>33.19102343382793663</ymin>
-        <xmax>126.96331375402301944</xmax>
-        <ymax>33.56933307433933322</ymax>
+        <xmin>126.11338221952458127</xmin>
+        <ymin>33.08989941505077326</ymin>
+        <xmax>127.00515635666536696</xmax>
+        <ymax>33.58837201032144293</ymax>
       </wgs84extent>
-      <id>___DSM__m__8daf5aeb_9b41_4aa2_95d0_d8ea138a3d75</id>
+      <id>___DSM__m__54857928_5268_4311_9fd6_c6d81f859b5f</id>
       <datasource>./dem_30m.tif</datasource>
       <layername>고도 DSM (m)</layername>
       <srs>
@@ -263,7 +263,7 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleLine" enabled="1" id="{1083232e-f661-452f-ad30-b6ccb86344a0}" locked="0" pass="0">
+            <layer class="SimpleLine" enabled="1" id="{ae719e74-cb43-46c9-b4a2-07f709ee2740}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="align_dash_pattern" type="QString" value="0"/>
                 <Option name="capstyle" type="QString" value="square"/>
@@ -275,7 +275,7 @@
                 <Option name="dash_pattern_offset_unit" type="QString" value="MM"/>
                 <Option name="draw_inside_polygon" type="QString" value="0"/>
                 <Option name="joinstyle" type="QString" value="bevel"/>
-                <Option name="line_color" type="QString" value="229,182,54,255,rgb:0.8980392,0.7137255,0.2117647,1"/>
+                <Option name="line_color" type="QString" value="231,113,72,255,rgb:0.9058824,0.4431373,0.282353,1"/>
                 <Option name="line_style" type="QString" value="solid"/>
                 <Option name="line_width" type="QString" value="0.6"/>
                 <Option name="line_width_unit" type="QString" value="MM"/>
@@ -312,10 +312,10 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleFill" enabled="1" id="{861f50b2-7748-4a11-b70a-3a5ca43d3af6}" locked="0" pass="0">
+            <layer class="SimpleFill" enabled="1" id="{ef13c1a5-8cbd-4d5e-a350-e269472c1e18}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
-                <Option name="color" type="QString" value="229,182,54,255,rgb:0.8980392,0.7137255,0.2117647,1"/>
+                <Option name="color" type="QString" value="231,113,72,255,rgb:0.9058824,0.4431373,0.282353,1"/>
                 <Option name="joinstyle" type="QString" value="bevel"/>
                 <Option name="offset" type="QString" value="0,0"/>
                 <Option name="offset_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
@@ -365,8 +365,8 @@
             <stdDevFactor>2</stdDevFactor>
           </minMaxOrigin>
           <contrastEnhancement>
-            <minValue>-2.2585432529449</minValue>
-            <maxValue>1922.9318847656</maxValue>
+            <minValue>-2.2577419281006</minValue>
+            <maxValue>1922.9222412109</maxValue>
             <algorithm>StretchToMinimumMaximum</algorithm>
           </contrastEnhancement>
           <rampLegendSettings direction="0" maximumLabel="" minimumLabel="" orientation="2" prefix="" suffix="" useContinuousLegend="1">
@@ -393,18 +393,18 @@
     </maplayer>
     <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" hasScaleBasedVisibilityFlag="0" layerType="Raster" legendPlaceholderImage="" maxScale="0" minScale="1e+08" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" type="raster">
       <extent>
-        <xmin>14042607.33982341736555099</xmin>
-        <ymin>3919535.72228000033646822</ymin>
-        <xmax>14134273.12498658336699009</xmax>
-        <ymax>3972127.17617000034078956</ymax>
+        <xmin>14038377.9006699975579977</xmin>
+        <ymin>3906185.56829780200496316</ymin>
+        <xmax>14138594.16714999824762344</xmax>
+        <ymax>3974570.44740219693630934</ymax>
       </extent>
       <wgs84extent>
-        <xmin>126.14688802252349831</xmin>
-        <ymin>33.18237073800300152</ymin>
-        <xmax>126.97033578095239648</xmax>
-        <ymax>33.57687482716671923</ymax>
+        <xmin>126.10889432417579314</xmin>
+        <ymin>33.08194288293881158</ymin>
+        <xmax>127.00915236313959156</xmax>
+        <ymax>33.59515897842108245</ymax>
       </wgs84extent>
-      <id>____Esri_________28a9af7e_ffab_44cb_8c14_21693e721797</id>
+      <id>____Esri_________712106bf_2849_4139_b032_b6d893385f2d</id>
       <datasource>./satellite_background.tif</datasource>
       <layername>배경: Esri 위성·항공영상</layername>
       <srs>
@@ -484,7 +484,7 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleLine" enabled="1" id="{da1f7708-cc63-4124-99a6-5ae283de029f}" locked="0" pass="0">
+            <layer class="SimpleLine" enabled="1" id="{f10f6e57-82e5-4d66-b0c3-2296f9a4f76f}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="align_dash_pattern" type="QString" value="0"/>
                 <Option name="capstyle" type="QString" value="square"/>
@@ -496,7 +496,7 @@
                 <Option name="dash_pattern_offset_unit" type="QString" value="MM"/>
                 <Option name="draw_inside_polygon" type="QString" value="0"/>
                 <Option name="joinstyle" type="QString" value="bevel"/>
-                <Option name="line_color" type="QString" value="190,207,80,255,rgb:0.7450981,0.8117647,0.3137255,1"/>
+                <Option name="line_color" type="QString" value="255,158,23,255,rgb:1,0.6196079,0.0901961,1"/>
                 <Option name="line_style" type="QString" value="solid"/>
                 <Option name="line_width" type="QString" value="0.6"/>
                 <Option name="line_width_unit" type="QString" value="MM"/>
@@ -533,10 +533,10 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleFill" enabled="1" id="{92d56f99-a95f-4f8c-99ee-2e0c11bcd428}" locked="0" pass="0">
+            <layer class="SimpleFill" enabled="1" id="{f19fdc49-82bb-4b60-a7fc-2290fd871796}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
-                <Option name="color" type="QString" value="190,207,80,255,rgb:0.7450981,0.8117647,0.3137255,1"/>
+                <Option name="color" type="QString" value="255,158,23,255,rgb:1,0.6196079,0.0901961,1"/>
                 <Option name="joinstyle" type="QString" value="bevel"/>
                 <Option name="offset" type="QString" value="0,0"/>
                 <Option name="offset_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
@@ -587,17 +587,17 @@
           </minMaxOrigin>
           <redContrastEnhancement>
             <minValue>0</minValue>
-            <maxValue>255</maxValue>
+            <maxValue>243</maxValue>
             <algorithm>NoEnhancement</algorithm>
           </redContrastEnhancement>
           <greenContrastEnhancement>
-            <minValue>0</minValue>
-            <maxValue>255</maxValue>
+            <minValue>13</minValue>
+            <maxValue>245</maxValue>
             <algorithm>NoEnhancement</algorithm>
           </greenContrastEnhancement>
           <blueContrastEnhancement>
             <minValue>0</minValue>
-            <maxValue>255</maxValue>
+            <maxValue>250</maxValue>
             <algorithm>NoEnhancement</algorithm>
           </blueContrastEnhancement>
         </rasterrenderer>
@@ -611,20 +611,20 @@
     </maplayer>
     <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" layerType="Vector" legendPlaceholderImage="" maxScale="0" minScale="100000000" readOnly="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="MultiPolygon">
       <extent>
-        <xmin>235548.38484700996195897</xmin>
-        <ymin>3676065.86176209198310971</ymin>
-        <xmax>310144.14323575410526246</xmax>
-        <ymax>3716264.18860608385875821</ymax>
+        <xmin>232076.87145521154161543</xmin>
+        <ymin>3664930.03554512606933713</ymin>
+        <xmax>313850.74552768736612052</xmax>
+        <ymax>3718291.27007430465891957</ymax>
       </extent>
       <wgs84extent>
-        <xmin>126.15163784116447232</xmin>
-        <ymin>33.19117082539558083</ymin>
-        <xmax>126.96303317601346805</xmax>
-        <ymax>33.56918595141973327</ymax>
+        <xmin>126.11368000386831056</xmin>
+        <ymin>33.08999645158369418</ymin>
+        <xmax>127.0050551844460216</xmax>
+        <ymax>33.5881114230509823</ymax>
       </wgs84extent>
-      <id>______500m_____________7_518__7ef12aef_93f9_433b_851b_790328a0941b</id>
+      <id>______500m_____________9_449______7_518_____136______2_km____1_795__56198663_8c7e_4889_aef1_73e2aa0c594c</id>
       <datasource>./shapefiles/grid_slope_500m.shp</datasource>
-      <layername>제주 전역 500m 레이더 격자 · 통계 7,518개</layername>
+      <layername>제주 전역 500m 레이더 격자 · 통계 9,449개 (육지 7,518 · 섬 136 · 해안 2 km 완충 1,795)</layername>
       <srs>
         <spatialrefsys nativeFormat="Wkt">
           <wkt>PROJCRS["WGS 84 / UTM zone 52N",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["UTM zone 52N",METHOD["Transverse Mercator",ID["EPSG",9807]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",129,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["Scale factor at natural origin",0.9996,SCALEUNIT["unity",1],ID["EPSG",8805]],PARAMETER["False easting",500000,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["(E)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["(N)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Navigation and medium accuracy spatial referencing."],AREA["Between 126°E and 132°E, northern hemisphere between equator and 84°N, onshore and offshore. China. Indonesia. Japan. Democratic People's Republic of Korea (North Korea). Republic of Korea (South Korea). Russian Federation."],BBOX[0,126,84,132]],ID["EPSG",32652]]</wkt>
@@ -827,7 +827,7 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleFill" enabled="1" id="{ef6b53c4-603d-43ca-9a2e-e710adb4609f}" locked="0" pass="0">
+            <layer class="SimpleFill" enabled="1" id="{de37ff3a-0025-4c83-ad07-fb8644055749}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
                 <Option name="color" type="QString" value="0,0,255,255,rgb:0,0,1,1"/>
@@ -1279,18 +1279,18 @@
     </maplayer>
     <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" layerType="Vector" legendPlaceholderImage="" maxScale="0" minScale="100000000" readOnly="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="MultiPolygon">
       <extent>
-        <xmin>235560</xmin>
-        <ymin>3676080</ymin>
-        <xmax>310140</xmax>
-        <ymax>3716250</ymax>
+        <xmin>232080</xmin>
+        <ymin>3664920</ymin>
+        <xmax>313860</xmax>
+        <ymax>3718290</ymax>
       </extent>
       <wgs84extent>
-        <xmin>126.15176700898588535</xmin>
-        <ymin>33.19130103525135667</ymin>
-        <xmax>126.96298579441163668</xmax>
-        <ymax>33.56905732083560423</ymax>
+        <xmin>126.11371405121381883</xmin>
+        <ymin>33.08990681399497902</ymin>
+        <xmax>127.00515635666536696</xmax>
+        <ymax>33.58810159096103831</ymax>
       </wgs84extent>
-      <id>_______Copernicus_30m___Horn_96e109d4_7c0a_44f0_8cee_165a908171fc</id>
+      <id>_______Copernicus_30m___Horn_f2c334b4_b340_44d3_9525_45db57dc69f5</id>
       <datasource>./shapefiles/slope_classes.shp</datasource>
       <layername>경사 등급: Copernicus 30m / Horn</layername>
       <srs>
@@ -1487,16 +1487,16 @@
       </elevation>
       <renderer-v2 attr="class_id" enableorderby="0" forceraster="0" referencescale="-1" symbollevels="0" type="categorizedSymbol">
         <categories>
-          <category label="0–5°" render="true" symbol="0" type="long" uuid="{c2af72df-411f-4134-86e3-be466ee31c93}" value="1"/>
-          <category label="5–10°" render="true" symbol="1" type="long" uuid="{c80d9353-0366-451d-9125-6b71a9074101}" value="2"/>
-          <category label="10–15°" render="true" symbol="2" type="long" uuid="{9cca3241-ad18-458f-996c-bdb650730b7d}" value="3"/>
-          <category label="15–20°" render="true" symbol="3" type="long" uuid="{bedde6f2-cc7c-4bb7-92e1-b9fcca067b12}" value="4"/>
-          <category label="20–25°" render="true" symbol="4" type="long" uuid="{3c820725-3d10-4bfa-bc5f-10ce6d57ec7c}" value="5"/>
-          <category label="25–30°" render="true" symbol="5" type="long" uuid="{1e4eaf08-e758-4c67-9a28-c02cee1977af}" value="6"/>
-          <category label="30–35°" render="true" symbol="6" type="long" uuid="{07b59f24-6372-490f-95bf-f1b3f2e277e3}" value="7"/>
-          <category label="35–40°" render="true" symbol="7" type="long" uuid="{47112ce5-2c1d-4583-9ff3-64334c1a4b3d}" value="8"/>
-          <category label="40–45°" render="true" symbol="8" type="long" uuid="{fee3d9e5-97db-4709-a507-54d11fd6c9ef}" value="9"/>
-          <category label="45° 이상" render="true" symbol="9" type="long" uuid="{96c9737d-e9fd-4f0f-bcdb-6ff0a0c0c12f}" value="10"/>
+          <category label="0–5°" render="true" symbol="0" type="long" uuid="{01165285-b0b1-459e-b26d-eec5e0965b9f}" value="1"/>
+          <category label="5–10°" render="true" symbol="1" type="long" uuid="{d26ae24f-7f59-4bcf-a3aa-961c78040641}" value="2"/>
+          <category label="10–15°" render="true" symbol="2" type="long" uuid="{1834feeb-066b-4088-8d98-95b745749b0f}" value="3"/>
+          <category label="15–20°" render="true" symbol="3" type="long" uuid="{7b8e9a60-9805-428a-883c-840e6f41a18e}" value="4"/>
+          <category label="20–25°" render="true" symbol="4" type="long" uuid="{7871b9b6-1e78-47a6-8f0c-c5c68069058b}" value="5"/>
+          <category label="25–30°" render="true" symbol="5" type="long" uuid="{0d61546c-4bbd-4465-a0ce-d1ecd0c8d918}" value="6"/>
+          <category label="30–35°" render="true" symbol="6" type="long" uuid="{015e6d6b-9987-4975-a63e-ba1ac8c52674}" value="7"/>
+          <category label="35–40°" render="true" symbol="7" type="long" uuid="{0e145ac3-655e-414b-a03c-020981910b98}" value="8"/>
+          <category label="40–45°" render="true" symbol="8" type="long" uuid="{be7ac2e7-46f7-4af8-8c4f-5b813a9c8039}" value="9"/>
+          <category label="45° 이상" render="true" symbol="9" type="long" uuid="{27a148a2-6fd9-4ad2-b5c6-e3f5fd514372}" value="10"/>
         </categories>
         <symbols>
           <symbol alpha="1" clip_to_extent="1" force_rhr="0" frame_rate="10" is_animated="0" name="0" type="fill">
@@ -1507,7 +1507,7 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleFill" enabled="1" id="{e0c08415-c6da-467d-949b-640ec13d8db5}" locked="0" pass="0">
+            <layer class="SimpleFill" enabled="1" id="{820f91eb-256f-4904-b16e-2941542b8d12}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
                 <Option name="color" type="QString" value="255,255,255,255,rgb:1,1,1,1"/>
@@ -1538,7 +1538,7 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleFill" enabled="1" id="{c07fd5bb-6209-4afb-addb-057cad00c2bf}" locked="0" pass="0">
+            <layer class="SimpleFill" enabled="1" id="{903c2220-7f44-4354-b5f6-d76bbf57cd64}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
                 <Option name="color" type="QString" value="252,255,184,255,rgb:0.9882353,1,0.7215686,1"/>
@@ -1569,7 +1569,7 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleFill" enabled="1" id="{886edd70-2dce-4d5f-a69f-e8626e61c354}" locked="0" pass="0">
+            <layer class="SimpleFill" enabled="1" id="{b62cde44-c1a7-4a46-ac16-3f764059bb74}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
                 <Option name="color" type="QString" value="255,241,88,255,rgb:1,0.945098,0.345098,1"/>
@@ -1600,7 +1600,7 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleFill" enabled="1" id="{19d4b522-0cff-4f4b-af9b-b3f05771194d}" locked="0" pass="0">
+            <layer class="SimpleFill" enabled="1" id="{560cddd5-db4b-42d0-b6b0-8f1477880960}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
                 <Option name="color" type="QString" value="255,216,0,255,rgb:1,0.8470588,0,1"/>
@@ -1631,7 +1631,7 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleFill" enabled="1" id="{8adeb503-cbfa-47f0-adce-7324090ec672}" locked="0" pass="0">
+            <layer class="SimpleFill" enabled="1" id="{c1ab60bd-039f-4cd8-a0cb-cc0ecb32949c}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
                 <Option name="color" type="QString" value="255,171,9,255,rgb:1,0.6705883,0.0352941,1"/>
@@ -1662,7 +1662,7 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleFill" enabled="1" id="{7c36b5f7-4526-484b-a422-deefe3e07a9e}" locked="0" pass="0">
+            <layer class="SimpleFill" enabled="1" id="{f1c08b92-2636-450b-8599-9b3fb88c7b54}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
                 <Option name="color" type="QString" value="255,120,38,255,rgb:1,0.4705882,0.1490196,1"/>
@@ -1693,7 +1693,7 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleFill" enabled="1" id="{5d69e9ce-3ab0-482a-b615-667d7612c2b1}" locked="0" pass="0">
+            <layer class="SimpleFill" enabled="1" id="{09d5db6e-753d-4181-8472-5461f1431c45}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
                 <Option name="color" type="QString" value="245,59,34,255,rgb:0.9607843,0.2313726,0.1333333,1"/>
@@ -1724,7 +1724,7 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleFill" enabled="1" id="{94c92e44-7814-4a07-a464-24f3c246911f}" locked="0" pass="0">
+            <layer class="SimpleFill" enabled="1" id="{f1b94150-d5ce-45ba-9717-931ad19667bb}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
                 <Option name="color" type="QString" value="210,0,0,255,rgb:0.8235294,0,0,1"/>
@@ -1755,7 +1755,7 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleFill" enabled="1" id="{fdc8f9c2-2cb1-45d4-add9-0f33bab2d3c0}" locked="0" pass="0">
+            <layer class="SimpleFill" enabled="1" id="{08aae0e2-95f7-4c84-b0a2-536e32a4a2f5}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
                 <Option name="color" type="QString" value="164,0,0,255,rgb:0.6431373,0,0,1"/>
@@ -1786,7 +1786,7 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleFill" enabled="1" id="{c327532a-5d32-4264-ac6a-bfa8db60c0e4}" locked="0" pass="0">
+            <layer class="SimpleFill" enabled="1" id="{616bb9d5-a36b-469e-802b-6b35d6dc3fef}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
                 <Option name="color" type="QString" value="124,0,20,255,rgb:0.4862745,0,0.0784314,1"/>
@@ -1963,7 +1963,7 @@
         <xmax>126.57247702804528444</xmax>
         <ymax>33.41540648479675468</ymax>
       </wgs84extent>
-      <id>__________7f6e6c1e_d13f_4230_beee_4fc018c5f382</id>
+      <id>__________72804743_9854_4db0_87d6_bf048877ffb1</id>
       <datasource>./shapefiles/reference_labels.shp</datasource>
       <layername>기존 지명 참고점</layername>
       <srs>
@@ -2320,7 +2320,7 @@
         <xmax>126.9431525776989389</xmax>
         <ymax>33.56833739376018144</ymax>
       </wgs84extent>
-      <id>__________OSM_______b1bc26c3_5989_4fc7_903a_b1700250533a</id>
+      <id>__________OSM_______8a60e469_8a23_4043_8d2d_d73d52485927</id>
       <datasource>./shapefiles/reference_olle.shp</datasource>
       <layername>제주올레 코스 · OSM 참고 선형</layername>
       <srs>
@@ -2525,7 +2525,7 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleLine" enabled="1" id="{2745972e-59fd-4845-a177-827200530014}" locked="0" pass="0">
+            <layer class="SimpleLine" enabled="1" id="{347d96d6-371f-49fa-ba1f-8de16b9d881a}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="align_dash_pattern" type="QString" value="0"/>
                 <Option name="capstyle" type="QString" value="round"/>
@@ -2649,7 +2649,7 @@
               <Option name="drawToAllParts" type="bool" value="false"/>
               <Option name="enabled" type="QString" value="0"/>
               <Option name="labelAnchorPoint" type="QString" value="point_on_exterior"/>
-              <Option name="lineSymbol" type="QString" value="&lt;symbol alpha=&quot;1&quot; clip_to_extent=&quot;1&quot; force_rhr=&quot;0&quot; frame_rate=&quot;10&quot; is_animated=&quot;0&quot; name=&quot;symbol&quot; type=&quot;line&quot;>&lt;data_defined_properties>&lt;Option type=&quot;Map&quot;>&lt;Option name=&quot;name&quot; type=&quot;QString&quot; value=&quot;&quot;/>&lt;Option name=&quot;properties&quot;/>&lt;Option name=&quot;type&quot; type=&quot;QString&quot; value=&quot;collection&quot;/>&lt;/Option>&lt;/data_defined_properties>&lt;layer class=&quot;SimpleLine&quot; enabled=&quot;1&quot; id=&quot;{608d4f35-a8c3-4c37-9096-7f7388125a45}&quot; locked=&quot;0&quot; pass=&quot;0&quot;>&lt;Option type=&quot;Map&quot;>&lt;Option name=&quot;align_dash_pattern&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;capstyle&quot; type=&quot;QString&quot; value=&quot;square&quot;/>&lt;Option name=&quot;customdash&quot; type=&quot;QString&quot; value=&quot;5;2&quot;/>&lt;Option name=&quot;customdash_map_unit_scale&quot; type=&quot;QString&quot; value=&quot;3x:0,0,0,0,0,0&quot;/>&lt;Option name=&quot;customdash_unit&quot; type=&quot;QString&quot; value=&quot;MM&quot;/>&lt;Option name=&quot;dash_pattern_offset&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;dash_pattern_offset_map_unit_scale&quot; type=&quot;QString&quot; value=&quot;3x:0,0,0,0,0,0&quot;/>&lt;Option name=&quot;dash_pattern_offset_unit&quot; type=&quot;QString&quot; value=&quot;MM&quot;/>&lt;Option name=&quot;draw_inside_polygon&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;joinstyle&quot; type=&quot;QString&quot; value=&quot;bevel&quot;/>&lt;Option name=&quot;line_color&quot; type=&quot;QString&quot; value=&quot;60,60,60,255,rgb:0.2352941,0.2352941,0.2352941,1&quot;/>&lt;Option name=&quot;line_style&quot; type=&quot;QString&quot; value=&quot;solid&quot;/>&lt;Option name=&quot;line_width&quot; type=&quot;QString&quot; value=&quot;0.3&quot;/>&lt;Option name=&quot;line_width_unit&quot; type=&quot;QString&quot; value=&quot;MM&quot;/>&lt;Option name=&quot;offset&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;offset_map_unit_scale&quot; type=&quot;QString&quot; value=&quot;3x:0,0,0,0,0,0&quot;/>&lt;Option name=&quot;offset_unit&quot; type=&quot;QString&quot; value=&quot;MM&quot;/>&lt;Option name=&quot;ring_filter&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;trim_distance_end&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;trim_distance_end_map_unit_scale&quot; type=&quot;QString&quot; value=&quot;3x:0,0,0,0,0,0&quot;/>&lt;Option name=&quot;trim_distance_end_unit&quot; type=&quot;QString&quot; value=&quot;MM&quot;/>&lt;Option name=&quot;trim_distance_start&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;trim_distance_start_map_unit_scale&quot; type=&quot;QString&quot; value=&quot;3x:0,0,0,0,0,0&quot;/>&lt;Option name=&quot;trim_distance_start_unit&quot; type=&quot;QString&quot; value=&quot;MM&quot;/>&lt;Option name=&quot;tweak_dash_pattern_on_corners&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;use_custom_dash&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;width_map_unit_scale&quot; type=&quot;QString&quot; value=&quot;3x:0,0,0,0,0,0&quot;/>&lt;/Option>&lt;data_defined_properties>&lt;Option type=&quot;Map&quot;>&lt;Option name=&quot;name&quot; type=&quot;QString&quot; value=&quot;&quot;/>&lt;Option name=&quot;properties&quot;/>&lt;Option name=&quot;type&quot; type=&quot;QString&quot; value=&quot;collection&quot;/>&lt;/Option>&lt;/data_defined_properties>&lt;/layer>&lt;/symbol>"/>
+              <Option name="lineSymbol" type="QString" value="&lt;symbol alpha=&quot;1&quot; clip_to_extent=&quot;1&quot; force_rhr=&quot;0&quot; frame_rate=&quot;10&quot; is_animated=&quot;0&quot; name=&quot;symbol&quot; type=&quot;line&quot;>&lt;data_defined_properties>&lt;Option type=&quot;Map&quot;>&lt;Option name=&quot;name&quot; type=&quot;QString&quot; value=&quot;&quot;/>&lt;Option name=&quot;properties&quot;/>&lt;Option name=&quot;type&quot; type=&quot;QString&quot; value=&quot;collection&quot;/>&lt;/Option>&lt;/data_defined_properties>&lt;layer class=&quot;SimpleLine&quot; enabled=&quot;1&quot; id=&quot;{17e64d7b-16c5-4bef-b047-f0b8e68e9228}&quot; locked=&quot;0&quot; pass=&quot;0&quot;>&lt;Option type=&quot;Map&quot;>&lt;Option name=&quot;align_dash_pattern&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;capstyle&quot; type=&quot;QString&quot; value=&quot;square&quot;/>&lt;Option name=&quot;customdash&quot; type=&quot;QString&quot; value=&quot;5;2&quot;/>&lt;Option name=&quot;customdash_map_unit_scale&quot; type=&quot;QString&quot; value=&quot;3x:0,0,0,0,0,0&quot;/>&lt;Option name=&quot;customdash_unit&quot; type=&quot;QString&quot; value=&quot;MM&quot;/>&lt;Option name=&quot;dash_pattern_offset&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;dash_pattern_offset_map_unit_scale&quot; type=&quot;QString&quot; value=&quot;3x:0,0,0,0,0,0&quot;/>&lt;Option name=&quot;dash_pattern_offset_unit&quot; type=&quot;QString&quot; value=&quot;MM&quot;/>&lt;Option name=&quot;draw_inside_polygon&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;joinstyle&quot; type=&quot;QString&quot; value=&quot;bevel&quot;/>&lt;Option name=&quot;line_color&quot; type=&quot;QString&quot; value=&quot;60,60,60,255,rgb:0.2352941,0.2352941,0.2352941,1&quot;/>&lt;Option name=&quot;line_style&quot; type=&quot;QString&quot; value=&quot;solid&quot;/>&lt;Option name=&quot;line_width&quot; type=&quot;QString&quot; value=&quot;0.3&quot;/>&lt;Option name=&quot;line_width_unit&quot; type=&quot;QString&quot; value=&quot;MM&quot;/>&lt;Option name=&quot;offset&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;offset_map_unit_scale&quot; type=&quot;QString&quot; value=&quot;3x:0,0,0,0,0,0&quot;/>&lt;Option name=&quot;offset_unit&quot; type=&quot;QString&quot; value=&quot;MM&quot;/>&lt;Option name=&quot;ring_filter&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;trim_distance_end&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;trim_distance_end_map_unit_scale&quot; type=&quot;QString&quot; value=&quot;3x:0,0,0,0,0,0&quot;/>&lt;Option name=&quot;trim_distance_end_unit&quot; type=&quot;QString&quot; value=&quot;MM&quot;/>&lt;Option name=&quot;trim_distance_start&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;trim_distance_start_map_unit_scale&quot; type=&quot;QString&quot; value=&quot;3x:0,0,0,0,0,0&quot;/>&lt;Option name=&quot;trim_distance_start_unit&quot; type=&quot;QString&quot; value=&quot;MM&quot;/>&lt;Option name=&quot;tweak_dash_pattern_on_corners&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;use_custom_dash&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;width_map_unit_scale&quot; type=&quot;QString&quot; value=&quot;3x:0,0,0,0,0,0&quot;/>&lt;/Option>&lt;data_defined_properties>&lt;Option type=&quot;Map&quot;>&lt;Option name=&quot;name&quot; type=&quot;QString&quot; value=&quot;&quot;/>&lt;Option name=&quot;properties&quot;/>&lt;Option name=&quot;type&quot; type=&quot;QString&quot; value=&quot;collection&quot;/>&lt;/Option>&lt;/data_defined_properties>&lt;/layer>&lt;/symbol>"/>
               <Option name="minLength" type="double" value="0"/>
               <Option name="minLengthMapUnitScale" type="QString" value="3x:0,0,0,0,0,0"/>
               <Option name="minLengthUnit" type="QString" value="MM"/>
@@ -2847,18 +2847,237 @@
     </maplayer>
     <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" hasScaleBasedVisibilityFlag="0" layerType="Raster" legendPlaceholderImage="" maxScale="0" minScale="1e+08" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" type="raster">
       <extent>
-        <xmin>235530</xmin>
-        <ymin>3676050</ymin>
-        <xmax>310170</xmax>
-        <ymax>3716280</ymax>
+        <xmin>232050</xmin>
+        <ymin>3664920</ymin>
+        <xmax>313860</xmax>
+        <ymax>3718320</ymax>
       </extent>
       <wgs84extent>
-        <xmin>126.15143535611079528</xmin>
-        <ymin>33.19102343382793663</ymin>
-        <xmax>126.96331375402301944</xmax>
-        <ymax>33.56933307433933322</ymax>
+        <xmin>126.11338221952458127</xmin>
+        <ymin>33.08989941505077326</ymin>
+        <xmax>127.00515635666536696</xmax>
+        <ymax>33.58837201032144293</ymax>
       </wgs84extent>
-      <id>____________9b0cc91e_6be3_4606_b4a0_092b83763b15</id>
+      <id>____________33bb68fd_8b62_4767_a1ee_0aa068b4e63a</id>
+      <datasource>./aspect_degrees_30m.tif</datasource>
+      <layername>경사향 래스터 (도)</layername>
+      <srs>
+        <spatialrefsys nativeFormat="Wkt">
+          <wkt>PROJCRS["WGS 84 / UTM zone 52N",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["UTM zone 52N",METHOD["Transverse Mercator",ID["EPSG",9807]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",129,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["Scale factor at natural origin",0.9996,SCALEUNIT["unity",1],ID["EPSG",8805]],PARAMETER["False easting",500000,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["(E)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["(N)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Navigation and medium accuracy spatial referencing."],AREA["Between 126°E and 132°E, northern hemisphere between equator and 84°N, onshore and offshore. China. Indonesia. Japan. Democratic People's Republic of Korea (North Korea). Republic of Korea (South Korea). Russian Federation."],BBOX[0,126,84,132]],ID["EPSG",32652]]</wkt>
+          <proj4>+proj=utm +zone=52 +datum=WGS84 +units=m +no_defs</proj4>
+          <srsid>3136</srsid>
+          <srid>32652</srid>
+          <authid>EPSG:32652</authid>
+          <description>WGS 84 / UTM zone 52N</description>
+          <projectionacronym>utm</projectionacronym>
+          <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type>dataset</type>
+        <title></title>
+        <abstract></abstract>
+        <links/>
+        <dates/>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys nativeFormat="Wkt">
+            <wkt>PROJCRS["WGS 84 / UTM zone 52N",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["UTM zone 52N",METHOD["Transverse Mercator",ID["EPSG",9807]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",129,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["Scale factor at natural origin",0.9996,SCALEUNIT["unity",1],ID["EPSG",8805]],PARAMETER["False easting",500000,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["(E)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["(N)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Navigation and medium accuracy spatial referencing."],AREA["Between 126°E and 132°E, northern hemisphere between equator and 84°N, onshore and offshore. China. Indonesia. Japan. Democratic People's Republic of Korea (North Korea). Republic of Korea (South Korea). Russian Federation."],BBOX[0,126,84,132]],ID["EPSG",32652]]</wkt>
+            <proj4>+proj=utm +zone=52 +datum=WGS84 +units=m +no_defs</proj4>
+            <srsid>3136</srsid>
+            <srid>32652</srid>
+            <authid>EPSG:32652</authid>
+            <description>WGS 84 / UTM zone 52N</description>
+            <projectionacronym>utm</projectionacronym>
+            <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent/>
+      </resourceMetadata>
+      <provider>gdal</provider>
+      <noData>
+        <noDataList bandNo="1" useSrcNoData="1"/>
+      </noData>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+        <Private>0</Private>
+      </flags>
+      <temporal bandNumber="1" enabled="0" fetchMode="0" mode="0">
+        <fixedRange>
+          <start></start>
+          <end></end>
+        </fixedRange>
+      </temporal>
+      <elevation band="1" enabled="0" mode="RepresentsElevationSurface" symbology="Line" zoffset="0" zscale="1">
+        <data-defined-properties>
+          <Option type="Map">
+            <Option name="name" type="QString" value=""/>
+            <Option name="properties"/>
+            <Option name="type" type="QString" value="collection"/>
+          </Option>
+        </data-defined-properties>
+        <profileLineSymbol>
+          <symbol alpha="1" clip_to_extent="1" force_rhr="0" frame_rate="10" is_animated="0" name="" type="line">
+            <data_defined_properties>
+              <Option type="Map">
+                <Option name="name" type="QString" value=""/>
+                <Option name="properties"/>
+                <Option name="type" type="QString" value="collection"/>
+              </Option>
+            </data_defined_properties>
+            <layer class="SimpleLine" enabled="1" id="{cfb5d1f2-e629-47b2-b9c5-1ee07a80f3ca}" locked="0" pass="0">
+              <Option type="Map">
+                <Option name="align_dash_pattern" type="QString" value="0"/>
+                <Option name="capstyle" type="QString" value="square"/>
+                <Option name="customdash" type="QString" value="5;2"/>
+                <Option name="customdash_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
+                <Option name="customdash_unit" type="QString" value="MM"/>
+                <Option name="dash_pattern_offset" type="QString" value="0"/>
+                <Option name="dash_pattern_offset_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
+                <Option name="dash_pattern_offset_unit" type="QString" value="MM"/>
+                <Option name="draw_inside_polygon" type="QString" value="0"/>
+                <Option name="joinstyle" type="QString" value="bevel"/>
+                <Option name="line_color" type="QString" value="183,72,75,255,rgb:0.7176471,0.282353,0.2941177,1"/>
+                <Option name="line_style" type="QString" value="solid"/>
+                <Option name="line_width" type="QString" value="0.6"/>
+                <Option name="line_width_unit" type="QString" value="MM"/>
+                <Option name="offset" type="QString" value="0"/>
+                <Option name="offset_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
+                <Option name="offset_unit" type="QString" value="MM"/>
+                <Option name="ring_filter" type="QString" value="0"/>
+                <Option name="trim_distance_end" type="QString" value="0"/>
+                <Option name="trim_distance_end_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
+                <Option name="trim_distance_end_unit" type="QString" value="MM"/>
+                <Option name="trim_distance_start" type="QString" value="0"/>
+                <Option name="trim_distance_start_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
+                <Option name="trim_distance_start_unit" type="QString" value="MM"/>
+                <Option name="tweak_dash_pattern_on_corners" type="QString" value="0"/>
+                <Option name="use_custom_dash" type="QString" value="0"/>
+                <Option name="width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
+              </Option>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option name="name" type="QString" value=""/>
+                  <Option name="properties"/>
+                  <Option name="type" type="QString" value="collection"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </profileLineSymbol>
+        <profileFillSymbol>
+          <symbol alpha="1" clip_to_extent="1" force_rhr="0" frame_rate="10" is_animated="0" name="" type="fill">
+            <data_defined_properties>
+              <Option type="Map">
+                <Option name="name" type="QString" value=""/>
+                <Option name="properties"/>
+                <Option name="type" type="QString" value="collection"/>
+              </Option>
+            </data_defined_properties>
+            <layer class="SimpleFill" enabled="1" id="{42aff92a-b59a-4d6d-bd85-7295108cacc2}" locked="0" pass="0">
+              <Option type="Map">
+                <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
+                <Option name="color" type="QString" value="183,72,75,255,rgb:0.7176471,0.282353,0.2941177,1"/>
+                <Option name="joinstyle" type="QString" value="bevel"/>
+                <Option name="offset" type="QString" value="0,0"/>
+                <Option name="offset_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
+                <Option name="offset_unit" type="QString" value="MM"/>
+                <Option name="outline_color" type="QString" value="35,35,35,255,rgb:0.1372549,0.1372549,0.1372549,1"/>
+                <Option name="outline_style" type="QString" value="no"/>
+                <Option name="outline_width" type="QString" value="0.26"/>
+                <Option name="outline_width_unit" type="QString" value="MM"/>
+                <Option name="style" type="QString" value="solid"/>
+              </Option>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option name="name" type="QString" value=""/>
+                  <Option name="properties"/>
+                  <Option name="type" type="QString" value="collection"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </profileFillSymbol>
+      </elevation>
+      <customproperties>
+        <Option type="Map">
+          <Option name="identify/format" type="QString" value="Value"/>
+        </Option>
+      </customproperties>
+      <mapTip enabled="1"></mapTip>
+      <pipe-data-defined-properties>
+        <Option type="Map">
+          <Option name="name" type="QString" value=""/>
+          <Option name="properties"/>
+          <Option name="type" type="QString" value="collection"/>
+        </Option>
+      </pipe-data-defined-properties>
+      <pipe>
+        <provider>
+          <resampling enabled="false" maxOversampling="2" zoomedInResamplingMethod="nearestNeighbour" zoomedOutResamplingMethod="nearestNeighbour"/>
+        </provider>
+        <rasterrenderer alphaBand="-1" gradient="BlackToWhite" grayBand="1" nodataColor="" opacity="1" type="singlebandgray">
+          <rasterTransparency/>
+          <minMaxOrigin>
+            <limits>MinMax</limits>
+            <extent>WholeRaster</extent>
+            <statAccuracy>Estimated</statAccuracy>
+            <cumulativeCutLower>0.02</cumulativeCutLower>
+            <cumulativeCutUpper>0.98</cumulativeCutUpper>
+            <stdDevFactor>2</stdDevFactor>
+          </minMaxOrigin>
+          <contrastEnhancement>
+            <minValue>0</minValue>
+            <maxValue>359.99987792969</maxValue>
+            <algorithm>StretchToMinimumMaximum</algorithm>
+          </contrastEnhancement>
+          <rampLegendSettings direction="0" maximumLabel="" minimumLabel="" orientation="2" prefix="" suffix="" useContinuousLegend="1">
+            <numericFormat id="basic">
+              <Option type="Map">
+                <Option name="decimal_separator" type="invalid"/>
+                <Option name="decimals" type="int" value="6"/>
+                <Option name="rounding_type" type="int" value="0"/>
+                <Option name="show_plus" type="bool" value="false"/>
+                <Option name="show_thousand_separator" type="bool" value="true"/>
+                <Option name="show_trailing_zeros" type="bool" value="false"/>
+                <Option name="thousand_separator" type="invalid"/>
+              </Option>
+            </numericFormat>
+          </rampLegendSettings>
+        </rasterrenderer>
+        <brightnesscontrast brightness="0" contrast="0" gamma="1"/>
+        <huesaturation colorizeBlue="128" colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeStrength="100" grayscaleMode="0" invertColors="0" saturation="0"/>
+        <rasterresampler maxOversampling="2"/>
+        <resamplingStage>resamplingFilter</resamplingStage>
+      </pipe>
+      <blendMode>0</blendMode>
+      <legend/>
+    </maplayer>
+    <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" hasScaleBasedVisibilityFlag="0" layerType="Raster" legendPlaceholderImage="" maxScale="0" minScale="1e+08" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" type="raster">
+      <extent>
+        <xmin>232050</xmin>
+        <ymin>3664920</ymin>
+        <xmax>313860</xmax>
+        <ymax>3718320</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>126.11338221952458127</xmin>
+        <ymin>33.08989941505077326</ymin>
+        <xmax>127.00515635666536696</xmax>
+        <ymax>33.58837201032144293</ymax>
+      </wgs84extent>
+      <id>____________4cce3b73_2553_4c3f_8651_21821024f47a</id>
       <datasource>./slope_degrees_30m.tif</datasource>
       <layername>경사각 래스터 (도)</layername>
       <srs>
@@ -2936,7 +3155,7 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleLine" enabled="1" id="{94346a3d-26ac-4572-b121-cbe7097afeae}" locked="0" pass="0">
+            <layer class="SimpleLine" enabled="1" id="{eb622ef9-594a-40c2-81d9-99e13b03bc03}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="align_dash_pattern" type="QString" value="0"/>
                 <Option name="capstyle" type="QString" value="square"/>
@@ -2948,7 +3167,7 @@
                 <Option name="dash_pattern_offset_unit" type="QString" value="MM"/>
                 <Option name="draw_inside_polygon" type="QString" value="0"/>
                 <Option name="joinstyle" type="QString" value="bevel"/>
-                <Option name="line_color" type="QString" value="196,60,57,255,rgb:0.7686275,0.2352941,0.2235294,1"/>
+                <Option name="line_color" type="QString" value="152,125,183,255,rgb:0.5960785,0.4901961,0.7176471,1"/>
                 <Option name="line_style" type="QString" value="solid"/>
                 <Option name="line_width" type="QString" value="0.6"/>
                 <Option name="line_width_unit" type="QString" value="MM"/>
@@ -2985,10 +3204,10 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleFill" enabled="1" id="{a25720c7-2734-4709-942b-e808de3206a9}" locked="0" pass="0">
+            <layer class="SimpleFill" enabled="1" id="{de1a0d50-3002-4e1c-87d4-d9bc0b5c6ad4}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
-                <Option name="color" type="QString" value="196,60,57,255,rgb:0.7686275,0.2352941,0.2235294,1"/>
+                <Option name="color" type="QString" value="152,125,183,255,rgb:0.5960785,0.4901961,0.7176471,1"/>
                 <Option name="joinstyle" type="QString" value="bevel"/>
                 <Option name="offset" type="QString" value="0,0"/>
                 <Option name="offset_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
@@ -3039,7 +3258,7 @@
           </minMaxOrigin>
           <contrastEnhancement>
             <minValue>0</minValue>
-            <maxValue>64.42790222168</maxValue>
+            <maxValue>64.431793212891</maxValue>
             <algorithm>StretchToMinimumMaximum</algorithm>
           </contrastEnhancement>
           <rampLegendSettings direction="0" maximumLabel="" minimumLabel="" orientation="2" prefix="" suffix="" useContinuousLegend="1">
@@ -3077,7 +3296,7 @@
         <xmax>126.62095305458016981</xmax>
         <ymax>33.42326429559890499</ymax>
       </wgs84extent>
-      <id>____________OSM_6___e5f1dbd1_b78c_42df_b329_baf1c92c9c18</id>
+      <id>____________OSM_6___55bad793_9234_42b8_9074_3d02ed7f3029</id>
       <datasource>./shapefiles/reference_trails.shp</datasource>
       <layername>탐방로 참고 선형 · OSM 6코스</layername>
       <srs>
@@ -3282,7 +3501,7 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleLine" enabled="1" id="{e49f6c2c-0d68-4d22-bb69-125d4de3da37}" locked="0" pass="0">
+            <layer class="SimpleLine" enabled="1" id="{ec926883-56b8-4293-a010-d721cf676c04}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="align_dash_pattern" type="QString" value="0"/>
                 <Option name="capstyle" type="QString" value="square"/>
@@ -3406,7 +3625,7 @@
               <Option name="drawToAllParts" type="bool" value="false"/>
               <Option name="enabled" type="QString" value="0"/>
               <Option name="labelAnchorPoint" type="QString" value="point_on_exterior"/>
-              <Option name="lineSymbol" type="QString" value="&lt;symbol alpha=&quot;1&quot; clip_to_extent=&quot;1&quot; force_rhr=&quot;0&quot; frame_rate=&quot;10&quot; is_animated=&quot;0&quot; name=&quot;symbol&quot; type=&quot;line&quot;>&lt;data_defined_properties>&lt;Option type=&quot;Map&quot;>&lt;Option name=&quot;name&quot; type=&quot;QString&quot; value=&quot;&quot;/>&lt;Option name=&quot;properties&quot;/>&lt;Option name=&quot;type&quot; type=&quot;QString&quot; value=&quot;collection&quot;/>&lt;/Option>&lt;/data_defined_properties>&lt;layer class=&quot;SimpleLine&quot; enabled=&quot;1&quot; id=&quot;{084cb9cd-b93f-4ff6-bd1d-ecb959bec791}&quot; locked=&quot;0&quot; pass=&quot;0&quot;>&lt;Option type=&quot;Map&quot;>&lt;Option name=&quot;align_dash_pattern&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;capstyle&quot; type=&quot;QString&quot; value=&quot;square&quot;/>&lt;Option name=&quot;customdash&quot; type=&quot;QString&quot; value=&quot;5;2&quot;/>&lt;Option name=&quot;customdash_map_unit_scale&quot; type=&quot;QString&quot; value=&quot;3x:0,0,0,0,0,0&quot;/>&lt;Option name=&quot;customdash_unit&quot; type=&quot;QString&quot; value=&quot;MM&quot;/>&lt;Option name=&quot;dash_pattern_offset&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;dash_pattern_offset_map_unit_scale&quot; type=&quot;QString&quot; value=&quot;3x:0,0,0,0,0,0&quot;/>&lt;Option name=&quot;dash_pattern_offset_unit&quot; type=&quot;QString&quot; value=&quot;MM&quot;/>&lt;Option name=&quot;draw_inside_polygon&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;joinstyle&quot; type=&quot;QString&quot; value=&quot;bevel&quot;/>&lt;Option name=&quot;line_color&quot; type=&quot;QString&quot; value=&quot;60,60,60,255,rgb:0.2352941,0.2352941,0.2352941,1&quot;/>&lt;Option name=&quot;line_style&quot; type=&quot;QString&quot; value=&quot;solid&quot;/>&lt;Option name=&quot;line_width&quot; type=&quot;QString&quot; value=&quot;0.3&quot;/>&lt;Option name=&quot;line_width_unit&quot; type=&quot;QString&quot; value=&quot;MM&quot;/>&lt;Option name=&quot;offset&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;offset_map_unit_scale&quot; type=&quot;QString&quot; value=&quot;3x:0,0,0,0,0,0&quot;/>&lt;Option name=&quot;offset_unit&quot; type=&quot;QString&quot; value=&quot;MM&quot;/>&lt;Option name=&quot;ring_filter&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;trim_distance_end&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;trim_distance_end_map_unit_scale&quot; type=&quot;QString&quot; value=&quot;3x:0,0,0,0,0,0&quot;/>&lt;Option name=&quot;trim_distance_end_unit&quot; type=&quot;QString&quot; value=&quot;MM&quot;/>&lt;Option name=&quot;trim_distance_start&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;trim_distance_start_map_unit_scale&quot; type=&quot;QString&quot; value=&quot;3x:0,0,0,0,0,0&quot;/>&lt;Option name=&quot;trim_distance_start_unit&quot; type=&quot;QString&quot; value=&quot;MM&quot;/>&lt;Option name=&quot;tweak_dash_pattern_on_corners&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;use_custom_dash&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;width_map_unit_scale&quot; type=&quot;QString&quot; value=&quot;3x:0,0,0,0,0,0&quot;/>&lt;/Option>&lt;data_defined_properties>&lt;Option type=&quot;Map&quot;>&lt;Option name=&quot;name&quot; type=&quot;QString&quot; value=&quot;&quot;/>&lt;Option name=&quot;properties&quot;/>&lt;Option name=&quot;type&quot; type=&quot;QString&quot; value=&quot;collection&quot;/>&lt;/Option>&lt;/data_defined_properties>&lt;/layer>&lt;/symbol>"/>
+              <Option name="lineSymbol" type="QString" value="&lt;symbol alpha=&quot;1&quot; clip_to_extent=&quot;1&quot; force_rhr=&quot;0&quot; frame_rate=&quot;10&quot; is_animated=&quot;0&quot; name=&quot;symbol&quot; type=&quot;line&quot;>&lt;data_defined_properties>&lt;Option type=&quot;Map&quot;>&lt;Option name=&quot;name&quot; type=&quot;QString&quot; value=&quot;&quot;/>&lt;Option name=&quot;properties&quot;/>&lt;Option name=&quot;type&quot; type=&quot;QString&quot; value=&quot;collection&quot;/>&lt;/Option>&lt;/data_defined_properties>&lt;layer class=&quot;SimpleLine&quot; enabled=&quot;1&quot; id=&quot;{86a99bf1-1286-4683-9695-5aa51048394b}&quot; locked=&quot;0&quot; pass=&quot;0&quot;>&lt;Option type=&quot;Map&quot;>&lt;Option name=&quot;align_dash_pattern&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;capstyle&quot; type=&quot;QString&quot; value=&quot;square&quot;/>&lt;Option name=&quot;customdash&quot; type=&quot;QString&quot; value=&quot;5;2&quot;/>&lt;Option name=&quot;customdash_map_unit_scale&quot; type=&quot;QString&quot; value=&quot;3x:0,0,0,0,0,0&quot;/>&lt;Option name=&quot;customdash_unit&quot; type=&quot;QString&quot; value=&quot;MM&quot;/>&lt;Option name=&quot;dash_pattern_offset&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;dash_pattern_offset_map_unit_scale&quot; type=&quot;QString&quot; value=&quot;3x:0,0,0,0,0,0&quot;/>&lt;Option name=&quot;dash_pattern_offset_unit&quot; type=&quot;QString&quot; value=&quot;MM&quot;/>&lt;Option name=&quot;draw_inside_polygon&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;joinstyle&quot; type=&quot;QString&quot; value=&quot;bevel&quot;/>&lt;Option name=&quot;line_color&quot; type=&quot;QString&quot; value=&quot;60,60,60,255,rgb:0.2352941,0.2352941,0.2352941,1&quot;/>&lt;Option name=&quot;line_style&quot; type=&quot;QString&quot; value=&quot;solid&quot;/>&lt;Option name=&quot;line_width&quot; type=&quot;QString&quot; value=&quot;0.3&quot;/>&lt;Option name=&quot;line_width_unit&quot; type=&quot;QString&quot; value=&quot;MM&quot;/>&lt;Option name=&quot;offset&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;offset_map_unit_scale&quot; type=&quot;QString&quot; value=&quot;3x:0,0,0,0,0,0&quot;/>&lt;Option name=&quot;offset_unit&quot; type=&quot;QString&quot; value=&quot;MM&quot;/>&lt;Option name=&quot;ring_filter&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;trim_distance_end&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;trim_distance_end_map_unit_scale&quot; type=&quot;QString&quot; value=&quot;3x:0,0,0,0,0,0&quot;/>&lt;Option name=&quot;trim_distance_end_unit&quot; type=&quot;QString&quot; value=&quot;MM&quot;/>&lt;Option name=&quot;trim_distance_start&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;trim_distance_start_map_unit_scale&quot; type=&quot;QString&quot; value=&quot;3x:0,0,0,0,0,0&quot;/>&lt;Option name=&quot;trim_distance_start_unit&quot; type=&quot;QString&quot; value=&quot;MM&quot;/>&lt;Option name=&quot;tweak_dash_pattern_on_corners&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;use_custom_dash&quot; type=&quot;QString&quot; value=&quot;0&quot;/>&lt;Option name=&quot;width_map_unit_scale&quot; type=&quot;QString&quot; value=&quot;3x:0,0,0,0,0,0&quot;/>&lt;/Option>&lt;data_defined_properties>&lt;Option type=&quot;Map&quot;>&lt;Option name=&quot;name&quot; type=&quot;QString&quot; value=&quot;&quot;/>&lt;Option name=&quot;properties&quot;/>&lt;Option name=&quot;type&quot; type=&quot;QString&quot; value=&quot;collection&quot;/>&lt;/Option>&lt;/data_defined_properties>&lt;/layer>&lt;/symbol>"/>
               <Option name="minLength" type="double" value="0"/>
               <Option name="minLengthMapUnitScale" type="QString" value="3x:0,0,0,0,0,0"/>
               <Option name="minLengthUnit" type="QString" value="MM"/>
@@ -3516,20 +3735,20 @@
     </maplayer>
     <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" layerType="Vector" legendPlaceholderImage="" maxScale="0" minScale="100000000" readOnly="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="MultiPolygon">
       <extent>
-        <xmin>235548.38484700996195897</xmin>
-        <ymin>3676065.86176209198310971</ymin>
-        <xmax>310144.14323575410526246</xmax>
-        <ymax>3716264.18860608385875821</ymax>
+        <xmin>232076.87145521154161543</xmin>
+        <ymin>3664930.03554512606933713</ymin>
+        <xmax>313850.74552768736612052</xmax>
+        <ymax>3718291.27007430465891957</ymax>
       </extent>
       <wgs84extent>
-        <xmin>126.15163784116447232</xmin>
-        <ymin>33.19117082539558083</ymin>
-        <xmax>126.96303317601346805</xmax>
-        <ymax>33.56918595141973327</ymax>
+        <xmin>126.11368000386831056</xmin>
+        <ymin>33.08999645158369418</ymin>
+        <xmax>127.0050551844460216</xmax>
+        <ymax>33.5881114230509823</ymax>
       </wgs84extent>
-      <id>__________________________f2ab0aad_8cdc_4bab_8416_5e4886a75c54</id>
+      <id>____________________2_km______c9cfeb8a_f852_405b_9406_4d5a563de2a7</id>
       <datasource>./shapefiles/study_boundary.shp</datasource>
-      <layername>분석 범위: 제주 외곽선과 겹치는 레이더 격자</layername>
+      <layername>분석 범위: 육지·부속섬 셀과 해안 2 km 완충 셀</layername>
       <srs>
         <spatialrefsys nativeFormat="Wkt">
           <wkt>PROJCRS["WGS 84 / UTM zone 52N",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["UTM zone 52N",METHOD["Transverse Mercator",ID["EPSG",9807]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",129,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["Scale factor at natural origin",0.9996,SCALEUNIT["unity",1],ID["EPSG",8805]],PARAMETER["False easting",500000,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["(E)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["(N)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Navigation and medium accuracy spatial referencing."],AREA["Between 126°E and 132°E, northern hemisphere between equator and 84°N, onshore and offshore. China. Indonesia. Japan. Democratic People's Republic of Korea (North Korea). Republic of Korea (South Korea). Russian Federation."],BBOX[0,126,84,132]],ID["EPSG",32652]]</wkt>
@@ -3732,7 +3951,7 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleFill" enabled="1" id="{af60024c-c447-4749-a85e-ea2714f2f613}" locked="0" pass="0">
+            <layer class="SimpleFill" enabled="1" id="{16535c85-a45c-410a-9ac2-32dd83ec4cb3}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
                 <Option name="color" type="QString" value="0,0,255,255,rgb:0,0,1,1"/>
@@ -3841,225 +4060,6 @@
       <previewExpression></previewExpression>
       <mapTip enabled="1"></mapTip>
     </maplayer>
-    <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" hasScaleBasedVisibilityFlag="0" layerType="Raster" legendPlaceholderImage="" maxScale="0" minScale="1e+08" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" styleCategories="AllStyleCategories" type="raster">
-      <extent>
-        <xmin>235530</xmin>
-        <ymin>3676050</ymin>
-        <xmax>310170</xmax>
-        <ymax>3716280</ymax>
-      </extent>
-      <wgs84extent>
-        <xmin>126.15143535611079528</xmin>
-        <ymin>33.19102343382793663</ymin>
-        <xmax>126.96331375402301944</xmax>
-        <ymax>33.56933307433933322</ymax>
-      </wgs84extent>
-      <id>____________c7e080f9_a6cb_4a64_a92d_98f7a5c76913</id>
-      <datasource>./aspect_degrees_30m.tif</datasource>
-      <layername>경사향 래스터 (도)</layername>
-      <srs>
-        <spatialrefsys nativeFormat="Wkt">
-          <wkt>PROJCRS["WGS 84 / UTM zone 52N",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["UTM zone 52N",METHOD["Transverse Mercator",ID["EPSG",9807]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",129,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["Scale factor at natural origin",0.9996,SCALEUNIT["unity",1],ID["EPSG",8805]],PARAMETER["False easting",500000,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["(E)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["(N)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Navigation and medium accuracy spatial referencing."],AREA["Between 126°E and 132°E, northern hemisphere between equator and 84°N, onshore and offshore. China. Indonesia. Japan. Democratic People's Republic of Korea (North Korea). Republic of Korea (South Korea). Russian Federation."],BBOX[0,126,84,132]],ID["EPSG",32652]]</wkt>
-          <proj4>+proj=utm +zone=52 +datum=WGS84 +units=m +no_defs</proj4>
-          <srsid>3136</srsid>
-          <srid>32652</srid>
-          <authid>EPSG:32652</authid>
-          <description>WGS 84 / UTM zone 52N</description>
-          <projectionacronym>utm</projectionacronym>
-          <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
-          <geographicflag>false</geographicflag>
-        </spatialrefsys>
-      </srs>
-      <resourceMetadata>
-        <identifier></identifier>
-        <parentidentifier></parentidentifier>
-        <language></language>
-        <type>dataset</type>
-        <title></title>
-        <abstract></abstract>
-        <links/>
-        <dates/>
-        <fees></fees>
-        <encoding></encoding>
-        <crs>
-          <spatialrefsys nativeFormat="Wkt">
-            <wkt>PROJCRS["WGS 84 / UTM zone 52N",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["UTM zone 52N",METHOD["Transverse Mercator",ID["EPSG",9807]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",129,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["Scale factor at natural origin",0.9996,SCALEUNIT["unity",1],ID["EPSG",8805]],PARAMETER["False easting",500000,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["(E)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["(N)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Navigation and medium accuracy spatial referencing."],AREA["Between 126°E and 132°E, northern hemisphere between equator and 84°N, onshore and offshore. China. Indonesia. Japan. Democratic People's Republic of Korea (North Korea). Republic of Korea (South Korea). Russian Federation."],BBOX[0,126,84,132]],ID["EPSG",32652]]</wkt>
-            <proj4>+proj=utm +zone=52 +datum=WGS84 +units=m +no_defs</proj4>
-            <srsid>3136</srsid>
-            <srid>32652</srid>
-            <authid>EPSG:32652</authid>
-            <description>WGS 84 / UTM zone 52N</description>
-            <projectionacronym>utm</projectionacronym>
-            <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
-            <geographicflag>false</geographicflag>
-          </spatialrefsys>
-        </crs>
-        <extent/>
-      </resourceMetadata>
-      <provider>gdal</provider>
-      <noData>
-        <noDataList bandNo="1" useSrcNoData="1"/>
-      </noData>
-      <map-layer-style-manager current="default">
-        <map-layer-style name="default"/>
-      </map-layer-style-manager>
-      <flags>
-        <Identifiable>1</Identifiable>
-        <Removable>1</Removable>
-        <Searchable>1</Searchable>
-        <Private>0</Private>
-      </flags>
-      <temporal bandNumber="1" enabled="0" fetchMode="0" mode="0">
-        <fixedRange>
-          <start></start>
-          <end></end>
-        </fixedRange>
-      </temporal>
-      <elevation band="1" enabled="0" mode="RepresentsElevationSurface" symbology="Line" zoffset="0" zscale="1">
-        <data-defined-properties>
-          <Option type="Map">
-            <Option name="name" type="QString" value=""/>
-            <Option name="properties"/>
-            <Option name="type" type="QString" value="collection"/>
-          </Option>
-        </data-defined-properties>
-        <profileLineSymbol>
-          <symbol alpha="1" clip_to_extent="1" force_rhr="0" frame_rate="10" is_animated="0" name="" type="line">
-            <data_defined_properties>
-              <Option type="Map">
-                <Option name="name" type="QString" value=""/>
-                <Option name="properties"/>
-                <Option name="type" type="QString" value="collection"/>
-              </Option>
-            </data_defined_properties>
-            <layer class="SimpleLine" enabled="1" id="{04d3787b-0b80-44ab-8825-9d211c453376}" locked="0" pass="0">
-              <Option type="Map">
-                <Option name="align_dash_pattern" type="QString" value="0"/>
-                <Option name="capstyle" type="QString" value="square"/>
-                <Option name="customdash" type="QString" value="5;2"/>
-                <Option name="customdash_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
-                <Option name="customdash_unit" type="QString" value="MM"/>
-                <Option name="dash_pattern_offset" type="QString" value="0"/>
-                <Option name="dash_pattern_offset_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
-                <Option name="dash_pattern_offset_unit" type="QString" value="MM"/>
-                <Option name="draw_inside_polygon" type="QString" value="0"/>
-                <Option name="joinstyle" type="QString" value="bevel"/>
-                <Option name="line_color" type="QString" value="225,89,137,255,rgb:0.8823529,0.3490196,0.5372549,1"/>
-                <Option name="line_style" type="QString" value="solid"/>
-                <Option name="line_width" type="QString" value="0.6"/>
-                <Option name="line_width_unit" type="QString" value="MM"/>
-                <Option name="offset" type="QString" value="0"/>
-                <Option name="offset_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
-                <Option name="offset_unit" type="QString" value="MM"/>
-                <Option name="ring_filter" type="QString" value="0"/>
-                <Option name="trim_distance_end" type="QString" value="0"/>
-                <Option name="trim_distance_end_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
-                <Option name="trim_distance_end_unit" type="QString" value="MM"/>
-                <Option name="trim_distance_start" type="QString" value="0"/>
-                <Option name="trim_distance_start_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
-                <Option name="trim_distance_start_unit" type="QString" value="MM"/>
-                <Option name="tweak_dash_pattern_on_corners" type="QString" value="0"/>
-                <Option name="use_custom_dash" type="QString" value="0"/>
-                <Option name="width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
-              </Option>
-              <data_defined_properties>
-                <Option type="Map">
-                  <Option name="name" type="QString" value=""/>
-                  <Option name="properties"/>
-                  <Option name="type" type="QString" value="collection"/>
-                </Option>
-              </data_defined_properties>
-            </layer>
-          </symbol>
-        </profileLineSymbol>
-        <profileFillSymbol>
-          <symbol alpha="1" clip_to_extent="1" force_rhr="0" frame_rate="10" is_animated="0" name="" type="fill">
-            <data_defined_properties>
-              <Option type="Map">
-                <Option name="name" type="QString" value=""/>
-                <Option name="properties"/>
-                <Option name="type" type="QString" value="collection"/>
-              </Option>
-            </data_defined_properties>
-            <layer class="SimpleFill" enabled="1" id="{2c687312-75bf-41b9-a1cc-5aed631d07e0}" locked="0" pass="0">
-              <Option type="Map">
-                <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
-                <Option name="color" type="QString" value="225,89,137,255,rgb:0.8823529,0.3490196,0.5372549,1"/>
-                <Option name="joinstyle" type="QString" value="bevel"/>
-                <Option name="offset" type="QString" value="0,0"/>
-                <Option name="offset_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
-                <Option name="offset_unit" type="QString" value="MM"/>
-                <Option name="outline_color" type="QString" value="35,35,35,255,rgb:0.1372549,0.1372549,0.1372549,1"/>
-                <Option name="outline_style" type="QString" value="no"/>
-                <Option name="outline_width" type="QString" value="0.26"/>
-                <Option name="outline_width_unit" type="QString" value="MM"/>
-                <Option name="style" type="QString" value="solid"/>
-              </Option>
-              <data_defined_properties>
-                <Option type="Map">
-                  <Option name="name" type="QString" value=""/>
-                  <Option name="properties"/>
-                  <Option name="type" type="QString" value="collection"/>
-                </Option>
-              </data_defined_properties>
-            </layer>
-          </symbol>
-        </profileFillSymbol>
-      </elevation>
-      <customproperties>
-        <Option type="Map">
-          <Option name="identify/format" type="QString" value="Value"/>
-        </Option>
-      </customproperties>
-      <mapTip enabled="1"></mapTip>
-      <pipe-data-defined-properties>
-        <Option type="Map">
-          <Option name="name" type="QString" value=""/>
-          <Option name="properties"/>
-          <Option name="type" type="QString" value="collection"/>
-        </Option>
-      </pipe-data-defined-properties>
-      <pipe>
-        <provider>
-          <resampling enabled="false" maxOversampling="2" zoomedInResamplingMethod="nearestNeighbour" zoomedOutResamplingMethod="nearestNeighbour"/>
-        </provider>
-        <rasterrenderer alphaBand="-1" gradient="BlackToWhite" grayBand="1" nodataColor="" opacity="1" type="singlebandgray">
-          <rasterTransparency/>
-          <minMaxOrigin>
-            <limits>MinMax</limits>
-            <extent>WholeRaster</extent>
-            <statAccuracy>Estimated</statAccuracy>
-            <cumulativeCutLower>0.02</cumulativeCutLower>
-            <cumulativeCutUpper>0.98</cumulativeCutUpper>
-            <stdDevFactor>2</stdDevFactor>
-          </minMaxOrigin>
-          <contrastEnhancement>
-            <minValue>0</minValue>
-            <maxValue>359.99981689453</maxValue>
-            <algorithm>StretchToMinimumMaximum</algorithm>
-          </contrastEnhancement>
-          <rampLegendSettings direction="0" maximumLabel="" minimumLabel="" orientation="2" prefix="" suffix="" useContinuousLegend="1">
-            <numericFormat id="basic">
-              <Option type="Map">
-                <Option name="decimal_separator" type="invalid"/>
-                <Option name="decimals" type="int" value="6"/>
-                <Option name="rounding_type" type="int" value="0"/>
-                <Option name="show_plus" type="bool" value="false"/>
-                <Option name="show_thousand_separator" type="bool" value="true"/>
-                <Option name="show_trailing_zeros" type="bool" value="false"/>
-                <Option name="thousand_separator" type="invalid"/>
-              </Option>
-            </numericFormat>
-          </rampLegendSettings>
-        </rasterrenderer>
-        <brightnesscontrast brightness="0" contrast="0" gamma="1"/>
-        <huesaturation colorizeBlue="128" colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeStrength="100" grayscaleMode="0" invertColors="0" saturation="0"/>
-        <rasterresampler maxOversampling="2"/>
-        <resamplingStage>resamplingFilter</resamplingStage>
-      </pipe>
-      <blendMode>0</blendMode>
-      <legend/>
-    </maplayer>
     <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" layerType="Vector" legendPlaceholderImage="" maxScale="0" minScale="100000000" readOnly="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="MultiPolygon">
       <extent>
         <xmin>262866.79523110471200198</xmin>
@@ -4073,7 +4073,7 @@
         <xmax>126.63326406843837901</xmax>
         <ymax>33.43024915215546855</ymax>
       </wgs84extent>
-      <id>___________f98dd312_7a99_4941_9a07_600731e180c7</id>
+      <id>___________b965dfb1_5fa5_4683_8779_bfc11dbe4d1d</id>
       <datasource>./shapefiles/reference_park.shp</datasource>
       <layername>국립공원 참고 경계</layername>
       <srs>
@@ -4278,7 +4278,7 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleFill" enabled="1" id="{f133bbe3-69de-4e4e-993f-1414e12aca73}" locked="0" pass="0">
+            <layer class="SimpleFill" enabled="1" id="{67b2c73b-090c-4d66-abb8-08c9ebdeb2ea}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
                 <Option name="color" type="QString" value="0,0,255,255,rgb:0,0,1,1"/>
@@ -4400,14 +4400,14 @@
     </maplayer>
   </projectlayers>
   <layerorder>
-    <layer id="__________OSM_______b1bc26c3_5989_4fc7_903a_b1700250533a"/>
-    <layer id="____________OSM_6___e5f1dbd1_b78c_42df_b329_baf1c92c9c18"/>
-    <layer id="__________________________f2ab0aad_8cdc_4bab_8416_5e4886a75c54"/>
-    <layer id="______500m_____________7_518__7ef12aef_93f9_433b_851b_790328a0941b"/>
-    <layer id="_______Copernicus_30m___Horn_96e109d4_7c0a_44f0_8cee_165a908171fc"/>
-    <layer id="____Esri_________28a9af7e_ffab_44cb_8c14_21693e721797"/>
-    <layer id="___________f98dd312_7a99_4941_9a07_600731e180c7"/>
-    <layer id="__________7f6e6c1e_d13f_4230_beee_4fc018c5f382"/>
+    <layer id="__________OSM_______8a60e469_8a23_4043_8d2d_d73d52485927"/>
+    <layer id="____________OSM_6___55bad793_9234_42b8_9074_3d02ed7f3029"/>
+    <layer id="____________________2_km______c9cfeb8a_f852_405b_9406_4d5a563de2a7"/>
+    <layer id="______500m_____________9_449______7_518_____136______2_km____1_795__56198663_8c7e_4889_aef1_73e2aa0c594c"/>
+    <layer id="_______Copernicus_30m___Horn_f2c334b4_b340_44d3_9525_45db57dc69f5"/>
+    <layer id="____Esri_________712106bf_2849_4139_b032_b6d893385f2d"/>
+    <layer id="___________b965dfb1_5fa5_4683_8779_bfc11dbe4d1d"/>
+    <layer id="__________72804743_9854_4db0_87d6_bf048877ffb1"/>
   </layerorder>
   <labelEngineSettings/>
   <properties name="properties">
@@ -4471,10 +4471,10 @@
     <abstract></abstract>
     <links/>
     <dates>
-      <date type="Created" value="2026-10-15T07:44:28"/>
+      <date type="Created" value="2026-10-17T15:58:47"/>
     </dates>
-    <author>Mountain Challenge Project</author>
-    <creation>2026-10-15T07:44:28</creation>
+    <author>서목원</author>
+    <creation>2026-10-17T15:58:47</creation>
   </projectMetadata>
   <Annotations/>
   <Layouts>
@@ -4490,7 +4490,7 @@
               <Option name="type" type="QString" value="collection"/>
             </Option>
           </data_defined_properties>
-          <layer class="SimpleFill" enabled="1" id="{8f7c2d32-55c1-49ea-b8bf-f505ce6a3cab}" locked="0" pass="0">
+          <layer class="SimpleFill" enabled="1" id="{8c3c9211-4a0e-4ab1-8381-44e3d7426579}" locked="0" pass="0">
             <Option type="Map">
               <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
               <Option name="color" type="QString" value="255,255,255,255,rgb:1,1,1,1"/>
@@ -4513,7 +4513,7 @@
             </data_defined_properties>
           </layer>
         </symbol>
-        <LayoutItem background="true" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="0,0,mm" positionLock="false" positionOnPage="0,0,mm" referencePoint="0" size="300,290,mm" templateUuid="{c3c36d7c-cec9-41ef-a1f5-df8d6369aa11}" type="65638" uuid="{c3c36d7c-cec9-41ef-a1f5-df8d6369aa11}" visibility="1" zValue="0">
+        <LayoutItem background="true" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="0,0,mm" positionLock="false" positionOnPage="0,0,mm" referencePoint="0" size="300,290,mm" templateUuid="{450c244e-937f-4af0-bf14-fee199bf2132}" type="65638" uuid="{450c244e-937f-4af0-bf14-fee199bf2132}" visibility="1" zValue="0">
           <FrameColor alpha="255" blue="0" green="0" red="0"/>
           <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
           <LayoutObject>
@@ -4536,7 +4536,7 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleFill" enabled="1" id="{a328df47-69e1-489f-bf0d-4dc96235c9a3}" locked="0" pass="0">
+            <layer class="SimpleFill" enabled="1" id="{ac0817ba-2c5b-42f5-87a4-7e5eb909a64c}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
                 <Option name="color" type="QString" value="255,255,255,255,rgb:1,1,1,1"/>
@@ -4562,7 +4562,7 @@
         </LayoutItem>
         <GuideCollection visible="1"/>
       </PageCollection>
-      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="produced using Copernicus WorldDEM-30 © DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights reserved." marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="9,274,mm" positionLock="false" positionOnPage="9,274,mm" referencePoint="0" size="284,6,mm" templateUuid="{5598e39d-7bb6-41a2-bd67-3a8208031631}" type="65641" uuid="{5598e39d-7bb6-41a2-bd67-3a8208031631}" valign="32" visibility="1" zValue="39">
+      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="produced using Copernicus WorldDEM-30 © DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights reserved." marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="9,274,mm" positionLock="false" positionOnPage="9,274,mm" referencePoint="0" size="284,6,mm" templateUuid="{27bdc1ff-d989-4b86-8c3f-894715f3f23f}" type="65641" uuid="{27bdc1ff-d989-4b86-8c3f-894715f3f23f}" valign="32" visibility="1" zValue="39">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -4624,7 +4624,7 @@
           </dd_properties>
         </text-style>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="경사 등급은 위험등급이 아닙니다. 격자는 기상청 레이더 합성 격자 정의(WGS84 LCC, 2026-10-15 검증)와 일치. 외곽선은 소축척이며 해안 셀에 바다가 포함될 수 있습니다.  작성 2026-10-15" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="9,266,mm" positionLock="false" positionOnPage="9,266,mm" referencePoint="0" size="284,6,mm" templateUuid="{d3d7cc61-9f7c-40aa-ac86-d46f33ba22cb}" type="65641" uuid="{d3d7cc61-9f7c-40aa-ac86-d46f33ba22cb}" valign="32" visibility="1" zValue="38">
+      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="경사 등급은 위험등급이 아닙니다. 격자는 기상청 레이더 합성 격자 정의(WGS84 LCC, 2026-10-15 검증)와 일치. 외곽선은 소축척이며 해안 셀에 바다가 포함될 수 있습니다.  작성 2026-10-15" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="9,266,mm" positionLock="false" positionOnPage="9,266,mm" referencePoint="0" size="284,6,mm" templateUuid="{8a76e76f-6823-4fbe-a229-d69279a37326}" type="65641" uuid="{8a76e76f-6823-4fbe-a229-d69279a37326}" valign="32" visibility="1" zValue="38">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -4686,7 +4686,7 @@
           </dd_properties>
         </text-style>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="고도: Copernicus GLO-30 (2021 배포본)  |  배경: Esri, Vantor, Earthstar Geographics, GIS User Community" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="9,259,mm" positionLock="false" positionOnPage="9,259,mm" referencePoint="0" size="284,6,mm" templateUuid="{458baca3-7d27-44b8-99ab-20bd2ddbe09f}" type="65641" uuid="{458baca3-7d27-44b8-99ab-20bd2ddbe09f}" valign="32" visibility="1" zValue="37">
+      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="고도: Copernicus GLO-30 (2021 배포본)  |  배경: Esri, Vantor, Earthstar Geographics, GIS User Community" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="9,259,mm" positionLock="false" positionOnPage="9,259,mm" referencePoint="0" size="284,6,mm" templateUuid="{5fd1f0c9-08d6-420a-94f7-5b3737c79f85}" type="65641" uuid="{5fd1f0c9-08d6-420a-94f7-5b3737c79f85}" valign="32" visibility="1" zValue="37">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -4748,7 +4748,7 @@
           </dd_properties>
         </text-style>
       </LayoutItem>
-      <LayoutItem background="true" blendMode="0" drawCanvasItems="true" enableZRange="0" excludeFromExports="0" followPreset="false" followPresetName="" frame="true" frameJoinStyle="miter" groupUuid="" id="" isTemporal="0" itemRotation="0" keepLayerSet="true" labelMargin="0,mm" mapFlags="0" mapRotation="0" opacity="1" outlineWidthM="0.3,mm" position="234,212.8,mm" positionLock="false" positionOnPage="234,212.8,mm" referencePoint="0" size="57,57,mm" templateUuid="{27c19a05-6539-438f-a0a6-45d3c5013acb}" type="65639" uuid="{27c19a05-6539-438f-a0a6-45d3c5013acb}" visibility="1" zValue="36">
+      <LayoutItem background="true" blendMode="0" drawCanvasItems="true" enableZRange="0" excludeFromExports="0" followPreset="false" followPresetName="" frame="true" frameJoinStyle="miter" groupUuid="" id="" isTemporal="0" itemRotation="0" keepLayerSet="true" labelMargin="0,mm" mapFlags="0" mapRotation="0" opacity="1" outlineWidthM="0.3,mm" position="234,243.4,mm" positionLock="false" positionOnPage="234,243.4,mm" referencePoint="0" size="57,57,mm" templateUuid="{a47cc285-b446-4498-84a0-ac80a16b5612}" type="65639" uuid="{a47cc285-b446-4498-84a0-ac80a16b5612}" visibility="1" zValue="36">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -4778,12 +4778,12 @@
           </spatialrefsys>
         </crs>
         <LayerSet>
-          <Layer name="제주올레 코스 · OSM 참고 선형" provider="ogr" source="./shapefiles/reference_olle.shp">__________OSM_______b1bc26c3_5989_4fc7_903a_b1700250533a</Layer>
-          <Layer name="탐방로 참고 선형 · OSM 6코스" provider="ogr" source="./shapefiles/reference_trails.shp">____________OSM_6___e5f1dbd1_b78c_42df_b329_baf1c92c9c18</Layer>
-          <Layer name="분석 범위: 제주 외곽선과 겹치는 레이더 격자" provider="ogr" source="./shapefiles/study_boundary.shp">__________________________f2ab0aad_8cdc_4bab_8416_5e4886a75c54</Layer>
-          <Layer name="제주 전역 500m 레이더 격자 · 통계 7,518개" provider="ogr" source="./shapefiles/grid_slope_500m.shp">______500m_____________7_518__7ef12aef_93f9_433b_851b_790328a0941b</Layer>
-          <Layer name="경사 등급: Copernicus 30m / Horn" provider="ogr" source="./shapefiles/slope_classes.shp">_______Copernicus_30m___Horn_96e109d4_7c0a_44f0_8cee_165a908171fc</Layer>
-          <Layer name="배경: Esri 위성·항공영상" provider="gdal" source="./satellite_background.tif">____Esri_________28a9af7e_ffab_44cb_8c14_21693e721797</Layer>
+          <Layer name="제주올레 코스 · OSM 참고 선형" provider="ogr" source="C:\Users\mw595\Documents\GitHub\Halla-GeoData\outputs\jeju_slope\shapefiles\reference_olle.shp">__________OSM_______8a60e469_8a23_4043_8d2d_d73d52485927</Layer>
+          <Layer name="탐방로 참고 선형 · OSM 6코스" provider="ogr" source="C:\Users\mw595\Documents\GitHub\Halla-GeoData\outputs\jeju_slope\shapefiles\reference_trails.shp">____________OSM_6___55bad793_9234_42b8_9074_3d02ed7f3029</Layer>
+          <Layer name="분석 범위: 육지·부속섬 셀과 해안 2 km 완충 셀" provider="ogr" source="C:\Users\mw595\Documents\GitHub\Halla-GeoData\outputs\jeju_slope\shapefiles\study_boundary.shp">____________________2_km______c9cfeb8a_f852_405b_9406_4d5a563de2a7</Layer>
+          <Layer name="제주 전역 500m 레이더 격자 · 통계 9,449개 (육지 7,518 · 섬 136 · 해안 2 km 완충 1,795)" provider="ogr" source="C:\Users\mw595\Documents\GitHub\Halla-GeoData\outputs\jeju_slope\shapefiles\grid_slope_500m.shp">______500m_____________9_449______7_518_____136______2_km____1_795__56198663_8c7e_4889_aef1_73e2aa0c594c</Layer>
+          <Layer name="경사 등급: Copernicus 30m / Horn" provider="ogr" source="C:\Users\mw595\Documents\GitHub\Halla-GeoData\outputs\jeju_slope\shapefiles\slope_classes.shp">_______Copernicus_30m___Horn_f2c334b4_b340_44d3_9525_45db57dc69f5</Layer>
+          <Layer name="배경: Esri 위성·항공영상" provider="gdal" source="C:\Users\mw595\Documents\GitHub\Halla-GeoData\outputs\jeju_slope\satellite_background.tif">____Esri_________712106bf_2849_4139_b032_b6d893385f2d</Layer>
         </LayerSet>
         <AtlasMap atlasDriven="0" margin="0.10000000000000001" scalingMode="2"/>
         <labelBlockingItems/>
@@ -4792,7 +4792,7 @@
         </atlasClippingSettings>
         <itemClippingSettings clipSource="" clippingType="1" enabled="0" forceLabelsInside="0"/>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="한라산 확대" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="234,204.8,mm" positionLock="false" positionOnPage="234,204.8,mm" referencePoint="0" size="62,7,mm" templateUuid="{0bcf7b03-b0d5-403e-9194-a3684ebcbbbd}" type="65641" uuid="{0bcf7b03-b0d5-403e-9194-a3684ebcbbbd}" valign="32" visibility="1" zValue="35">
+      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="한라산 확대" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="234,235.4,mm" positionLock="false" positionOnPage="234,235.4,mm" referencePoint="0" size="62,7,mm" templateUuid="{da560c38-db19-4e3b-9b1d-de3b175e0fc8}" type="65641" uuid="{da560c38-db19-4e3b-9b1d-de3b175e0fc8}" valign="32" visibility="1" zValue="35">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -4854,7 +4854,7 @@
           </dd_properties>
         </text-style>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="수목·구조물 영향 포함 가능  ·  해안 셀은 바다 픽셀 포함 가능  ·  원격탐사 기반 참고 분석" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="9,247.8,mm" positionLock="false" positionOnPage="9,247.8,mm" referencePoint="0" size="215,8,mm" templateUuid="{38e49f67-7bf6-4c76-8575-7adee92d85d1}" type="65641" uuid="{38e49f67-7bf6-4c76-8575-7adee92d85d1}" valign="32" visibility="1" zValue="34">
+      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="수목·구조물 영향 포함 가능  ·  해안 셀은 바다 픽셀 포함 가능  ·  원격탐사 기반 참고 분석" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="9,278.4,mm" positionLock="false" positionOnPage="9,278.4,mm" referencePoint="0" size="215,8,mm" templateUuid="{eed507d4-03f9-4cc0-94b6-c23d09acc59c}" type="65641" uuid="{eed507d4-03f9-4cc0-94b6-c23d09acc59c}" valign="32" visibility="1" zValue="34">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -4916,7 +4916,7 @@
           </dd_properties>
         </text-style>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="전체 격자  7,518개 (한라산 블록 1,849개 중 1,844개 포함)&#xa;처리 해상도  30m  ·  방법  Horn / 면적 가중  ·  격자: 기상청 레이더 합성 격자 정의&#xa;격자 선택  Natural Earth 1:10m 제주 외곽선과 겹치는 셀&#xa;제주올레  OSM 선형 28개 · 279 km (공식 28코스 중 23개 확인, 일부 부분 선형)" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="9,228.8,mm" positionLock="false" positionOnPage="9,228.8,mm" referencePoint="0" size="215,18,mm" templateUuid="{caa00b2b-2c84-467c-819e-db8417c222da}" type="65641" uuid="{caa00b2b-2c84-467c-819e-db8417c222da}" valign="32" visibility="1" zValue="33">
+      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="전체 격자  9,449개 (육지 7,518 · 부속섬 136 · 해안 2 km 완충 1,795; 한라산 블록 1,849개 포함)&#xa;처리 해상도  30m  ·  방법  Horn / 면적 가중  ·  격자: 기상청 레이더 합성 격자 정의&#xa;격자 선택  GLO-30 육지 픽셀(우도·마라도·가파도·비양도·지귀도 포함) 또는 Natural Earth 외곽선 접촉 + 해안 2 km 완충&#xa;제주올레  OSM 선형 28개 · 279 km (공식 28코스 중 23개 확인, 일부 부분 선형)" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="9,259.4,mm" positionLock="false" positionOnPage="9,259.4,mm" referencePoint="0" size="215,18,mm" templateUuid="{42592340-0402-402e-a33b-463cce097195}" type="65641" uuid="{42592340-0402-402e-a33b-463cce097195}" valign="32" visibility="1" zValue="33">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -4978,7 +4978,7 @@
           </dd_properties>
         </text-style>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="제주올레 코스 (OSM 참고 선형, 코스번호 라벨)" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="124,219.8,mm" positionLock="false" positionOnPage="124,219.8,mm" referencePoint="0" size="110,7,mm" templateUuid="{658b3007-54e6-418a-a1b6-a96468bfe7dc}" type="65641" uuid="{658b3007-54e6-418a-a1b6-a96468bfe7dc}" valign="32" visibility="1" zValue="32">
+      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="제주올레 코스 (OSM 참고 선형, 코스번호 라벨)" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="124,250.4,mm" positionLock="false" positionOnPage="124,250.4,mm" referencePoint="0" size="110,7,mm" templateUuid="{7361e65d-d896-4d5e-b89c-4e0375dbbc59}" type="65641" uuid="{7361e65d-d896-4d5e-b89c-4e0375dbbc59}" valign="32" visibility="1" zValue="32">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -5040,7 +5040,7 @@
           </dd_properties>
         </text-style>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="112,222.3,mm" positionLock="false" positionOnPage="112,222.3,mm" referencePoint="0" shapeType="1" size="9,1.2,mm" templateUuid="{0204b2f6-df84-4b48-a2cd-12b34eb38d0a}" type="65643" uuid="{0204b2f6-df84-4b48-a2cd-12b34eb38d0a}" visibility="1" zValue="31">
+      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="112,252.9,mm" positionLock="false" positionOnPage="112,252.9,mm" referencePoint="0" shapeType="1" size="9,1.2,mm" templateUuid="{e37b8825-8ce8-48a4-b5f3-54129bd849bc}" type="65643" uuid="{e37b8825-8ce8-48a4-b5f3-54129bd849bc}" visibility="1" zValue="31">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -5063,7 +5063,7 @@
               <Option name="type" type="QString" value="collection"/>
             </Option>
           </data_defined_properties>
-          <layer class="SimpleFill" enabled="1" id="{4601c444-820e-4802-a10d-1e5cb3d5fbd4}" locked="0" pass="0">
+          <layer class="SimpleFill" enabled="1" id="{145a595e-eb9f-4740-994f-4c31d3c4f755}" locked="0" pass="0">
             <Option type="Map">
               <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
               <Option name="color" type="QString" value="255,79,163,255,rgb:1,0.3098039,0.6392157,1"/>
@@ -5087,7 +5087,7 @@
           </layer>
         </symbol>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="OSM 탐방로 참고선 (한라산 6코스)" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="21,219.8,mm" positionLock="false" positionOnPage="21,219.8,mm" referencePoint="0" size="90,7,mm" templateUuid="{ab61c74e-7bc0-4256-ac5c-b3e052ae827d}" type="65641" uuid="{ab61c74e-7bc0-4256-ac5c-b3e052ae827d}" valign="32" visibility="1" zValue="30">
+      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="OSM 탐방로 참고선 (한라산 6코스)" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="21,250.4,mm" positionLock="false" positionOnPage="21,250.4,mm" referencePoint="0" size="90,7,mm" templateUuid="{02ad6765-e01a-4511-b847-700b044d982d}" type="65641" uuid="{02ad6765-e01a-4511-b847-700b044d982d}" valign="32" visibility="1" zValue="30">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -5149,7 +5149,7 @@
           </dd_properties>
         </text-style>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="9,222.3,mm" positionLock="false" positionOnPage="9,222.3,mm" referencePoint="0" shapeType="1" size="9,1.2,mm" templateUuid="{e1523d51-67b7-4794-ac8e-0f827742696f}" type="65643" uuid="{e1523d51-67b7-4794-ac8e-0f827742696f}" visibility="1" zValue="29">
+      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="9,252.9,mm" positionLock="false" positionOnPage="9,252.9,mm" referencePoint="0" shapeType="1" size="9,1.2,mm" templateUuid="{c9b8d992-b86b-403c-b284-03f5ca8c10f6}" type="65643" uuid="{c9b8d992-b86b-403c-b284-03f5ca8c10f6}" visibility="1" zValue="29">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -5172,7 +5172,7 @@
               <Option name="type" type="QString" value="collection"/>
             </Option>
           </data_defined_properties>
-          <layer class="SimpleFill" enabled="1" id="{6c200da5-653f-408e-a65a-1e6f0a2711b3}" locked="0" pass="0">
+          <layer class="SimpleFill" enabled="1" id="{9f562a49-ebb6-496c-9ff6-0ed1998d7d7f}" locked="0" pass="0">
             <Option type="Map">
               <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
               <Option name="color" type="QString" value="0,217,204,255,rgb:0,0.8509804,0.8,1"/>
@@ -5196,7 +5196,7 @@
           </layer>
         </symbol>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="45° 이상" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="209.5,212,mm" positionLock="false" positionOnPage="209.5,212,mm" referencePoint="0" size="15,6.5,mm" templateUuid="{84ee064d-b7d3-4f72-9b76-89d5d21287d0}" type="65641" uuid="{84ee064d-b7d3-4f72-9b76-89d5d21287d0}" valign="32" visibility="1" zValue="28">
+      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="45° 이상" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="209.5,242.6,mm" positionLock="false" positionOnPage="209.5,242.6,mm" referencePoint="0" size="15,6.5,mm" templateUuid="{66365b6e-e2fb-4b32-baf7-f76f9e8c36a1}" type="65641" uuid="{66365b6e-e2fb-4b32-baf7-f76f9e8c36a1}" valign="32" visibility="1" zValue="28">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -5258,7 +5258,7 @@
           </dd_properties>
         </text-style>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="202.5,212.8,mm" positionLock="false" positionOnPage="202.5,212.8,mm" referencePoint="0" shapeType="1" size="6,4.5,mm" templateUuid="{88b9e1f3-849d-424b-81cc-b8ee82529537}" type="65643" uuid="{88b9e1f3-849d-424b-81cc-b8ee82529537}" visibility="1" zValue="27">
+      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="202.5,243.4,mm" positionLock="false" positionOnPage="202.5,243.4,mm" referencePoint="0" shapeType="1" size="6,4.5,mm" templateUuid="{381d7824-0976-406e-acc7-ee7b1337b2e8}" type="65643" uuid="{381d7824-0976-406e-acc7-ee7b1337b2e8}" visibility="1" zValue="27">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -5281,7 +5281,7 @@
               <Option name="type" type="QString" value="collection"/>
             </Option>
           </data_defined_properties>
-          <layer class="SimpleFill" enabled="1" id="{3609210d-26f5-498a-bf63-a7d232712aef}" locked="0" pass="0">
+          <layer class="SimpleFill" enabled="1" id="{7b964bdc-9fcb-4808-9a4f-c9992b9d1b16}" locked="0" pass="0">
             <Option type="Map">
               <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
               <Option name="color" type="QString" value="124,0,20,255,rgb:0.4862745,0,0.0784314,1"/>
@@ -5305,7 +5305,7 @@
           </layer>
         </symbol>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="40–45°" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="188,212,mm" positionLock="false" positionOnPage="188,212,mm" referencePoint="0" size="15,6.5,mm" templateUuid="{8ba15cf6-6246-4921-b709-c78e006d42a9}" type="65641" uuid="{8ba15cf6-6246-4921-b709-c78e006d42a9}" valign="32" visibility="1" zValue="26">
+      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="40–45°" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="188,242.6,mm" positionLock="false" positionOnPage="188,242.6,mm" referencePoint="0" size="15,6.5,mm" templateUuid="{d2641681-78dd-4a79-b894-dcf5e857a87e}" type="65641" uuid="{d2641681-78dd-4a79-b894-dcf5e857a87e}" valign="32" visibility="1" zValue="26">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -5367,7 +5367,7 @@
           </dd_properties>
         </text-style>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="181,212.8,mm" positionLock="false" positionOnPage="181,212.8,mm" referencePoint="0" shapeType="1" size="6,4.5,mm" templateUuid="{a5fc916b-8d08-48e0-8a5d-589cd314d261}" type="65643" uuid="{a5fc916b-8d08-48e0-8a5d-589cd314d261}" visibility="1" zValue="25">
+      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="181,243.4,mm" positionLock="false" positionOnPage="181,243.4,mm" referencePoint="0" shapeType="1" size="6,4.5,mm" templateUuid="{5ca4c82d-ef65-4c94-a30d-edcbb460f23b}" type="65643" uuid="{5ca4c82d-ef65-4c94-a30d-edcbb460f23b}" visibility="1" zValue="25">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -5390,7 +5390,7 @@
               <Option name="type" type="QString" value="collection"/>
             </Option>
           </data_defined_properties>
-          <layer class="SimpleFill" enabled="1" id="{d3b05f61-36fe-4042-b70f-308a3c5e1fef}" locked="0" pass="0">
+          <layer class="SimpleFill" enabled="1" id="{fd00ef14-dd56-4b1c-a3f5-0d7028085445}" locked="0" pass="0">
             <Option type="Map">
               <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
               <Option name="color" type="QString" value="164,0,0,255,rgb:0.6431373,0,0,1"/>
@@ -5414,7 +5414,7 @@
           </layer>
         </symbol>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="35–40°" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="166.5,212,mm" positionLock="false" positionOnPage="166.5,212,mm" referencePoint="0" size="15,6.5,mm" templateUuid="{80f1f8d7-daba-47b6-8825-21309b824a36}" type="65641" uuid="{80f1f8d7-daba-47b6-8825-21309b824a36}" valign="32" visibility="1" zValue="24">
+      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="35–40°" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="166.5,242.6,mm" positionLock="false" positionOnPage="166.5,242.6,mm" referencePoint="0" size="15,6.5,mm" templateUuid="{bea21908-eafc-4ffa-a3c8-76b824f2de6d}" type="65641" uuid="{bea21908-eafc-4ffa-a3c8-76b824f2de6d}" valign="32" visibility="1" zValue="24">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -5476,7 +5476,7 @@
           </dd_properties>
         </text-style>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="159.5,212.8,mm" positionLock="false" positionOnPage="159.5,212.8,mm" referencePoint="0" shapeType="1" size="6,4.5,mm" templateUuid="{8a1910ac-fb71-4bcf-b08b-6a9b5646f86b}" type="65643" uuid="{8a1910ac-fb71-4bcf-b08b-6a9b5646f86b}" visibility="1" zValue="23">
+      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="159.5,243.4,mm" positionLock="false" positionOnPage="159.5,243.4,mm" referencePoint="0" shapeType="1" size="6,4.5,mm" templateUuid="{20811d4e-d53a-4c79-849d-ddb9c199dd46}" type="65643" uuid="{20811d4e-d53a-4c79-849d-ddb9c199dd46}" visibility="1" zValue="23">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -5499,7 +5499,7 @@
               <Option name="type" type="QString" value="collection"/>
             </Option>
           </data_defined_properties>
-          <layer class="SimpleFill" enabled="1" id="{bcb53ae5-3951-40a2-ba9f-da2b2987d186}" locked="0" pass="0">
+          <layer class="SimpleFill" enabled="1" id="{eeb1eed6-7414-423b-9dd3-89d8bdedf8da}" locked="0" pass="0">
             <Option type="Map">
               <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
               <Option name="color" type="QString" value="210,0,0,255,rgb:0.8235294,0,0,1"/>
@@ -5523,7 +5523,7 @@
           </layer>
         </symbol>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="30–35°" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="145,212,mm" positionLock="false" positionOnPage="145,212,mm" referencePoint="0" size="15,6.5,mm" templateUuid="{8a523788-08f8-47ed-aded-85aeb2fdd28b}" type="65641" uuid="{8a523788-08f8-47ed-aded-85aeb2fdd28b}" valign="32" visibility="1" zValue="22">
+      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="30–35°" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="145,242.6,mm" positionLock="false" positionOnPage="145,242.6,mm" referencePoint="0" size="15,6.5,mm" templateUuid="{e89fcb54-32a6-4208-9e5e-c769561dcd09}" type="65641" uuid="{e89fcb54-32a6-4208-9e5e-c769561dcd09}" valign="32" visibility="1" zValue="22">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -5585,7 +5585,7 @@
           </dd_properties>
         </text-style>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="138,212.8,mm" positionLock="false" positionOnPage="138,212.8,mm" referencePoint="0" shapeType="1" size="6,4.5,mm" templateUuid="{f1839a69-2999-4eef-8b20-514584e07116}" type="65643" uuid="{f1839a69-2999-4eef-8b20-514584e07116}" visibility="1" zValue="21">
+      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="138,243.4,mm" positionLock="false" positionOnPage="138,243.4,mm" referencePoint="0" shapeType="1" size="6,4.5,mm" templateUuid="{0fc9cce0-d298-426f-b5fe-fc43f6ea8288}" type="65643" uuid="{0fc9cce0-d298-426f-b5fe-fc43f6ea8288}" visibility="1" zValue="21">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -5608,7 +5608,7 @@
               <Option name="type" type="QString" value="collection"/>
             </Option>
           </data_defined_properties>
-          <layer class="SimpleFill" enabled="1" id="{1617d9da-085a-4cd8-b8cd-c47e1279d02d}" locked="0" pass="0">
+          <layer class="SimpleFill" enabled="1" id="{e0e640d6-3f86-4f78-8e1d-9510a771062a}" locked="0" pass="0">
             <Option type="Map">
               <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
               <Option name="color" type="QString" value="245,59,34,255,rgb:0.9607843,0.2313726,0.1333333,1"/>
@@ -5632,7 +5632,7 @@
           </layer>
         </symbol>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="25–30°" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="123.5,212,mm" positionLock="false" positionOnPage="123.5,212,mm" referencePoint="0" size="15,6.5,mm" templateUuid="{5139ae41-adcc-424b-a4c5-80bdef8e870b}" type="65641" uuid="{5139ae41-adcc-424b-a4c5-80bdef8e870b}" valign="32" visibility="1" zValue="20">
+      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="25–30°" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="123.5,242.6,mm" positionLock="false" positionOnPage="123.5,242.6,mm" referencePoint="0" size="15,6.5,mm" templateUuid="{9824fd0b-2a3b-4fce-a1c7-e68ae28bd5c7}" type="65641" uuid="{9824fd0b-2a3b-4fce-a1c7-e68ae28bd5c7}" valign="32" visibility="1" zValue="20">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -5694,7 +5694,7 @@
           </dd_properties>
         </text-style>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="116.5,212.8,mm" positionLock="false" positionOnPage="116.5,212.8,mm" referencePoint="0" shapeType="1" size="6,4.5,mm" templateUuid="{5fb8b35b-edc4-4c89-beab-093504060c18}" type="65643" uuid="{5fb8b35b-edc4-4c89-beab-093504060c18}" visibility="1" zValue="19">
+      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="116.5,243.4,mm" positionLock="false" positionOnPage="116.5,243.4,mm" referencePoint="0" shapeType="1" size="6,4.5,mm" templateUuid="{4422f1db-2e64-4945-827e-769371cec4b5}" type="65643" uuid="{4422f1db-2e64-4945-827e-769371cec4b5}" visibility="1" zValue="19">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -5717,7 +5717,7 @@
               <Option name="type" type="QString" value="collection"/>
             </Option>
           </data_defined_properties>
-          <layer class="SimpleFill" enabled="1" id="{fda95e6c-2e4a-456e-ad2d-a86086661b94}" locked="0" pass="0">
+          <layer class="SimpleFill" enabled="1" id="{051cb75e-6235-4532-b864-be414e34b211}" locked="0" pass="0">
             <Option type="Map">
               <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
               <Option name="color" type="QString" value="255,120,38,255,rgb:1,0.4705882,0.1490196,1"/>
@@ -5741,7 +5741,7 @@
           </layer>
         </symbol>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="20–25°" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="102,212,mm" positionLock="false" positionOnPage="102,212,mm" referencePoint="0" size="15,6.5,mm" templateUuid="{9bd98938-7417-4365-80d1-edba9b7d8811}" type="65641" uuid="{9bd98938-7417-4365-80d1-edba9b7d8811}" valign="32" visibility="1" zValue="18">
+      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="20–25°" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="102,242.6,mm" positionLock="false" positionOnPage="102,242.6,mm" referencePoint="0" size="15,6.5,mm" templateUuid="{06695cf8-a579-4c31-b0d4-33cfa22cf6d1}" type="65641" uuid="{06695cf8-a579-4c31-b0d4-33cfa22cf6d1}" valign="32" visibility="1" zValue="18">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -5803,7 +5803,7 @@
           </dd_properties>
         </text-style>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="95,212.8,mm" positionLock="false" positionOnPage="95,212.8,mm" referencePoint="0" shapeType="1" size="6,4.5,mm" templateUuid="{05876fe2-8fa1-4dfa-b556-5d08014b35ef}" type="65643" uuid="{05876fe2-8fa1-4dfa-b556-5d08014b35ef}" visibility="1" zValue="17">
+      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="95,243.4,mm" positionLock="false" positionOnPage="95,243.4,mm" referencePoint="0" shapeType="1" size="6,4.5,mm" templateUuid="{a6409c97-d5f3-4034-8d43-01c77007065c}" type="65643" uuid="{a6409c97-d5f3-4034-8d43-01c77007065c}" visibility="1" zValue="17">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -5826,7 +5826,7 @@
               <Option name="type" type="QString" value="collection"/>
             </Option>
           </data_defined_properties>
-          <layer class="SimpleFill" enabled="1" id="{657e11c5-8eb5-42f4-8a6f-38f7d456e151}" locked="0" pass="0">
+          <layer class="SimpleFill" enabled="1" id="{a28b59c7-6a4f-42aa-903b-f37a76e0aeea}" locked="0" pass="0">
             <Option type="Map">
               <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
               <Option name="color" type="QString" value="255,171,9,255,rgb:1,0.6705883,0.0352941,1"/>
@@ -5850,7 +5850,7 @@
           </layer>
         </symbol>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="15–20°" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="80.5,212,mm" positionLock="false" positionOnPage="80.5,212,mm" referencePoint="0" size="15,6.5,mm" templateUuid="{ae0d90ac-1c29-4dad-aaeb-c68640f614fa}" type="65641" uuid="{ae0d90ac-1c29-4dad-aaeb-c68640f614fa}" valign="32" visibility="1" zValue="16">
+      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="15–20°" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="80.5,242.6,mm" positionLock="false" positionOnPage="80.5,242.6,mm" referencePoint="0" size="15,6.5,mm" templateUuid="{128f24df-6f24-4d1c-ab6a-7d2633b42e9a}" type="65641" uuid="{128f24df-6f24-4d1c-ab6a-7d2633b42e9a}" valign="32" visibility="1" zValue="16">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -5912,7 +5912,7 @@
           </dd_properties>
         </text-style>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="73.5,212.8,mm" positionLock="false" positionOnPage="73.5,212.8,mm" referencePoint="0" shapeType="1" size="6,4.5,mm" templateUuid="{9f1a9407-8050-49e3-bdf6-d98087a46092}" type="65643" uuid="{9f1a9407-8050-49e3-bdf6-d98087a46092}" visibility="1" zValue="15">
+      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="73.5,243.4,mm" positionLock="false" positionOnPage="73.5,243.4,mm" referencePoint="0" shapeType="1" size="6,4.5,mm" templateUuid="{496b4769-0969-428e-bca4-279388f87f8f}" type="65643" uuid="{496b4769-0969-428e-bca4-279388f87f8f}" visibility="1" zValue="15">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -5935,7 +5935,7 @@
               <Option name="type" type="QString" value="collection"/>
             </Option>
           </data_defined_properties>
-          <layer class="SimpleFill" enabled="1" id="{06ad2781-c7df-4c3f-b052-0f00b29fcf92}" locked="0" pass="0">
+          <layer class="SimpleFill" enabled="1" id="{fa76250f-2a8c-4ad4-9d4e-92db48249ed8}" locked="0" pass="0">
             <Option type="Map">
               <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
               <Option name="color" type="QString" value="255,216,0,255,rgb:1,0.8470588,0,1"/>
@@ -5959,7 +5959,7 @@
           </layer>
         </symbol>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="10–15°" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="59,212,mm" positionLock="false" positionOnPage="59,212,mm" referencePoint="0" size="15,6.5,mm" templateUuid="{bb81a815-7f9e-4d63-8ba8-74133415d6f0}" type="65641" uuid="{bb81a815-7f9e-4d63-8ba8-74133415d6f0}" valign="32" visibility="1" zValue="14">
+      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="10–15°" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="59,242.6,mm" positionLock="false" positionOnPage="59,242.6,mm" referencePoint="0" size="15,6.5,mm" templateUuid="{c415ed11-fc98-4877-916e-55e2832a417a}" type="65641" uuid="{c415ed11-fc98-4877-916e-55e2832a417a}" valign="32" visibility="1" zValue="14">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -6021,7 +6021,7 @@
           </dd_properties>
         </text-style>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="52,212.8,mm" positionLock="false" positionOnPage="52,212.8,mm" referencePoint="0" shapeType="1" size="6,4.5,mm" templateUuid="{6ba50834-b704-4bef-81e6-c2477ffdeda2}" type="65643" uuid="{6ba50834-b704-4bef-81e6-c2477ffdeda2}" visibility="1" zValue="13">
+      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="52,243.4,mm" positionLock="false" positionOnPage="52,243.4,mm" referencePoint="0" shapeType="1" size="6,4.5,mm" templateUuid="{1000baf0-c8d3-42da-b6ad-9dfd9dbc02b4}" type="65643" uuid="{1000baf0-c8d3-42da-b6ad-9dfd9dbc02b4}" visibility="1" zValue="13">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -6044,7 +6044,7 @@
               <Option name="type" type="QString" value="collection"/>
             </Option>
           </data_defined_properties>
-          <layer class="SimpleFill" enabled="1" id="{0ffa7823-7637-424e-b848-8cc71a5f88b2}" locked="0" pass="0">
+          <layer class="SimpleFill" enabled="1" id="{7f73a27c-8cea-4a76-998d-62777185752a}" locked="0" pass="0">
             <Option type="Map">
               <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
               <Option name="color" type="QString" value="255,241,88,255,rgb:1,0.945098,0.345098,1"/>
@@ -6068,7 +6068,7 @@
           </layer>
         </symbol>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="5–10°" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="37.5,212,mm" positionLock="false" positionOnPage="37.5,212,mm" referencePoint="0" size="15,6.5,mm" templateUuid="{00022c1f-43d9-4f05-808d-65fda0d02f6f}" type="65641" uuid="{00022c1f-43d9-4f05-808d-65fda0d02f6f}" valign="32" visibility="1" zValue="12">
+      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="5–10°" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="37.5,242.6,mm" positionLock="false" positionOnPage="37.5,242.6,mm" referencePoint="0" size="15,6.5,mm" templateUuid="{e7acd421-907c-4ba7-a29c-d802b301153b}" type="65641" uuid="{e7acd421-907c-4ba7-a29c-d802b301153b}" valign="32" visibility="1" zValue="12">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -6130,7 +6130,7 @@
           </dd_properties>
         </text-style>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="30.5,212.8,mm" positionLock="false" positionOnPage="30.5,212.8,mm" referencePoint="0" shapeType="1" size="6,4.5,mm" templateUuid="{c926b323-21c4-4407-90a5-1cc111cc977e}" type="65643" uuid="{c926b323-21c4-4407-90a5-1cc111cc977e}" visibility="1" zValue="11">
+      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="30.5,243.4,mm" positionLock="false" positionOnPage="30.5,243.4,mm" referencePoint="0" shapeType="1" size="6,4.5,mm" templateUuid="{50922527-c96e-468d-bbaa-e88172483b11}" type="65643" uuid="{50922527-c96e-468d-bbaa-e88172483b11}" visibility="1" zValue="11">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -6153,7 +6153,7 @@
               <Option name="type" type="QString" value="collection"/>
             </Option>
           </data_defined_properties>
-          <layer class="SimpleFill" enabled="1" id="{4b396989-3130-4158-a775-d83aad08107f}" locked="0" pass="0">
+          <layer class="SimpleFill" enabled="1" id="{dfe0f0d3-d865-46f2-8079-c317681cc07e}" locked="0" pass="0">
             <Option type="Map">
               <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
               <Option name="color" type="QString" value="252,255,184,255,rgb:0.9882353,1,0.7215686,1"/>
@@ -6177,7 +6177,7 @@
           </layer>
         </symbol>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="0–5°" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="16,212,mm" positionLock="false" positionOnPage="16,212,mm" referencePoint="0" size="15,6.5,mm" templateUuid="{31cc97c0-8896-4a97-a591-e68c76193c22}" type="65641" uuid="{31cc97c0-8896-4a97-a591-e68c76193c22}" valign="32" visibility="1" zValue="10">
+      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="0–5°" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="16,242.6,mm" positionLock="false" positionOnPage="16,242.6,mm" referencePoint="0" size="15,6.5,mm" templateUuid="{92e62c40-0b07-4347-abd8-e39a824b3b58}" type="65641" uuid="{92e62c40-0b07-4347-abd8-e39a824b3b58}" valign="32" visibility="1" zValue="10">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -6239,7 +6239,7 @@
           </dd_properties>
         </text-style>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="9,212.8,mm" positionLock="false" positionOnPage="9,212.8,mm" referencePoint="0" shapeType="1" size="6,4.5,mm" templateUuid="{aaddcf6b-0150-4e02-8f33-a7e9a7c78aff}" type="65643" uuid="{aaddcf6b-0150-4e02-8f33-a7e9a7c78aff}" visibility="1" zValue="9">
+      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="9,243.4,mm" positionLock="false" positionOnPage="9,243.4,mm" referencePoint="0" shapeType="1" size="6,4.5,mm" templateUuid="{ed4ab5d2-3c4e-4ae6-9d36-35fc50ce9277}" type="65643" uuid="{ed4ab5d2-3c4e-4ae6-9d36-35fc50ce9277}" visibility="1" zValue="9">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -6262,7 +6262,7 @@
               <Option name="type" type="QString" value="collection"/>
             </Option>
           </data_defined_properties>
-          <layer class="SimpleFill" enabled="1" id="{56361590-53c4-4502-862a-89183ece33ea}" locked="0" pass="0">
+          <layer class="SimpleFill" enabled="1" id="{e9a4fc7d-3c5f-4527-834a-9b7d86381d92}" locked="0" pass="0">
             <Option type="Map">
               <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
               <Option name="color" type="QString" value="255,255,255,255,rgb:1,1,1,1"/>
@@ -6286,7 +6286,7 @@
           </layer>
         </symbol>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="경사각 (°)" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="9,204.8,mm" positionLock="false" positionOnPage="9,204.8,mm" referencePoint="0" size="60,8,mm" templateUuid="{ec6a4cb4-fb81-4f0d-a788-6f97fcf93b71}" type="65641" uuid="{ec6a4cb4-fb81-4f0d-a788-6f97fcf93b71}" valign="32" visibility="1" zValue="8">
+      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="경사각 (°)" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="9,235.4,mm" positionLock="false" positionOnPage="9,235.4,mm" referencePoint="0" size="60,8,mm" templateUuid="{077b3c1b-7443-4ba6-9fbc-800df94df223}" type="65641" uuid="{077b3c1b-7443-4ba6-9fbc-800df94df223}" valign="32" visibility="1" zValue="8">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -6348,7 +6348,7 @@
           </dd_properties>
         </text-style>
       </LayoutItem>
-      <LayoutItem alignment="0" background="true" blendMode="0" boxContentSpace="1" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" height="3" id="" itemRotation="0" labelBarSpace="3" labelHorizontalPlacement="0" labelVerticalPlacement="0" lineCapStyle="square" lineJoinStyle="miter" mapUuid="{96213ad2-9e7e-4a80-b3ab-53fa9a920a6a}" maxBarWidth="150" method="HorizontalAverage" minBarWidth="50" numMapUnitsPerScaleBarUnit="1" numSegments="2" numSegmentsLeft="0" numSubdivisions="1" numUnitsPerSegment="10" opacity="1" outlineWidth="0.3" outlineWidthM="0.3,mm" position="16,187.8,mm" positionLock="false" positionOnPage="16,187.8,mm" referencePoint="0" segmentMillimeters="30.7639" segmentSizeMode="0" size="72.787,13.7727,mm" style="Single Box" subdivisionsHeight="1.5" templateUuid="{1d34fe4f-7a2a-4626-8694-e6cc02f9191d}" type="65646" unitLabel="km" unitType="km" uuid="{1d34fe4f-7a2a-4626-8694-e6cc02f9191d}" visibility="1" zValue="7">
+      <LayoutItem alignment="0" background="true" blendMode="0" boxContentSpace="1" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" height="3" id="" itemRotation="0" labelBarSpace="3" labelHorizontalPlacement="0" labelVerticalPlacement="0" lineCapStyle="square" lineJoinStyle="miter" mapUuid="{afcdf1e4-78d6-4443-9558-c3fca2324269}" maxBarWidth="150" method="HorizontalAverage" minBarWidth="50" numMapUnitsPerScaleBarUnit="1" numSegments="2" numSegmentsLeft="0" numSubdivisions="1" numUnitsPerSegment="10" opacity="1" outlineWidth="0.3" outlineWidthM="0.3,mm" position="16,218.4,mm" positionLock="false" positionOnPage="16,218.4,mm" referencePoint="0" segmentMillimeters="28.1349" segmentSizeMode="0" size="67.5288,13.7727,mm" style="Single Box" subdivisionsHeight="1.5" templateUuid="{43348b75-8e12-4020-a4df-844a1bd5a356}" type="65646" unitLabel="km" unitType="km" uuid="{43348b75-8e12-4020-a4df-844a1bd5a356}" visibility="1" zValue="7">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="210" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -6432,7 +6432,7 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleLine" enabled="1" id="{af5cabd8-3828-4208-820b-2afa0856bf95}" locked="0" pass="0">
+            <layer class="SimpleLine" enabled="1" id="{5ed409f4-e6ab-49cf-9498-41a9c4f5a970}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="align_dash_pattern" type="QString" value="0"/>
                 <Option name="capstyle" type="QString" value="square"/>
@@ -6481,7 +6481,7 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleLine" enabled="1" id="{af5cabd8-3828-4208-820b-2afa0856bf95}" locked="0" pass="0">
+            <layer class="SimpleLine" enabled="1" id="{5ed409f4-e6ab-49cf-9498-41a9c4f5a970}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="align_dash_pattern" type="QString" value="0"/>
                 <Option name="capstyle" type="QString" value="square"/>
@@ -6530,7 +6530,7 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleLine" enabled="1" id="{af5cabd8-3828-4208-820b-2afa0856bf95}" locked="0" pass="0">
+            <layer class="SimpleLine" enabled="1" id="{5ed409f4-e6ab-49cf-9498-41a9c4f5a970}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="align_dash_pattern" type="QString" value="0"/>
                 <Option name="capstyle" type="QString" value="square"/>
@@ -6579,7 +6579,7 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleFill" enabled="1" id="{1322a398-e419-435e-93f3-eedcbee228c5}" locked="0" pass="0">
+            <layer class="SimpleFill" enabled="1" id="{a95e7293-dd0c-45c6-b9e9-5152d43fcc5f}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
                 <Option name="color" type="QString" value="0,0,0,255,rgb:0,0,0,1"/>
@@ -6612,7 +6612,7 @@
                 <Option name="type" type="QString" value="collection"/>
               </Option>
             </data_defined_properties>
-            <layer class="SimpleFill" enabled="1" id="{44387dd1-1467-4650-a1e5-2c0901c3b8b3}" locked="0" pass="0">
+            <layer class="SimpleFill" enabled="1" id="{4e2f2548-ac82-415b-ab37-f31687265610}" locked="0" pass="0">
               <Option type="Map">
                 <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
                 <Option name="color" type="QString" value="255,255,255,255,rgb:1,1,1,1"/>
@@ -6637,7 +6637,7 @@
           </symbol>
         </fillSymbol2>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="N ↑" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="17,43,mm" positionLock="false" positionOnPage="17,43,mm" referencePoint="0" size="18,9,mm" templateUuid="{f67af5b9-9bb4-441a-b0a5-3333cb180b2f}" type="65641" uuid="{f67af5b9-9bb4-441a-b0a5-3333cb180b2f}" valign="32" visibility="1" zValue="6">
+      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="N ↑" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="17,43,mm" positionLock="false" positionOnPage="17,43,mm" referencePoint="0" size="18,9,mm" templateUuid="{94c80f2f-7f40-4483-b3d9-55d087987723}" type="65641" uuid="{94c80f2f-7f40-4483-b3d9-55d087987723}" valign="32" visibility="1" zValue="6">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -6699,7 +6699,7 @@
           </dd_properties>
         </text-style>
       </LayoutItem>
-      <LayoutItem background="true" blendMode="0" drawCanvasItems="true" enableZRange="0" excludeFromExports="0" followPreset="false" followPresetName="" frame="true" frameJoinStyle="miter" groupUuid="" id="" isTemporal="0" itemRotation="0" keepLayerSet="true" labelMargin="0,mm" mapFlags="0" mapRotation="0" opacity="1" outlineWidthM="0.3,mm" position="9,39,mm" positionLock="false" positionOnPage="9,39,mm" referencePoint="0" size="282,161.8,mm" templateUuid="{96213ad2-9e7e-4a80-b3ab-53fa9a920a6a}" type="65639" uuid="{96213ad2-9e7e-4a80-b3ab-53fa9a920a6a}" visibility="1" zValue="5">
+      <LayoutItem background="true" blendMode="0" drawCanvasItems="true" enableZRange="0" excludeFromExports="0" followPreset="false" followPresetName="" frame="true" frameJoinStyle="miter" groupUuid="" id="" isTemporal="0" itemRotation="0" keepLayerSet="true" labelMargin="0,mm" mapFlags="0" mapRotation="0" opacity="1" outlineWidthM="0.3,mm" position="9,39,mm" positionLock="false" positionOnPage="9,39,mm" referencePoint="0" size="282,192.4,mm" templateUuid="{afcdf1e4-78d6-4443-9558-c3fca2324269}" type="65639" uuid="{afcdf1e4-78d6-4443-9558-c3fca2324269}" visibility="1" zValue="5">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -6714,7 +6714,7 @@
             <Option/>
           </customproperties>
         </LayoutObject>
-        <Extent xmax="14134273.12498658336699009" xmin="14042607.33982341736555099" ymax="3972128.4776636534370482" ymin="3919534.42078634724020958"/>
+        <Extent xmax="14138601.7717151939868927" xmin="14038370.29610480181872845" ymax="3974570.44740219693630934" ymin="3906185.56829780200496316"/>
         <crs>
           <spatialrefsys nativeFormat="Wkt">
             <wkt>PROJCRS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["Popular Visualisation Pseudo-Mercator",METHOD["Popular Visualisation Pseudo Mercator",ID["EPSG",1024]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06°S and 85.06°N."],BBOX[-85.06,-180,85.06,180]],ID["EPSG",3857]]</wkt>
@@ -6729,12 +6729,12 @@
           </spatialrefsys>
         </crs>
         <LayerSet>
-          <Layer name="제주올레 코스 · OSM 참고 선형" provider="ogr" source="./shapefiles/reference_olle.shp">__________OSM_______b1bc26c3_5989_4fc7_903a_b1700250533a</Layer>
-          <Layer name="탐방로 참고 선형 · OSM 6코스" provider="ogr" source="./shapefiles/reference_trails.shp">____________OSM_6___e5f1dbd1_b78c_42df_b329_baf1c92c9c18</Layer>
-          <Layer name="분석 범위: 제주 외곽선과 겹치는 레이더 격자" provider="ogr" source="./shapefiles/study_boundary.shp">__________________________f2ab0aad_8cdc_4bab_8416_5e4886a75c54</Layer>
-          <Layer name="제주 전역 500m 레이더 격자 · 통계 7,518개" provider="ogr" source="./shapefiles/grid_slope_500m.shp">______500m_____________7_518__7ef12aef_93f9_433b_851b_790328a0941b</Layer>
-          <Layer name="경사 등급: Copernicus 30m / Horn" provider="ogr" source="./shapefiles/slope_classes.shp">_______Copernicus_30m___Horn_96e109d4_7c0a_44f0_8cee_165a908171fc</Layer>
-          <Layer name="배경: Esri 위성·항공영상" provider="gdal" source="./satellite_background.tif">____Esri_________28a9af7e_ffab_44cb_8c14_21693e721797</Layer>
+          <Layer name="제주올레 코스 · OSM 참고 선형" provider="ogr" source="C:\Users\mw595\Documents\GitHub\Halla-GeoData\outputs\jeju_slope\shapefiles\reference_olle.shp">__________OSM_______8a60e469_8a23_4043_8d2d_d73d52485927</Layer>
+          <Layer name="탐방로 참고 선형 · OSM 6코스" provider="ogr" source="C:\Users\mw595\Documents\GitHub\Halla-GeoData\outputs\jeju_slope\shapefiles\reference_trails.shp">____________OSM_6___55bad793_9234_42b8_9074_3d02ed7f3029</Layer>
+          <Layer name="분석 범위: 육지·부속섬 셀과 해안 2 km 완충 셀" provider="ogr" source="C:\Users\mw595\Documents\GitHub\Halla-GeoData\outputs\jeju_slope\shapefiles\study_boundary.shp">____________________2_km______c9cfeb8a_f852_405b_9406_4d5a563de2a7</Layer>
+          <Layer name="제주 전역 500m 레이더 격자 · 통계 9,449개 (육지 7,518 · 섬 136 · 해안 2 km 완충 1,795)" provider="ogr" source="C:\Users\mw595\Documents\GitHub\Halla-GeoData\outputs\jeju_slope\shapefiles\grid_slope_500m.shp">______500m_____________9_449______7_518_____136______2_km____1_795__56198663_8c7e_4889_aef1_73e2aa0c594c</Layer>
+          <Layer name="경사 등급: Copernicus 30m / Horn" provider="ogr" source="C:\Users\mw595\Documents\GitHub\Halla-GeoData\outputs\jeju_slope\shapefiles\slope_classes.shp">_______Copernicus_30m___Horn_f2c334b4_b340_44d3_9525_45db57dc69f5</Layer>
+          <Layer name="배경: Esri 위성·항공영상" provider="gdal" source="C:\Users\mw595\Documents\GitHub\Halla-GeoData\outputs\jeju_slope\satellite_background.tif">____Esri_________712106bf_2849_4139_b032_b6d893385f2d</Layer>
         </LayerSet>
         <AtlasMap atlasDriven="0" margin="0.10000000000000001" scalingMode="2"/>
         <labelBlockingItems/>
@@ -6743,7 +6743,7 @@
         </atlasClippingSettings>
         <itemClippingSettings clipSource="" clippingType="1" enabled="0" forceLabelsInside="0"/>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="Copernicus GLO-30 DSM 별도 계산  ·  VWorld 분석값 아님" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="9,27,mm" positionLock="false" positionOnPage="9,27,mm" referencePoint="0" size="280,7,mm" templateUuid="{c6dad4d5-8c67-42b4-8c8f-ef2a7489666a}" type="65641" uuid="{c6dad4d5-8c67-42b4-8c8f-ef2a7489666a}" valign="32" visibility="1" zValue="4">
+      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="Copernicus GLO-30 DSM 별도 계산  ·  VWorld 분석값 아님" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="9,27,mm" positionLock="false" positionOnPage="9,27,mm" referencePoint="0" size="280,7,mm" templateUuid="{abad4634-bc18-4715-bc63-e7ae300dc324}" type="65641" uuid="{abad4634-bc18-4715-bc63-e7ae300dc324}" valign="32" visibility="1" zValue="4">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -6805,7 +6805,7 @@
           </dd_properties>
         </text-style>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="제주도 전역 500m 격자 경사도" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="9,12,mm" positionLock="false" positionOnPage="9,12,mm" referencePoint="0" size="280,12,mm" templateUuid="{925ef483-4523-448a-8633-498ca122f30a}" type="65641" uuid="{925ef483-4523-448a-8633-498ca122f30a}" valign="32" visibility="1" zValue="3">
+      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="제주도 전역 500m 격자 경사도" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="9,12,mm" positionLock="false" positionOnPage="9,12,mm" referencePoint="0" size="280,12,mm" templateUuid="{b3d93f05-39dc-4c42-a6e0-ff5a9de46f8f}" type="65641" uuid="{b3d93f05-39dc-4c42-a6e0-ff5a9de46f8f}" valign="32" visibility="1" zValue="3">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -6867,7 +6867,7 @@
           </dd_properties>
         </text-style>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="JEJU  /  TERRAIN" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="9,5,mm" positionLock="false" positionOnPage="9,5,mm" referencePoint="0" size="250,6,mm" templateUuid="{44cf92a5-94a1-419c-9a69-268fa5ec38f6}" type="65641" uuid="{44cf92a5-94a1-419c-9a69-268fa5ec38f6}" valign="32" visibility="1" zValue="2">
+      <LayoutItem background="false" blendMode="0" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" halign="1" htmlState="0" id="" itemRotation="0" labelText="JEJU  /  TERRAIN" marginX="0" marginY="0" opacity="1" outlineWidthM="0.3,mm" position="9,5,mm" positionLock="false" positionOnPage="9,5,mm" referencePoint="0" size="250,6,mm" templateUuid="{55d92f1a-4531-43c3-8ed0-d5cffd38c5c7}" type="65641" uuid="{55d92f1a-4531-43c3-8ed0-d5cffd38c5c7}" valign="32" visibility="1" zValue="2">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -6929,7 +6929,7 @@
           </dd_properties>
         </text-style>
       </LayoutItem>
-      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="0,0,mm" positionLock="false" positionOnPage="0,0,mm" referencePoint="0" shapeType="1" size="300,290,mm" templateUuid="{1c6247f2-c512-42e1-9250-b55003b4649a}" type="65643" uuid="{1c6247f2-c512-42e1-9250-b55003b4649a}" visibility="1" zValue="1">
+      <LayoutItem background="false" blendMode="0" cornerRadiusMeasure="0,mm" excludeFromExports="0" frame="false" frameJoinStyle="miter" groupUuid="" id="" itemRotation="0" opacity="1" outlineWidthM="0.3,mm" position="0,0,mm" positionLock="false" positionOnPage="0,0,mm" referencePoint="0" shapeType="1" size="300,290,mm" templateUuid="{2eb8a62d-a275-47ba-9253-eec8c1fd3f87}" type="65643" uuid="{2eb8a62d-a275-47ba-9253-eec8c1fd3f87}" visibility="1" zValue="1">
         <FrameColor alpha="255" blue="0" green="0" red="0"/>
         <BackgroundColor alpha="255" blue="255" green="255" red="255"/>
         <LayoutObject>
@@ -6952,7 +6952,7 @@
               <Option name="type" type="QString" value="collection"/>
             </Option>
           </data_defined_properties>
-          <layer class="SimpleFill" enabled="1" id="{c019a1e2-7438-4d0b-9d73-9a95650d244e}" locked="0" pass="0">
+          <layer class="SimpleFill" enabled="1" id="{f627b279-4b0c-4664-8374-692e95d9275b}" locked="0" pass="0">
             <Option type="Map">
               <Option name="border_width_map_unit_scale" type="QString" value="3x:0,0,0,0,0,0"/>
               <Option name="color" type="QString" value="245,244,239,255,rgb:0.9607843,0.9568627,0.9372549,1"/>
@@ -6991,7 +6991,7 @@
   <Sensors/>
   <ProjectViewSettings UseProjectScales="0" rotation="0">
     <Scales/>
-    <DefaultViewExtent xmax="14134273.12498658336699009" xmin="14042607.33982341736555099" ymax="3972127.17617000034078956" ymin="3919535.72228000033646822">
+    <DefaultViewExtent xmax="14138594.16714999824762344" xmin="14038377.9006699975579977" ymax="3974570.44740219693630934" ymin="3906185.56829780200496316">
       <spatialrefsys nativeFormat="Wkt">
         <wkt>PROJCRS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["Popular Visualisation Pseudo-Mercator",METHOD["Popular Visualisation Pseudo Mercator",ID["EPSG",1024]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06°S and 85.06°N."],BBOX[-85.06,-180,85.06,180]],ID["EPSG",3857]]</wkt>
         <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs</proj4>
@@ -7005,7 +7005,7 @@
       </spatialrefsys>
     </DefaultViewExtent>
   </ProjectViewSettings>
-  <ProjectStyleSettings DefaultSymbolOpacity="1" RandomizeDefaultSymbolColor="1" colorModel="Rgb" iccProfileId="attachment:///" projectStyleId="attachment:///XYYNXZ_styles.db">
+  <ProjectStyleSettings DefaultSymbolOpacity="1" RandomizeDefaultSymbolColor="1" colorModel="Rgb" iccProfileId="attachment:///" projectStyleId="attachment:///vjStGY_styles.db">
     <databases/>
   </ProjectStyleSettings>
   <ProjectTimeSettings cumulativeTemporalRange="0" frameRate="1" timeStep="1" timeStepUnit="h" totalMovieFrames="100"/>

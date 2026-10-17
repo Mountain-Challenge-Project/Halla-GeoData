@@ -1,93 +1,93 @@
 {
-  "grid_count": 7518,
-  "unique_grid_ids": 7518,
-  "slope_polygon_count": 78049,
-  "area_utm_m2": 1930506302.5137396,
-  "source_lcc_area_m2": 1879500000,
-  "slope_polygon_area_m2": 1930520700.0,
+  "grid_count": 9449,
+  "unique_grid_ids": 9449,
+  "slope_polygon_count": 79256,
+  "area_utm_m2": 2426282837.898667,
+  "source_lcc_area_m2": 2362250000,
+  "slope_polygon_area_m2": 2426283000.0,
   "area_coverage_min_pct": 99.99999999993675,
   "area_coverage_max_pct": 100.0000000000589,
-  "overall_mean_slope_degrees": 4.976251945775929,
-  "maximum_slope_degrees": 64.42790222167969,
+  "overall_mean_slope_degrees": 3.9923749756047324,
+  "maximum_slope_degrees": 64.43179321289062,
   "elevation_range_m": [
-    -2.2585432529449463,
-    1922.931884765625
+    -2.257741928100586,
+    1922.9222412109375
   ],
   "classes": [
     {
       "class_id": 1,
       "min_deg": 0,
       "max_deg": 5,
-      "area_m2": 1274688900.0,
-      "area_pct": 66.02824305380408
+      "area_m2": 1766949300.0,
+      "area_pct": 72.82535878955588
     },
     {
       "class_id": 2,
       "min_deg": 5,
       "max_deg": 10,
-      "area_m2": 422068500.0,
-      "area_pct": 21.86293573542102
+      "area_m2": 423773100.0,
+      "area_pct": 17.465938639474455
     },
     {
       "class_id": 3,
       "min_deg": 10,
       "max_deg": 15,
-      "area_m2": 132366600.0,
-      "area_pct": 6.856523216767372
+      "area_m2": 132933600.0,
+      "area_pct": 5.4788992050803635
     },
     {
       "class_id": 4,
       "min_deg": 15,
       "max_deg": 20,
-      "area_m2": 53722800.0,
-      "area_pct": 2.782813983812761
+      "area_m2": 54153000.0,
+      "area_pct": 2.2319325486763084
     },
     {
       "class_id": 5,
       "min_deg": 20,
       "max_deg": 25,
-      "area_m2": 26910900.0,
-      "area_pct": 1.393971066976904
+      "area_m2": 27187200.0,
+      "area_pct": 1.120528808881734
     },
     {
       "class_id": 6,
       "min_deg": 25,
       "max_deg": 30,
-      "area_m2": 13185000.0,
-      "area_pct": 0.6829763596940452
+      "area_m2": 13473000.0,
+      "area_pct": 0.5552938383527396
     },
     {
       "class_id": 7,
       "min_deg": 30,
       "max_deg": 35,
-      "area_m2": 4401900.0,
-      "area_pct": 0.22801620308966386
+      "area_m2": 4537800.0,
+      "area_pct": 0.1870268225099875
     },
     {
       "class_id": 8,
       "min_deg": 35,
       "max_deg": 40,
-      "area_m2": 1890000.0,
-      "area_pct": 0.09790104814726928
+      "area_m2": 1944900.0,
+      "area_pct": 0.08015965161524852
     },
     {
       "class_id": 9,
       "min_deg": 40,
       "max_deg": 45,
-      "area_m2": 771300.0,
-      "area_pct": 0.03995295155343323
+      "area_m2": 810900.0,
+      "area_pct": 0.03342149287614017
     },
     {
       "class_id": 10,
       "min_deg": 45,
       "max_deg": 90,
-      "area_m2": 514800.0,
-      "area_pct": 0.02666638073344668
+      "area_m2": 520200.0,
+      "area_pct": 0.021440202977146525
     }
   ],
   "raster_shape_buffered": [
-    1357,
-    2504
+    1796,
+    2743
   ],
   "crs": "EPSG:32652",
   "grid_source_crs": "+proj=lcc +lat_0=38 +lon_0=126 +lat_1=30 +lat_2=60 +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs",
@@ -98,12 +98,12 @@
   "statistics_status": "passed",
   "region": "jeju",
   "boundary_mode": "grid_union",
-  "class_polygon_mask_area_m2": 1930520700.0,
+  "class_polygon_mask_area_m2": 2426283000.0,
   "class_polygon_note": "Class polygons are clipped to the 30m pixels whose centres fall inside the cell union; the CSV/SHP cell statistics use exact vector intersection areas.",
   "qgis_project_reopened_all_layers_valid": true,
   "shapefiles": {
     "grid_slope_500m.shp": {
-      "features": 7518,
+      "features": 9449,
       "invalid_geometries": 0,
       "sidecars_present": true
     },
@@ -128,7 +128,7 @@
       "sidecars_present": true
     },
     "slope_classes.shp": {
-      "features": 78049,
+      "features": 79256,
       "invalid_geometries": 0,
       "sidecars_present": true
     },
@@ -140,36 +140,36 @@
   },
   "rasters": {
     "dem_30m.tif": {
-      "valid_pixels": 2145023,
-      "min": -2.2585432529449463,
-      "max": 1922.931884765625,
+      "valid_pixels": 2695870,
+      "min": -2.257741928100586,
+      "max": 1922.9222412109375,
       "statistics": [
-        -2.2585432529449463,
-        1922.931884765625,
-        272.7484695560377,
-        310.1659567145433
+        -2.257741928100586,
+        1922.9222412109375,
+        217.11394953132816,
+        297.6607214331226
       ]
     },
     "slope_degrees_30m.tif": {
-      "valid_pixels": 2145023,
+      "valid_pixels": 2695870,
       "min": 0.0,
-      "max": 64.42790222167969,
+      "max": 64.43179321289062,
       "statistics": [
         0.0,
-        64.42790222167969,
-        4.9762902191264535,
-        5.140888527589658
+        64.43179321289062,
+        3.9923747088714663,
+        5.021761910345701
       ]
     },
     "aspect_degrees_30m.tif": {
-      "valid_pixels": 2064473,
+      "valid_pixels": 2089636,
       "min": 0.0,
-      "max": 359.99981689453125,
+      "max": 359.9998779296875,
       "statistics": [
         0.0,
-        359.99981689453125,
-        182.04402629958796,
-        105.96654264112443
+        359.9998779296875,
+        182.08966060159713,
+        105.97705892901938
       ]
     }
   },

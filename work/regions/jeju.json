@@ -6,31 +6,41 @@
   "output_dir": "outputs/jeju_slope",
   "file_prefix": "jeju",
   "scratch_prefix": "jeju_",
-  "expected_grid_count": 7518,
+  "expected_grid_count": 9449,
   "expected_layers": 11,
   "olle_shapefile": "reference_olle",
   "boundary": "grid_union",
-  "boundary_name": "Jeju island 500m reference grid (cells touching the Natural Earth outline)",
-  "satellite": {"jpg": "satellite_jeju.jpg", "extent": "satellite_jeju_extent.json", "export": "satellite_jeju_export.json", "square": false, "max_pixels": 4096, "margin_m": 1500},
+  "boundary_name": "Jeju 500m reference grid (land, islets and the 2 km coastal buffer)",
+  "satellite": {
+    "jpg": "satellite_jeju.jpg",
+    "extent": "satellite_jeju_extent.json",
+    "export": "satellite_jeju_export.json",
+    "square": false,
+    "max_pixels": 4096,
+    "margin_m": 1500
+  },
   "map": {
     "layout": "wide",
     "kicker": "JEJU  /  TERRAIN",
     "title": "제주도 전역 500m 격자 경사도",
     "project_title": "제주도 전역 참고격자 경사도 | Copernicus GLO-30 별도 계산",
     "layout_name": "제주도 전역 경사도 위성지도",
-    "grid_layer_title": "제주 전역 500m 레이더 격자 · 통계 7,518개",
-    "boundary_layer_title": "분석 범위: 제주 외곽선과 겹치는 레이더 격자",
-    "stats_text": "전체 격자  7,518개 (한라산 블록 1,849개 중 1,844개 포함)\n처리 해상도  30m  ·  방법  Horn / 면적 가중  ·  격자: 기상청 레이더 합성 격자 정의\n격자 선택  Natural Earth 1:10m 제주 외곽선과 겹치는 셀\n제주올레  OSM 선형 28개 · 279 km (공식 28코스 중 23개 확인, 일부 부분 선형)",
+    "grid_layer_title": "제주 전역 500m 레이더 격자 · 통계 9,449개 (육지 7,518 · 섬 136 · 해안 2 km 완충 1,795)",
+    "boundary_layer_title": "분석 범위: 육지·부속섬 셀과 해안 2 km 완충 셀",
+    "stats_text": "전체 격자  9,449개 (육지 7,518 · 부속섬 136 · 해안 2 km 완충 1,795; 한라산 블록 1,849개 포함)\n처리 해상도  30m  ·  방법  Horn / 면적 가중  ·  격자: 기상청 레이더 합성 격자 정의\n격자 선택  GLO-30 육지 픽셀(우도·마라도·가파도·비양도·지귀도 포함) 또는 Natural Earth 외곽선 접촉 + 해안 2 km 완충\n제주올레  OSM 선형 28개 · 279 km (공식 28코스 중 23개 확인, 일부 부분 선형)",
     "inset_title": "한라산 확대",
-    "inset_center": [126.5356792, 33.360937],
+    "inset_center": [
+      126.5356792,
+      33.360937
+    ],
     "inset_half_m": 11000,
     "footer_note": "경사 등급은 위험등급이 아닙니다. 격자는 기상청 레이더 합성 격자 정의(WGS84 LCC, 2026-10-15 검증)와 일치. 외곽선은 소축척이며 해안 셀에 바다가 포함될 수 있습니다.  작성 2026-10-15"
   },
   "metadata": {
     "title": "제주도 전역 참고격자 경사도",
     "created": "2026-10-15",
-    "grid_source": "jeju_grid_500m in radar_grid_cells.gpkg: official KMA radar composite grid (LCC 30/60, 126E/38N, WGS84 ellipsoid, i0=1121/j0=1681), every 500m cell touching the Natural Earth 1:10m Jeju outline",
+    "grid_source": "jeju_grid_500m in radar_grid_cells.gpkg: official KMA radar composite grid (LCC 30/60, 126E/38N, WGS84 ellipsoid, i0=1121/j0=1681); cells with GLO-30 land (>=5 % of a 50 m lattice above 0.5 m) or touching the Natural Earth outline, plus sea cells within 2 km (zone field: land / islet / sea_buffer)",
     "original_plane_area_km2": 1879.75,
-    "coverage_note": "Cells are selected by intersection with a small-scale (1:10m) coastline, so coastal cells contain water and some small islets or coastal strips may be excluded. Water pixels carry near-zero DSM heights and slopes; they are not land terrain statistics."
+    "coverage_note": "Land and islet cells carry terrain statistics; sea_buffer cells contain water (DSM 0 m, slope 0) and exist for coastal weather display only. Coastal cells still mix land and water."
   }
 }

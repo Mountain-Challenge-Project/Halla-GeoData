@@ -122,9 +122,12 @@ def main(argv):
             t1 = t2 + dt.timedelta(hours=1); time.sleep(1)
         print('ASOS_BACKFILL_DONE', total); return 0
     # current AWS minute values (one row per station) and the last complete ASOS hour
-    tm2 = (now - dt.timedelta(minutes=3)).strftime('%Y%m%d%H%M')
-    aws_text = fetch(T + 'cgi-bin/url/nph-aws2_min', {'tm2': tm2, 'stn': '0', 'disp': '0', 'help': '0'}, key)
-    aws_rows = parse_rows(aws_text, AWS_COLS, stations)
+    aws_rows = []
+    for back in (3, 6, 12):   # the newest minute is sometimes served empty; step back until stations appear
+        tm2 = (now - dt.timedelta(minutes=back)).strftime('%Y%m%d%H%M')
+        aws_text = fetch(T + 'cgi-bin/url/nph-aws2_min', {'tm2': tm2, 'stn': '0', 'disp': '0', 'help': '0'}, key)
+        aws_rows = parse_rows(aws_text, AWS_COLS, stations)
+        if aws_rows: break
     tm_h = (now - dt.timedelta(minutes=10)).strftime('%Y%m%d%H00')
     asos_text = fetch(T + 'url/kma_sfctm2.php', {'tm': tm_h, 'stn': '0', 'help': '0'}, key)
     asos_rows = parse_rows(asos_text, ASOS_COLS, stations)

@@ -32,5 +32,15 @@ if tf_path.exists():
         if not r: continue
         p['tpi_1km_m'] = float(r['tpi_1km_m']); p['svf'] = float(r['svf']); p['coast_km'] = float(r['coast_km'])
         p['up_max'] = [int(float(r[f'up_max_{d}'])) for d in DIRS]; p['up_dist'] = [float(r[f'up_dist_{d}']) for d in DIRS]; m += 1
+lc_path = ROOT / 'Geo Data Analyst/data/jeju_grid_landcover.csv'
+k = 0
+if lc_path.exists():   # ESA WorldCover class shares and ETH canopy height per cell (build_landcover_factors.py)
+    lc = {r['grid_id']: r for r in csv.DictReader(lc_path.open(encoding='utf-8'))}
+    for f in g['features']:
+        p = f['properties']; r = lc.get(p['grid_id'])
+        if not r: continue
+        for key in ('lc_tree', 'lc_shrub', 'lc_grass', 'lc_crop', 'lc_builtup', 'lc_bare', 'lc_water'): p[key] = float(r[key])
+        p['canopy_mean_m'] = float(r['canopy_mean_m']) if r['canopy_mean_m'] not in ('', None) else None; k += 1
 geo_path.write_text(json.dumps(g, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
+print('GRID_LANDCOVER_JOINED', k)
 print('GRID_ASPECT_JOINED', n, 'of', len(g['features']), '| terrain factors joined', m, '|', geo_path.stat().st_size, 'bytes')
