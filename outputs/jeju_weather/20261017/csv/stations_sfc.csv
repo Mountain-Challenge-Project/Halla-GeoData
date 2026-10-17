@@ -1,0 +1,5 @@
+﻿station_id,longitude,latitude,station_code,ground_elevation_m,barometer_elevation_m,thermometer_height_agl_m,wind_height_agl_m,raingauge_height_agl_m,name,forecast_zone,law_id,network,metadata_reference_kst,metadata_history_verified,source_url
+184,126.52969,33.51411,61101,20.79,21.99,1.7,15.0,1.5,제주,11G00201,5011010700,SFC,202610160000,False,https://apihub.kma.go.kr/api/typ01/url/stn_inf.php
+185,126.16283,33.29382,61200,71.39,72.49,1.7,10.0,1.5,고산,11G00501,5011031023,SFC,202610160000,False,https://apihub.kma.go.kr/api/typ01/url/stn_inf.php
+188,126.8802,33.38677,61400,20.34,21.74,1.7,10.0,1.5,성산,11G00101,5013025927,SFC,202610160000,False,https://apihub.kma.go.kr/api/typ01/url/stn_inf.php
+189,126.5653,33.24616,61311,51.86,53.16,1.7,10.0,1.5,서귀포,11G00401,5013010100,SFC,202610160000,False,https://apihub.kma.go.kr/api/typ01/url/stn_inf.php

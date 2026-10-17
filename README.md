@@ -6,6 +6,8 @@
 
 **현재 제공 상태:** 경사도·탐방로 지도는 바로 사용할 수 있습니다. 기상청 수집기는 2026-10-15에 실제 API허브 키로 레이더 합성(PCPH 60분 누적) 원자료 수집을 확인했고, `work/radar_to_frame.py`가 원자료를 검증된 GeoTIFF로 바꿔 한라산 격자 프레임(`processor.py`)과 제주 전역 격자 프레임을 만듭니다. 저장소에 커밋된 초기 화면은 여전히 `입력 대기`이며, 실제 프레임은 수집기를 돌린 로컬과 [라이브 지도](https://claude.ai/artifact/CBcggtAioALH875ft8xAxS)에 반영됩니다. 공식 레이더 격자 정의는 좌표 API로 검증했습니다(아래 "레이더 격자 검증").
 
+**2026-10-17 CSV 수집본 추가:** 제주 ASOS·AWS·고층 관측·예보와 레이더의 [고정 CSV](outputs/jeju_weather/20261017/) 및 Python 수집기를 제공합니다. [실행 방법과 미수집 항목](#제주-국지기상-데이터-수집)에 확보량과 남은 403을 정리했습니다. 이 수집본은 아래 기존 지도·모델 파이프라인과 별도로 보관합니다.
+
 ![한라산 지형·탐방로와 레이더 입력 대기 화면](outputs/hallasan_radar_layers_v1/지도_레이어_미리보기.png)
 
 ## 공간 대시보드 (실시간 동기화)
@@ -236,3 +238,91 @@ $env:SLOPE_REGION = 'jeju'
 `work/build_radar_workspace.py`는 정적 지도 자료를 다시 만들면서 초기 대기 상태를 기록합니다. 운영 중 수집자료가 있는 폴더에서 무심코 재실행하지 마세요. `work/package_radar_workspace.py`는 오프라인 ZIP과 검증 결과를 재생성합니다. 개인정보·인증키·실수집 자료·임시 테스트 폴더는 공개 파일집에 포함하지 않습니다.
 
 모든 API 상품의 가용성·실응답 지도 변환·AWS 배포·상시 운영 성능은 아직 검증하지 않았습니다. 지형 및 레이더 시각화는 탐방 통제나 안전 판단을 대신하지 않습니다.
+
+## 제주 국지기상 데이터 수집
+
+이번 수집본은 **2026-09-16~2026-10-15 KST의 30일 관측**과 **2026-10-17에 받은 최신 관측·예보**입니다. 저장소의 `outputs/jeju_weather/20261017/`는 고정된 연구용 자료입니다. `latest/`도 수집 당시의 최근 성공 자료이며 GitHub에서 자동으로 갱신되는 실시간 피드가 아닙니다.
+
+### 파일을 바로 읽기
+
+API 키 없이 [CSV 폴더](outputs/jeju_weather/20261017/csv/)를 내려받아 Excel·Python·QGIS에서 읽을 수 있습니다. 대용량 CSV는 GitHub 미리보기 대신 **Download raw file** 또는 저장소 다운로드를 이용하세요. UTF-8 BOM이며 결측은 빈칸입니다.
+
+| 자료 | 실제 확보량 / 범위 |
+|---|---|
+| [ASOS 시간자료](outputs/jeju_weather/20261017/csv/asos_hourly_20260916_20261015.csv) | 제주·고산·성산·서귀포 4지점, 2,880행 |
+| [AWS 일통계](outputs/jeju_weather/20261017/csv/aws_daily_20260916_20261015.csv) | 43지점, 5변수의 긴 형식 6,417행 / 기대 6,450행; 33조합 미수신 |
+| 고지대 매분자료 | 4지점에서 총 102,600행 확보; 아래 완결률 확인 |
+| [고층 관측](outputs/jeju_weather/20261017/csv/sounding_47186_history.csv) | 국가태풍센터 47186, 120프로파일·13,285개 관측층 |
+| [최근 AWS](outputs/jeju_weather/20261017/latest/aws_latest.csv) / [ASOS](outputs/jeju_weather/20261017/latest/asos_latest.csv) | 각각 43지점(10월 17일 08:33 KST) / 4지점(08:00 KST) |
+| [초단기예보](outputs/jeju_weather/20261017/latest/ultra_forecast.csv) / [단기예보](outputs/jeju_weather/20261017/latest/short_forecast.csv) | 66행 / 907행, nx=54·ny=36 한 격자; 실제 발표시각은 각각 07:00 / 05:00 KST |
+| [레이더 격자점](outputs/jeju_weather/20261017/csv/radar_jeju_native_points.csv) | 10월 16일 08:05 KST 종료의 60분 누적강수 한 시각, 제주 주변 57,258개 점(바다 포함) |
+
+AWS 43지점 목록에 ASOS 4지점이 포함됩니다. 47개 독립 지점이 아닙니다. `latest/sounding_latest.csv`는 10월 15일 21:00 KST의 오래된 표본으로 지연 상태를 표시했습니다. 30일 고층 자료는 위의 `sounding_47186_history.csv`를 사용하세요.
+
+분석 파일은 [file_inventory.csv](outputs/jeju_weather/20261017/file_inventory.csv)의 **17개 주 데이터셋**을 기준으로 선택합니다. `_raw.csv`는 원래 필드·음수코드 확인용이고, `aws_hourly_snapshot`은 매 정각의 표본이며 시간평균이 아닙니다. `latest/`와 `snapshots/`의 같은 갱신본을 중복 합산하지 마세요.
+
+- [36개 설계 항목별 확보 현황](outputs/jeju_weather/20261017/collection_catalog_36.csv)
+- [ASOS·AWS 정규화 칼럼 사전](outputs/jeju_weather/20261017/field_dictionary.csv) · [상세 변수/시간 해석](DATA_COLLECTION.md#변수와-시간-해석)
+- [지점·변수별 결측/기초검사 결과](outputs/jeju_weather/20261017/quality/station_variable_availability.csv) · [일통계 미수신 33조합](outputs/jeju_weather/20261017/quality/daily_missing_records.csv)
+- [API별 실제 호출 상태](outputs/jeju_weather/20261017/api_status.csv) · [파일 SHA-256](outputs/jeju_weather/20261017/MANIFEST.json)
+
+### Python 실행
+
+저장소 루트에서 **Python 3.10 이상**으로 실행합니다. 수집·CSV 정리는 표준 라이브러리만 사용하며, 기존 `.env`의 `KMA_API_KEY`를 그대로 읽습니다. 새 PC에서는 `SETUP_ENV.cmd` 또는 `python kma_client.py setup`으로 로컬 `.env`를 만들고 키를 입력하세요. 키와 운영 결과 `runtime/`은 Git에서 제외합니다.
+
+```powershell
+# 키 설정 확인만 수행; API 호출 없음
+py kma_client.py check
+
+# 최신 ASOS/AWS/초단기·단기예보 수집 + CSV·최신 manifest 갱신
+py weather_collect.py refresh
+
+# 고정된 과거 30일 수집 / 재개
+py weather_collect.py history --start 2026-09-16 --end 2026-10-15
+py weather_collect.py mountain-history --start 2026-09-16 --end 2026-10-15 --workers 2
+py weather_collect.py sounding-history --start 2026-09-16 --end 2026-10-15
+
+# 받은 원자료를 CSV·품질표로 정리; 네트워크/인증키 사용 없음
+py weather_collect.py export
+
+# 저장소에 포함된 고정 CSV의 해시·행수·참조 경로 검증; API 호출 없음
+py work/package_weather.py --verify-only
+
+# 네트워크 없는 단위 테스트
+py -m unittest discover -s tests -v
+```
+
+`py`가 없는 환경에서는 `python` 또는 `python3`를 사용합니다. 기본 출력은 `runtime/jeju_weather_collection/`이며 `--output`으로 바꿀 수 있습니다. 과거 수집 세 명령은 CSV 정리가 끝나는 `export`까지 실행하세요. 저장소에 공개한 폴더는 HTTP 원본 전체를 포함하지 않으므로 `export --output outputs/...`의 입력으로 사용하지 않습니다.
+
+`refresh`는 한 번 실행하고 끝납니다. Windows 스케줄러·AWS 예약 실행을 설치하지 않으며 레이더·고층 관측은 자동 갱신 대상에 포함하지 않습니다. `latest/latest.json`이 가리키는 불변 CSV를 읽고 관측/발표시각과 지연 상태를 함께 확인하는 구조입니다. 같은 출력 폴더에 여러 수집 프로세스를 동시에 실행하지 마세요.
+
+레이더 원자료와 공식 PCP 좌표는 `py weather_collect.py radar`로 수집합니다. `weather_radar_csv.py`는 **GDAL·NumPy가 있는 QGIS Python**에서 오프라인으로 좌표를 결합합니다. [상세 실행 방법](DATA_COLLECTION.md)에 수집기별 역할·단위·출처를 정리했습니다. 생성한 점 CSV는 기존 500m 참고격자에 집계하거나 지도에 반영한 결과가 아닙니다.
+
+### 부분 수집과 미수집 항목
+
+아래 표와 36개 항목 CSV는 **이번 `outputs/jeju_weather/20261017/` 수집본의 확보 상태**입니다. 저장소의 [Geo Data Analyst](Geo%20Data%20Analyst/README.md)에는 별도의 KIM 등압면 입력·지점기압 검증·ASOS 기반 푄 후보 목록이 있고, 대시보드에는 별도의 특보 수집기가 있습니다. 이들 자료를 이번 30일 CSV에 병합하거나 독립 정답으로 검증한 것은 아닙니다.
+
+고도 700m 이상 8지점을 요청했으며, 네트워크 시간초과·응답 잘림 뒤 재시도에서도 빈 구간이 남았습니다. 아래 완결률은 **수신 시각 행수** 기준이며 개별 변수의 유효율은 별도입니다.
+
+| 지점 | 수신 분자료 / 기대 43,200분 | 완결률 |
+|---|---:|---:|
+| 어리목 | 43,200 | 100% |
+| 성판악 | 43,200 | 100% |
+| 삼각봉 | 7,560 | 17.5% |
+| 사제비 | 8,640 | 20% |
+| 영실·진달래밭·윗세오름·한라산남벽 | 각 0 | 각 0% |
+
+미수신은 0mm 또는 0°C를 뜻하지 않습니다. 동일 `mountain-history` 명령은 로컬에 남긴 응답을 재사용하여 수집을 재개할 수 있습니다. 새 PC에는 원본 캐시가 없으므로 API에서 다시 받아야 합니다.
+
+| 남은 항목 | 현재 상태 / 다음 확인 |
+|---|---|
+| AWS 시간통계 `awsh.php`, 고층 분석지수 `upp_idx.php`, 위성 지점 운량 `nph_sun_sat_txt` | 실제 요청 HTTP 403. 상품별 활용신청·권한 확인 필요. 성공한 AWS 매분/고층 원관측과는 다른 endpoint |
+| 관측소 이전·기기 교체 이력 | 미확보; 현재 위치·센서 정보를 과거 전체에 그대로 적용하지 않음 |
+| 토지피복·해양 부이/SST·윈드프로파일러·수치예보 연직장·공간 기압장/일기도·ERA5·위성 LST | 명세/출처 또는 지점 일부 값만 확보; 해당 원자료 미수집 |
+| 과거 30일 전체 예보 발행본 | 미확보; 이번 호출의 발행본만 보관 |
+| 푄 발생 독립 정답·코스별 검증 센서·기상특보/탐방통제 이력 | 실자료 미확보 |
+| 레이더 시간계열·순간 강우강도·음수코드 의미·500m 격자 정렬·독립 지상 검증 | 이번 점 CSV에서는 미완료. 기존 `radar_to_frame.py` 및 공식 격자 검증과 별도이며, 이 수집본과 현행 격자의 재대조는 수행하지 않음 |
+
+PCPH는 누적강수 **mm**이며 순간 강우강도 **mm/h**로 이름만 바꾸지 않습니다. AWS의 겹치는 누적강수도 연속 시각별로 더하지 않습니다. 한 예보 격자와 지점 관측을 한라산 전역의 500m 실측으로 해석하지 마세요. 이번 PR은 확보 자료와 재현 가능한 수집 구조를 추가하며, 이 CSV를 기존 푄 모델·코스별 보정·실시간 지도에 연결한 것은 아닙니다.
+
+`static_inventory.csv`는 수집 당시 지형 파일을 **`source_git_revision`과 해시**로 참조합니다. 당시 제주 격자는 7,519개였으며 현재 `main`의 공식 격자 7,518개와 구분합니다. 과거 격자 파일을 이번 PR로 되돌리거나 새 기상 CSV에 조인하지 않았습니다.

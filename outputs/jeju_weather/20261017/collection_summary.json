@@ -1,0 +1,358 @@
+{
+  "generated_at_utc": "2026-10-16T23:48:11.038781+00:00",
+  "files": [
+    {
+      "file": "csv/asos_hourly_20260916_20261015.csv",
+      "rows": 2880,
+      "expected_rows": 2880,
+      "stations": 4,
+      "first_time": "2026-09-16T00:00:00+09:00",
+      "last_time": "2026-10-15T23:00:00+09:00",
+      "note": "ASOS native hourly; negative rain codes remain missing",
+      "sha256": "c06a9ba6cba7ee8d122b7844168621f583e341e32a1cf58116a45652dd52d830"
+    },
+    {
+      "file": "csv/aws_minute_753_20260916_20261015.csv",
+      "rows": 43200,
+      "expected_rows": 43200,
+      "stations": 1,
+      "first_time": "2026-09-16T00:00:00+09:00",
+      "last_time": "2026-10-15T23:59:00+09:00",
+      "note": "AWS native minute; 10-minute mean wind and rolling accumulation",
+      "sha256": "f49a37cd285cb67b4aecf4297f20f262ad47339618ca31e66f5fde002c71b6b4"
+    },
+    {
+      "file": "csv/aws_hourly_snapshot_753_20260916_20261015.csv",
+      "rows": 720,
+      "expected_rows": 720,
+      "stations": 1,
+      "first_time": "2026-09-16T00:00:00+09:00",
+      "last_time": "2026-10-15T23:00:00+09:00",
+      "note": "Exact top-of-hour sample, not hourly mean or interpolated series",
+      "sha256": "8e177489e4500e5766a29bc60471a8d2f49252be0b12e2e09dffc7994b659211"
+    },
+    {
+      "file": "csv/aws_minute_782_20260916_20261015.csv",
+      "rows": 43200,
+      "expected_rows": 43200,
+      "stations": 1,
+      "first_time": "2026-09-16T00:00:00+09:00",
+      "last_time": "2026-10-15T23:59:00+09:00",
+      "note": "AWS native minute; 10-minute mean wind and rolling accumulation",
+      "sha256": "61b6fca12bad427cfc21d014a0c5c8cf09ea2d61fab098601a882aa2d6245f1f"
+    },
+    {
+      "file": "csv/aws_hourly_snapshot_782_20260916_20261015.csv",
+      "rows": 720,
+      "expected_rows": 720,
+      "stations": 1,
+      "first_time": "2026-09-16T00:00:00+09:00",
+      "last_time": "2026-10-15T23:00:00+09:00",
+      "note": "Exact top-of-hour sample, not hourly mean or interpolated series",
+      "sha256": "9e02c02b238b9a7da717c47b26d8e1c8dd98fb365f708bec4d63cb1cbf69ebf8"
+    },
+    {
+      "file": "csv/aws_minute_867_20260916_20261015.csv",
+      "rows": 7560,
+      "expected_rows": 43200,
+      "stations": 1,
+      "first_time": "2026-09-16T00:00:00+09:00",
+      "last_time": "2026-09-21T23:59:00+09:00",
+      "note": "AWS native minute; 10-minute mean wind and rolling accumulation",
+      "sha256": "08a32b8d1120f1b5b9cbae79a1992ffeb28fac8855e328ce6766ec8f89932235"
+    },
+    {
+      "file": "csv/aws_hourly_snapshot_867_20260916_20261015.csv",
+      "rows": 126,
+      "expected_rows": 720,
+      "stations": 1,
+      "first_time": "2026-09-16T00:00:00+09:00",
+      "last_time": "2026-09-21T23:00:00+09:00",
+      "note": "Exact top-of-hour sample, not hourly mean or interpolated series",
+      "sha256": "37d2f9776abe0ca72c7207918f1589c865f0387655fc98a1c0fa0e42a365e25a"
+    },
+    {
+      "file": "csv/aws_minute_868_20260916_20261015.csv",
+      "rows": 8640,
+      "expected_rows": 43200,
+      "stations": 1,
+      "first_time": "2026-09-16T06:00:00+09:00",
+      "last_time": "2026-09-22T05:59:00+09:00",
+      "note": "AWS native minute; 10-minute mean wind and rolling accumulation",
+      "sha256": "149c454705d05848c52a7c34a8bc61f2aacc95f21c49cba667a6c781179b6321"
+    },
+    {
+      "file": "csv/aws_hourly_snapshot_868_20260916_20261015.csv",
+      "rows": 144,
+      "expected_rows": 720,
+      "stations": 1,
+      "first_time": "2026-09-16T06:00:00+09:00",
+      "last_time": "2026-09-22T05:00:00+09:00",
+      "note": "Exact top-of-hour sample, not hourly mean or interpolated series",
+      "sha256": "09c9a398b3047cee017e38a8f7b87dd7f6cb69660b5360bf9048f057fdc1a1b4"
+    },
+    {
+      "file": "csv/aws_daily_20260916_20261015.csv",
+      "rows": 6417,
+      "expected_rows": "",
+      "stations": 43,
+      "first_time": "2026-09-16",
+      "last_time": "2026-10-15",
+      "note": "Five daily variables in long format; date uses KST",
+      "sha256": "40e4f421292a158295f3434d6a9d784fac140e4e9b351e71273061b8306ee200"
+    },
+    {
+      "file": "latest/asos_latest.csv",
+      "rows": 4,
+      "expected_rows": "",
+      "stations": 4,
+      "first_time": "2026-10-17T08:00:00+09:00",
+      "last_time": "2026-10-17T08:00:00+09:00",
+      "note": "Latest successfully parsed snapshot; actual publication availability unknown",
+      "sha256": "9ddb3bc4425e8c401008f2687a573bc94793da80f9c908fbea8e54d6c733aaa1"
+    },
+    {
+      "file": "latest/ultra_forecast.csv",
+      "rows": 66,
+      "expected_rows": "",
+      "stations": 0,
+      "first_time": "2026-10-17T07:00:00+09:00",
+      "last_time": "2026-10-17T07:00:00+09:00",
+      "note": "Latest successfully parsed snapshot; actual publication availability unknown",
+      "sha256": "650a5c42e0ca95da682158f93571e048fa0475967b549de4e5fff4e9f9b24f57"
+    },
+    {
+      "file": "latest/short_forecast.csv",
+      "rows": 907,
+      "expected_rows": "",
+      "stations": 0,
+      "first_time": "2026-10-17T05:00:00+09:00",
+      "last_time": "2026-10-17T05:00:00+09:00",
+      "note": "Latest successfully parsed snapshot; actual publication availability unknown",
+      "sha256": "c916e814ddd14d31313860d8da8a12f619e5b4776a63f6710270e339519d8d69"
+    },
+    {
+      "file": "latest/sounding_latest.csv",
+      "rows": 138,
+      "expected_rows": "",
+      "stations": 1,
+      "first_time": "2026-10-15T21:00:00+09:00",
+      "last_time": "2026-10-15T21:00:00+09:00",
+      "note": "Latest successfully parsed snapshot; actual publication availability unknown",
+      "sha256": "91cc75e81727a665703ac8dcaf26a649fd314d8e171733d5b94de1e93ec6e951"
+    },
+    {
+      "file": "latest/aws_latest.csv",
+      "rows": 43,
+      "expected_rows": 43,
+      "stations": 43,
+      "first_time": "2026-10-17T08:33:00+09:00",
+      "last_time": "2026-10-17T08:33:00+09:00",
+      "note": "Per-station latest success; station times may differ",
+      "sha256": "3e65f4610639491b1021b652391ab45b7336138f064df62bd2253a0fe7ded704"
+    },
+    {
+      "file": "csv/sounding_47186_history.csv",
+      "rows": 13285,
+      "expected_rows": "",
+      "stations": 1,
+      "first_time": "2026-09-16T03:00:00+09:00",
+      "last_time": "2026-10-15T21:00:00+09:00",
+      "note": "Native vertical levels; -999 retained in raw fields; no surface extrapolation",
+      "sha256": "1f8711626db5a0bbffb67f6e5d55288d9a9e813f64852141595203fa49146e73"
+    },
+    {
+      "file": "csv/radar_jeju_native_points.csv",
+      "rows": 57258,
+      "expected_rows": "",
+      "stations": 0,
+      "first_time": "2026-10-16T08:05:00+09:00",
+      "last_time": "2026-10-16T08:05:00+09:00",
+      "note": "Official PCP native grid points in Jeju bbox, including sea; negative codes unresolved",
+      "sha256": "6ad73b336387c6bf16566a90b24afdf0d558df9b5de9688c3b058a9e238b55fb"
+    }
+  ],
+  "api": [
+    {
+      "endpoint": "https://apihub.kma.go.kr/api/typ01/url/stn_inf.php",
+      "request_count": 2,
+      "downloaded_responses": 2,
+      "last_http_status": 200,
+      "last_transport_status": "downloaded_unvalidated",
+      "last_success_received_utc": "2026-10-15T15:55:07.126498+00:00",
+      "parameters_json": "{\"inf\": \"AWS\", \"stn\": 0, \"tm\": \"202610160000\", \"help\": 1}",
+      "note": "HTTP success is separate from parse success and meteorological quality"
+    },
+    {
+      "endpoint": "https://apihub.kma.go.kr/api/typ01/url/kma_sfctm3.php",
+      "request_count": 2,
+      "downloaded_responses": 2,
+      "last_http_status": 200,
+      "last_transport_status": "downloaded_unvalidated",
+      "last_success_received_utc": "2026-10-15T15:58:39.385793+00:00",
+      "parameters_json": "{\"tm1\": \"202609160000\", \"tm2\": \"202610152300\", \"stn\": \"184:185:188:189\", \"help\": 1}",
+      "note": "HTTP success is separate from parse success and meteorological quality"
+    },
+    {
+      "endpoint": "https://apihub.kma.go.kr/api/typ01/cgi-bin/url/nph-aws2_min",
+      "request_count": 639,
+      "downloaded_responses": 164,
+      "last_http_status": 200,
+      "last_transport_status": "downloaded_unvalidated",
+      "last_success_received_utc": "2026-10-16T23:44:16.542091+00:00",
+      "parameters_json": "{\"tm2\": \"202610170833\", \"stn\": 0, \"disp\": 1, \"help\": 1}",
+      "note": "HTTP success is separate from parse success and meteorological quality"
+    },
+    {
+      "endpoint": "https://apihub.kma.go.kr/api/typ01/url/sfc_aws_day.php",
+      "request_count": 6,
+      "downloaded_responses": 6,
+      "last_http_status": 200,
+      "last_transport_status": "downloaded_unvalidated",
+      "last_success_received_utc": "2026-10-15T15:58:45.044614+00:00",
+      "parameters_json": "{\"tm1\": \"20260916\", \"tm2\": \"20261015\", \"obs\": \"ws_ins_max\", \"stn\": \"182:184:185:188:189:328:329:330:331:724:725:726:727:751:752:753:779:780:781:782:792:793:855:861:862:863:865:867:868:869:870:871:883:885:890:892:893:960:965:980:989:990:993\", \"help\": 1}",
+      "note": "HTTP success is separate from parse success and meteorological quality"
+    },
+    {
+      "endpoint": "https://apihub.kma.go.kr/api/typ01/cgi-bin/url/nph-dfs_xy_lonlat",
+      "request_count": 1,
+      "downloaded_responses": 1,
+      "last_http_status": 200,
+      "last_transport_status": "downloaded_unvalidated",
+      "last_success_received_utc": "2026-10-15T15:55:37.600459+00:00",
+      "parameters_json": "{\"lon\": 126.5357, \"lat\": 33.361, \"help\": 1}",
+      "note": "HTTP success is separate from parse success and meteorological quality"
+    },
+    {
+      "endpoint": "https://apihub.kma.go.kr/api/typ01/url/kma_sfctm2.php",
+      "request_count": 4,
+      "downloaded_responses": 4,
+      "last_http_status": 200,
+      "last_transport_status": "downloaded_unvalidated",
+      "last_success_received_utc": "2026-10-16T23:44:09.513335+00:00",
+      "parameters_json": "{\"tm\": \"202610170800\", \"stn\": \"184:185:188:189\", \"help\": 1}",
+      "note": "HTTP success is separate from parse success and meteorological quality"
+    },
+    {
+      "endpoint": "https://apihub.kma.go.kr/api/typ01/url/awsh.php",
+      "request_count": 1,
+      "downloaded_responses": 0,
+      "last_http_status": 403,
+      "last_transport_status": "http_error",
+      "last_success_received_utc": "",
+      "parameters_json": "{\"tm\": \"202610160000\", \"stn\": 0, \"help\": 1}",
+      "note": "HTTP success is separate from parse success and meteorological quality"
+    },
+    {
+      "endpoint": "https://apihub.kma.go.kr/api/typ02/openApi/VilageFcstInfoService_2.0/getUltraSrtFcst",
+      "request_count": 4,
+      "downloaded_responses": 4,
+      "last_http_status": 200,
+      "last_transport_status": "downloaded_unvalidated",
+      "last_success_received_utc": "2026-10-16T23:44:17.036343+00:00",
+      "parameters_json": "{\"pageNo\": 1, \"numOfRows\": 1000, \"dataType\": \"JSON\", \"base_date\": \"20261017\", \"base_time\": \"0730\", \"nx\": 54, \"ny\": 36}",
+      "note": "HTTP success is separate from parse success and meteorological quality"
+    },
+    {
+      "endpoint": "https://apihub.kma.go.kr/api/typ02/openApi/VilageFcstInfoService_2.0/getVilageFcst",
+      "request_count": 4,
+      "downloaded_responses": 4,
+      "last_http_status": 200,
+      "last_transport_status": "downloaded_unvalidated",
+      "last_success_received_utc": "2026-10-16T23:44:18.476329+00:00",
+      "parameters_json": "{\"pageNo\": 1, \"numOfRows\": 2000, \"dataType\": \"JSON\", \"base_date\": \"20261017\", \"base_time\": \"0500\", \"nx\": 54, \"ny\": 36}",
+      "note": "HTTP success is separate from parse success and meteorological quality"
+    },
+    {
+      "endpoint": "https://apihub.kma.go.kr/api/typ01/url/upp_temp.php",
+      "request_count": 131,
+      "downloaded_responses": 121,
+      "last_http_status": 200,
+      "last_transport_status": "downloaded_unvalidated",
+      "last_success_received_utc": "2026-10-16T23:38:59.594352+00:00",
+      "parameters_json": "{\"tm\": \"202609251800\", \"stn\": 47186, \"pa\": 0, \"help\": 1}",
+      "note": "HTTP success is separate from parse success and meteorological quality"
+    },
+    {
+      "endpoint": "https://apihub.kma.go.kr/api/typ01/url/upp_idx.php",
+      "request_count": 1,
+      "downloaded_responses": 0,
+      "last_http_status": 403,
+      "last_transport_status": "http_error",
+      "last_success_received_utc": "",
+      "parameters_json": "{\"tm1\": \"202609160000\", \"tm2\": \"202610151200\", \"stn\": 0, \"help\": 1}",
+      "note": "HTTP success is separate from parse success and meteorological quality"
+    },
+    {
+      "endpoint": "https://apihub.kma.go.kr/api/typ01/cgi-bin/url/nph_sun_sat_txt",
+      "request_count": 1,
+      "downloaded_responses": 0,
+      "last_http_status": 403,
+      "last_transport_status": "http_error",
+      "last_success_received_utc": "",
+      "parameters_json": "{\"tm1\": \"202610151800\", \"tm2\": \"202610152100\", \"int\": 60, \"varn\": \"CA\", \"lon\": 126.5357, \"lat\": 33.361}",
+      "note": "HTTP success is separate from parse success and meteorological quality"
+    },
+    {
+      "endpoint": "https://apihub.kma.go.kr/api/typ01/cgi-bin/url/nph-rdr_cmp1_api",
+      "request_count": 1,
+      "downloaded_responses": 1,
+      "last_http_status": 200,
+      "last_transport_status": "downloaded_unvalidated",
+      "last_success_received_utc": "2026-10-15T23:27:55.984206+00:00",
+      "parameters_json": "{\"tm\": \"202610160805\", \"cmp\": \"PCPH\", \"qcd\": \"MSK\", \"obs\": \"ECHO\", \"acc\": 60, \"map\": \"HB\", \"disp\": \"A\", \"unit\": \"MM\"}",
+      "note": "HTTP success is separate from parse success and meteorological quality"
+    },
+    {
+      "endpoint": "https://apihub.kma.go.kr/api/typ01/url/rdr_latlon_file_down.php",
+      "request_count": 2,
+      "downloaded_responses": 1,
+      "last_http_status": 200,
+      "last_transport_status": "downloaded_unvalidated",
+      "last_success_received_utc": "2026-10-15T23:34:53.845566+00:00",
+      "parameters_json": "{\"cmp\": \"PCP\"}",
+      "note": "HTTP success is separate from parse success and meteorological quality"
+    }
+  ],
+  "parse_failures": [],
+  "excluded_aws_responses": [
+    {
+      "raw_file": "raw/aws_minute_753_20260922/20261015T232706039394Z.txt",
+      "status": "incomplete_or_invalid_excluded"
+    },
+    {
+      "raw_file": "raw/aws_minute_753_20260923/20261015T232736434948Z.txt",
+      "status": "incomplete_or_invalid_excluded"
+    },
+    {
+      "raw_file": "raw/aws_minute_753_20260925/20261015T232832133827Z.txt",
+      "status": "incomplete_or_invalid_excluded"
+    },
+    {
+      "raw_file": "raw/aws_minute_753_20261004/20261016T233927213384Z.txt",
+      "status": "incomplete_or_invalid_excluded"
+    },
+    {
+      "raw_file": "raw/aws_minute_782_20260922/20261015T232705878493Z.txt",
+      "status": "incomplete_or_invalid_excluded"
+    },
+    {
+      "raw_file": "raw/aws_minute_782_20260923/20261015T232736287900Z.txt",
+      "status": "incomplete_or_invalid_excluded"
+    },
+    {
+      "raw_file": "raw/aws_minute_782_20260925/20261015T232832317557Z.txt",
+      "status": "incomplete_or_invalid_excluded"
+    },
+    {
+      "raw_file": "raw/aws_minute_782_20261005/20261016T233915060417Z.txt",
+      "status": "incomplete_or_invalid_excluded"
+    },
+    {
+      "raw_file": "raw/aws_minute_867_20260921/20261016T234156564225Z.txt",
+      "status": "incomplete_or_invalid_excluded"
+    }
+  ],
+  "unique_aws_metadata_stations": 43,
+  "unique_asos_metadata_stations": 4
+}
