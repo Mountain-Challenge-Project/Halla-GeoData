@@ -69,5 +69,46 @@
    "sea_buffer": 1795
   },
   "coastal_buffer_m": 2000
+ },
+ "aspect_png": {
+  "epsg3857": [
+   14038377.900669998,
+   3906185.568297802,
+   14138594.167149998,
+   3974570.447402197
+  ],
+  "sw": [
+   33.081943,
+   126.108894
+  ],
+  "ne": [
+   33.595159,
+   127.009152
+  ],
+  "pixels": [
+   4096,
+   2795
+  ],
+  "sectors": [
+   "N",
+   "NE",
+   "E",
+   "SE",
+   "S",
+   "SW",
+   "W",
+   "NW"
+  ],
+  "colors": [
+   "#d7191c",
+   "#fdae61",
+   "#ffffbf",
+   "#a6d96a",
+   "#1a9641",
+   "#2b83ba",
+   "#5e3c99",
+   "#b2abd2"
+  ],
+  "note": "GDAL Horn aspect of the 30 m DSM; flat (< 2 deg) and sea transparent"
  }
 }
