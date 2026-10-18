@@ -6,6 +6,7 @@
   outputs/jeju_dashboard/data/boundary.geojson union of the land + islet cells (the analysis outline) and, as a second feature,
                                                the union of the whole grid including the 2 km coastal buffer
   outputs/jeju_dashboard/data/satellite.jpg    copy of work/public_sources/satellite_jeju.jpg (Esri export for the region bounds)
+  outputs/jeju_dashboard/data/aspect.png       slope-face direction (8 sectors) rendered from aspect_degrees_30m.tif in EPSG:3857
   outputs/jeju_dashboard/data/slope.png        slope classes rendered from outputs/jeju_slope/slope_degrees_30m.tif in EPSG:3857
   outputs/jeju_dashboard/data/overlays.json    image bounds (EPSG:3857 and WGS84) and credits; existing hillshade entry is kept
 Run after the SLOPE_REGION=jeju cascade (prepare -> fetch_slope_sources -> build_slope_data -> render).
@@ -65,9 +66,22 @@ rgba[3, a < 0.5] = 0   # sea / flat water transparent
 drv = gdal.GetDriverByName('MEM'); ds = drv.Create('', a.shape[1], a.shape[0], 4, gdal.GDT_Byte); ds.SetGeoTransform(slope.GetGeoTransform()); ds.SetProjection(slope.GetProjection())
 for k in range(4): ds.GetRasterBand(k + 1).WriteArray(rgba[k])
 gdal.Translate(str(OUT / 'slope.png'), ds, format='PNG')
+# aspect (slope face direction) in 8 sectors, same bounds; flat (slope < 2 deg) and sea transparent
+aspect = gdal.Warp('', str(SLOPE / 'aspect_degrees_30m.tif'), format='MEM', dstSRS='EPSG:3857', outputBounds=b, width=w, height=h, resampleAlg='near', dstNodata=-9999)
+asp = aspect.ReadAsArray(); ASPECT_COLORS = ['d7191c', 'fdae61', 'ffffbf', 'a6d96a', '1a9641', '2b83ba', '5e3c99', 'b2abd2']   # N NE E SE S SW W NW
+sector = ((np.mod(asp + 22.5, 360) // 45).astype(int)) % 8
+rgba2 = np.zeros((4, a.shape[0], a.shape[1]), np.uint8)
+for i, c in enumerate(ASPECT_COLORS):
+    m = (sector == i) & (asp >= 0) & (a >= 2)
+    for k in range(3): rgba2[k, m] = int(c[k * 2:k * 2 + 2], 16)
+    rgba2[3, m] = 190
+ds2 = drv.Create('', a.shape[1], a.shape[0], 4, gdal.GDT_Byte); ds2.SetGeoTransform(slope.GetGeoTransform()); ds2.SetProjection(slope.GetProjection())
+for k in range(4): ds2.GetRasterBand(k + 1).WriteArray(rgba2[k])
+gdal.Translate(str(OUT / 'aspect.png'), ds2, format='PNG')
 wgs = osr.CoordinateTransformation(srs(3857), srs(4326)); sw = wgs.TransformPoint(b[0], b[1]); ne = wgs.TransformPoint(b[2], b[3])
 ov_path = OUT / 'overlays.json'; ov = json.loads(ov_path.read_text('utf-8')) if ov_path.exists() else {}
 ov['slope_png'] = {'epsg3857': b, 'sw': [round(sw[1], 6), round(sw[0], 6)], 'ne': [round(ne[1], 6), round(ne[0], 6)], 'pixels': [w, h]}
+ov['aspect_png'] = {'epsg3857': b, 'sw': [round(sw[1], 6), round(sw[0], 6)], 'ne': [round(ne[1], 6), round(ne[0], 6)], 'pixels': [w, h], 'sectors': ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'], 'colors': ['#' + c for c in ASPECT_COLORS], 'note': 'GDAL Horn aspect of the 30 m DSM; flat (< 2 deg) and sea transparent'}
 ov['satellite_jpg'] = {'epsg3857': b, 'sw': [round(sw[1], 6), round(sw[0], 6)], 'ne': [round(ne[1], 6), round(ne[0], 6)]}
 ov.setdefault('credits', {'terrain': 'produced using Copernicus WorldDEM-30 (c) DLR e.V. 2010-2014 and (c) Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights reserved.', 'imagery': 'Esri, Vantor, Earthstar Geographics, GIS User Community', 'vectors': '(c) OpenStreetMap contributors, ODbL; Natural Earth'})
 ov['grid'] = {'cells': len(feats), 'zones': {z: sum(1 for f in feats if f['properties']['zone'] == z) for z in ('land', 'islet', 'sea_buffer')}, 'coastal_buffer_m': 2000}

@@ -51,7 +51,7 @@ if '--standalone' in sys.argv:
              for n in ['overlays', 'olle', 'trails', 'steep', 'boundary', 'park', 'grid']}
     embed['images'] = {'satellite': 'data:image/jpeg;base64,' + base64.b64encode((data_dir / 'satellite.jpg').read_bytes()).decode(),
                        'slope': 'data:image/png;base64,' + base64.b64encode((data_dir / 'slope.png').read_bytes()).decode()}
-    for name in ['hillshade', 's2_truecolor', 's2_ndvi', 's2_snow']:  # optional open-data overlays
+    for name in ['hillshade', 's2_truecolor', 's2_ndvi', 's2_snow', 'aspect']:  # optional overlays
         p = data_dir / (name + '.png')
         if p.exists():
             embed['images'][name] = 'data:image/png;base64,' + base64.b64encode(p.read_bytes()).decode()

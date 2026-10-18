@@ -114,7 +114,7 @@ dl.sel dt{color:var(--muted);white-space:nowrap}dl.sel dd{margin:0;font-family:v
     </section>
     <section class="card">
       <h2>격자 색상</h2>
-      <select id="selMetric" aria-label="격자 색상 기준"><option value="mean_deg">평균 경사 (°)</option><option value="max_deg">최대 경사 (°)</option><option value="steep_pct">20° 이상 면적 비율 (%)</option><option value="rain" disabled>강수 (mm/h) · 입력 대기</option><option value="acc180" disabled>3시간 누적 (mm) · 없음</option><option value="acc360" disabled>6시간 누적 (mm) · 없음</option><option value="acc1440" disabled>24시간 누적 (mm) · 없음</option><option value="fc_rn1" disabled>예보 1시간 강수 (mm, 선택 시간)</option><option value="fc_total" disabled>예보 6시간 합계 (mm)</option><option value="wind_exp" disabled>풍상 사면 노출 (m/s, 풍향×경사향)</option><option value="cell_t" disabled>셀 추정 기온 (°C, 고도 보정)</option><option value="dewdep" disabled>기온−이슬점 차 (°C, 운무 가능)</option><option value="wchill" disabled>체감온도 (°C)</option><option value="cell_td" disabled>셀 이슬점 (°C, 이슬점 감률)</option><option value="lcl_rel" disabled>LCL − 셀 고도 (m, 음수 = 구름 속)</option><option value="foehn" disabled>푄 지수 (°C, 상류 공기 단열 계산)</option><option value="cell_p" disabled>지점기압 (hPa, ASOS 해면기압 × 셀 고도)</option><option value="ml_t" disabled>학습 보정 기온 (°C) · 모델 없음</option><option value="ml_td" disabled>학습 보정 이슬점 (°C) · 모델 없음</option></select>
+      <select id="selMetric" aria-label="격자 색상 기준"><option value="mean_deg">평균 경사 (°)</option><option value="max_deg">최대 경사 (°)</option><option value="steep_pct">20° 이상 면적 비율 (%)</option><option value="aspect">경사향 (셀 사면 방향, 8방위)</option><option value="rain" disabled>강수 (mm/h) · 입력 대기</option><option value="acc180" disabled>3시간 누적 (mm) · 없음</option><option value="acc360" disabled>6시간 누적 (mm) · 없음</option><option value="acc1440" disabled>24시간 누적 (mm) · 없음</option><option value="fc_rn1" disabled>예보 1시간 강수 (mm, 선택 시간)</option><option value="fc_total" disabled>예보 6시간 합계 (mm)</option><option value="wind_exp" disabled>풍상 사면 노출 (m/s, 풍향×경사향)</option><option value="cell_t" disabled>셀 추정 기온 (°C, 고도 보정)</option><option value="dewdep" disabled>기온−이슬점 차 (°C, 운무 가능)</option><option value="wchill" disabled>체감온도 (°C)</option><option value="cell_td" disabled>셀 이슬점 (°C, 이슬점 감률)</option><option value="lcl_rel" disabled>LCL − 셀 고도 (m, 음수 = 구름 속)</option><option value="foehn" disabled>푄 지수 (°C, 상류 공기 단열 계산)</option><option value="cell_p" disabled>지점기압 (hPa, ASOS 해면기압 × 셀 고도)</option><option value="ml_t" disabled>학습 보정 기온 (°C) · 모델 없음</option><option value="ml_td" disabled>학습 보정 이슬점 (°C) · 모델 없음</option></select>
       <div style="margin-top:8px"><div class="ramp" id="ramp"></div><div class="ticks" id="ticks"></div></div>
       <div class="row small muted" style="margin-top:6px"><label class="chk" style="padding:0"><input type="range" id="gridOpacity" min="0" max="100" value="55" style="width:120px;accent-color:var(--accent)" aria-label="격자 채움 투명도">채움 농도</label></div>
     </section>
@@ -122,6 +122,8 @@ dl.sel dt{color:var(--muted);white-space:nowrap}dl.sel dd{margin:0;font-family:v
       <h2>레이어</h2>
       <label class="chk"><input type="checkbox" id="lyGrid" checked><span class="swatch poly" style="background:#e9823a"></span>500 m 격자 (색상 기준 적용)</label>
       <label class="chk"><input type="checkbox" id="lySlope"><span class="swatch poly" style="background:linear-gradient(90deg,#fff158,#ff7826,#a40000)"></span>30 m 경사 등급 래스터</label>
+      <label class="chk"><input type="checkbox" id="lyAspect"><span class="swatch poly" style="background:conic-gradient(#d7191c,#fdae61,#ffffbf,#a6d96a,#1a9641,#2b83ba,#5e3c99,#b2abd2,#d7191c)"></span>30 m 사면 방향 래스터 (8방위)</label>
+      <div class="legend" id="aspectLegend" hidden style="margin-top:4px"></div>
       <label class="chk"><input type="checkbox" id="lyOlle" checked><span class="swatch" style="background:#ff4fa3"></span>제주올레 코스 (OSM)</label>
       <label class="chk"><input type="checkbox" id="lyTrails" checked><span class="swatch" style="background:#00f0e1"></span>한라산 탐방로 6코스</label>
       <label class="chk"><input type="checkbox" id="lySteep" checked><span class="swatch" style="background:#ff2a2a"></span>탐방로 급경사 구간 (20° 이상)</label>
@@ -206,6 +208,7 @@ const RAMPS={
 const METRICS={
   mean_deg:{label:'평균 경사',unit:'°',breaks:[2,5,10,15,20],ramp:'slope',get:p=>p.mean_deg},
   max_deg:{label:'최대 경사',unit:'°',breaks:[10,20,30,40,50],ramp:'slope',get:p=>p.max_deg},
+  aspect:{label:'경사향',unit:'',breaks:[],ramp:'slope',cat:true,get:p=>(p.asp_deg==null||p.asp_r==null||p.asp_r<0.2)?null:p.asp_deg},
   steep_pct:{label:'20° 이상 면적',unit:'%',breaks:[1,5,10,20,40],ramp:'slope',get:p=>p.steep_pct},
   rain:{label:'강수 (평균)',unit:'mm/h',breaks:[0.5,1,2,5,10],ramp:'rain',get:p=>{const r=rain.values[p.grid_id];return r?r[0]:null;}},
   acc180:{label:'3시간 누적',unit:'mm',breaks:[5,15,30,60,90],ramp:'rain',get:p=>accVal('180',p)},
@@ -302,14 +305,16 @@ let obs=null; const cellProps={};  // obs: data/obs_latest.json or db radar/obs;
 const layers={};
 let map, grid, db=null, user=null, canWrite=null, pollTimer=null, unsubLatest=null, unsubParts=null;
 
-function colorFor(v,m){ if(v==null||isNaN(v)) return null; const r=RAMPS[m.ramp]; let i=0; while(i<m.breaks.length&&v>=m.breaks[i]) i++; return r[i]; }
+const ASPECT_SECTORS=[['N','북','#d7191c'],['NE','북동','#fdae61'],['E','동','#ffffbf'],['SE','남동','#a6d96a'],['S','남','#1a9641'],['SW','남서','#2b83ba'],['W','서','#5e3c99'],['NW','북서','#b2abd2']];
+function aspectSector(deg){ return ASPECT_SECTORS[Math.floor((((deg%360)+360)%360+22.5)/45)%8]; }
+function colorFor(v,m){ if(v==null||isNaN(v)) return null; if(m.cat) return aspectSector(v)[2]; const r=RAMPS[m.ramp]; let i=0; while(i<m.breaks.length&&v>=m.breaks[i]) i++; return r[i]; }
 function gridStyle(f){ const m=METRICS[metric]; const p=f.properties; const sea=p.zone==='sea_buffer'; const v=(sea&&m.ramp==='slope')?null:m.get(p); const c=colorFor(v,m);
   if(c==null) return sea?{color:'rgba(140,200,255,.45)',weight:.6,dashArray:'2 3',fillColor:'#000',fillOpacity:0}:{color:'rgba(255,255,255,.35)',weight:.6,fillColor:'#000',fillOpacity:0};
   return {color:sea?'rgba(140,200,255,.6)':'rgba(255,255,255,.45)',weight:.5,dashArray:sea?'2 3':null,fillColor:c,fillOpacity:sea?fillOpacity*.7:fillOpacity}; }
 function fmt(v,d){ return (v==null||isNaN(v))?'–':Number(v).toFixed(d==null?1:d); }
 function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
-function renderLegend(){ const m=METRICS[metric]; const r=RAMPS[m.ramp]; $('ramp').innerHTML=r.map(c=>`<span style="background:${c}"></span>`).join('');
+function renderLegend(){ const m=METRICS[metric]; if(m.cat){ $('ramp').innerHTML=ASPECT_SECTORS.map(s=>`<span style="background:${s[2]}"></span>`).join(''); $('ticks').innerHTML=ASPECT_SECTORS.map(s=>`<span>${s[1]}</span>`).join('')+'<span>평탄 셀(집중도&lt;0.2)은 색 없음</span>'; return; } const r=RAMPS[m.ramp]; $('ramp').innerHTML=r.map(c=>`<span style="background:${c}"></span>`).join('');
   $('ticks').innerHTML=[m.tick0||'0',...m.breaks.map(b=>String(b))].map(t=>`<span>${t}</span>`).join('')+`<span>${esc(m.unit)}</span>`; }
 function renderSlopeLegend(){ $('slopeLegend').innerHTML=SLOPE_CLASSES.map(([c,l])=>`<span class="sw" style="background:${c}"></span><span>${l}</span>`).join(''); }
 function restyleGrid(){ if(grid) grid.setStyle(gridStyle); renderLegend(); rebuildRisk(); rebuildMove(); rebuildPhys(); }
@@ -375,7 +380,7 @@ function showSelection(kind,p,layer){ selected={kind,p}; if(selectedLayer&&selec
   if(kind==='grid'){ const r=rain.values[p.grid_id]; rows=[['격자',p.grid_id+(p.zone==='sea_buffer'?' · 해안 2 km 완충 셀 (바다, 지형 통계 없음)':p.zone==='islet'?' · 부속섬 셀 (육지 '+fmt(p.land_pct,0)+' %)':'')],['열·행 (i, j)',p.i_ref+', '+p.j_ref],['평균 경사',fmt(p.mean_deg,2)+'°'],['90백분위',fmt(p.p90_deg,2)+'°'],['최대 경사',fmt(p.max_deg,2)+'°'],['20° 이상 면적',fmt(p.steep_pct,2)+' %'],['평균 고도',fmt(p.elev_mean,0)+' m'],['최고 고도',fmt(p.elev_max,0)+' m']];
     if(rain.frame_id) rows.push(['강수 평균/최대',r?fmt(r[0],2)+' / '+fmt(r[1],2)+' mm/h':'자료 없음'],['강수 유효면적',r?fmt(r[2],0)+' %':'–']);
     for(const acc of ['180','360','1440']){ const v=rain.accum&&rain.accum[acc]&&rain.accum[acc][p.grid_id]; if(v) rows.push([(acc/60)+'시간 누적 평균/최대',fmt(v[0],1)+' / '+fmt(v[1],1)+' mm']); }
-    rows.push(['경사향 / 집중도',p.asp_deg==null?'없음 (평탄)':fmt(p.asp_deg,0)+'° '+windName(p.asp_deg)+'향 / '+fmt(p.asp_r,2)]);
+    rows.push(['경사향 / 집중도',p.asp_deg==null?'없음 (평탄)':fmt(p.asp_deg,0)+'° '+windName(p.asp_deg)+'향 ('+aspectSector(p.asp_deg)[1]+' 사면) / 집중도 '+fmt(p.asp_r,2)+(p.asp_r<0.2?' · 방향 불명확':'')]);
     if(p.tpi_1km_m!=null) rows.push(['지형 인자 (TPI 1 km / 하늘개방도 / 해안 거리)',fmt(p.tpi_1km_m,0)+' m / '+fmt(p.svf,2)+' / '+fmt(p.coast_km,1)+' km']);
     if(p.lc_tree!=null) rows.push(['토지피복 (WorldCover) · 수관고',`수목 ${fmt(p.lc_tree,0)} · 초지 ${fmt(p.lc_grass,0)} · 농지 ${fmt(p.lc_crop,0)} · 시가지 ${fmt(p.lc_builtup,0)} %`+(p.canopy_mean_m!=null?` · 수관고 ${fmt(p.canopy_mean_m,1)} m`:'')]);
     const fh=fcHourObj(p); if(fh){ const pt=fcPoint(p); const we=windExp(p); rows.push(['예보 ('+hourLabel(forecast.hours[fcHour])+', 5 km 점 '+(pt.nx+','+pt.ny)+')',(fh.t1h||'–')+'°C / '+(fh.wsd||'–')+' m/s / '+(fh.reh||'–')+' % / 풍향 '+(fh.vec?fh.vec+'° '+windName(fh.vec):'–')],
@@ -477,12 +482,13 @@ async function boot(){
   layers.sat=L.imageOverlay(satUrl,satB,{attribution:'배경: Esri, Vantor, Earthstar Geographics, GIS User Community · 고도: Copernicus GLO-30 (ESA/DLR/Airbus) · © OpenStreetMap contributors'}).addTo(map);
   layers.slope=L.imageOverlay(slopeUrl,slopeB,{opacity:.6});
   if(ov.hillshade_png){ layers.hill=L.imageOverlay(img('hillshade'),[ov.hillshade_png.sw,ov.hillshade_png.ne],{opacity:.45}); } else { $('lyHill').disabled=true; }
+  if(ov.aspect_png){ layers.aspect=L.imageOverlay(img('aspect'),[ov.aspect_png.sw,ov.aspect_png.ne],{opacity:.65}); $('aspectLegend').innerHTML=ASPECT_SECTORS.map(s=>`<span class="sw" style="background:${s[2]}"></span><span>${s[1]} (${s[0]})</span>`).join('')+'<span class="muted">경사 2° 미만·바다 투명</span>'; } else { $('lyAspect').disabled=true; }
   if(s2meta&&s2meta.truecolor){ layers.s2=L.imageOverlay(img('s2_truecolor'),[s2meta.truecolor.sw,s2meta.truecolor.ne],{opacity:1}).addTo(map); layers.ndvi=L.imageOverlay(img('s2_ndvi'),[s2meta.ndvi.sw,s2meta.ndvi.ne],{opacity:.8}); layers.snow=L.imageOverlay(img('s2_snow'),[s2meta.snow.sw,s2meta.snow.ne],{opacity:.9});
     const d=(s2meta.dates_used||[]).map(u=>u.date); $('lyS2').checked=true; $('lblS2').textContent='Sentinel-2 실색 합성 ('+(d[0]||'')+(d.length>1?' 외 '+(d.length-1)+'일':'')+')'; $('lblSnow').textContent='Sentinel-2 적설 마스크 ('+(s2meta.snow_area_km2!=null?fmt(s2meta.snow_area_km2,1)+' km²':'–')+')';
     $('s2Info').innerHTML=`합성 규칙: 가장 최근의 구름 없는 픽셀 우선 (SCL 구름·그림자 제외) · 해상도 ${s2meta.resolution_m} m · 육지 피복률 ${fmt(s2meta.coverage_pct,1)} %<br>${(s2meta.dates_used||[]).map(u=>`${esc(u.date)}: 픽셀 ${fmt(u.pixel_share_pct,1)} % (타일 구름 ${Object.values(u.tiles).map(t=>fmt(t.cloud_cover_pct,0)).join('/')} %)`).join('<br>')}<br>NDVI 육지 평균 ${s2meta.ndvi_mean_land==null?'–':fmt(s2meta.ndvi_mean_land,2)} · 적설 ${fmt(s2meta.snow_area_km2,1)} km²`; }
   else { ['lyS2','lyNdvi','lySnow'].forEach(id=>{$(id).disabled=true;}); $('s2Info').textContent='Sentinel-2 합성 자료 없음 (work/build_open_data_layers.py 실행 필요)'; }
   const canvas=L.canvas({padding:.3});
-  grid=L.geoJSON(gridGj,{renderer:canvas,style:gridStyle,onEachFeature:(f,l)=>{ fcKey(f.properties,l); cellProps[f.properties.grid_id]=f.properties; cellCenter[f.properties.grid_id]=l.getBounds().getCenter(); l.on('click',()=>showSelection('grid',f.properties,l)); l.bindTooltip(()=>{const p=f.properties;const m=METRICS[metric];const v=m.get(p);return `${p.grid_id}${p.zone==='sea_buffer'?' · 해안 완충(바다)':p.zone==='islet'?' · 부속섬':''} · ${m.label} ${fmt(v,m.unit==='mm/h'?2:1)}${m.unit}`;},{sticky:true,direction:'top',opacity:.9}); }});
+  grid=L.geoJSON(gridGj,{renderer:canvas,style:gridStyle,onEachFeature:(f,l)=>{ fcKey(f.properties,l); cellProps[f.properties.grid_id]=f.properties; cellCenter[f.properties.grid_id]=l.getBounds().getCenter(); l.on('click',()=>showSelection('grid',f.properties,l)); l.bindTooltip(()=>{const p=f.properties;const m=METRICS[metric];const v=m.get(p);return `${p.grid_id}${p.zone==='sea_buffer'?' · 해안 완충(바다)':p.zone==='islet'?' · 부속섬':''} · ${m.label} ${m.cat?(v==null?'평탄':aspectSector(v)[1]+'향 '+fmt(v,0)+'°'):fmt(v,m.unit==='mm/h'?2:1)+m.unit}`;},{sticky:true,direction:'top',opacity:.9}); }});
   layers.grid=grid.addTo(map);
   layers.boundary=L.layerGroup([L.geoJSON(boundary,{style:f=>f.properties&&f.properties.name==='grid_with_coastal_buffer'?{color:'#8cc8ff',weight:1,fill:false,dashArray:'2 4',opacity:.8}:{color:'#ffffff',weight:1.2,fill:false,dashArray:'4 3',opacity:.9}}),L.geoJSON(park,{style:{color:'#9cffad',weight:1,fill:false,dashArray:'3 3',opacity:.9}})]).addTo(map);
   layers.steep=L.geoJSON(steep,{style:{color:'#ff2a2a',weight:4,opacity:.95},onEachFeature:(f,l)=>l.on('click',()=>showSelection('steep',f.properties,l))}).addTo(map);
@@ -498,9 +504,10 @@ async function boot(){
   else { $('lyPoi').disabled=true; }
   map.fitBounds(satB,{padding:[4,4]});
   const toggle=(id,layer)=>{ if(!layer) return; $(id).addEventListener('change',e=>{ if(e.target.checked) layer.addTo(map); else map.removeLayer(layer); }); };
-  toggle('lyGrid',layers.grid); toggle('lySlope',layers.slope); toggle('lyOlle',layers.olle); toggle('lyTrails',layers.trails); toggle('lySteep',layers.steep); toggle('lyBoundary',layers.boundary); toggle('lySat',layers.sat); toggle('lyRisk',layers.risk); toggle('lyMove',layers.move);
+  toggle('lyGrid',layers.grid); toggle('lySlope',layers.slope); toggle('lyAspect',layers.aspect); toggle('lyOlle',layers.olle); toggle('lyTrails',layers.trails); toggle('lySteep',layers.steep); toggle('lyBoundary',layers.boundary); toggle('lySat',layers.sat); toggle('lyRisk',layers.risk); toggle('lyMove',layers.move);
   toggle('lyS2',layers.s2); toggle('lyNdvi',layers.ndvi); toggle('lySnow',layers.snow); toggle('lyHill',layers.hill); toggle('lyPoi',layers.pois); toggle('lySac',layers.sac); toggle('lyObs',layers.obs); toggle('lyFoehn',layers.foehn); toggle('lyFog',layers.fog);
   $('lySlope').addEventListener('change',e=>{ $('slopeLegend').hidden=!e.target.checked; });
+  $('lyAspect').addEventListener('change',e=>{ $('aspectLegend').hidden=!e.target.checked; });
   $('selMetric').addEventListener('change',e=>{ metric=e.target.value; restyleGrid(); });
   $('gridOpacity').addEventListener('input',e=>{ fillOpacity=e.target.value/100; restyleGrid(); });
   $('btnRefresh').addEventListener('click',()=>{ if(rain.mode==='static') pollStatic(); else { rain.checked=new Date(); renderLiveMeta(); } });
