@@ -35,7 +35,7 @@ def rmse(e): return float(np.sqrt(np.mean(np.square(e)))) if len(e) else None
 
 def models():
     return {'ridge': make_pipeline(SimpleImputer(strategy='median'), StandardScaler(), Ridge(alpha=1.0)),
-            'rf': make_pipeline(SimpleImputer(strategy='median'), RandomForestRegressor(n_estimators=300, min_samples_leaf=5, n_jobs=-1, random_state=0)),
+            'rf': make_pipeline(SimpleImputer(strategy='median'), RandomForestRegressor(n_estimators=200, min_samples_leaf=20, max_features='sqrt', n_jobs=-1, random_state=0)),
             'gbm': make_pipeline(SimpleImputer(strategy='median'), HistGradientBoostingRegressor(max_iter=300, learning_rate=0.05, min_samples_leaf=20, random_state=0))}
 
 
@@ -85,7 +85,8 @@ def main():
         r = evaluate(d, target, phys); r['n'] = int(len(d)); r['importance_rf'] = importance(d, target, phys); report['targets'][key] = r
         if enough:
             best = min(r['loso'], key=lambda n: r['loso'][n]['rmse']); m = models()[best]; m.fit(d[FEATURES].astype(float).values, (d[target] - d[phys]).values)
-            joblib.dump({'model': m, 'features': FEATURES, 'phys': phys, 'target': target, 'name': best, 'trained_at': report['trained_at'], 'rows': int(len(d))}, MODELS / f'residual_{key}.joblib')
+            src = d['source'].value_counts().to_dict() if 'source' in d else {'live': int(len(d))}
+            joblib.dump({'model': m, 'features': FEATURES, 'phys': phys, 'target': target, 'name': best, 'trained_at': report['trained_at'], 'rows': int(len(d)), 'basis': {'rows_by_source': {k: int(v) for k, v in src.items()}, 'live_rows': int(src.get('live', 0)), 'stations': int(d['stn'].nunique()), 'loso_rmse': r['loso'][best]['rmse'], 'physics_rmse': r['physics_only']['rmse']}}, MODELS / f'residual_{key}.joblib')
             r['saved_model'] = best
     (GDA / 'data/residual_model_report.json').write_text(json.dumps(report, ensure_ascii=False, indent=1), encoding='utf-8')
     brief = {k: {'n': v.get('n'), 'physics_rmse': v.get('physics_only', {}).get('rmse'), 'loso_rmse': {n: round(s['rmse'], 2) for n, s in v.get('loso', {}).items()}} for k, v in report['targets'].items() if 'n' in v}

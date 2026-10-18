@@ -39,7 +39,11 @@ def main():
     OUT.parent.mkdir(parents=True, exist_ok=True); new = not OUT.exists(); seen = set()
     if not new:
         with OUT.open(encoding='utf-8') as f:
-            for r in csv.DictReader(f): seen.add((r['issue_kst'], r['stn']))
+            rd = csv.DictReader(f); old_rows = list(rd); old_cols = rd.fieldnames or []
+        for r in old_rows: seen.add((r['issue_kst'], r['stn']))
+        if old_cols != COLS:   # the feature set grew: rewrite the archive with the current columns so every row stays aligned
+            with OUT.open('w', newline='', encoding='utf-8') as f:
+                w = csv.DictWriter(f, fieldnames=COLS); w.writeheader(); [w.writerow({c: r.get(c, '') for c in COLS}) for r in old_rows]
     dt = __import__('datetime').datetime.strptime(hour, '%Y%m%d%H%M'); doy = dt.timetuple().tm_yday
     added = 0
     with OUT.open('a', newline='', encoding='utf-8') as f:

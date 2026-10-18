@@ -1,36 +1,36 @@
 {
- "issues": 3,
+ "issues": 4,
  "first_issue": "2026-10-17T08:30:00+09:00",
- "last_issue": "2026-10-17T15:30:00+09:00",
- "station_rows": 118,
+ "last_issue": "2026-10-18T22:30:00+09:00",
+ "station_rows": 160,
  "overall": {
   "temperature": {
    "raw_5km_point": {
-    "n": 118,
-    "bias": 0.72,
-    "rmse": 2.25
+    "n": 160,
+    "bias": 0.49,
+    "rmse": 2.12
    },
    "lapse_corrected": {
-    "n": 118,
-    "bias": 0.66,
-    "rmse": 2.03
+    "n": 160,
+    "bias": 0.44,
+    "rmse": 1.88
    },
    "foehn_aware": {
-    "n": 118,
-    "bias": 0.66,
-    "rmse": 2.04
+    "n": 160,
+    "bias": 0.43,
+    "rmse": 1.89
    }
   },
   "dew_point": {
    "lapse_corrected": {
-    "n": 118,
-    "bias": 0.96,
-    "rmse": 4.05
+    "n": 160,
+    "bias": 0.58,
+    "rmse": 3.55
    },
    "foehn_aware": {
-    "n": 118,
-    "bias": 1.0,
-    "rmse": 4.15
+    "n": 160,
+    "bias": 0.61,
+    "rmse": 3.64
    }
   }
  },
@@ -38,93 +38,93 @@
   "<300 m": {
    "temperature": {
     "raw_5km_point": {
-     "n": 82,
-     "bias": 0.12,
-     "rmse": 1.59
+     "n": 112,
+     "bias": -0.14,
+     "rmse": 1.54
     },
     "lapse_corrected": {
-     "n": 82,
-     "bias": 0.29,
-     "rmse": 1.5
+     "n": 112,
+     "bias": 0.03,
+     "rmse": 1.42
     },
     "foehn_aware": {
-     "n": 82,
-     "bias": 0.29,
-     "rmse": 1.5
+     "n": 112,
+     "bias": 0.03,
+     "rmse": 1.42
     }
    },
    "dew_point": {
     "lapse_corrected": {
-     "n": 82,
-     "bias": -0.54,
-     "rmse": 1.73
+     "n": 112,
+     "bias": -0.61,
+     "rmse": 1.64
     },
     "foehn_aware": {
-     "n": 82,
-     "bias": -0.54,
-     "rmse": 1.73
+     "n": 112,
+     "bias": -0.61,
+     "rmse": 1.64
     }
    }
   },
   "300-1000 m": {
    "temperature": {
     "raw_5km_point": {
-     "n": 18,
-     "bias": 1.3,
-     "rmse": 2.63
+     "n": 24,
+     "bias": 1.2,
+     "rmse": 2.45
     },
     "lapse_corrected": {
-     "n": 18,
-     "bias": 0.85,
-     "rmse": 2.51
+     "n": 24,
+     "bias": 0.75,
+     "rmse": 2.3
     },
     "foehn_aware": {
-     "n": 18,
-     "bias": 0.76,
-     "rmse": 2.55
+     "n": 24,
+     "bias": 0.68,
+     "rmse": 2.33
     }
    },
    "dew_point": {
     "lapse_corrected": {
-     "n": 18,
-     "bias": 0.38,
-     "rmse": 3.66
+     "n": 24,
+     "bias": 0.17,
+     "rmse": 3.24
     },
     "foehn_aware": {
-     "n": 18,
-     "bias": 0.38,
-     "rmse": 3.67
+     "n": 24,
+     "bias": 0.17,
+     "rmse": 3.25
     }
    }
   },
   ">=1000 m": {
    "temperature": {
     "raw_5km_point": {
-     "n": 18,
-     "bias": 2.88,
-     "rmse": 3.86
+     "n": 24,
+     "bias": 2.73,
+     "rmse": 3.58
     },
     "lapse_corrected": {
-     "n": 18,
-     "bias": 2.15,
-     "rmse": 3.24
+     "n": 24,
+     "bias": 2.0,
+     "rmse": 2.98
     },
     "foehn_aware": {
-     "n": 18,
-     "bias": 2.23,
-     "rmse": 3.23
+     "n": 24,
+     "bias": 2.06,
+     "rmse": 2.97
     }
    },
    "dew_point": {
     "lapse_corrected": {
-     "n": 18,
-     "bias": 8.35,
-     "rmse": 8.97
+     "n": 24,
+     "bias": 6.54,
+     "rmse": 7.82
     },
     "foehn_aware": {
-     "n": 18,
-     "bias": 8.62,
-     "rmse": 9.27
+     "n": 24,
+     "bias": 6.74,
+     "rmse": 8.08
     }
    }
   }
@@ -222,6 +222,37 @@
      "rmse": 4.24
     }
    }
+  },
+  "23": {
+   "temperature": {
+    "raw_5km_point": {
+     "n": 42,
+     "bias": -0.14,
+     "rmse": 1.67
+    },
+    "lapse_corrected": {
+     "n": 42,
+     "bias": -0.2,
+     "rmse": 1.38
+    },
+    "foehn_aware": {
+     "n": 42,
+     "bias": -0.2,
+     "rmse": 1.38
+    }
+   },
+   "dew_point": {
+    "lapse_corrected": {
+     "n": 42,
+     "bias": -0.47,
+     "rmse": 1.43
+    },
+    "foehn_aware": {
+     "n": 42,
+     "bias": -0.47,
+     "rmse": 1.43
+    }
+   }
   }
  },
  "foehn_active_rows": {
@@ -256,8 +287,8 @@
   }
  },
  "improvement_vs_raw_pct": {
-  "lapse_rmse": 9.8,
-  "foehn_aware_rmse": 9.3
+  "lapse_rmse": 11.3,
+  "foehn_aware_rmse": 10.8
  },
  "note": "accumulates one row per station per pipeline run; raw = 5 km point value applied to the cell (no correction), lapse = linear control, foehn-aware = stage-2 physics; needs weeks of runs before the numbers mean much"
 }

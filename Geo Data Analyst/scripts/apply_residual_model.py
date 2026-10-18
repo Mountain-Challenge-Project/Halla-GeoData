@@ -44,7 +44,9 @@ def main():
         rows.append([float(v[k]) if v[k] is not None and v[k] != '' else np.nan for k in feats]); ids.append((p['grid_id'], st['t'], st['td']))
     X = np.array(rows, float); rt = m['t']['model'].predict(X); rtd = m['td']['model'].predict(X)
     cells = {g: [round(t + a, 1), round(min(td + b, t + a), 1)] for (g, t, td), a, b in zip(ids, rt, rtd)}
-    doc = {'status': 'ok', 'hour': hour, 'issue_kst': fc['base_time_kst'], 'model': {k: m[k]['name'] for k in m}, 'trained_rows': m['t']['rows'], 'trained_at': m['t']['trained_at'], 'cells': cells,
+    basis = m['t'].get('basis', {})
+    doc = {'status': 'ok', 'hour': hour, 'issue_kst': fc['base_time_kst'], 'model': {k: m[k]['name'] for k in m}, 'trained_rows': m['t']['rows'], 'trained_at': m['t']['trained_at'], 'basis': basis,
+           'preliminary': bool(basis.get('live_rows', 0) < 2000), 'cells': cells,
            'note': 'physics estimate + learned residual (obs - physics) from the station archive; leave-one-station-out error in residual_model_report.json'}
     OUT.write_text(json.dumps(doc, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
     print('ML_CELLS', json.dumps({'status': 'ok', 'cells': len(cells), 'hour': hour, 'model': doc['model']}))
