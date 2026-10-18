@@ -73,6 +73,20 @@ def foehn(t_up, rh_up, z_up, z_ridge, z_cell, wind_ms, lee_depth_m):
     return {'t': t_cell, 'td': td_cell, 'rh': rh_from(t_cell, td_cell), 'lcl_alt': lcl, 'ridge': z_ridge, 'condensed': condensed, 'index': index, 'active': active}
 
 
+def apparent_temperature(t_c, wind_ms, rh_pct):
+    """KMA apparent temperature: winter wind-chill (JAG/TI) when T <= 10 degC and wind >= 4.8 km/h; summer formula
+    (KMA 2022, Stull wet-bulb) when T >= 20 degC; otherwise the air temperature. The dashboard shows it as the
+    difference from the air temperature (+- band) because the absolute value hides the effect around 0 degC."""
+    v = (wind_ms or 0.0) * 3.6
+    if t_c <= 10 and v >= 4.8:
+        k = v ** 0.16; return 13.12 + 0.6215 * t_c - 11.37 * k + 0.3965 * t_c * k
+    if t_c >= 20 and rh_pct is not None:
+        rh = max(1.0, min(100.0, rh_pct))
+        tw = (t_c * math.atan(0.151977 * math.sqrt(rh + 8.313659)) + math.atan(t_c + rh) - math.atan(rh - 1.676331) + 0.00391838 * rh ** 1.5 * math.atan(0.023101 * rh) - 4.686035)
+        return -0.2442 + 0.55399 * tw + 0.45535 * t_c - 0.0022 * tw * tw + 0.00278 * tw * t_c + 3.0
+    return t_c
+
+
 def station_pressure(ps_hpa, t_c, z_m, td_c=None):
     """Station (local) pressure from sea-level pressure by the hypsometric equation. The layer temperature is the
     mean of the surface air temperature and the temperature extrapolated to sea level (6.5 degC/km); virtual
