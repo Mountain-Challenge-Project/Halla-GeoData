@@ -722,5 +722,19 @@
     "worldcover_2021": "tile N33E126, per-cell class shares -> jeju_grid_landcover.csv (tree share mean 60.6 %)",
     "eth_canopy_2020": "tile N33E126, per-cell mean/p90 canopy height (mean 15.4 m)",
     "stations_mapped": "42 of 42 (islands included after the regrid)"
+  },
+  "scheduler": {
+    "registered_on": "2026-10-19",
+    "tasks": {
+      "Halla-GeoData pipeline": "hourly at :45, Geo Data Analyst/scripts/RUN_PIPELINE.cmd",
+      "Halla-GeoData train": "weekly Sunday 03:00, RUN_TRAIN.cmd"
+    },
+    "note": "registered with schtasks on this PC at the user's request; logs in runtime/kma/pipeline.log"
+  },
+  "aws_history_backfill": {
+    "started_on": "2026-10-19",
+    "source": "KMA API Hub nph-aws2_min with tm1/tm2 (one day per request), hourly snapshot at minute :00",
+    "scope_first_pass": "8 mountain stations (>= 700 m) from 2025-10-01",
+    "status": "running; results recorded when the retrain completes"
   }
 }

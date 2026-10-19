@@ -26,7 +26,9 @@
 | `scripts/archive_features.py` | 4단계 학습용 특징 아카이브: 지점별 시간·지형·예보·KIM·물리값·관측 목표를 한 행으로 누적 (`runtime/kma/verification/features.csv`) |
 | `scripts/train_residual_model.py` | 4단계 잔차 학습 (anaconda Python): 릿지 대조군·랜덤포레스트·그래디언트 부스팅, 지점 제외 교차검증·시간 분리 검증, 변수 중요도 → `data/residual_model_report.json`, 모델은 로컬 `runtime/kma/models/` |
 | `scripts/apply_residual_model.py` | 학습된 잔차 모델을 전 셀에 적용 → `outputs/jeju_dashboard/data/ml_cells.json` (모델이 없으면 `no_model`) |
-| `scripts/RUN_TRAIN.cmd` | 주 1회 재학습·적용 배치 |
+| `scripts/RUN_TRAIN.cmd` | 주 1회: 재분석 짝 학습 자료 재구성 → 재학습(`--with-era5`) → 셀 적용 배치 |
+| `scripts/import_aws_history_csv.py` | 수집기 CSV(`outputs/jeju_weather/*/csv/aws_hourly_snapshot_*.csv`) 또는 포털 CSV 변환본을 시간 아카이브 `runtime/kma/obs/aws_hourly/`로 들여옴 |
+| `scripts/backfill_aws_hourly.py` | **AWS 과거 시간자료 소급 수집(1순위 KMA 관측)**: API허브 매분 아카이브를 하루 단위(tm1/tm2)로 받아 정각 값만 시간 아카이브에 저장, 지점별 진행 상태 저장·재개, 지점 동시 요청 |
 | `scripts/foehn_case_validation.py` | 5단계 푄 사례 검증: ASOS 횡단 바람 9,359시간에 공기덩이 모듈을 적용해 풍하 지점 관측과 비교, 적용 규칙(게이트·블렌드) 탐색 → `data/foehn_case_validation.json` |
 | `scripts/asos_case_catalogue.py` | 안개·호우 사례 목록(ASOS)과 운무 규칙 적중률 → `data/fog_cases_asos.csv`, `data/heavy_rain_cases_asos.csv`, 요약 JSON |
 | `scripts/fetch_era5_openmeteo.py` | **차선 자료**: Open-Meteo 아카이브 API로 42지점의 ERA5-Land 지상·ERA5 925/850 hPa 시간자료(2023~)를 연도별 CSV로 받음 (계정 불필요). 1순위는 Copernicus CDS 원자료이며, `runtime/kma/era5_cds/`에 CDS NetCDF가 있으면 학습 자료 구성 시 그쪽을 우선 사용 |
@@ -59,7 +61,7 @@
 
 | 구분 | 자료 | 상태 |
 |---|---|---|
-| 정답 | AWS 1분(제주 42지점), ASOS 시간(4지점), 지점정보, 제주 라디오존데(47186) | API 승인, 수집 중. ASOS는 2023-01부터 소급 수집 완료(로컬) |
+| 정답 | AWS 1분(제주 42지점), ASOS 시간(4지점), 지점정보, 제주 라디오존데(47186) | API 승인, 수집 중. ASOS는 2023-01부터 소급 수집 완료(로컬). AWS 과거 시간자료는 `backfill_aws_hourly.py`로 소급 중(산지 8지점 2025-10~ 우선, 이어서 전 지점·전 기간) |
 | 격자 입력 | 초단기예보·실황, 단기예보, 레이더 PCPH·HSR, AWS 객관분석 격자, KIM 등압면, 천리안 2A L2, 특보 | API 승인 |
 | 격자 입력 | KIM 지상 2D, 낙뢰 | 활용신청 대기 |
 | 지형 | 셀 고도·경사·경사향·집중도, TPI, 하늘개방도, 해안 거리, 16방위 상류 최고고도 | 완료 (`grid.geojson`에 결합) |
@@ -106,7 +108,7 @@ python work/update_grid_properties.py
 python "Geo Data Analyst/scripts/verify_obs_vs_forecast.py"
 ```
 
-관측을 주기적으로 쌓으려면 `scripts/RUN_OBS.cmd`를 Windows 작업 스케줄러에 10분 주기로 등록합니다(파일 안에 명령 예시).
+주기 실행은 2026-10-19에 Windows 작업 스케줄러에 등록했습니다: `Halla-GeoData pipeline`(매시 45분, `RUN_PIPELINE.cmd`)과 `Halla-GeoData train`(일요일 03:00, `RUN_TRAIN.cmd`). 다른 PC에서는 파일 안의 `schtasks` 명령으로 등록합니다.
 
 ## 진행 단계
 
