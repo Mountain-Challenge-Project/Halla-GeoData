@@ -162,6 +162,22 @@ python "Geo Data Analyst/scripts/verify_obs_vs_forecast.py"
 
 학습 자료는 재분석(Open-Meteo ERA5, 차선) 입력과 짝지은 해안 ASOS 4지점 3년치 13.3만 행에 PR #17 수집기의 산지 AWS 4지점(어리목·성판악·삼각봉·사제비) 1,481행, 실시간 예보 입력 80행을 더한 것입니다. 지점 수(42)와 행수는 임계치를 넘지만 산지 표본이 적고 입력이 재분석이라 **예비 모델**로 표시합니다. 실시간 행이 2,000개를 넘으면(매시 파이프라인 약 2일) 표시가 풀리고, 포털 AWS 과거 CSV가 들어오면 산지 표본이 수백 배로 늘어납니다. 대시보드 색상 기준 "학습 보정 기온 / 이슬점"이 켜졌고, 셀 상세에 물리값 대비 보정량과 교차검증 RMSE가 나옵니다.
 
+## 외부 자료 키와 수집 스크립트 (각 자료는 별도 PR로)
+
+키는 저장소 루트 `.env`(Git 제외)에만 적습니다. 빈 자리는 `.env.example`에 설명과 함께 있고, `python "Geo Data Analyst/scripts/external/check_external_keys.py"`가 자리별로 "비어 있음 / 입력됨 / 동작"을 보여 줍니다(키 값은 출력하지 않음). 키가 비어 있으면 각 스크립트는 발급 방법만 안내하고 끝납니다.
+
+| 자료 (우선순위) | `.env` 항목 | 발급처 | 스크립트 | 결과 | PR 단위 |
+|---|---|---|---|---|---|
+| ERA5·ERA5-Land 원자료 (1순위) | `CDS_API_KEY` | https://cds.climate.copernicus.eu 프로필의 Personal Access Token, 데이터셋 라이선스 1회 수락. `pip install cdsapi xarray netCDF4` | `external/fetch_cds_era5.py` | `runtime/kma/era5_cds/<stn>.csv` (차선 Open-Meteo와 같은 열; 학습 자료 구성 시 자동 우선) | 수집 후 재학습 결과와 함께 1건 |
+| 환경부 세분류 토지피복도 (1순위) | `ME_LANDCOVER_SHP` (로컬 경로) | https://egis.me.go.kr 로그인 다운로드 | `external/import_me_landcover_shp.py` (QGIS) | `jeju_grid_landcover.csv` 덮어씀(WorldCover 사본 보존) → `update_grid_properties.py` | 셀 인자 교체 1건 |
+| 산림청 임상도 (1순위) | `FGIS_FOREST_SHP` (로컬 경로) | https://map.forest.go.kr 로그인 다운로드 | `external/import_fgis_forest_shp.py` (QGIS) | `jeju_grid_forest.csv` (임상·영급·밀도) | 셀 인자 추가 1건 |
+| 천리안 2A 안개·구름 (현재분) | 없음 (`KMA_API_KEY`) | API허브 승인 완료 | `external/fetch_gk2a_fog.py` | `runtime/kma/gk2a/<FOG,CLD,LST>/*.nc` 누적 | 라벨 매핑 구현 시 1건 |
+| 천리안 2A 과거 | `NMSC_API_KEY` | https://nmsc.kma.go.kr 자료 신청 | (추가 예정) | 과거 안개 산출물 | — |
+| MODIS (선택) | `EARTHDATA_USER`, `EARTHDATA_PASS` | https://urs.earthdata.nasa.gov | `external/fetch_earthdata_modis.py` (AppEEARS 점 요청) | `runtime/kma/modis_appeears/*.csv` | 보조 입력 1건 |
+| Sentinel-3 SLSTR LST (선택) | `CDSE_CLIENT_ID`, `CDSE_CLIENT_SECRET` | https://dataspace.copernicus.eu 계정 설정 > OAuth 클라이언트 | `external/fetch_cdse_sentinel3.py` | `runtime/kma/sentinel3_lst/*.zip` + 매니페스트 | 셀 매핑 구현 시 1건 |
+| 공공데이터포털 (보조) | `DATA_GO_KR_KEY` | https://www.data.go.kr | — | 환경부·산림청 조회 API용 | — |
+| AWS 과거 (1순위) | 없음 (`KMA_API_KEY`) | API허브 매분 아카이브 기간 요청 | `backfill_aws_hourly.py` (매일 01:00 스케줄) | `runtime/kma/obs/aws_hourly/` | 재학습 결과와 함께 |
+
 ## 한계와 표기
 
 - 모든 산출은 분석용이며 기상청 공식 예보·특보를 대신하지 않습니다.
