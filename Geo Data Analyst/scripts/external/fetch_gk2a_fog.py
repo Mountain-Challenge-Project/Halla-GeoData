@@ -1,5 +1,8 @@
 """천리안 2A (GK2A) Level-2 products over Korea from the KMA API Hub (approved for KMA_API_KEY; no extra key).
 
+NOTE (2026-10-19): the file-list endpoint (dataList) is approved for this key but the file download endpoint (data) still answers
+403 '활용신청이 필요한 API' -> apply for 위성 > 천리안 2A호 > 자료 다운로드 on the API Hub; until then this script lists files and reports 0 downloads.
+
 Accumulates the current fog (FOG), cloud detection (CLD) and land surface temperature (LST) files for the Korea
 region (KO) so the mountain-fog label archive grows from now on; past data need an NMSC application (NMSC_API_KEY,
 not used yet). Each run lists the files of the last --hours (default 3) and downloads those not yet present into
@@ -36,6 +39,7 @@ def main(argv):
                 data = get(API.format(prod=prod) + 'data', {'date': tm}, key, 300)
                 if len(data) < 1000: continue
                 dest.write_bytes(data); n += 1; time.sleep(0.5)
+            except urllib.error.HTTPError as ex: summary[prod + '_err'] = f'HTTP {ex.code}' + (' (파일 다운로드 활용신청 필요)' if ex.code == 403 else ''); break
             except Exception as ex: summary[prod + '_err'] = type(ex).__name__
         summary[prod] = {'listed': len(items), 'downloaded': n}
     print('GK2A_DONE', json.dumps(summary, ensure_ascii=False))

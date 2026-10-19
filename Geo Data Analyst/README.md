@@ -171,7 +171,7 @@ python "Geo Data Analyst/scripts/verify_obs_vs_forecast.py"
 | ERA5·ERA5-Land 원자료 (1순위) | `CDS_API_KEY` | https://cds.climate.copernicus.eu 프로필의 Personal Access Token, 데이터셋 라이선스 1회 수락. `pip install cdsapi xarray netCDF4` | `external/fetch_cds_era5.py` | `runtime/kma/era5_cds/<stn>.csv` (차선 Open-Meteo와 같은 열; 학습 자료 구성 시 자동 우선) | 수집 후 재학습 결과와 함께 1건 |
 | 환경부 세분류 토지피복도 (1순위) | `ME_LANDCOVER_SHP` (로컬 경로) | https://egis.me.go.kr 로그인 다운로드 | `external/import_me_landcover_shp.py` (QGIS) | `jeju_grid_landcover.csv` 덮어씀(WorldCover 사본 보존) → `update_grid_properties.py` | 셀 인자 교체 1건 |
 | 산림청 임상도 (1순위) | `FGIS_FOREST_SHP` (로컬 경로) | https://map.forest.go.kr 로그인 다운로드 | `external/import_fgis_forest_shp.py` (QGIS) | `jeju_grid_forest.csv` (임상·영급·밀도) | 셀 인자 추가 1건 |
-| 천리안 2A 안개·구름 (현재분) | 없음 (`KMA_API_KEY`) | API허브 승인 완료 | `external/fetch_gk2a_fog.py` | `runtime/kma/gk2a/<FOG,CLD,LST>/*.nc` 누적 | 라벨 매핑 구현 시 1건 |
+| 천리안 2A 안개·구름 (현재분) | 없음 (`KMA_API_KEY`) | API허브: 목록 조회는 승인, **파일 다운로드(data)는 별도 활용신청 필요(2026-10-19 403)** | `external/fetch_gk2a_fog.py` | 승인 후 `runtime/kma/gk2a/<FOG,CLD,LST>/*.nc` 누적 | 라벨 매핑 구현 시 1건 |
 | 천리안 2A 과거 | `NMSC_API_KEY` | https://nmsc.kma.go.kr 자료 신청 | (추가 예정) | 과거 안개 산출물 | — |
 | MODIS (선택) | `EARTHDATA_USER`, `EARTHDATA_PASS` | https://urs.earthdata.nasa.gov | `external/fetch_earthdata_modis.py` (AppEEARS 점 요청) | `runtime/kma/modis_appeears/*.csv` | 보조 입력 1건 |
 | Sentinel-3 SLSTR LST (선택) | `CDSE_CLIENT_ID`, `CDSE_CLIENT_SECRET` | https://dataspace.copernicus.eu 계정 설정 > OAuth 클라이언트 | `external/fetch_cdse_sentinel3.py` | `runtime/kma/sentinel3_lst/*.zip` + 매니페스트 | 셀 매핑 구현 시 1건 |

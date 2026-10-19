@@ -722,5 +722,21 @@
     "worldcover_2021": "tile N33E126, per-cell class shares -> jeju_grid_landcover.csv (tree share mean 60.6 %)",
     "eth_canopy_2020": "tile N33E126, per-cell mean/p90 canopy height (mean 15.4 m)",
     "stations_mapped": "42 of 42 (islands included after the regrid)"
+  },
+  "external_credentials": {
+    "checked_on": "2026-10-19",
+    "slots": [
+      "CDS_API_KEY",
+      "EARTHDATA_USER/PASS",
+      "CDSE_CLIENT_ID/SECRET",
+      "DATA_GO_KR_KEY",
+      "NMSC_API_KEY",
+      "ME_LANDCOVER_SHP",
+      "FGIS_FOREST_SHP"
+    ],
+    "filled": [],
+    "kma_key": "works; identical to the key once committed (commits fcca369 3124f82 7c69479) -> user asked to regenerate at the API Hub",
+    "gk2a_download": "dataList approved, data endpoint 403 (separate 활용신청)",
+    "status_file": "Geo Data Analyst/data/external_keys_status.json (booleans only)"
   }
 }
