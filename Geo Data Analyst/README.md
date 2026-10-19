@@ -63,7 +63,8 @@
 | 격자 입력 | 초단기예보·실황, 단기예보, 레이더 PCPH·HSR, AWS 객관분석 격자, KIM 등압면, 천리안 2A L2, 특보 | API 승인 |
 | 격자 입력 | KIM 지상 2D, 낙뢰 | 활용신청 대기 |
 | 지형 | 셀 고도·경사·경사향·집중도, TPI, 하늘개방도, 해안 거리, 16방위 상류 최고고도 | 완료 (`grid.geojson`에 결합) |
-| 외부 (1순위, 계정 필요) | AWS 과거 분자료(기상자료개방포털 CSV), Copernicus CDS ERA5, 환경부 토지피복도, 산림청 임상도, MODIS, Sentinel-3 | 미수집 (보고서 5장에 경로) |
+| 외부 (1순위, 계정 필요) | Copernicus CDS ERA5, 환경부 세분류 토지피복도, MODIS, Sentinel-3 | 미수집 (키 자리·스크립트 준비, 보고서 5장에 경로) |
+| 외부 (1순위, 수집됨) | 산림청 임상도 1:5,000 (제주 전역, 셀 인자 결합), AWS 과거 시간자료(API 소급 중) | 적용 중 |
 | 외부 (차선, 계정 불필요) | Open-Meteo ERA5-Land·ERA5(2023~, 42지점), ESA WorldCover 2021, ETH 수관고 2020 | 수집됨 (로컬). 1순위 자료가 들어오면 교체 |
 
 ## 실행 순서
@@ -169,8 +170,8 @@ python "Geo Data Analyst/scripts/verify_obs_vs_forecast.py"
 | 자료 (우선순위) | `.env` 항목 | 발급처 | 스크립트 | 결과 | PR 단위 |
 |---|---|---|---|---|---|
 | ERA5·ERA5-Land 원자료 (1순위) | `CDS_API_KEY` | https://cds.climate.copernicus.eu 프로필의 Personal Access Token, 데이터셋 라이선스 1회 수락. `pip install cdsapi xarray netCDF4` | `external/fetch_cds_era5.py` | `runtime/kma/era5_cds/<stn>.csv` (차선 Open-Meteo와 같은 열; 학습 자료 구성 시 자동 우선) | 수집 후 재학습 결과와 함께 1건 |
-| 환경부 세분류 토지피복도 (1순위) | `ME_LANDCOVER_SHP` (로컬 경로) | https://egis.me.go.kr 로그인 다운로드 | `external/import_me_landcover_shp.py` (QGIS) | `jeju_grid_landcover.csv` 덮어씀(WorldCover 사본 보존) → `update_grid_properties.py` | 셀 인자 교체 1건 |
-| 산림청 임상도 (1순위) | `FGIS_FOREST_SHP` (로컬 경로) | https://map.forest.go.kr 로그인 다운로드 | `external/import_fgis_forest_shp.py` (QGIS) | `jeju_grid_forest.csv` (임상·영급·밀도) | 셀 인자 추가 1건 |
+| 환경부 세분류 토지피복도 (1순위) — 2026-10-19 받은 SG03 5도엽은 **대분류(7항목·30 m 래스터)**이고 남부 도엽(33611·33612 등)이 빠져 있어 미적용 | `ME_LANDCOVER_SHP` (로컬 경로) | https://egis.me.go.kr 로그인 다운로드 (세분류 SHP, 도엽 33605~33608·33610~33614) | `external/import_me_landcover_shp.py` (QGIS) | `jeju_grid_landcover.csv` 덮어씀(WorldCover 사본 보존) → `update_grid_properties.py` | 셀 인자 교체 1건 |
+| 산림청 임상도 (1순위) — **수집·적용 완료 2026-10-19** | `FGIS_FOREST_SHP` (로컬 경로) | https://map.forest.go.kr 로그인 다운로드 (1:5,000, EPSG:5179, 폴리곤 23,986개, 제주 전역) | `external/import_fgis_forest_shp.py` (QGIS) | `jeju_grid_forest.csv` → `grid.geojson`(forest_share·침엽/활엽/혼효·영급·밀도·수고급), 학습 특징 4개 추가 | 완료 |
 | 천리안 2A 안개·구름 (현재분) | 없음 (`KMA_API_KEY`) | API허브: 목록 조회는 승인, **파일 다운로드(data)는 별도 활용신청 필요(2026-10-19 403)** | `external/fetch_gk2a_fog.py` | 승인 후 `runtime/kma/gk2a/<FOG,CLD,LST>/*.nc` 누적 | 라벨 매핑 구현 시 1건 |
 | 천리안 2A 과거 | `NMSC_API_KEY` | https://nmsc.kma.go.kr 자료 신청 | (추가 예정) | 과거 안개 산출물 | — |
 | MODIS (선택) | `EARTHDATA_USER`, `EARTHDATA_PASS` | https://urs.earthdata.nasa.gov | `external/fetch_earthdata_modis.py` (AppEEARS 점 요청) | `runtime/kma/modis_appeears/*.csv` | 보조 입력 1건 |

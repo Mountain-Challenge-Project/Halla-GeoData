@@ -8,14 +8,15 @@ Field names differ between editions; the candidates below cover the common ones.
 update_grid_properties.py when the file exists (forest_share, conifer_pct, broadleaf_pct, age_class_mean, density_mode).
 """
 import os, csv, json, sys, glob
-os.environ['QT_QPA_PLATFORM'] = 'offscreen'
+os.environ['QT_QPA_PLATFORM'] = 'offscreen'; os.environ.setdefault('SHAPE_ENCODING', 'CP949')
 from pathlib import Path
 import numpy as np
 from osgeo import ogr, osr
 ogr.UseExceptions()
 HERE = Path(__file__).resolve().parent; ROOT = HERE.parents[2]; GDA = HERE.parents[1]
 sys.path.insert(0, str(ROOT / 'work')); from env_config import env_value  # noqa: E402
-TYPE_FIELDS = ['FRTP_CD', 'FRTP_NM', 'STORUNST', 'KOFTR_GROU']; AGE_FIELDS = ['AGCLS_CD', 'AGCLS', 'AGE_CLS']; DEN_FIELDS = ['DNST_CD', 'DNST', 'DENSITY']; HGT_FIELDS = ['HGHT_CD', 'HEIGHT_CLS']
+TYPE_FIELDS = ['FRTP_CD', 'FRTP_NM', 'STORUNST', 'KOFTR_GROU']; AGE_FIELDS = ['AGCLS_CD', 'AGCLS', 'AGE_CLS']; DEN_FIELDS = ['DNST_CD', 'DNST', 'DENSITY']; HGT_FIELDS = ['HEIGHT', 'HGHT_CD', 'HEIGHT_CLS']
+DENSITY_LETTERS = {'A': 1, 'B': 2, 'C': 3}   # 소/중/밀 in the 2021 edition
 
 
 def field(ly, cands):
@@ -47,7 +48,8 @@ def main():
                     elif t.startswith('3') or '혼효' in t: types['mixed'] += 1
                     for fld, acc in ((af, ages), (df, dens), (hf, hgts)):
                         if fld:
-                            try: acc.append(float(str(feat.GetField(fld)).strip('급')))
+                            raw = feat.GetField(fld); raw = DENSITY_LETTERS.get(str(raw).strip().upper(), raw) if fld == df else raw
+                            try: acc.append(float(str(raw).strip('급')))
                             except (TypeError, ValueError): pass
                     break
         tot = max(1, sum(types.values()))

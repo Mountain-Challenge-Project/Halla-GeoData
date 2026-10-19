@@ -1,24 +1,28 @@
 {
- "rows": 133791,
+ "rows": 144450,
  "stations": {
   "제주": 33103,
   "고산": 32998,
   "성산": 33093,
   "서귀포": 33116,
+  "윗세오름": 2663,
+  "진달래밭": 2805,
+  "사제비": 2804,
+  "삼각봉": 2657,
   "어리목": 623,
-  "성판악": 588,
-  "삼각봉": 126,
-  "사제비": 144
+  "성판악": 588
  },
  "sources": {
   "184": "era5_openmeteo",
   "185": "era5_openmeteo",
   "188": "era5_openmeteo",
   "189": "era5_openmeteo",
-  "753": "era5_openmeteo",
-  "782": "era5_openmeteo",
+  "871": "era5_openmeteo",
+  "870": "era5_openmeteo",
+  "868": "era5_openmeteo",
   "867": "era5_openmeteo",
-  "868": "era5_openmeteo"
+  "753": "era5_openmeteo",
+  "782": "era5_openmeteo"
  },
  "file": "runtime\\kma\\verification\\features_era5.csv",
  "note": "reanalysis-based rows for the residual model; CDS originals take precedence over the Open-Meteo fallback when present"

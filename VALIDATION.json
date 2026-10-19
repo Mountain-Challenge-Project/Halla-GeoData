@@ -738,5 +738,31 @@
     "kma_key": "works; identical to the key once committed (commits fcca369 3124f82 7c69479) -> user asked to regenerate at the API Hub",
     "gk2a_download": "dataList approved, data endpoint 403 (separate 활용신청)",
     "status_file": "Geo Data Analyst/data/external_keys_status.json (booleans only)"
+  },
+  "forest_map_fgis": {
+    "imported_on": "2026-10-19",
+    "source": "산림청 임상도 1:5,000 SHP (50.shp), EPSG:5179, 23,986 polygons, extent 126.147-126.964E 33.112-34.018N",
+    "fields_used": [
+      "FRTP_CD",
+      "AGCLS_CD",
+      "DNST_CD",
+      "HEIGHT"
+    ],
+    "cell_stats": {
+      "cells": 9449,
+      "forest_share_mean_pct": 28.6,
+      "forest_cells_ge50": 2384,
+      "conifer_pct_mean_in_forest_cells": 32.9,
+      "broadleaf_pct_mean_in_forest_cells": 54.1,
+      "cells_with_attributes": 5943
+    },
+    "note": "polygons exist only on forest land, so cells outside have forest_share 0; non-forest classes come from the land-cover layer"
+  },
+  "me_landcover_check": {
+    "checked_on": "2026-10-19",
+    "files": "SG03_10S336{02,06,07,08,10}_20191213.zip",
+    "product": "대분류 토지피복지도 (7 classes, 30 m GeoTIFF, 1:50,000, KGD2002 Central Belt), not 세분류",
+    "coverage": "5,097 of 7,654 land+islet cells (67 %); missing south-central/south-east (sheets 33611, 33612) and edge strips",
+    "decision": "not applied; request 세분류 SHP for sheets 33605-33608, 33610-33614"
   }
 }

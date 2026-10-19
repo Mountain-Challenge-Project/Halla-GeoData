@@ -41,6 +41,18 @@ if lc_path.exists():   # ESA WorldCover class shares and ETH canopy height per c
         if not r: continue
         for key in ('lc_tree', 'lc_shrub', 'lc_grass', 'lc_crop', 'lc_builtup', 'lc_bare', 'lc_water'): p[key] = float(r[key])
         p['canopy_mean_m'] = float(r['canopy_mean_m']) if r['canopy_mean_m'] not in ('', None) else None; k += 1
+fo_path = ROOT / 'Geo Data Analyst/data/jeju_grid_forest.csv'
+q = 0
+if fo_path.exists():   # 산림청 임상도 per-cell factors (import_fgis_forest_shp.py, primary source)
+    fo = {r['grid_id']: r for r in csv.DictReader(fo_path.open(encoding='utf-8'))}
+    for f in g['features']:
+        p = f['properties']; r = fo.get(p['grid_id'])
+        if not r: continue
+        p['forest_share'] = float(r['forest_share']); p['conifer_pct'] = float(r['conifer_pct']); p['broadleaf_pct'] = float(r['broadleaf_pct']); p['mixed_pct'] = float(r['mixed_pct'])
+        p['age_class_mean'] = float(r['age_class_mean']) if r['age_class_mean'] not in ('', None) else None
+        p['density_mode'] = float(r['density_mode']) if r['density_mode'] not in ('', None) else None
+        p['height_class_mean'] = float(r['height_class_mean']) if r['height_class_mean'] not in ('', None) else None; q += 1
 geo_path.write_text(json.dumps(g, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
+print('GRID_FOREST_JOINED', q)
 print('GRID_LANDCOVER_JOINED', k)
 print('GRID_ASPECT_JOINED', n, 'of', len(g['features']), '| terrain factors joined', m, '|', geo_path.stat().st_size, 'bytes')

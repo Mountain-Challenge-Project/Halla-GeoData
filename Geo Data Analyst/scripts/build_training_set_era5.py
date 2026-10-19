@@ -18,7 +18,7 @@ HERE = Path(__file__).resolve().parent; sys.path.insert(0, str(HERE)); ROOT = HE
 from physics_modules import cell_state, magnus_td  # noqa: E402
 OUT = ROOT / 'runtime/kma/verification/features_era5.csv'
 COLS = ['issue_kst', 'hour', 'stn', 'name', 'grid_id', 'source', 'hour_kst', 'month', 'doy_sin', 'doy_cos', 'stn_ht_m', 'cell_elev_m', 'pt_elev_m', 'dz_cell_pt', 'mean_deg', 'asp_sin', 'asp_cos', 'asp_r',
-        'tpi_1km_m', 'svf', 'coast_km', 'ridge_m', 'lee_m', 'lc_tree', 'lc_grass', 'lc_crop', 'lc_builtup', 'lc_water', 'canopy_mean_m', 't1h', 'reh', 'wsd', 'vec_sin', 'vec_cos', 'rn1_mm', 'sky', 'pty',
+        'tpi_1km_m', 'svf', 'coast_km', 'ridge_m', 'lee_m', 'lc_tree', 'lc_grass', 'lc_crop', 'lc_builtup', 'lc_water', 'canopy_mean_m', 'forest_share', 'conifer_pct', 'age_class_mean', 'density_mode', 't1h', 'reh', 'wsd', 'vec_sin', 'vec_cos', 'rn1_mm', 'sky', 'pty',
         't850', 'rh850', 'u850', 'v850', 't925', 'rh925', 'u925', 'v925', 'lapse_t', 'lapse_td', 'lcl_rel_m', 'foehn_index', 'foehn_active', 'foehn_t', 'foehn_td', 'obs_ta', 'obs_td', 'obs_hm', 'obs_ws10', 'obs_tm']
 DIRS = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW']
 
@@ -84,7 +84,7 @@ def main():
                        'dz_cell_pt': round(z_stn - melev, 1), 'mean_deg': p.get('mean_deg'), 'asp_sin': round(math.sin(math.radians(asp)), 4) if asp is not None else '', 'asp_cos': round(math.cos(math.radians(asp)), 4) if asp is not None else '',
                        'asp_r': p.get('asp_r', ''), 'tpi_1km_m': p.get('tpi_1km_m'), 'svf': p.get('svf'), 'coast_km': p.get('coast_km'),
                        'ridge_m': p['up_max'][int(round(((vec or 0) % 360) / 22.5)) % 16] if p.get('up_max') and vec is not None else '', 'lee_m': (p['up_max'][int(round(((vec or 0) % 360) / 22.5)) % 16] - (p.get('elev_mean') or 0)) if p.get('up_max') and vec is not None else '',
-                       'lc_tree': p.get('lc_tree', ''), 'lc_grass': p.get('lc_grass', ''), 'lc_crop': p.get('lc_crop', ''), 'lc_builtup': p.get('lc_builtup', ''), 'lc_water': p.get('lc_water', ''), 'canopy_mean_m': p.get('canopy_mean_m', ''),
+                       'lc_tree': p.get('lc_tree', ''), 'lc_grass': p.get('lc_grass', ''), 'lc_crop': p.get('lc_crop', ''), 'lc_builtup': p.get('lc_builtup', ''), 'lc_water': p.get('lc_water', ''), 'canopy_mean_m': p.get('canopy_mean_m', ''), 'forest_share': p.get('forest_share', ''), 'conifer_pct': p.get('conifer_pct', ''), 'age_class_mean': p.get('age_class_mean', ''), 'density_mode': p.get('density_mode', ''),
                        't1h': t0, 'reh': rh0, 'wsd': round(wsd, 2), 'vec_sin': round(math.sin(math.radians(vec)), 4) if vec is not None else '', 'vec_cos': round(math.cos(math.radians(vec)), 4) if vec is not None else '',
                        'rn1_mm': prec, 'sky': (1 if cc is not None and cc < 30 else 3 if cc is not None and cc < 80 else 4 if cc is not None else ''), 'pty': 1 if prec > 0 else 0,
                        't850': e.get('temperature_850hPa', ''), 'rh850': e.get('relative_humidity_850hPa', ''), 'u850': u850, 'v850': v850, 't925': e.get('temperature_925hPa', ''), 'rh925': e.get('relative_humidity_925hPa', ''), 'u925': u925, 'v925': v925,

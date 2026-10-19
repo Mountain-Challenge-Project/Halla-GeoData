@@ -25,7 +25,7 @@ import joblib
 HERE = Path(__file__).resolve().parent; ROOT = HERE.parents[1]; GDA = HERE.parent
 ARCH = ROOT / 'runtime/kma/verification/features.csv'; MODELS = ROOT / 'runtime/kma/models'
 MIN_ROWS, MIN_STATIONS, MIN_ISSUES, TIME_SPLIT, MLP_MIN = 2000, 20, 48, 0.2, 5000
-FEATURES = ['hour_kst', 'doy_sin', 'doy_cos', 'stn_ht_m', 'cell_elev_m', 'pt_elev_m', 'dz_cell_pt', 'mean_deg', 'asp_sin', 'asp_cos', 'asp_r', 'tpi_1km_m', 'svf', 'coast_km', 'ridge_m', 'lee_m', 'lc_tree', 'lc_grass', 'lc_crop', 'lc_builtup', 'lc_water', 'canopy_mean_m',
+FEATURES = ['hour_kst', 'doy_sin', 'doy_cos', 'stn_ht_m', 'cell_elev_m', 'pt_elev_m', 'dz_cell_pt', 'mean_deg', 'asp_sin', 'asp_cos', 'asp_r', 'tpi_1km_m', 'svf', 'coast_km', 'ridge_m', 'lee_m', 'lc_tree', 'lc_grass', 'lc_crop', 'lc_builtup', 'lc_water', 'canopy_mean_m', 'forest_share', 'conifer_pct', 'age_class_mean', 'density_mode',
             't1h', 'reh', 'wsd', 'vec_sin', 'vec_cos', 'rn1_mm', 'sky', 'pty', 't850', 'rh850', 'u850', 'v850', 't925', 'rh925', 'u925', 'v925', 'lapse_t', 'lapse_td', 'lcl_rel_m', 'foehn_index', 'foehn_active']
 TARGETS = {'t': ('obs_ta', 'lapse_t'), 'td': ('obs_td', 'lapse_td')}
 
