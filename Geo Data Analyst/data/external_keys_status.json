@@ -1,5 +1,5 @@
 {
- "checked_at": "2026-10-19T11:11",
+ "checked_at": "2026-10-19T11:45",
  "checks": [
   {
    "source": "기상청 API허브",
@@ -60,8 +60,8 @@
   {
    "source": "산림청 임상도 SHP",
    "env": "FGIS_FOREST_SHP",
-   "filled": false,
-   "reachable": null,
+   "filled": true,
+   "reachable": true,
    "script": "external/import_fgis_forest_shp.py",
    "unlocks": "셀별 토지피복 비율 / 임상·영급 (WorldCover·ETH 차선 자료 대체)"
   }
