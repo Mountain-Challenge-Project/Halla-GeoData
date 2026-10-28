@@ -72,6 +72,7 @@ dl.sel{display:grid;grid-template-columns:minmax(72px,max-content) minmax(0,1fr)
 dl.sel dt{color:var(--muted);white-space:nowrap}dl.sel dd{margin:0;font-family:var(--font-num);min-width:0;overflow-wrap:anywhere}
 .status-line{overflow-wrap:anywhere;max-width:420px}
 .status-line{font-size:12.5px;color:var(--muted)}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:8px}.tile{background:var(--panel-2);border-radius:8px;padding:7px 8px;min-width:0}.tile .k{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tile .v{font:600 20px/1.2 var(--font-num);font-variant-numeric:tabular-nums;margin:2px 0 4px}.tile .v small{font-size:11px;font-weight:400;color:var(--muted);margin-left:2px}.bars{display:flex;gap:4px;align-items:flex-end}.bars .bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0}.bars .bar span{width:100%;border-radius:3px 3px 0 0;display:block}.bars .bar.on span{outline:2px solid var(--fg);outline-offset:-2px}.bars .bar b{font-size:10.5px;font-weight:500;color:var(--muted)}.bars .bar i{font:11px var(--font-num);font-style:normal}
 .note{font-size:12px;color:var(--muted);border-left:3px solid var(--line);padding-left:8px}
 .leaflet-container{font:12px var(--font-ui);background:var(--sea)}
 .leaflet-tooltip.lbl{background:rgba(122,29,76,.85);color:#fff;border:0;border-radius:4px;padding:1px 5px;font:500 11px var(--font-num);box-shadow:none}
@@ -100,6 +101,12 @@ dl.sel dt{color:var(--muted);white-space:nowrap}dl.sel dd{margin:0;font-family:v
 <div id="main">
   <div id="map" tabindex="0"></div>
   <aside id="panel">
+    <section class="card" id="myCard">
+      <h2>내 위치 강수 (GPS · 500 m 격자)</h2>
+      <div class="row"><button class="btn primary" id="btnLocate" type="button">내 위치 찾기</button><label class="chk" style="padding:0"><input type="checkbox" id="chkFollow">따라가기</label><button class="btn" id="btnCenter" type="button" title="GPS 대신 지도 중심 셀을 사용">지도 중심</button></div>
+      <div class="small muted" id="myStatus" style="margin-top:4px">위치 권한을 허용하면 현재 셀의 레이더 강수·누적·6시간 예보·도달 예상·특보만 요약합니다.</div>
+      <div id="myBody" style="margin-top:8px"></div>
+    </section>
     <section class="card" id="liveCard">
       <h2>실시간 강수 입력</h2>
       <dl class="sel" id="liveMeta"><dt>상태</dt><dd id="mStatus">확인 중</dd><dt>동기화</dt><dd id="mMode">-</dd><dt>관측 시각</dt><dd id="mObserved">-</dd><dt>프레임</dt><dd id="mFrame">-</dd><dt>마지막 확인</dt><dd id="mChecked">-</dd></dl>
@@ -322,7 +329,7 @@ function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;',
 function renderLegend(){ const m=METRICS[metric]; if(m.cat){ $('ramp').innerHTML=ASPECT_SECTORS.map(s=>`<span style="background:${s[2]}"></span>`).join(''); $('ticks').innerHTML=ASPECT_SECTORS.map(s=>`<span>${s[1]}</span>`).join('')+'<span>평탄 셀(집중도&lt;0.2)은 색 없음</span>'; return; } const r=RAMPS[m.ramp]; $('ramp').innerHTML=r.map(c=>`<span style="background:${c}"></span>`).join('');
   $('ticks').innerHTML=[m.tick0||'0',...m.breaks.map(b=>String(b))].map(t=>`<span>${t}</span>`).join('')+`<span>${esc(m.unit)}</span>`; }
 function renderSlopeLegend(){ $('slopeLegend').innerHTML=SLOPE_CLASSES.map(([c,l])=>`<span class="sw" style="background:${c}"></span><span>${l}</span>`).join(''); }
-function restyleGrid(){ if(grid) grid.setStyle(gridStyle); renderLegend(); rebuildRisk(); rebuildMove(); rebuildPhys(); }
+function restyleGrid(){ if(grid) grid.setStyle(gridStyle); renderLegend(); rebuildRisk(); rebuildMove(); rebuildPhys(); renderMy(); }
 function rebuildPhys(){ if(!layers.foehn||!grid) return; layers.foehn.clearLayers(); layers.fog.clearLayers(); let nf=0, ng=0; if(!forecast) return {nf,ng};
   grid.eachLayer(l=>{ const p=l.feature.properties; const f=foehnCalc(p); if(f&&f.active){ nf++; const g=L.geoJSON(l.feature,{style:{color:'#ef8a3a',weight:2,fill:true,fillColor:'#ef8a3a',fillOpacity:.15}}); g.on('click',()=>showSelection('grid',p,l)); layers.foehn.addLayer(g); }
     if(fogPossible(p)){ ng++; const g=L.geoJSON(l.feature,{style:{color:'#7b8794',weight:1.6,fill:true,fillColor:'#9aa5b1',fillOpacity:.18}}); g.on('click',()=>showSelection('grid',p,l)); layers.fog.addLayer(g); } });
@@ -357,7 +364,7 @@ function renderForecast(){ const box=$('fcBody'); const opts=FC_METRICS.map(v=>$
     <div class="row" style="margin:6px 0" id="fcHours">${chips}</div>
     ${sh?`<dl class="sel"><dt>한라산 정상 격자점 (54,36)</dt><dd>${esc(hourLabel(forecast.hours[fcHour]))} 예보</dd><dt>1시간 강수</dt><dd>${esc(sh.rn1||'–')}</dd><dt>강수형태 / 하늘</dt><dd>${esc(PTY_NAMES[sh.pty]||sh.pty||'–')} / ${esc(SKY_NAMES[sh.sky]||sh.sky||'–')}</dd><dt>기온 / 풍속 / 습도</dt><dd>${esc(sh.t1h)}°C / ${esc(sh.wsd)} m/s / ${esc(sh.reh)} %</dd><dt>풍향</dt><dd>${sh.vec?esc(sh.vec)+'° ('+windName(sh.vec)+'에서)':'–'}</dd></dl>`:''}
     <div class="small muted" id="fcDerived"></div>`;
-  renderDerived();
+  renderDerived(); renderMy();
   box.querySelectorAll('#fcHours button').forEach(b=>b.addEventListener('click',()=>{ fcHour=+b.dataset.i; renderForecast(); if(isFc(metric)) restyleGrid(); if(selected&&selected.kind==='grid') showSelection('grid',selected.p,selectedLayer); })); }
 /* ---------- KMA stations (AWS 1-min + ASOS hourly, work/fetch_kma_obs.py): markers coloured by air temperature ---------- */
 function renderObs(){ const info=$('obsInfo'); if(!layers.obs) return; layers.obs.clearLayers(); if(!obs||!obs.stations){ if(info) info.textContent='관측 자료 없음 (data/obs_latest.json)'; $('lyObs').disabled=true; return; }
@@ -372,7 +379,47 @@ function obsRows(p){ const rows=[['지점',`${p.name} (${p.kind==='SFC'?'ASOS':'
   if(p.asos){ const a=p.asos; rows.push(['ASOS 정시 ('+(a.tm||'').slice(8,10)+'시)',`기온 ${a.ta||'–'} · 이슬점 ${a.td||'–'} · 운량 ${a.ca_tot||'–'}/10 · 시정 ${a.vs?(a.vs*10/1000).toFixed(1)+' km':'–'} · 일사 ${a.si||'–'} MJ/m²`]); }
   const cp=p.grid_id&&cellProps[p.grid_id]; if(cp&&forecast){ const t=cellTemp(cp), d=dewDep(cp), ta=num(p.ta), td=num(p.td); const ctd=cellTd(cp); rows.push(['셀 추정 기온 (예보 '+hourLabel(forecast.hours[fcHour])+')',t==null?'–':fmt(t,1)+' °C'+(ta!=null?` · 관측 대비 ${fmt(t-ta,1)} °C`:'')],['셀 추정 이슬점',ctd==null?'–':fmt(ctd,1)+' °C'+(td!=null?` · 관측 대비 ${fmt(ctd-td,1)} °C`:'')],['셀 기온−이슬점 추정',d==null?'–':fmt(d,1)+' °C'+(ta!=null&&td!=null?` · 관측 ${fmt(ta-td,1)} °C`:'')]); const ap=foehnApplied(cp); if(ap&&ap.applied) rows.push(['푄 반영 기온 (30 % 블렌드)',fmt(ap.t,1)+' °C'+(ta!=null?` · 관측 대비 ${fmt(ap.t-ta,1)} °C`:'')]); const ps0=seaLevelP(), pa=num(p.pa); if(ps0!=null&&ta!=null&&p.ht_m!=null){ const pe=stationPressure(ps0,ta,p.ht_m,td); rows.push(['지점기압 추정 (정역학, 노장 고도)',fmt(pe,1)+' hPa'+(pa!=null?` · 관측 현지기압 대비 ${fmt(pe-pa,1)} hPa`:'')]); } }
   return rows; }
-function renderWarnings(){ const box=$('warnBody'); if(!warnings){ box.textContent='특보 자료 없음'; return; }
+/* ---------- 내 위치 강수 카드: GPS -> 500 m 셀 -> 그 셀의 핵심 강수 정보만 (레이더 강도·누적, 초단기 6시간, 도달 예상, 강조 등급, 특보) ---------- */
+const my={lat:null,lng:null,acc:null,src:null,cell:null,layer:null,watch:null,group:null,at:null};
+function pointInRing(ring,lng,lat){ let inside=false; for(let i=0,j=ring.length-1;i<ring.length;j=i++){ const xi=ring[i][0],yi=ring[i][1],xj=ring[j][0],yj=ring[j][1]; if(((yi>lat)!==(yj>lat))&&(lng<(xj-xi)*(lat-yi)/(yj-yi)+xi)) inside=!inside; } return inside; }
+function findCell(lat,lng){ if(!grid) return null; let hit=null; grid.eachLayer(l=>{ if(hit) return; if(!l.getBounds().contains([lat,lng])) return; const g=l.feature.geometry; const rings=g.type==='Polygon'?[g.coordinates[0]]:g.coordinates.map(c=>c[0]); if(rings.some(r=>pointInRing(r,lng,lat))) hit=l; }); return hit; }
+function rainClass(v){ return v==null?['–','']:v<0.1?['강수 없음','ok']:v<3?['약한 비','ok']:v<15?['보통 비','warn']:['강한 비','crit']; }
+/* 도달 예상: 0.5 mm/h 이상 레이더 셀을 선택 시각의 5 km 풍향·풍속으로 직선 이동시켜, 60분 안에 내 셀 중심 700 m 이내를 지나는 가장 이른 셀 */
+function rainArrival(){ if(!my.cell||!forecast||!forecast.hours||!rain.values) return null; const C=cellCenter[my.cell.grid_id]; if(!C) return null; const mlat=111320, mlon=111320*Math.cos(C.lat*D2R); let best=null;
+  for(const id in rain.values){ const r=rain.values[id]; if(!(r[0]>=0.5)||id===my.cell.grid_id) continue; const O=cellCenter[id], p=cellProps[id]; if(!O||!p) continue; const h=fcHourObj(p); if(!h) continue; const vec=num(h.vec), wsd=num(h.wsd); if(vec==null||!(wsd>0.5)) continue;
+    const dir=(vec+180)*D2R, ux=Math.sin(dir), uy=Math.cos(dir); const dx=(C.lng-O.lng)*mlon, dy=(C.lat-O.lat)*mlat; const along=dx*ux+dy*uy; if(along<=0) continue; const t=along/wsd; if(t>3600) continue; const cross=Math.abs(dx*uy-dy*ux); if(cross>700) continue;
+    if(!best||t<best.t) best={t,id,mmh:r[0],dist:Math.hypot(dx,dy),from:vec}; }
+  return best; }
+function renderMy(){ const box=$('myBody'); if(!box) return; if(!my.cell){ box.innerHTML=''; return; } const p=my.cell; const r=rain.values[p.grid_id]; const now=r?r[0]:null; const rc=rainClass(rain.frame_id?(now==null?0:now):null);
+  const tiles=[]; tiles.push(['지금 (레이더)',rain.frame_id?(r?fmt(now,1):'0.0'):'–','mm/h',rc[0],rc[1]]);
+  let fcNext=null, fcSum=null, bars='', pty='', fcBase='';
+  if(forecast&&forecast.hours&&forecast.hours.length){ const pt=fcPoint(p); if(pt){ const h0=pt.hours[forecast.hours[0]]; fcNext=h0?h0.rn1_mm:null; pty=h0?(PTY_NAMES[h0.pty]||''):''; fcSum=fcTotal(p); const mx=Math.max(1,...forecast.hours.map(h=>(pt.hours[h]||{}).rn1_mm||0));
+      bars=forecast.hours.map((h,i)=>{ const o=pt.hours[h]||{}; const v=o.rn1_mm||0; return `<div class="bar${i===fcHour?' on':''}" title="${esc(hourLabel(h))} ${esc(o.rn1||'0')}"><span style="height:${Math.max(3,Math.round(44*v/mx))}px;background:${v?'var(--accent)':'var(--line)'}"></span><b>${esc(hourLabel(h))}</b><i>${v?fmt(v,v<1?1:0):'0'}</i></div>`; }).join(''); fcBase=(forecast.base_time_kst||'').replace('T',' ').slice(5,16); } }
+  tiles.push(['다음 1시간 (예보)',fcNext==null?'–':fmt(fcNext,1),'mm',pty&&pty!=='없음'?pty:(fcNext==null?'예보 없음':'강수 없음'),fcNext>=1?'warn':'']);
+  tiles.push(['6시간 합계 (예보)',fcSum==null?'–':fmt(fcSum,1),'mm',fcSum==null?'':fcSum>=30?'많은 비':fcSum>=10?'비 예상':fcSum>0?'약한 비':'강수 없음',fcSum>=30?'crit':fcSum>=10?'warn':'']);
+  const hasAcc=!!(rain.accum&&Object.keys(rain.accum).length); const accs=hasAcc?['180','360','1440'].map(a=>{ const v=rain.accum[a]&&rain.accum[a][p.grid_id]; return `${a/60}h ${v?fmt(v[0],1):'0.0'}`; }):[];
+  const arr=rainArrival(); let arrTxt; if(!rain.frame_id) arrTxt='레이더 프레임 없음'; else if(now>=0.5) arrTxt='지금 내 셀에 내리는 중 ('+fmt(now,1)+' mm/h, 셀 최대 '+fmt(r[1],1)+')'; else if(!forecast) arrTxt='예보 풍향 없어 계산 불가'; else if(arr) arrTxt=`약 ${Math.max(1,Math.round(arr.t/60))}분 후 도달 가능 · ${windName(arr.from)}쪽 ${fmt(arr.dist/1000,1)} km 셀 ${fmt(arr.mmh,1)} mm/h (${hourLabel(forecast.hours[fcHour])} 풍향·풍속 직선 이동)`; else arrTxt='60분 안에 풍향선상으로 다가오는 강수 셀 없음';
+  const lv=hasAcc?riskLevel(p):null;
+  let warnTxt='<span class="pill"><span class="dot"></span>특보 자료 없음</span>'; if(warnings&&warnings.status==='ok'){ warnTxt=(warnings.jeju&&warnings.jeju.length)?warnings.jeju.map(w=>{ const b=w.by_name||{}; return `<span class="pill warn"><span class="dot"></span>${esc(((w.warning||b.WRN||'')+' '+(w.level||b.LVL||'')).trim()||'특보')}</span>`; }).join(' '):'<span class="pill ok"><span class="dot"></span>제주 특보 없음</span>'; } else if(warnings&&warnings.status==='not_authorized') warnTxt='<span class="pill"><span class="dot"></span>특보 API 미승인</span>';
+  const zone=p.zone==='sea_buffer'?'해안 완충(바다)':p.zone==='islet'?'부속섬':'육지'; const obsAt=rain.observed_at?new Date(rain.observed_at).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'}):'';
+  box.innerHTML=`<div class="small"><b class="num">${esc(p.grid_id)}</b> · ${esc(zone)} · 고도 ${esc(fmt(p.elev_mean,0))} m${my.acc!=null?` · GPS ±${esc(fmt(my.acc,0))} m`:''}${my.src==='center'?' · 지도 중심':''}</div>
+    <div class="tiles">${tiles.map(t=>`<div class="tile"><div class="k">${esc(t[0])}</div><div class="v">${esc(t[1])}<small>${esc(t[2])}</small></div><div class="pill ${t[4]}" style="padding:1px 7px;font-size:11px">${esc(t[3])}</div></div>`).join('')}</div>
+    ${accs.length?`<div class="small" style="margin-top:6px"><span class="muted">누적 (레이더)</span> <span class="num">${esc(accs.join(' · '))} mm</span>${lv!=null&&lv>0?` · <span class="pill ${lv>=2?'crit':'warn'}" style="padding:1px 7px;font-size:11px">급경사·강수 ${esc(RISK.names[lv])}</span>`:''}</div>`:''}
+    ${bars?`<div class="bars" style="margin-top:8px">${bars}</div><div class="small muted">초단기예보 1시간 강수 (mm) · 발표 ${esc(fcBase)}</div>`:'<div class="small muted" style="margin-top:6px">초단기예보 없음</div>'}
+    <div class="small" style="margin-top:6px"><span class="muted">도달 예상</span> ${esc(arrTxt)}</div>
+    <div class="row" style="margin-top:6px">${warnTxt}</div>
+    <div class="small muted" style="margin-top:6px">레이더 ${esc(obsAt||'–')} 관측 · 위치 ${my.at?esc(my.at.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})):'–'} · 500 m 셀 평균값이며 공식 예보·경보가 아닙니다.</div>`; }
+function setMyPosition(lat,lng,acc,src){ my.lat=lat; my.lng=lng; my.acc=acc; my.src=src; my.at=new Date(); const st=$('myStatus'); const l=findCell(lat,lng);
+  if(!my.group) my.group=L.layerGroup().addTo(map); my.group.clearLayers();
+  if(acc!=null&&acc<2000) my.group.addLayer(L.circle([lat,lng],{radius:acc,color:'#4cc3bb',weight:1,fillColor:'#4cc3bb',fillOpacity:.1,interactive:false}));
+  my.group.addLayer(L.circleMarker([lat,lng],{radius:7,color:'#ffffff',weight:2,fillColor:'#0b7a75',fillOpacity:1}).bindTooltip(src==='center'?'지도 중심':'내 위치',{direction:'top'}));
+  if(!l){ my.cell=null; my.layer=null; st.textContent=`${lat.toFixed(4)}, ${lng.toFixed(4)} · 제주 분석 격자 밖입니다 (육지·부속섬 + 해안 2 km 완충만 집계).`; renderMy(); return; }
+  my.cell=l.feature.properties; my.layer=l; my.group.addLayer(L.geoJSON(l.feature,{style:{color:'#4cc3bb',weight:3,fill:false,dashArray:'6 3',interactive:false}}));
+  st.textContent=`${lat.toFixed(4)}, ${lng.toFixed(4)} → 셀 ${my.cell.grid_id}`; if(src!=='center'&&(!map.getBounds().contains([lat,lng])||map.getZoom()<11.5)) map.setView([lat,lng],Math.max(map.getZoom(),12)); renderMy(); }
+function geoError(e){ const st=$('myStatus'); st.textContent=e&&e.code===1?'브라우저가 위치 권한을 막았습니다. 주소창의 위치 아이콘에서 허용하거나 "지도 중심"을 쓰세요.':e&&e.code===3?'위치 응답이 늦습니다. 다시 누르거나 "지도 중심"을 쓰세요.':'위치를 가져올 수 없습니다 (HTTPS·권한 필요). "지도 중심"을 쓰세요.'; }
+function locateOnce(){ if(!navigator.geolocation){ geoError(null); return; } $('myStatus').textContent='위치 확인 중…'; navigator.geolocation.getCurrentPosition(pos=>setMyPosition(pos.coords.latitude,pos.coords.longitude,pos.coords.accuracy,'gps'),geoError,{enableHighAccuracy:true,timeout:15000,maximumAge:30000}); }
+function setFollow(on){ if(my.watch!=null){ navigator.geolocation.clearWatch(my.watch); my.watch=null; } if(on&&navigator.geolocation) my.watch=navigator.geolocation.watchPosition(pos=>setMyPosition(pos.coords.latitude,pos.coords.longitude,pos.coords.accuracy,'gps'),geoError,{enableHighAccuracy:true,maximumAge:15000}); }
+function renderWarnings(){ renderMy(); const box=$('warnBody'); if(!warnings){ box.textContent='특보 자료 없음'; return; }
   const when=warnings.checked_at?new Date(warnings.checked_at).toLocaleString('ko-KR'):'';
   if(warnings.status==='ok'){ if(!warnings.jeju||!warnings.jeju.length){ box.innerHTML=`<span class="pill ok"><span class="dot"></span>제주 특보 없음</span> <span class="muted">${esc(when)}</span>`; return; }
     box.innerHTML=warnings.jeju.map(w=>{ const b=w.by_name||{}; const txt=(w.warning||b.WRN||'')+' '+(w.level||b.LVL||''); return `<div class="row" style="margin:3px 0"><span class="pill warn"><span class="dot"></span>${esc(txt.trim()||'특보')}</span><span class="small">${esc(b.REG_KO||w.fields.join(' · '))}</span></div>`; }).join('')+`<div class="muted small">${esc(when)}</div>`; }
@@ -518,6 +565,7 @@ async function boot(){
   $('btnRefresh').addEventListener('click',()=>{ if(rain.mode==='static') pollStatic(); else { rain.checked=new Date(); renderLiveMeta(); } });
   $('selPoll').addEventListener('change',()=>{ if(rain.mode==='static') startPolling(); });
   $('btnImport').addEventListener('click',importFrame);
+  $('btnLocate').addEventListener('click',locateOnce); $('btnCenter').addEventListener('click',()=>{ const c=map.getCenter(); setMyPosition(c.lat,c.lng,null,'center'); }); $('chkFollow').addEventListener('change',e=>setFollow(e.target.checked));
   const relabel=()=>{ const z=map.getZoom(); document.querySelectorAll('.leaflet-tooltip.lbl').forEach(t=>t.style.display=z>=10.5?'':'none'); }; map.on('zoomend',relabel); relabel();
   // Summary numbers from the loaded data (area-weighted mean from the bundle's validation; cells are equal-area squares so the plain mean is close).
   const props=gridGj.features.map(f=>f.properties); $('kCells').textContent=props.length.toLocaleString('ko-KR'); $('kMean').textContent=fmt(props.reduce((a,p)=>a+p.mean_deg,0)/props.length,2)+'°'; $('kMax').textContent=fmt(Math.max(...props.map(p=>p.max_deg)),1)+'°';
