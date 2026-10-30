@@ -11,6 +11,7 @@
 | `docs/local_weather_model_report.md` | 설계 보고서 전문 (요약, 논문 검토, 모델 구조, 물리 모듈, 기계학습·검증 설계, 수집 데이터, 활용 방안, 일정, 산식). Word 판은 `docs/제주_소지역_국지기상_모델_설계_보고서.docx` |
 | `docs/local_weather_model_design.md` | 설계안 요약판 (수집 데이터 표 3개, 활용 방안) |
 | `docs/figures/` | 보고서 그림 8장과 한라산 북서–남동 DEM 단면 표본 (`transect_nw_se.csv`) |
+| `docs/제주_소지역_국지기상_모델_실데이터_보고서.docx` | **구현·검증 보고서 (2026-10-30, 실데이터 기반)**: 설계 보고서의 후속. 확보 자료 현황, 지점 검증(4회차 160행), 지점기압·푄 사례·안개·호우 검증, 잔차 학습 2회차 결과, 오름잇(jeju-tour) 서버·웹·Flutter 앱 연계, 설계 대비 달성도. 그림은 `docs/figures/report_20261030/`(운영 API 응답·학습 보고서 스냅샷 포함), 생성은 `scripts/make_report_figures.py`, Word 조립은 `docs/build_real_data_report.js`(`npm install docx` 후 `node`) |
 | `scripts/fetch_kma_stations.py` | 기상청 API허브 지점정보(AWS·ASOS) → 제주 지점 목록, 500 m 셀 매핑 |
 | `scripts/fetch_kma_obs.py` | AWS 1분·ASOS 정시 관측 수집기 (정답 자료), ASOS 과거 소급 수집 |
 | `scripts/build_terrain_factors.py` | 30 m DSM에서 셀별 지형 파생 인자 계산 (QGIS Python) |
