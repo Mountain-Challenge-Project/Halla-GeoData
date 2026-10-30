@@ -1,0 +1,257 @@
+{
+ "trained_at": "2026-10-19T11:37",
+ "rows": 144572,
+ "stations": 42,
+ "issues": 4,
+ "first_issue": "2026-10-17T09:30:00+09:00",
+ "last_issue": "reanalysis",
+ "rows_by_source": {
+  "era5_openmeteo": 144450,
+  "live": 122
+ },
+ "features": [
+  "hour_kst",
+  "doy_sin",
+  "doy_cos",
+  "stn_ht_m",
+  "cell_elev_m",
+  "pt_elev_m",
+  "dz_cell_pt",
+  "mean_deg",
+  "asp_sin",
+  "asp_cos",
+  "asp_r",
+  "tpi_1km_m",
+  "svf",
+  "coast_km",
+  "ridge_m",
+  "lee_m",
+  "lc_tree",
+  "lc_grass",
+  "lc_crop",
+  "lc_builtup",
+  "lc_water",
+  "canopy_mean_m",
+  "forest_share",
+  "conifer_pct",
+  "age_class_mean",
+  "density_mode",
+  "t1h",
+  "reh",
+  "wsd",
+  "vec_sin",
+  "vec_cos",
+  "rn1_mm",
+  "sky",
+  "pty",
+  "t850",
+  "rh850",
+  "u850",
+  "v850",
+  "t925",
+  "rh925",
+  "u925",
+  "v925",
+  "lapse_t",
+  "lapse_td",
+  "lcl_rel_m",
+  "foehn_index",
+  "foehn_active"
+ ],
+ "thresholds": {
+  "min_rows": 2000,
+  "min_stations": 20,
+  "min_issues": 48
+ },
+ "status": "ok",
+ "targets": {
+  "t": {
+   "physics_only": {
+    "bias": 0.1601529341781258,
+    "rmse": 1.562295995480674
+   },
+   "loso": {
+    "ridge": {
+     "bias": -0.1071111312961581,
+     "rmse": 1.8503731947174413
+    },
+    "rf": {
+     "bias": -0.1750561364425608,
+     "rmse": 1.405600539734093
+    },
+    "gbm": {
+     "bias": -0.15289137004519762,
+     "rmse": 1.3994850338137106
+    }
+   },
+   "time_split": {
+    "ridge": {
+     "bias": -0.029126637395283157,
+     "rmse": 1.4708868928170593,
+     "n_test": 30455
+    },
+    "rf": {
+     "bias": -0.015278918374306664,
+     "rmse": 1.3880071218328223,
+     "n_test": 30455
+    },
+    "gbm": {
+     "bias": -0.04455144388597869,
+     "rmse": 1.3934891917717296,
+     "n_test": 30455
+    },
+    "physics_only": {
+     "bias": 0.14431226399605976,
+     "rmse": 1.6383631197125224,
+     "n_test": 30455
+    }
+   },
+   "n": 144572,
+   "importance_rf": [
+    [
+     "hour_kst",
+     0.1251
+    ],
+    [
+     "doy_cos",
+     0.0957
+    ],
+    [
+     "doy_sin",
+     0.0833
+    ],
+    [
+     "lcl_rel_m",
+     0.0803
+    ],
+    [
+     "lapse_td",
+     0.0728
+    ],
+    [
+     "t1h",
+     0.0657
+    ],
+    [
+     "lapse_t",
+     0.065
+    ],
+    [
+     "reh",
+     0.0586
+    ],
+    [
+     "pt_elev_m",
+     0.0487
+    ],
+    [
+     "cell_elev_m",
+     0.0452
+    ],
+    [
+     "stn_ht_m",
+     0.039
+    ],
+    [
+     "coast_km",
+     0.0311
+    ]
+   ],
+   "saved_model": "gbm"
+  },
+  "td": {
+   "physics_only": {
+    "bias": 1.2183240142076202,
+    "rmse": 3.0877184395692017
+   },
+   "loso": {
+    "ridge": {
+     "bias": -1.737001187849867,
+     "rmse": 5.251200641525142
+    },
+    "rf": {
+     "bias": 0.3643133553667075,
+     "rmse": 2.5817992628743576
+    },
+    "gbm": {
+     "bias": 0.040341526600417094,
+     "rmse": 2.5202499979128974
+    }
+   },
+   "time_split": {
+    "ridge": {
+     "bias": 0.1420558594761105,
+     "rmse": 2.8332688938770576,
+     "n_test": 30311
+    },
+    "rf": {
+     "bias": 0.3751037322182538,
+     "rmse": 2.6046934309059826,
+     "n_test": 30311
+    },
+    "gbm": {
+     "bias": 0.5319481794081439,
+     "rmse": 2.7175226513169792,
+     "n_test": 30311
+    },
+    "physics_only": {
+     "bias": 1.3971746230741313,
+     "rmse": 3.234385869795981,
+     "n_test": 30311
+    }
+   },
+   "n": 144148,
+   "importance_rf": [
+    [
+     "doy_sin",
+     0.1459
+    ],
+    [
+     "doy_cos",
+     0.1363
+    ],
+    [
+     "lcl_rel_m",
+     0.0841
+    ],
+    [
+     "lapse_td",
+     0.0835
+    ],
+    [
+     "reh",
+     0.0767
+    ],
+    [
+     "lapse_t",
+     0.0706
+    ],
+    [
+     "t1h",
+     0.0677
+    ],
+    [
+     "hour_kst",
+     0.0502
+    ],
+    [
+     "asp_cos",
+     0.0327
+    ],
+    [
+     "asp_sin",
+     0.0325
+    ],
+    [
+     "lc_crop",
+     0.0283
+    ],
+    [
+     "canopy_mean_m",
+     0.0206
+    ]
+   ],
+   "saved_model": "gbm"
+  }
+ }
+}
